@@ -243,32 +243,29 @@
 <ol>
 <li>求阶乘</li>
 </ol>
-<blockquote>
 <ul>
-<li>我们要求阶乘</li>
-<li>n=1时ans=1，n=2时ans=2</li>
-<li>等价关系式<code>f(n) = n*f(n-1)</code></li>
-<li>每次递归使<code>n-1</code>，因此递归结束条件可以从1或2开始向下兼容</li>
+<li><p>我们要求阶乘</p>
+</li>
+<li><p>n=1时ans=1，n=2时ans=2</p>
+</li>
+<li><p>等价关系式<code>f(n) = n*f(n-1)</code></p>
+</li>
+<li><p>每次递归使<code>n-1</code>，因此递归结束条件可以从1或2开始向下兼容</p>
+</li>
 </ul>
-</blockquote>
 <ol start="2">
-<li><p>求斐波那契数列第n项</p>
-</li>
-<li><p>小青蛙跳台阶</p>
-</li>
+<li>求斐波那契数列第n项</li>
+<li>小青蛙跳台阶</li>
 </ol>
-<blockquote>
 <ul>
 <li>我们要求总的跳法数目</li>
 <li>n=1时ans=1，n=2时ans=2，n=3时ans=3</li>
 <li>直接找出等价关系式有点困难，需要把问题拆解到每一个选择：每一次决定都有两个选项：跳一级或跳两级。跳一级使得剩余台阶<code>n-1</code>，这种选择使得我们后续共有<code>f(n-1)</code>种跳法；跳两级使得剩余台阶数<code>n-2</code>，这种选择使得我们后续共有<code>f(n-2)</code>种跳法，那么我本次做选择之前就共有<br><code>f(n-2)+f(n-1)</code>种跳法，即<br><code>f(n)=f(n-1)+f(n-2)</code>种跳法，这也就是递归表达式</li>
 <li>由于n每次递减1和2，因此我们得结束条件需要从<code>n=2</code>开始向下兼容，如果输入允许为0，那么还要一并考虑<code>n=0</code>的情况</li>
 </ul>
-</blockquote>
 <ol start="4">
 <li>反转单链表</li>
 </ol>
-<blockquote>
 <ul>
 <li><p>假设函数<code>reverseList(head)</code>的功能时反转单链表，其中head表示链表头节点。</p>
 </li>
@@ -278,7 +275,6 @@
 <p><code>head-&gt;next = null</code>，反转就完成了。</p>
 </li>
 </ul>
-</blockquote>
 </blockquote>
 <ul>
 <li>递归的优化</li>
@@ -1145,7 +1141,7 @@ public:
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="数据结构和算法类型的归纳（参考别人）"><a href="#数据结构和算法类型的归纳（参考别人）" class="headerlink" title="数据结构和算法类型的归纳（参考别人）"></a>数据结构和算法类型的归纳（参考别人）</h1><p><img src="https://github.com/DDDDDaryl/DDDDDaryl.github.io/tree/master/assets/pics/%E7%AE%97%E6%B3%95%E7%B1%BB%E5%9E%8B%E5%BD%92%E7%BA%B3.jpg/" alt=""></p>
+        <h1 id="数据结构和算法类型的归纳（参考别人）"><a href="#数据结构和算法类型的归纳（参考别人）" class="headerlink" title="数据结构和算法类型的归纳（参考别人）"></a>数据结构和算法类型的归纳（参考别人）</h1><p><img src="../../../../../../../../assets/pics/%E7%AE%97%E6%B3%95%E7%B1%BB%E5%9E%8B%E5%BD%92%E7%BA%B3.jpg/" alt=""></p>
 
       
 
