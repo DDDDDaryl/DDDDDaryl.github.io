@@ -819,7 +819,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numTrees</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n&lt;<span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;<span class="comment">//局部变量不初始化会出错</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; ++i)&#123;</span><br><span class="line">            <span class="keyword">int</span> numL = i<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">int</span> numR = n-i;</span><br><span class="line">            sum += numTrees(numL)*numTrees(numR);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>可以通过单个n比较小的测试用例，但是大的n会超时，分析递归的时间复杂度：</p>
-<p><code>O(?)</code>，很大。</p>
+<p><code>T(N)=2NT((N-1)/2)</code>，<code>O(N)=N^logN</code>，没错的话应该是这样，非常大。</p>
 </li>
 <li><p>题目答案为动态规划：与其自上而下去递归计算，不如自下而上先求解n比较小的时候的情况，保存在容器中，求解更大n的时候直接利用计算结果，小的空间换很多时间。代码如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numTrees</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n&lt;<span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">num</span><span class="params">(n+<span class="number">1</span>)</span></span>;</span><br><span class="line">        num[<span class="number">0</span>] = num[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>; i&lt;=n; ++i)&#123;</span><br><span class="line">            <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=i; ++j)&#123;</span><br><span class="line">                sum += num[j<span class="number">-1</span>]*num[i-j];</span><br><span class="line">            &#125;</span><br><span class="line">            num[i] = sum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> num[n];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -827,7 +827,7 @@
 <p>总结：此动态规划区别于递归写法之处：不调用自身。递归是从任意输入，通过调用自己，每一次收敛输入值，最终求得输入很小时的解，然后层层返回。而动态规划为了规避重复运算，从较小的解开始求解，由于求任意输入的解时都需要用到更小输入的解，每次运算保存小输入解的值，直至对输入进行求解。动态规划保证了没有重复计算的解。时间复杂度：<br>$$<br>O(N(N+1)/2)=O(N^2)<br>$$<br>空间复杂度：<code>O(N)</code>。</p>
 </li>
 <li><p>数学演绎法（套公式）：卡塔兰数：只记结论：</p>
-<p>卡塔兰数<code>C_n</code>,<br>$$<br>C_0=c_1=1,C_{n+1}=\frac{2(2n+1)} {n+2}C_n<br>$$<br>这个公式即为动态规划种内循环的解。</p>
+<p>卡塔兰数<code>C_n</code>,<br>$$<br>C_0=C_1=1,C_{n+1}=\frac{2(2n+1)} {n+2}C_n<br>$$<br>这个公式即为动态规划种内循环的解。</p>
 </li>
 </ul>
 </li>
@@ -840,6 +840,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -1197,6 +1208,10 @@ MathJax.Hub.Queue(function() {
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Leetcode</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
