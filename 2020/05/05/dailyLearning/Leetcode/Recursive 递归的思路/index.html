@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020 | Frank&#39;s cabin</title>
+  <title>dailyLearning/Leetcode/Recursive 递归的思路 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Frank&#39;s cabin">
-<meta property="og:url" content="http://yoursite.com/archives/2020/index.html">
+  <meta name="description" content="如何理解和解决递归问题 关于如何判断一个问题是否可以用递归解决 写递归的思路是什么？    想清楚我们的函数要解决的问题是什么 找到递归结束的条件，常用的方法是考虑参数很小的情况，小到可以直接得出想要的结论，这时可以把这个作为结束条件，但是需要注意条件泄漏 找到等价关系式，迭代表达式（核心） 写完等价关系式后，要返回去检查会不会出现无限递归的情况，递归条件是否严谨，同时也需要考虑特殊测试用例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dailyLearning&#x2F;Leetcode&#x2F;Recursive 递归的思路">
+<meta property="og:url" content="http://yoursite.com/2020/05/05/dailyLearning/Leetcode/Recursive%20%E9%80%92%E5%BD%92%E7%9A%84%E6%80%9D%E8%B7%AF/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
+<meta property="og:description" content="如何理解和解决递归问题 关于如何判断一个问题是否可以用递归解决 写递归的思路是什么？    想清楚我们的函数要解决的问题是什么 找到递归结束的条件，常用的方法是考虑参数很小的情况，小到可以直接得出想要的结论，这时可以把这个作为结束条件，但是需要注意条件泄漏 找到等价关系式，迭代表达式（核心） 写完等价关系式后，要返回去检查会不会出现无限递归的情况，递归条件是否严谨，同时也需要考虑特殊测试用例">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-05T07:52:23.480Z">
+<meta property="article:modified_time" content="2020-05-02T15:04:54.756Z">
 <meta property="article:author" content="Frank Young">
 <meta name="twitter:card" content="summary">
   
@@ -142,295 +146,206 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-dailyLearning/Leetcode/Recursive 递归的思路" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.481Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9F/">dailyLearning/Leetcode/如何建立二叉树？</a>
+    <h1 class="article-title" itemprop="name">
+      dailyLearning/Leetcode/Recursive 递归的思路
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/Recursive%20%E9%80%92%E5%BD%92%E7%9A%84%E6%80%9D%E8%B7%AF/" class="archive-article-date">
+        
+        <a href="/2020/05/05/dailyLearning/Leetcode/Recursive%20%E9%80%92%E5%BD%92%E7%9A%84%E6%80%9D%E8%B7%AF/" class="archive-article-date">
   	<time datetime="2020-05-05T07:52:23.480Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/Recursive%20%E9%80%92%E5%BD%92%E7%9A%84%E6%80%9D%E8%B7%AF/">dailyLearning/Leetcode/Recursive 递归的思路</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="如何理解和解决递归问题"><a href="#如何理解和解决递归问题" class="headerlink" title="如何理解和解决递归问题"></a>如何理解和解决递归问题</h1><ul>
+<li>关于如何判断一个问题是否可以用递归解决</li>
+<li>写递归的思路是什么？</li>
+</ul>
+<blockquote>
+<ol>
+<li>想清楚我们的函数要解决的问题是什么</li>
+<li>找到递归结束的条件，常用的方法是考虑参数很小的情况，小到可以直接得出想要的结论，这时可以把这个作为结束条件，但是需要注意条件泄漏</li>
+<li>找到等价关系式，迭代表达式（核心）</li>
+<li>写完等价关系式后，要返回去检查会不会出现无限递归的情况，<strong>递归条件是否严谨</strong>，同时也需要<strong>考虑特殊测试用例</strong></li>
+</ol>
+</blockquote>
+<ul>
+<li>例子：</li>
+</ul>
+<blockquote>
+<ol>
+<li>求阶乘</li>
+</ol>
+<blockquote>
+<ul>
+<li>我们要求阶乘</li>
+<li>n=1时ans=1，n=2时ans=2</li>
+<li>等价关系式<code>f(n) = n*f(n-1)</code></li>
+<li>每次递归使<code>n-1</code>，因此递归结束条件可以从1或2开始向下兼容</li>
+</ul>
+</blockquote>
+<ol start="2">
+<li><p>求斐波那契数列第n项</p>
+</li>
+<li><p>小青蛙跳台阶</p>
+</li>
+</ol>
+<blockquote>
+<ul>
+<li>我们要求总的跳法数目</li>
+<li>n=1时ans=1，n=2时ans=2，n=3时ans=3</li>
+<li>直接找出等价关系式有点困难，需要把问题拆解到每一个选择：每一次决定都有两个选项：跳一级或跳两级。跳一级使得剩余台阶<code>n-1</code>，这种选择使得我们后续共有<code>f(n-1)</code>种跳法；跳两级使得剩余台阶数<code>n-2</code>，这种选择使得我们后续共有<code>f(n-2)</code>种跳法，那么我本次做选择之前就共有<br><code>f(n-2)+f(n-1)</code>种跳法，即<br><code>f(n)=f(n-1)+f(n-2)</code>种跳法，这也就是递归表达式</li>
+<li>由于n每次递减1和2，因此我们得结束条件需要从<code>n=2</code>开始向下兼容，如果输入允许为0，那么还要一并考虑<code>n=0</code>的情况</li>
+</ul>
+</blockquote>
+<ol start="4">
+<li>反转单链表</li>
+</ol>
+<blockquote>
+<ul>
+<li><p>假设函数<code>reverseList(head)</code>的功能时反转单链表，其中head表示链表头节点。</p>
+</li>
+<li><p>结束条件：链表为空，或者只有一个节点</p>
+</li>
+<li><p>等价关系：把链表头单独拆下来，将整个链表看成一个节点（链表头）和剩余链表，那么反转整个链表就是把剩余链表反转，并且把表头插到尾部，自身指向<code>null</code>。而反转的剩余链表，尾部为反转前的头部，因此只要再反转前保存<br><code>tmp = head-&gt;next</code>，反转后<code>tmp-&gt;next = head</code>，再</p>
+<p><code>head-&gt;next = null</code>，反转就完成了。</p>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<ul>
+<li>递归的优化</li>
+</ul>
+<blockquote>
+<ol>
+<li>考虑是否重复计算</li>
+</ol>
+</blockquote>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/05/dailyLearning/Leetcode/Recursive%20%E9%80%92%E5%BD%92%E7%9A%84%E6%80%9D%E8%B7%AF/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/617.%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.479Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/05/05/dailyLearning/Leetcode/%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          dailyLearning/Leetcode/如何建立二叉树？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/05/05/dailyLearning/Leetcode/617.%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">dailyLearning/Leetcode/617.合并二叉树</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/617.%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91/">dailyLearning/Leetcode/617.合并二叉树</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/226.%E7%BF%BB%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.478Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/226.%E7%BF%BB%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91/">dailyLearning/Leetcode/226.翻转二叉树</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/144.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/144.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86/">dailyLearning/Leetcode/144.二叉树的前序遍历</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/102.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.476Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/102.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/">dailyLearning/Leetcode/102.二叉树的层序遍历</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/101.%E5%AF%B9%E7%A7%B0%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.474Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/101.%E5%AF%B9%E7%A7%B0%E4%BA%8C%E5%8F%89%E6%A0%91/">dailyLearning/Leetcode/101.对称二叉树</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/96.%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.473Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/96.%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">dailyLearning/Leetcode/96.不同的二叉搜索树</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/94.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.472Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/94.%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/">dailyLearning/Leetcode/94. 二叉树的中序遍历</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/%E9%A2%98%E5%9E%8B%E5%BD%92%E7%BA%B3/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.470Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/%E9%A2%98%E5%9E%8B%E5%BD%92%E7%BA%B3/">dailyLearning/Leetcode/题型归纳</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2020/page/2/">2</a><a class="extend next" rel="next" href="/archives/2020/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -454,8 +369,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
