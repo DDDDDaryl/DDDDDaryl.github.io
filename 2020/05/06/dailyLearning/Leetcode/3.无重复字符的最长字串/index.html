@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Recursion | Frank&#39;s cabin</title>
+  <title>数据结构与算法题型归纳 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Frank&#39;s cabin">
-<meta property="og:url" content="http://yoursite.com/tags/Recursion/index.html">
+  <meta name="description" content="3. 无重复字符的最长字串 题目：   12345678910111213141516171819202122&gt;给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。&gt;示例 1:&gt;输入: &quot;abcabcbb&quot;&gt;输出: 3 &gt;解释: 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。&gt;示例 2:&gt;输入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法题型归纳">
+<meta property="og:url" content="http://yoursite.com/2020/05/06/dailyLearning/Leetcode/3.%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%97%E4%B8%B2/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
+<meta property="og:description" content="3. 无重复字符的最长字串 题目：   12345678910111213141516171819202122&gt;给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。&gt;示例 1:&gt;输入: &quot;abcabcbb&quot;&gt;输出: 3 &gt;解释: 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。&gt;示例 2:&gt;输入">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-06T01:51:38.178Z">
+<meta property="article:modified_time" content="2020-05-06T06:36:00.334Z">
 <meta property="article:author" content="Frank Young">
+<meta property="article:tag" content="Leetcode">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Frank&#39;s cabin" type="application/atom+xml">
@@ -128,36 +133,70 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-dailyLearning/Leetcode/3.无重复字符的最长字串" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/05/dailyLearning/Leetcode/Recursive%20%E9%80%92%E5%BD%92%E7%9A%84%E6%80%9D%E8%B7%AF/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.480Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/05/dailyLearning/Leetcode/Recursive%20%E9%80%92%E5%BD%92%E7%9A%84%E6%80%9D%E8%B7%AF/">如何理解和解决递归问题</a>
+    <h1 class="article-title" itemprop="name">
+      数据结构与算法题型归纳
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/05/06/dailyLearning/Leetcode/3.%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%97%E4%B8%B2/" class="archive-article-date">
+  	<time datetime="2020-05-06T01:51:38.178Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="3-无重复字符的最长字串"><a href="#3-无重复字符的最长字串" class="headerlink" title="3. 无重复字符的最长字串"></a>3. 无重复字符的最长字串</h1><ul>
+<li>题目：</li>
+</ul>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&gt;给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。</span><br><span class="line"></span><br><span class="line">&gt;示例 1:</span><br><span class="line"></span><br><span class="line">&gt;输入: &quot;abcabcbb&quot;</span><br><span class="line">&gt;输出: 3 </span><br><span class="line">&gt;解释: 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。</span><br><span class="line">&gt;示例 2:</span><br><span class="line"></span><br><span class="line">&gt;输入: &quot;bbbbb&quot;</span><br><span class="line">&gt;输出: 1</span><br><span class="line">&gt;解释: 因为无重复字符的最长子串是 &quot;b&quot;，所以其长度为 1。</span><br><span class="line">&gt;示例 3:</span><br><span class="line"></span><br><span class="line">&gt;输入: &quot;pwwkew&quot;</span><br><span class="line">&gt;输出: 3</span><br><span class="line">&gt;解释: 因为无重复字符的最长子串是 &quot;wke&quot;，所以其长度为 3。</span><br><span class="line">    请注意，你的答案必须是 子串 的长度，&quot;pwke&quot; 是一个子序列，不是子串。</span><br><span class="line"></span><br><span class="line">&gt;来源：力扣（LeetCode）</span><br><span class="line">&gt;链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;longest-substring-without-repeating-characters</span><br><span class="line">&gt;著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+
+<ul>
+<li><p>思路：</p>
+<ul>
+<li><p>首先理论上的最低时间复杂度应该为<br>$$<br>\Omega(N)=N<br>$$<br>，因为至少要遍历一遍字符串。</p>
+</li>
+<li><p>开始把题目理解错了，题目的意思应该是选中的子字符串中无重复字符。那么最暴力的做法就是两层循环，时间复杂度<code>O(N^2)</code>；</p>
+</li>
+<li><p>问题可以转化为：我们用什么策略选择字符串，再用什么策略判断是否有重复字符？或者再转换一下思路，最长无重复字符的字符串一定是这个子字符串的后一个字符存在于子字符串中，或者为空，那么我们就去找两端为相同字符的左闭合区间，而无区间嵌套的最长区间长度为答案（特别地，只有一个的字符为空区间，不存在任何嵌套，但长度为1）；</p>
+</li>
+<li><p>以上思路实现：遍历字符串，存储所有key的indices，构建无序符号表（不需要按key大小排序），并判断其他重复字符串的所有区间是否与当前区间嵌套（内嵌套）。（注：实现太过复杂，嵌套循环太多）</p>
+</li>
+<li><p>题解为滑动窗口：其核心思想其实就是从头开始遍历字符串，统计当前最长的无重复子字符串，出现重复时抛弃旧值增加新值，并更新窗口大小，直至遍历结束。其利用的特性为子字符串必须是连续的，而输出仅要求长度，因此只记录最大长度就好。</p>
+</li>
+<li><p>滑动窗口实现：由于要维持一个窗口，并且期间还要查重，如果重复还有改变窗口大小，因此用队列实现窗口，用哈希表实现查重。</p>
+</li>
+<li><p>我的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">queue</span>&lt;<span class="keyword">char</span>&gt; q;</span><br><span class="line">        <span class="built_in">unordered_set</span>&lt;<span class="keyword">char</span>&gt; m;</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">max</span> = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; c:s)&#123;</span><br><span class="line">            q.push(c);</span><br><span class="line">            <span class="keyword">auto</span> res = m.insert(c);</span><br><span class="line">            <span class="keyword">if</span>(res.second == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="keyword">while</span>(q.front() != *res.first)&#123;</span><br><span class="line">                    m.erase(q.front());</span><br><span class="line">                    q.pop();</span><br><span class="line">                &#125;</span><br><span class="line">                q.pop();</span><br><span class="line">            &#125;</span><br><span class="line">            len = q.<span class="built_in">size</span>();</span><br><span class="line">            <span class="built_in">max</span> = <span class="built_in">max</span>&gt;len?<span class="built_in">max</span>:len;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的点是，如果新入队的元素有重复，那么中间所有出队的元素要从set中删除。</p>
+</li>
+<li><p>优化：实际上要表示窗口，我们不需要用队列的额外内存，用两个指针（迭代器）表示边界即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; lookup;</span><br><span class="line">        <span class="keyword">auto</span> left = s.cbegin();</span><br><span class="line">        <span class="keyword">auto</span> right = s.cbegin();</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> maximum = <span class="number">1</span>;</span><br><span class="line">        lookup.insert(*left);</span><br><span class="line">        <span class="keyword">while</span>(right != s.cend())&#123;</span><br><span class="line">            ++right;</span><br><span class="line">            <span class="keyword">auto</span> res = lookup.insert(*right);</span><br><span class="line">            <span class="keyword">if</span>(res.second == <span class="literal">false</span>)&#123;</span><br><span class="line">                <span class="keyword">while</span>(*left != *right)&#123;</span><br><span class="line">                    lookup.erase(*left);</span><br><span class="line">                    ++left;</span><br><span class="line">                &#125;</span><br><span class="line">                ++left;</span><br><span class="line">            &#125;<span class="built_in">cout</span>&lt;&lt;*left&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            len = right==s.cend()?right-left:right-left+<span class="number">1</span>;</span><br><span class="line">            maximum = <span class="built_in">max</span>(len, maximum);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maximum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>时间复杂度：<code>O(N)</code>，每个字符访问一次，空间复杂度：<code>O(1)</code>，空间消耗为哈希表内存占用，为常数空间。</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -165,27 +204,110 @@
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Leetcode</a>
         		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Recursion</a>
-        		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/06/dailyLearning/Leetcode/3.%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%97%E4%B8%B2/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/05/06/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">学习路径（大纲）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -208,9 +330,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

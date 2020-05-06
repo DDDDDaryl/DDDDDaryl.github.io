@@ -16,7 +16,7 @@
 <meta property="og:description" content="96.不同的二叉搜索树 题目：  123456789101112131415161718给定一个整数 n，求以 1 ... n 为节点组成的二叉搜索树有多少种？示例:输入: 3输出: 5解释:给定 n &#x3D; 3, 一共有 5 种不同结构的二叉搜索树:   1         3     3      2      1    \       &#x2F;     &#x2F;      &amp;#">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-05T07:52:23.473Z">
-<meta property="article:modified_time" content="2020-05-05T15:02:20.303Z">
+<meta property="article:modified_time" content="2020-05-06T06:36:48.114Z">
 <meta property="article:author" content="Frank Young">
 <meta property="article:tag" content="Leetcode">
 <meta property="article:tag" content="Binary Tree">
@@ -158,6 +158,8 @@
 <li>题目：</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">给定一个整数 n，求以 1 ... n 为节点组成的二叉搜索树有多少种？</span><br><span class="line"></span><br><span class="line">示例:</span><br><span class="line"></span><br><span class="line">输入: 3</span><br><span class="line">输出: 5</span><br><span class="line">解释:</span><br><span class="line">给定 n &#x3D; 3, 一共有 5 种不同结构的二叉搜索树:</span><br><span class="line"></span><br><span class="line">   1         3     3      2      1</span><br><span class="line">    \       &#x2F;     &#x2F;      &#x2F; \      \</span><br><span class="line">     3     2     1      1   3      2</span><br><span class="line">    &#x2F;     &#x2F;       \                 \</span><br><span class="line">   2     1         2                 3</span><br><span class="line"></span><br><span class="line">来源：力扣（LeetCode）</span><br><span class="line">链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;unique-binary-search-trees</span><br><span class="line">著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
 
 <ul>
 <li><p>思路：首先明确二叉搜索树BST的规则：左子节点的key小于root的key小于右子节点的key。那么当我们有<code>1~n</code>n个元素的时候，任意一个元素作为根节点，左子节点（树）只能选择比它小的，e.g.有<code>m</code>种，右子节点（树）只能选择比它大的，e.g.有<code>n</code>种，那么这个node有<code>mn</code>种选择。</p>
@@ -445,6 +447,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Recursion</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">c++开发</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">summary</a>
               </li>
             
             <div class="clearfix"></div>
