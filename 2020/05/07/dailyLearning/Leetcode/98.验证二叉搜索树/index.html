@@ -16,7 +16,7 @@
 <meta property="og:description" content="题目 给定一个二叉树，判断其是否是一个有效的二叉搜索树。 假设一个二叉搜索树具有如下特征： 节点的左子树只包含小于当前节点的数。 节点的右子树只包含大于当前节点的数。 所有左子树和右子树自身必须也是二叉搜索树。 示例 1: 12345输入:    2   &#x2F; \  1   3输出: true   示例 2: 123456789输入:    5   &#x2F; \  1   4">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-07T12:30:38.412Z">
-<meta property="article:modified_time" content="2020-05-08T03:40:41.204Z">
+<meta property="article:modified_time" content="2020-05-08T03:43:39.509Z">
 <meta property="article:author" content="Frank Young">
 <meta property="article:tag" content="Leetcode">
 <meta property="article:tag" content="DFS">
@@ -198,9 +198,10 @@
 <li><p>最妙的是<strong>利用中序遍历的性质</strong>：中序遍历BST得到的一定是升序序列。时间复杂度<code>O(N)</code>，遍历BST的所有元素，每个元素访问一次；而空间复杂度为与树高呈线性关系，<code>O（N）</code>。代码如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isValidBST</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(!isValidBST(root-&gt;left)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(compare.empty()) compare.push(root-&gt;val);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(root-&gt;val &gt; compare.front())&#123;</span><br><span class="line">            compare.pop();</span><br><span class="line">            compare.push(root-&gt;val);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(!isValidBST(root-&gt;right)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; compare;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>我认为这道题最重要的点其实是意识到中序遍历的性质：中序遍历BST得到的结果是升序序列；而利用区间和递归的解法，带给我的更多是对BST有效条件必须严谨的反思。</p>
+
 </li>
 </ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>  我认为这道题最重要的点其实是意识到中序遍历的性质：中序遍历BST得到的结果是升序序列；而利用区间和递归的解法，带给我的更多是对BST有效条件必须严谨的反思。</p>
 
       
 
@@ -291,6 +292,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2020/05/08/dailyLearning/Leetcode/105.%E4%BB%8E%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          105.从前序遍历与中序遍历构造二叉树
+        
+      </div>
+    </a>
   
   
     <a href="/2020/05/07/dailyLearning/Leetcode/104.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E6%B7%B1%E5%BA%A6/" id="article-nav-older" class="article-nav-link-wrap">
@@ -479,6 +489,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">BST</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">BFS</a>
               </li>
             
             <div class="clearfix"></div>
