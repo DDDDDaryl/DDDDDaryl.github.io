@@ -6,21 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>98.验证二叉搜索树 | Frank&#39;s cabin</title>
+  <title>207.课程表 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="题目 给定一个二叉树，判断其是否是一个有效的二叉搜索树。 假设一个二叉搜索树具有如下特征： 节点的左子树只包含小于当前节点的数。 节点的右子树只包含大于当前节点的数。 所有左子树和右子树自身必须也是二叉搜索树。 示例 1: 12345输入:    2   &#x2F; \  1   3输出: true   示例 2: 123456789输入:    5   &#x2F; \  1   4">
+  <meta name="description" content="题目 你这个学期必须选修numCourse门课程，记为 0 到numCourse-1 。 在选修某些课程之前需要一些先修课程。 例如，想要学习课程0 ，你需要先完成课程1 ，我们用一个匹配来表示他们：[0,1] 给定课程总量以及它们的先决条件，请你判断是否可能完成所有课程的学习？ 示例 1: 123输入: 2, [[1,0]] 输出: true解释: 总共有 2 门课程。学习课程 1 之前，你需要">
 <meta property="og:type" content="article">
-<meta property="og:title" content="98.验证二叉搜索树">
-<meta property="og:url" content="http://yoursite.com/2020/05/07/dailyLearning/Leetcode/98.%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/index.html">
+<meta property="og:title" content="207.课程表">
+<meta property="og:url" content="http://yoursite.com/2020/05/10/dailyLearning/Leetcode/207.%E8%AF%BE%E7%A8%8B%E8%A1%A8/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
-<meta property="og:description" content="题目 给定一个二叉树，判断其是否是一个有效的二叉搜索树。 假设一个二叉搜索树具有如下特征： 节点的左子树只包含小于当前节点的数。 节点的右子树只包含大于当前节点的数。 所有左子树和右子树自身必须也是二叉搜索树。 示例 1: 12345输入:    2   &#x2F; \  1   3输出: true   示例 2: 123456789输入:    5   &#x2F; \  1   4">
+<meta property="og:description" content="题目 你这个学期必须选修numCourse门课程，记为 0 到numCourse-1 。 在选修某些课程之前需要一些先修课程。 例如，想要学习课程0 ，你需要先完成课程1 ，我们用一个匹配来表示他们：[0,1] 给定课程总量以及它们的先决条件，请你判断是否可能完成所有课程的学习？ 示例 1: 123输入: 2, [[1,0]] 输出: true解释: 总共有 2 门课程。学习课程 1 之前，你需要">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-05-07T12:30:38.412Z">
-<meta property="article:modified_time" content="2020-05-08T03:43:39.509Z">
+<meta property="article:published_time" content="2020-05-10T02:55:54.079Z">
+<meta property="article:modified_time" content="2020-05-10T13:19:20.249Z">
 <meta property="article:author" content="Frank Young">
 <meta property="article:tag" content="Leetcode">
-<meta property="article:tag" content="DFS">
-<meta property="article:tag" content="BST">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Frank&#39;s cabin" type="application/atom+xml">
@@ -135,20 +133,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dailyLearning/Leetcode/98.验证二叉搜索树" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-dailyLearning/Leetcode/207.课程表" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      98.验证二叉搜索树
+      207.课程表
     </h1>
   
 
         
-        <a href="/2020/05/07/dailyLearning/Leetcode/98.%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-05-07T12:30:38.412Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-07</time>
+        <a href="/2020/05/10/dailyLearning/Leetcode/207.%E8%AF%BE%E7%A8%8B%E8%A1%A8/" class="archive-article-date">
+  	<time datetime="2020-05-10T02:55:54.079Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-10</time>
 </a>
         
       </header>
@@ -156,52 +154,52 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<p>给定一个二叉树，判断其是否是一个有效的二叉搜索树。</p>
-<p>假设一个二叉搜索树具有如下特征：</p>
-<p>节点的左子树只包含小于当前节点的数。</p>
-<p>节点的右子树只包含大于当前节点的数。</p>
-<p>所有左子树和右子树自身必须也是二叉搜索树。</p>
+<p>你这个学期必须选修<code>numCourse</code>门课程，记为 <code>0</code> 到<code>numCourse-1</code> 。</p>
+<p>在选修某些课程之前需要一些先修课程。 例如，想要学习课程<code>0</code> ，你需要先完成课程<code>1</code> ，我们用一个匹配来表示他们：<code>[0,1]</code></p>
+<p>给定课程总量以及它们的先决条件，请你<strong>判断是否可能完成所有课程的学习</strong>？</p>
 <p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">    2</span><br><span class="line">   &#x2F; \</span><br><span class="line">  1   3</span><br><span class="line">输出: true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: 2, [[1,0]] </span><br><span class="line">输出: true</span><br><span class="line">解释: 总共有 2 门课程。学习课程 1 之前，你需要完成课程 0。所以这是可能的。</span><br></pre></td></tr></table></figure>
 
 
 <p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">    5</span><br><span class="line">   &#x2F; \</span><br><span class="line">  1   4</span><br><span class="line">     &#x2F; \</span><br><span class="line">    3   6</span><br><span class="line">输出: false</span><br><span class="line">解释: 输入为: [5,1,4,null,null,3,6]。</span><br><span class="line">     根节点的值为 5 ，但是其右子节点值为 4 。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: 2, [[1,0],[0,1]]</span><br><span class="line">输出: false</span><br><span class="line">解释: 总共有 2 门课程。学习课程 1 之前，你需要先完成课程 0；并且学习课程 0 之前，你还应先完成课程 1。这是不可能的。</span><br></pre></td></tr></table></figure>
 
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/validate-binary-search-tree" target="_blank" rel="noopener">https://leetcode-cn.com/problems/validate-binary-search-tree</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<a id="more"></a>
 
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>典型的递归解题思路：</p>
-<ul>
-<li><p>函数的功能：判断一棵二叉树是否为有效BST(Binary Search Tree)</p>
-</li>
-<li><p>结束条件：树不满足条件 或 遍历完成</p>
-</li>
-<li><p>递推公式：左子树有效，右子树有效，<del>左子树最右（最大）节点小于根节点，右子树最左（最小）节点大于根节点，则树有效</del>。错了，<strong>漏了一条当前节点为根节点的一整棵树的最大最小值还被上一级根节点所限制，因此，每到达一个节点，这个节点有一个区间限制，左子节点有一个区间限制，右子节点有一个区间限制，这三个区间的参数是耦合的，因此必须作为函数的参数。</strong>我们需要在DFS一棵树的过程中维持其最小值和最大值。</p>
-</li>
-<li><p>题解实现的辅助递归函数是利用区间，递归判断根节点及其左右子节点是否在有效区间内来判断BST是否有效。</p>
-</li>
-</ul>
-<p>​        题解的思路与我的思路相比，相同之处在于都要维护最大最小值，而不同之处在于我在思考如何维护一棵子树的最大最小值时<strong>考虑用返回值保存最大最小值</strong>，判断左子树最大值与右子树最小值与根节点的大小，这意味着函数体中要实现最值的记录；</p>
-<p>  代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isValidBST</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> aux(root, LLONG_MIN, LLONG_MAX);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">aux</span><span class="params">(TreeNode* root, <span class="keyword">long</span> <span class="keyword">long</span> lo, <span class="keyword">long</span> <span class="keyword">long</span> hi)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(root-&gt;val &lt;= lo || root-&gt;val &gt;= hi) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> aux(root-&gt;left, lo, root-&gt;val) &amp;&amp; aux(root-&gt;right, root-&gt;val, hi);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的点：</p>
+<p>提示：</p>
 <ol>
-<li>为什么要用辅助递归函数？<br>因为原函数的作用是判断BST是否有效，递归时只能判断左右子树是否有效，不能判断根节点与左右子树之间的关系；</li>
-<li>边界值的类型要足够大，避免溢出；</li>
-<li>左子树的范围为<code>(lo, root-&gt;val)</code>，右子树范围<code>(root-&gt;val, hi)</code>，原因是BST所有元素必须在给定区间内；</li>
-<li>时间复杂度<code>O(N)</code>，空间复杂度<code>O(N)</code>，为最差情况下树的高度。</li>
+<li>输入的先决条件是由 边缘列表 表示的图形，而不是 邻接矩阵 。详情请参见<a href="http://blog.csdn.net/woaidapaopao/article/details/51732947" target="_blank" rel="noopener">图的表示法</a>。</li>
+<li>你可以假定输入的先决条件中没有重复的边。</li>
+<li><code>1 &lt;= numCourses &lt;= 10^5</code></li>
 </ol>
-<ul>
-<li><p>最妙的是<strong>利用中序遍历的性质</strong>：中序遍历BST得到的一定是升序序列。时间复杂度<code>O(N)</code>，遍历BST的所有元素，每个元素访问一次；而空间复杂度为与树高呈线性关系，<code>O（N）</code>。代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isValidBST</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(!isValidBST(root-&gt;left)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(compare.empty()) compare.push(root-&gt;val);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(root-&gt;val &gt; compare.front())&#123;</span><br><span class="line">            compare.pop();</span><br><span class="line">            compare.push(root-&gt;val);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(!isValidBST(root-&gt;right)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; compare;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;来源：力扣（LeetCode）</span><br><span class="line">链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;course-schedule</span><br><span class="line">著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
+<li>审题，是否可能完成所有课程的学习，就是判断这个Digraph有没有directed circle，如果有就不可能，也就是判断这个图是不是DAG(Directed acyclic Graph)，如果是，就可能完成。这是一道topological sort。</li>
+<li>如何判断？<br>假设对vertex <code>v</code>做DFS，递归过程中调用了<code>dfs(v)</code>，那么说明不是DAG，换句话说如果DFS这个图，且有<code>v-&gt;w</code>，那<code>w</code>在<code>v</code>直接输出。</li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><ol>
+<li><code>canFinish()</code>函数第一个形参为vertex数量，第二个形参为edges list；</li>
+<li>需要一个容器记录vertex是否已经访问过；</li>
+<li>需要一个bag记录先调用DFS的vertex，一次DFS中v同一个vertex重复出现时返回false；</li>
+<li>需要注意图中可能有多个Connected Components，需要循环DFS;</li>
+<li>空间换时间，避免重复搜索<code>edges list</code>，需要转换为<code>adjency list</code>；</li>
+<li>如果一个vertex没有任何adjacency，那么它不可能出现在任何cycle中，应当从查重的set中删除；</li>
+<li>DFS一个vertex之后要把该节点从查重列表中删除；</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">canFinish</span><span class="params">(<span class="keyword">int</span> numCourses, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">        discovered = <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; (numCourses, <span class="literal">false</span>);</span><br><span class="line">        adjency_list = <span class="built_in">vector</span>&lt;<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt;&gt; (numCourses);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; p:prerequisites)&#123;</span><br><span class="line">            <span class="keyword">int</span> pre = p[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">int</span> post = p[<span class="number">0</span>];</span><br><span class="line">            adjency_list[pre].insert(post);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> idx=<span class="number">0</span>; idx&lt;numCourses; ++idx)&#123;</span><br><span class="line">            check_dup.erase(check_dup.<span class="built_in">begin</span>(), check_dup.<span class="built_in">end</span>());</span><br><span class="line">            dfs(idx);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> global_flag;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; discovered;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt;&gt; adjency_list;</span><br><span class="line">    <span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; check_dup;</span><br><span class="line">    <span class="keyword">bool</span> global_flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!global_flag) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span>(check_dup.<span class="built_in">find</span>(v) != check_dup.cend())&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;*check_dup.<span class="built_in">find</span>(v)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            global_flag = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">return</span>;        </span><br><span class="line">        &#125;       </span><br><span class="line">        <span class="keyword">if</span>(discovered[v]) <span class="keyword">return</span>;       </span><br><span class="line">        discovered[v] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(adjency_list[v].empty()) <span class="keyword">return</span>;</span><br><span class="line">        check_dup.insert(v);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; p:adjency_list[v])&#123;            </span><br><span class="line">            dfs(p);</span><br><span class="line">            check_dup.erase(p);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
+<h3 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h3><h4 id="拓扑排序（入度表-BFS"><a href="#拓扑排序（入度表-BFS" class="headerlink" title="拓扑排序（入度表+BFS)"></a>拓扑排序（入度表+BFS)</h4><p>其核心思想是从前向后进行拓扑排序，因为拓扑排序的起点总是入度为0的。而能够进行拓扑排序的图一定是DAG，如果拓扑排序结束，图中还有剩下的vertices，那么该图不是DAG。</p>
+<ol>
+<li>首先统计每个节点的入度，生成入度表；</li>
+<li>由于入度为0的节点一定是拓扑结构的起点，那么需要依次处理这些起点节点。使用队列管理等待处理的节点，当前处理的节点出队，其拓扑的下个节点入度<code>-1</code>表示把当前节点从图中“删除”；如果下个结点的入度此时也为0，就把下个节点入队等待处理；</li>
+<li>由于节点不重复，每“删除”一个节点，就更新当前节点数目；如果Directed cycle存在，那么最终一定会有无法被”删除“的节点。</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">canFinish</span><span class="params">(<span class="keyword">int</span> numCourses, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(prerequisites.empty()) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        adjency_list = <span class="keyword">decltype</span>(adjency_list) (numCourses);</span><br><span class="line">        indegrees = <span class="keyword">decltype</span>(indegrees) (numCourses);        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; edges:prerequisites)&#123;</span><br><span class="line">            adjency_list[edges[<span class="number">1</span>]].insert(edges[<span class="number">0</span>]);</span><br><span class="line">            ++indegrees[edges[<span class="number">0</span>]];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> idx=<span class="number">0</span>; idx&lt;numCourses; ++idx)&#123;</span><br><span class="line">            <span class="keyword">if</span>(indegrees[idx] == <span class="number">0</span>) q.push(idx);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">            <span class="keyword">int</span> cur = q.front();</span><br><span class="line">            q.pop();</span><br><span class="line">            --numCourses;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; next:adjency_list[cur])&#123;</span><br><span class="line">                --indegrees[next];</span><br><span class="line">                <span class="keyword">if</span>(indegrees[next] == <span class="number">0</span>) q.push(next);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> numCourses == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt;&gt; adjency_list;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; indegrees;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>  我认为这道题最重要的点其实是意识到中序遍历的性质：中序遍历BST得到的结果是升序序列；而利用区间和递归的解法，带给我的更多是对BST有效条件必须严谨的反思。</p>
+<p>时间复杂度<code>O(V+E)</code>，遍历一个图需要访问所有节点和临边；</p>
+<p>空间复杂度<code>O(V+E)</code>，为邻接表的大小。</p>
 
       
 
@@ -216,14 +214,6 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">DFS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">BST</a>
         		</li>
       		
 		</ul>
@@ -279,7 +269,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/07/dailyLearning/Leetcode/98.%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/10/dailyLearning/Leetcode/207.%E8%AF%BE%E7%A8%8B%E8%A1%A8/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -293,18 +283,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/05/08/dailyLearning/Leetcode/105.%E4%BB%8E%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          105.从前序遍历与中序遍历构造二叉树
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/05/07/dailyLearning/Leetcode/104.%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E6%B7%B1%E5%BA%A6/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">104.二叉树的最大深度</div>
+    <a href="/2020/05/09/dailyLearning/Leetcode/200.%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">200.岛屿数量</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -331,7 +312,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#题目"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思路"><span class="toc-number">2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#题目"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思路"><span class="toc-number">2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现"><span class="toc-number">3.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他方法"><span class="toc-number">4.</span> <span class="toc-text">其他方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#拓扑排序（入度表-BFS"><span class="toc-number">4.1.</span> <span class="toc-text">拓扑排序（入度表+BFS)</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
