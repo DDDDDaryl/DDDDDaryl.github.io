@@ -130,6 +130,179 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dailyLearning/Leetcode/由0-1背包问题引出的动态规划-总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/11/dailyLearning/Leetcode/%E7%94%B10-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%80%BB%E7%BB%93/">由0-1背包问题引出的动态规划 总结</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/11/dailyLearning/Leetcode/%E7%94%B10-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-05-11T10:27:29.057Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h1><h2 id="什么是背包问题"><a href="#什么是背包问题" class="headerlink" title="什么是背包问题"></a>什么是背包问题</h2><p>现在有一个背包，<strong>容量(Capacity)</strong>为$C$，有一堆物品，这些物品有<strong>重量(Weight)</strong>和<strong>价值(Value)</strong>两种属性，背包中所有物品的重量之和$\sum{item_{Weight}}$不能超过$C$，问：背包中最多可以装价值总和为多少的物品？</p>
+        
+          <a class="article-more-a" href="/2020/05/11/dailyLearning/Leetcode/%E7%94%B10-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%80%BB%E7%BB%93/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Knapsack Problem</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Dynamic Programming</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/11/dailyLearning/Leetcode/%E7%94%B10-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-dailyLearning/Leetcode/494.目标和" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/10/dailyLearning/Leetcode/494.%E7%9B%AE%E6%A0%87%E5%92%8C/">494.目标和</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/10/dailyLearning/Leetcode/494.%E7%9B%AE%E6%A0%87%E5%92%8C/" class="archive-article-date">
+  	<time datetime="2020-05-10T14:57:07.442Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;给定一个非负整数数组，&#96;a1, a2, ..., an&#96;, 和一个目标数，&#96;S&#96;。现在你有两个符号 &#96;+ &#96;和&#96; -&#96;。对于数组中的任意一个整数，你都可以从 &#96;+&#96; 或&#96; -&#96;中选择一个符号添加在前面。</span><br><span class="line"></span><br><span class="line">&gt;返回可以使最终数组和为目标数 &#96;S&#96; 的所有添加符号的方法数。</span><br></pre></td></tr></table></figure>
+
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;输入: nums: [1, 1, 1, 1, 1], S: 3</span><br><span class="line">&gt;输出: 5</span><br><span class="line">&gt;解释: </span><br><span class="line"></span><br><span class="line">&gt;-1+1+1+1+1 &#x3D; 3</span><br><span class="line">&gt;+1-1+1+1+1 &#x3D; 3</span><br><span class="line">&gt;+1+1-1+1+1 &#x3D; 3</span><br><span class="line">&gt;+1+1+1-1+1 &#x3D; 3</span><br><span class="line">&gt;+1+1+1+1-1 &#x3D; 3</span><br><span class="line"></span><br><span class="line">&gt;一共有5种方法让最终目标和为3。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;注意:</span><br><span class="line"></span><br><span class="line">&gt;数组非空，且长度不会超过20。</span><br><span class="line">&gt;初始的数组的和不会超过1000。</span><br><span class="line">&gt;保证返回的最终结果能被32位整数存下。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;来源：力扣（LeetCode）</span><br><span class="line">&gt;链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;target-sum</span><br><span class="line">&gt;著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
+</blockquote>
+        
+          <a class="article-more-a" href="/2020/05/10/dailyLearning/Leetcode/494.%E7%9B%AE%E6%A0%87%E5%92%8C/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">0-1背包</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/10/dailyLearning/Leetcode/494.%E7%9B%AE%E6%A0%87%E5%92%8C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dailyLearning/Leetcode/207.课程表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -170,34 +343,9 @@
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;来源：力扣（LeetCode）</span><br><span class="line">链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;course-schedule</span><br><span class="line">著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
-<li>审题，是否可能完成所有课程的学习，就是判断这个Digraph有没有directed circle，如果有就不可能，也就是判断这个图是不是DAG(Directed acyclic Graph)，如果是，就可能完成。这是一道topological sort。</li>
-<li>如何判断？<br>假设对vertex <code>v</code>做DFS，递归过程中调用了<code>dfs(v)</code>，那么说明不是DAG，换句话说如果DFS这个图，且有<code>v-&gt;w</code>，那<code>w</code>在<code>v</code>直接输出。</li>
-</ol>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><ol>
-<li><code>canFinish()</code>函数第一个形参为vertex数量，第二个形参为edges list；</li>
-<li>需要一个容器记录vertex是否已经访问过；</li>
-<li>需要一个bag记录先调用DFS的vertex，一次DFS中v同一个vertex重复出现时返回false；</li>
-<li>需要注意图中可能有多个Connected Components，需要循环DFS;</li>
-<li>空间换时间，避免重复搜索<code>edges list</code>，需要转换为<code>adjency list</code>；</li>
-<li>如果一个vertex没有任何adjacency，那么它不可能出现在任何cycle中，应当从查重的set中删除；</li>
-<li>DFS一个vertex之后要把该节点从查重列表中删除；</li>
-</ol>
-<p>代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">canFinish</span><span class="params">(<span class="keyword">int</span> numCourses, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">        discovered = <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; (numCourses, <span class="literal">false</span>);</span><br><span class="line">        adjency_list = <span class="built_in">vector</span>&lt;<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt;&gt; (numCourses);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; p:prerequisites)&#123;</span><br><span class="line">            <span class="keyword">int</span> pre = p[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">int</span> post = p[<span class="number">0</span>];</span><br><span class="line">            adjency_list[pre].insert(post);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> idx=<span class="number">0</span>; idx&lt;numCourses; ++idx)&#123;</span><br><span class="line">            check_dup.erase(check_dup.<span class="built_in">begin</span>(), check_dup.<span class="built_in">end</span>());</span><br><span class="line">            dfs(idx);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> global_flag;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; discovered;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt;&gt; adjency_list;</span><br><span class="line">    <span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; check_dup;</span><br><span class="line">    <span class="keyword">bool</span> global_flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!global_flag) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span>(check_dup.<span class="built_in">find</span>(v) != check_dup.cend())&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;*check_dup.<span class="built_in">find</span>(v)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            global_flag = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">return</span>;        </span><br><span class="line">        &#125;       </span><br><span class="line">        <span class="keyword">if</span>(discovered[v]) <span class="keyword">return</span>;       </span><br><span class="line">        discovered[v] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(adjency_list[v].empty()) <span class="keyword">return</span>;</span><br><span class="line">        check_dup.insert(v);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; p:adjency_list[v])&#123;            </span><br><span class="line">            dfs(p);</span><br><span class="line">            check_dup.erase(p);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h3><h4 id="拓扑排序（入度表-BFS"><a href="#拓扑排序（入度表-BFS" class="headerlink" title="拓扑排序（入度表+BFS)"></a>拓扑排序（入度表+BFS)</h4><p>其核心思想是从前向后进行拓扑排序，因为拓扑排序的起点总是入度为0的。而能够进行拓扑排序的图一定是DAG，如果拓扑排序结束，图中还有剩下的vertices，那么该图不是DAG。</p>
-<ol>
-<li>首先统计每个节点的入度，生成入度表；</li>
-<li>由于入度为0的节点一定是拓扑结构的起点，那么需要依次处理这些起点节点。使用队列管理等待处理的节点，当前处理的节点出队，其拓扑的下个节点入度<code>-1</code>表示把当前节点从图中“删除”；如果下个结点的入度此时也为0，就把下个节点入队等待处理；</li>
-<li>由于节点不重复，每“删除”一个节点，就更新当前节点数目；如果Directed cycle存在，那么最终一定会有无法被”删除“的节点。</li>
-</ol>
-<p>代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">canFinish</span><span class="params">(<span class="keyword">int</span> numCourses, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(prerequisites.empty()) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        adjency_list = <span class="keyword">decltype</span>(adjency_list) (numCourses);</span><br><span class="line">        indegrees = <span class="keyword">decltype</span>(indegrees) (numCourses);        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; edges:prerequisites)&#123;</span><br><span class="line">            adjency_list[edges[<span class="number">1</span>]].insert(edges[<span class="number">0</span>]);</span><br><span class="line">            ++indegrees[edges[<span class="number">0</span>]];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> idx=<span class="number">0</span>; idx&lt;numCourses; ++idx)&#123;</span><br><span class="line">            <span class="keyword">if</span>(indegrees[idx] == <span class="number">0</span>) q.push(idx);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">            <span class="keyword">int</span> cur = q.front();</span><br><span class="line">            q.pop();</span><br><span class="line">            --numCourses;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; next:adjency_list[cur])&#123;</span><br><span class="line">                --indegrees[next];</span><br><span class="line">                <span class="keyword">if</span>(indegrees[next] == <span class="number">0</span>) q.push(next);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> numCourses == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt;&gt; adjency_list;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; indegrees;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度<code>O(V+E)</code>，遍历一个图需要访问所有节点和临边；</p>
-<p>空间复杂度<code>O(V+E)</code>，为邻接表的大小。</p>
-
+        
+          <a class="article-more-a" href="/2020/05/10/dailyLearning/Leetcode/207.%E8%AF%BE%E7%A8%8B%E8%A1%A8/#more">more >></a>
+        
       
 
       
@@ -283,49 +431,9 @@
 
 <p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/number-of-islands" target="_blank" rel="noopener">https://leetcode-cn.com/problems/number-of-islands</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
 </blockquote>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>很有趣的一道题，拿到这种有具体场景的题目之后，首先要把问题抽象成一类问题。这道题实际上用到的是无向图（Graph），对应的vertices是每个元素的值，而edges存在的条件为与当前vertex相邻（上下左右）的vertex的值均为1。而题目中的“岛屿”，实际上就是Connected Components，在Graph中BFS或DFS并且标记分组。</p>
-<p>那么我们要做的是，遍历数组，在数组中进行DFS或BFS，目标是所有横纵相连的1的CC的个数。</p>
-<ol>
-<li><p>如何构建Graph？</p>
-<p>要构建一张完整的Graph，最少要遍历一遍容器，然而如果对每个vertex都去与相邻vertex比较并构建edge，会导致重复访问。那么如何做到在无重复访问的前提下构建Graph呢？</p>
-<p>在构建Graph的时候，我们可以先把输入矩阵看成一张完整的Graph，vertices的含义不变，而edges的含义变为adjacency，也即上下左右只要存在任意元素就算adjacent to，在这张原始Graph的基础上用一遍DFS遍历输入，并用adjacency list representation method来表示具有“水陆连接性”的Graph。</p>
-</li>
-<li><p>构建好Graph之后，我们就可以根据adjacency list中DFS的顺序再遍历一遍寻找Connected Components了。</p>
-</li>
-<li><p>其实按照以上思路，已经访问每个节点两次了，那么我们可以直接在构建Graph的过程中标记Connected Components（将节点置零表示Done）。</p>
-</li>
-</ol>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><ul>
-<li><p>本来想着按照课上刚学的实现一个图，然而代码写起来对于一道算法题来说过于复杂。参考答案实现的思路就是原地搜索连续的1，搜索完一块就置0；</p>
-</li>
-<li><p>边界处理：上下左右下标大于零；</p>
-</li>
-<li><p>dfs递归实现：</p>
-<ul>
-<li>结束条件：当前节点为0；</li>
-<li>上下左右有一个是1，dfs；</li>
-</ul>
-</li>
-<li><p>为了避免搜索时无限递归，要把dfs起点标记为done（置零）；</p>
-</li>
-<li><p>代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numIslands</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(grid.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> col=<span class="number">0</span>; col&lt;grid.<span class="built_in">size</span>(); ++col)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> row=<span class="number">0</span>; row&lt;grid[<span class="number">0</span>].<span class="built_in">size</span>(); ++row)&#123;  </span><br><span class="line">                <span class="keyword">if</span>(grid[col][row]==<span class="string">'1'</span>)&#123;                   </span><br><span class="line">                    ++ans;</span><br><span class="line">                    dfs(grid, row, col);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; G, <span class="keyword">size_t</span> r, <span class="keyword">size_t</span> c)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(G[c][r] == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">        G[c][r] = <span class="string">'0'</span>;</span><br><span class="line">        <span class="keyword">if</span>(r&gt;<span class="number">0</span> &amp;&amp; G[c][r<span class="number">-1</span>]==<span class="string">'1'</span>) dfs(G, r<span class="number">-1</span>, c);</span><br><span class="line">        <span class="keyword">if</span>(r&lt;G[<span class="number">0</span>].<span class="built_in">size</span>()<span class="number">-1</span> &amp;&amp; G[c][r+<span class="number">1</span>]==<span class="string">'1'</span>) dfs(G, r+<span class="number">1</span>, c);</span><br><span class="line">        <span class="keyword">if</span>(c&gt;<span class="number">0</span> &amp;&amp; G[c<span class="number">-1</span>][r]==<span class="string">'1'</span>) dfs(G, r, c<span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">if</span>(c&lt;G.<span class="built_in">size</span>()<span class="number">-1</span> &amp;&amp; G[c+<span class="number">1</span>][r]==<span class="string">'1'</span>) dfs(G, r, c+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>该过程按照数组顺序遍历容器，每个元素只访问一次，时间复杂度<code>O(N)</code>，空间复杂度<code>O(N)</code>，为最差递归深度。</p>
-<p>P.S. 一个坑，测试用例输入为字符串常量，不能用整形常量比较。</p>
-</li>
-</ul>
-<ul>
-<li><p>还可以用迭代实现<strong>BFS</strong>，同样是按数组顺序遍历数组，若当前元素值为1，则将当前元素位置入队（队列表示检测到但还没有完成搜索的元素），开始广度优先搜索，直到队列为空（处理完当前CC的所有元素），寻找下一个为“1”的元素。</p>
-</li>
-<li><p><strong>并查集</strong>代替搜索，就是算法第一章讲到的union find，如果一个位置为<code>‘1’</code>，那么查找相邻元素进行合并。由于并查集之前没有实现过，这里参考<a href="https://leetcode-cn.com/problems/number-of-islands/solution/dao-yu-shu-liang-by-leetcode/" target="_blank" rel="noopener">官方答案</a>，代码如下：（自写注释）</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UnionFind</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    UnionFind(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; grid) &#123;</span><br><span class="line">        count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> m = grid.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> n = grid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; ++i) &#123; <span class="comment">// 把所有有效元素序号存进parent</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (grid[i][j] == <span class="string">'1'</span>) &#123;</span><br><span class="line">                    parent.push_back(i * n + j); </span><br><span class="line">                    ++count; <span class="comment">// 陆地数量</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    parent.push_back(<span class="number">-1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                rank.push_back(<span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (parent[i] != i) &#123; <span class="comment">// 父节点是自己表示自己为根节点</span></span><br><span class="line">            parent[i] = <span class="built_in">find</span>(parent[i]); <span class="comment">// 若i不是根节点，</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> parent[i]; <span class="comment">// 返回的是根节点</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">// 开始时每个元素都是父节点，没有子节点</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">unite</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> rootx = <span class="built_in">find</span>(x);</span><br><span class="line">        <span class="keyword">int</span> rooty = <span class="built_in">find</span>(y);</span><br><span class="line">        <span class="keyword">if</span> (rootx != rooty) &#123;</span><br><span class="line">            <span class="keyword">if</span> (rank[rootx] &lt; rank[rooty]) &#123; <span class="comment">// 比较两棵树的大小，保证小的插入大的，Weighted Union-find</span></span><br><span class="line">                swap(rootx, rooty);</span><br><span class="line">            &#125;</span><br><span class="line">            parent[rooty] = rootx; <span class="comment">// 把x的根节点作为y的根节点的父节点（y合并到x，压缩路径）</span></span><br><span class="line">            <span class="keyword">if</span> (rank[rootx] == rank[rooty]) rank[rootx] += <span class="number">1</span>; <span class="comment">// 这里应该是rank[rootx] += rank[rooty];</span></span><br><span class="line">            --count; <span class="comment">// 每次合并都会导致岛屿数目-1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; parent; <span class="comment">// parent表示以下标序号存储的元素的父节点</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rank; <span class="comment">// rank表示这个根节点表示的树的大小</span></span><br><span class="line">    <span class="keyword">int</span> count; <span class="comment">// 已知岛屿数量</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numIslands</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> nr = grid.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (!nr) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> nc = grid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">        <span class="function">UnionFind <span class="title">uf</span><span class="params">(grid)</span></span>;</span><br><span class="line">        <span class="keyword">int</span> num_islands = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> r = <span class="number">0</span>; r &lt; nr; ++r) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> c = <span class="number">0</span>; c &lt; nc; ++c) &#123;</span><br><span class="line">                <span class="keyword">if</span> (grid[r][c] == <span class="string">'1'</span>) &#123;</span><br><span class="line">                    grid[r][c] = <span class="string">'0'</span>;</span><br><span class="line">                    <span class="keyword">if</span> (r - <span class="number">1</span> &gt;= <span class="number">0</span> &amp;&amp; grid[r<span class="number">-1</span>][c] == <span class="string">'1'</span>) uf.unite(r * nc + c, (r<span class="number">-1</span>) * nc + c);</span><br><span class="line">                    <span class="keyword">if</span> (r + <span class="number">1</span> &lt; nr &amp;&amp; grid[r+<span class="number">1</span>][c] == <span class="string">'1'</span>) uf.unite(r * nc + c, (r+<span class="number">1</span>) * nc + c);</span><br><span class="line">                    <span class="keyword">if</span> (c - <span class="number">1</span> &gt;= <span class="number">0</span> &amp;&amp; grid[r][c<span class="number">-1</span>] == <span class="string">'1'</span>) uf.unite(r * nc + c, r * nc + c - <span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">if</span> (c + <span class="number">1</span> &lt; nc &amp;&amp; grid[r][c+<span class="number">1</span>] == <span class="string">'1'</span>) uf.unite(r * nc + c, r * nc + c + <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> uf.getCount();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 作者：LeetCode</span></span><br><span class="line"><span class="comment">* 链接：https://leetcode-cn.com/problems/number-of-islands/solution/dao-yu-shu-  * liang-by-leetcode/</span></span><br><span class="line"><span class="comment">* 来源：力扣（LeetCode）</span></span><br><span class="line"><span class="comment">* 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-
+        
+          <a class="article-more-a" href="/2020/05/09/dailyLearning/Leetcode/200.%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/#more">more >></a>
+        
       
 
       
@@ -950,246 +1058,6 @@
 
 
   
-    <article id="post-学习路径" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/06/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84/">学习路径（大纲）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/06/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84/" class="archive-article-date">
-  	<time datetime="2020-05-05T17:07:47.241Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本总结只是搬砖，原文地址<a href="https://mp.weixin.qq.com/s/GGG10XQLP2QhX_1EThlgkg" target="_blank" rel="noopener">在这里</a>。</p>
-<h2 id="语言（视频为主，书籍为辅）"><a href="#语言（视频为主，书籍为辅）" class="headerlink" title="语言（视频为主，书籍为辅）"></a>语言（视频为主，书籍为辅）</h2><ul>
-<li><p><del>c++ primer plus</del></p>
-<blockquote>
-<p>1-8章，c语言基础知识、指针、结构体。    跳过</p>
-</blockquote>
-</li>
-<li><p><del>c和指针</del></p>
-<blockquote>
-<p>指针 跳过</p>
-</blockquote>
-</li>
-<li><p>c++ primer（在读）</p>
-<blockquote>
-<p>c++工具书，遇到问题查，面试参考</p>
-</blockquote>
-</li>
-<li><p>STL源码解析（去看）</p>
-<blockquote>
-<p>==重点关注vector、map的实现==</p>
-</blockquote>
-</li>
-</ul>
-<p><img src="/assets/pics/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84_1.JPG" alt="c++学习路线-语言"></p>
-<h2 id="计算机基础"><a href="#计算机基础" class="headerlink" title="计算机基础"></a>计算机基础</h2><ul>
-<li><p>数据结构</p>
-<blockquote>
-<p>小甲鱼数据结构，基于《大话数据结构》，了解基础数据结构</p>
-<p>P.S. 已自学普林斯顿大学《Algorithm》，融合算法与数据结构，并将其关联起来</p>
-</blockquote>
-</li>
-<li><p>算法</p>
-<blockquote>
-<p>刷题，刷《剑指offer》</p>
-</blockquote>
-</li>
-<li><p>操作系统</p>
-<blockquote>
-<p>==书籍学习==，《深入理解计算机系统》6，7，9，10章，理解线程、进程、虚拟内存、锁</p>
-</blockquote>
-</li>
-<li><p>计算机网络</p>
-<blockquote>
-<p>==书籍学习==，TCP/UDP/HTTP</p>
-</blockquote>
-</li>
-<li><p>设计模式</p>
-<blockquote>
-<p>书籍学习，可以最后学习</p>
-</blockquote>
-</li>
-</ul>
-<p><img src="/assets/pics/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84_2.JPG" alt="c++学习路线-计算机基础知识"></p>
-<h2 id="项目基础知识"><a href="#项目基础知识" class="headerlink" title="项目基础知识"></a>项目基础知识</h2><ul>
-<li><p>Linux基本命令</p>
-</li>
-<li><p>Linux系统编程</p>
-<blockquote>
-<p>设计与系统的交互、内存访问，需要学习Linux系统API用法</p>
-</blockquote>
-</li>
-<li><p>网络编程</p>
-<blockquote>
-<p>Linux高性能编程</p>
-</blockquote>
-</li>
-<li><p>数据库</p>
-<blockquote>
-<p>MySQL必知必会，Redis设计与实现</p>
-</blockquote>
-</li>
-</ul>
-<p><img src="/assets/pics/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84_3.JPG" alt="c++学习路线-项目基础知识"></p>
-<h2 id="项目实践"><a href="#项目实践" class="headerlink" title="项目实践"></a>项目实践</h2><ul>
-<li>线程池</li>
-<li>HTTP请求与响应</li>
-<li>注册登录</li>
-<li>定时器</li>
-<li>数据库连接池</li>
-<li>同步/异步日志系统</li>
-<li>压力测试</li>
-</ul>
-<p><img src="/assets/pics/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84_4.JPG" alt="c++学习路线-项目"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">c++开发</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">summary</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/06/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/如何建立二叉树？" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/05/dailyLearning/Leetcode/%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9F/">如何建立二叉树？</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/05/dailyLearning/Leetcode/%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:52:23.481Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="如何建立二叉树？"><a href="#如何建立二叉树？" class="headerlink" title="如何建立二叉树？"></a>如何建立二叉树？</h1><p>为了在本地IDE上编写和测试有关二叉树的算法，首先要会构建二叉树。</p>
-        
-          <a class="article-more-a" href="/2020/05/05/dailyLearning/Leetcode/%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Binary Tree</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/05/dailyLearning/Leetcode/%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1341,6 +1209,22 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Union-find</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">0-1背包</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Knapsack Problem</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Dynamic Programming</a>
               </li>
             
             <div class="clearfix"></div>
