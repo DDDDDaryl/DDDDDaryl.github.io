@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>dailyLearning/Leetcode/198.打家劫舍 | Frank&#39;s cabin</title>
+  <title>198.打家劫舍 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="题目 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。 给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。 示例 1: 1234输入: [1,2,3,1]输出: 4解释: 偷窃 1 号房屋 (金额 &#x3D; 1)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dailyLearning&#x2F;Leetcode&#x2F;198.打家劫舍">
+<meta property="og:title" content="198.打家劫舍">
 <meta property="og:url" content="http://yoursite.com/2020/05/13/dailyLearning/Leetcode/198.%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
 <meta property="og:description" content="题目 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。 给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。 示例 1: 1234输入: [1,2,3,1]输出: 4解释: 偷窃 1 号房屋 (金额 &#x3D; 1)">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-13T13:53:44.836Z">
-<meta property="article:modified_time" content="2020-05-13T15:09:42.062Z">
+<meta property="article:modified_time" content="2020-05-14T02:58:15.569Z">
 <meta property="article:author" content="Frank Young">
 <meta property="article:tag" content="Leetcode">
 <meta property="article:tag" content="动态规划">
@@ -147,7 +147,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      dailyLearning/Leetcode/198.打家劫舍
+      198.打家劫舍
     </h1>
   
 
@@ -185,6 +185,8 @@
 <li>空间复杂度：$O(N)$，使用了长度正比于$N$的数组。</li>
 </ul>
 <h2 id="动态规划的空间优化"><a href="#动态规划的空间优化" class="headerlink" title="动态规划的空间优化"></a>动态规划的空间优化</h2><p>与斐波那契数列、小青蛙跳台阶问题一样，我们观察到计算窗口的大小仍然为3，因此可以将空间复杂度优化为$O(1)$。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">rob</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums.<span class="built_in">size</span>() == <span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums.<span class="built_in">size</span>() == <span class="number">2</span>) <span class="keyword">return</span> <span class="built_in">max</span>(nums[<span class="number">0</span>], nums[<span class="number">1</span>]);</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(<span class="number">3</span>)</span></span>;</span><br><span class="line">        dp[<span class="number">2</span>] = nums.back();</span><br><span class="line">        dp[<span class="number">1</span>] = <span class="built_in">max</span>(nums[nums.<span class="built_in">size</span>()<span class="number">-1</span>], nums[nums.<span class="built_in">size</span>()<span class="number">-2</span>]);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=nums.<span class="built_in">size</span>()<span class="number">-3</span>; i&gt;=<span class="number">0</span>; --i)&#123;</span><br><span class="line">            dp[<span class="number">0</span>] = <span class="built_in">max</span>(nums[i]+dp[<span class="number">2</span>], dp[<span class="number">1</span>]);</span><br><span class="line">            dp[<span class="number">2</span>] = dp[<span class="number">1</span>];</span><br><span class="line">            dp[<span class="number">1</span>] = dp[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 
       
 
@@ -271,6 +273,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2020/05/14/dailyLearning/Leetcode/5.%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%97%E4%B8%B2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          5.最长回文字串
+        
+      </div>
+    </a>
   
   
     <a href="/2020/05/13/dailyLearning/Leetcode/70.%E7%88%AC%E6%A5%BC%E6%A2%AF/" id="article-nav-older" class="article-nav-link-wrap">
@@ -495,6 +506,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Deeplearning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ssh</a>
               </li>
             
             <div class="clearfix"></div>

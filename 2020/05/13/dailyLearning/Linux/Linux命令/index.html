@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>项目中使用过的Linux命令记录 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="路径&#x2F;文件操作移动文件 移动某个文件到指定路径： 1mv path&#x2F;to&#x2F;file destDIr  移动某路径下的所有文件（不包括隐藏文件）到指定路径： 1mv path&#x2F;* destDir  如果要移动包括隐藏文件在内的所有文件到指定路径，要使用正则表达式： 1mv path&#x2F;.[^.]* destDir  含义为匹配以.开头，第二个字符不是.的所有文件，避免匹配到上级目录..&#x2F;。   删除文">
+  <meta name="description" content="路径&#x2F;文件操作移动文件 移动某个文件到指定路径： 1mv path&#x2F;to&#x2F;file destDIr  移动某路径下的所有文件（不包括隐藏文件）到指定路径： 1mv path&#x2F;* destDir  如果要移动包括隐藏文件在内的所有文件到指定路径，要使用正则表达式： 1mv path&#x2F;.[^.]* destDir  含义为匹配以.开头，第二个字符不是.的所有文件，避免匹配到上级目录..&#x2F;。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="项目中使用过的Linux命令记录">
 <meta property="og:url" content="http://yoursite.com/2020/05/13/dailyLearning/Linux/Linux%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
-<meta property="og:description" content="路径&#x2F;文件操作移动文件 移动某个文件到指定路径： 1mv path&#x2F;to&#x2F;file destDIr  移动某路径下的所有文件（不包括隐藏文件）到指定路径： 1mv path&#x2F;* destDir  如果要移动包括隐藏文件在内的所有文件到指定路径，要使用正则表达式： 1mv path&#x2F;.[^.]* destDir  含义为匹配以.开头，第二个字符不是.的所有文件，避免匹配到上级目录..&#x2F;。   删除文">
+<meta property="og:description" content="路径&#x2F;文件操作移动文件 移动某个文件到指定路径： 1mv path&#x2F;to&#x2F;file destDIr  移动某路径下的所有文件（不包括隐藏文件）到指定路径： 1mv path&#x2F;* destDir  如果要移动包括隐藏文件在内的所有文件到指定路径，要使用正则表达式： 1mv path&#x2F;.[^.]* destDir  含义为匹配以.开头，第二个字符不是.的所有文件，避免匹配到上级目录..&#x2F;。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-13T11:58:32.126Z">
-<meta property="article:modified_time" content="2020-05-13T12:12:29.408Z">
+<meta property="article:modified_time" content="2020-05-14T10:58:22.179Z">
 <meta property="article:author" content="Frank Young">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Shell">
@@ -171,6 +171,8 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv path/.[^.]* destDir</span><br></pre></td></tr></table></figure>
 
 <p>含义为匹配以<code>.</code>开头，第二个字符不是<code>.</code>的所有文件，避免匹配到上级目录<code>../</code>。</p>
+<a id="more"></a>
+
 </li>
 </ul>
 <h2 id="删除文件-文件夹"><a href="#删除文件-文件夹" class="headerlink" title="删除文件/文件夹"></a>删除文件/文件夹</h2><ul>
@@ -186,7 +188,30 @@
 <li><p>解压<code>zip</code>文件：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -d destDir file.zip</span><br></pre></td></tr></table></figure>
 
+</li>
+</ul>
+<h1 id="磁盘管理"><a href="#磁盘管理" class="headerlink" title="磁盘管理"></a>磁盘管理</h1><h2 id="磁盘状态"><a href="#磁盘状态" class="headerlink" title="磁盘状态"></a>磁盘状态</h2><ul>
+<li><h2 id="查看磁盘空间"><a href="#查看磁盘空间" class="headerlink" title="查看磁盘空间"></a>查看磁盘空间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df 以磁盘分区为单位查看文件系统，可以获取硬盘被占用了多少空间，目前还剩下多少空间等信息。例如，我们使用df -h命令来查看磁盘信息，-h选项为根据大小适当显示。</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>相关命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">df -hl：查看磁盘剩余空间</span><br><span class="line">df -h：查看每个根路径的分区大小</span><br><span class="line">du -sh [目录名]：返回该目录的大小</span><br><span class="line">du -sm [文件夹]：返回该文件夹总M数</span><br><span class="line">du -h [目录名]：查看指定文件夹下的所有文件大小（包含子文件夹）</span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du 英文原义为 disk usage，含义为显示磁盘空间的使用情况，用于查看当前目录的总大小。</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">du 命令用于查看当前目录的总大小：</span><br><span class="line"></span><br><span class="line">-s：对每个Names参数只给出占用的数据块总数。</span><br><span class="line">-a：递归地显示指定目录中各文件及子目录中各文件占用的数据块数。若既不指定-s，也不指定-a，则只显示Names中的每一个目录及其中的各子目录所占的磁盘块数。</span><br><span class="line">-b：以字节为单位列出磁盘空间使用情况（系统默认以k字节为单位）。</span><br><span class="line">-k：以1024字节为单位列出磁盘空间使用情况。</span><br><span class="line">-c：最后再加上一个总计（系统默认设置）。</span><br><span class="line">-l：计算所有的文件大小，对硬链接文件，则计算多次。</span><br><span class="line">-x：跳过在不同文件系统上的目录不予统计。</span><br><span class="line">-h：以K，M，G为单位，提高信息的可读性。</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><ul>
+<li><p>查询端口占用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -i:6006</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结束进程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 PID</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -315,7 +340,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#路径-文件操作"><span class="toc-number">1.</span> <span class="toc-text">路径&#x2F;文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#移动文件"><span class="toc-number">1.1.</span> <span class="toc-text">移动文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除文件-文件夹"><span class="toc-number">1.2.</span> <span class="toc-text">删除文件&#x2F;文件夹</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解压文件"><span class="toc-number">1.3.</span> <span class="toc-text">解压文件</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#路径-文件操作"><span class="toc-number">1.</span> <span class="toc-text">路径&#x2F;文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#移动文件"><span class="toc-number">1.1.</span> <span class="toc-text">移动文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除文件-文件夹"><span class="toc-number">1.2.</span> <span class="toc-text">删除文件&#x2F;文件夹</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解压文件"><span class="toc-number">1.3.</span> <span class="toc-text">解压文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#磁盘管理"><span class="toc-number">2.</span> <span class="toc-text">磁盘管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘状态"><span class="toc-number">2.1.</span> <span class="toc-text">磁盘状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看磁盘空间"><span class="toc-number">2.2.</span> <span class="toc-text">查看磁盘空间</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进程"><span class="toc-number">3.</span> <span class="toc-text">进程</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -509,6 +534,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Deeplearning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ssh</a>
               </li>
             
             <div class="clearfix"></div>
