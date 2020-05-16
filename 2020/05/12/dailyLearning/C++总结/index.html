@@ -16,7 +16,7 @@
 <meta property="og:description" content="本篇博客用来总结自己在学习&#x2F;复习C++的过程中遇到的新的&#x2F;没掌握的细节。章节划分就参照《c++ Primer》一书的章节。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-12T01:28:08.047Z">
-<meta property="article:modified_time" content="2020-05-15T11:50:43.194Z">
+<meta property="article:modified_time" content="2020-05-16T03:16:29.627Z">
 <meta property="article:author" content="Frank Young">
 <meta property="article:tag" content="summary">
 <meta property="article:tag" content="c++">
@@ -194,6 +194,19 @@
 <h3 id="使用默认构造函数"><a href="#使用默认构造函数" class="headerlink" title="使用默认构造函数"></a>使用默认构造函数</h3><p>如果想要使用类的默认构造函数实例化一个类：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">Foo <span class="title">F</span><span class="params">()</span></span>; <span class="comment">// 错误，该声明语句实际上定义了一个返回类型为Foo的函数F，不接受任何参数</span></span><br><span class="line">    Foo F2; <span class="comment">// 正确，F2是个默认初始化的Foo对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h1 id="第十三章"><a href="#第十三章" class="headerlink" title="第十三章"></a>第十三章</h1><h2 id="13-6-1-右值引用"><a href="#13-6-1-右值引用" class="headerlink" title="13.6.1 右值引用"></a>13.6.1 右值引用</h2><p>右值引用的引入是为了支持移动操作，所谓右值引用是指<strong>必须绑定到右值的引用</strong>，即：能且只能绑定到一个即将要销毁的对象上，可以实现自由地将一个右值引用的资源“移动”到另一个对象中。</p>
+<p>右值引用的特性与常规引用的特性完全相反：可以将一个右值引用绑定到</p>
+<ol>
+<li>要求转换的表达式</li>
+<li>字面常量</li>
+<li>返回右值的表达式</li>
+</ol>
+<p>上，但是不能把一个右值引用绑定到左值上：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">int</span> &amp;r = i; <span class="comment">// 正确</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;rr = i; <span class="comment">// 错误，i是左值</span></span><br><span class="line"><span class="keyword">int</span> &amp;r2 = i * <span class="number">42</span>; <span class="comment">// 错误，i*42返回右值</span></span><br><span class="line"><span class="keyword">int</span> &amp;&amp;rr2 = i * <span class="number">42</span>; <span class="comment">// 正确</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;r3 = i * <span class="number">42</span>; <span class="comment">// 正确，可以将const引用绑定到右值，这样可以保证右值不被修改</span></span><br></pre></td></tr></table></figure>
+
+<p>返回左值引用的函数：赋值、下标、解引用、前置递增/递减 运算符</p>
+<p>返回非引用类型的函数：算数、关系、位、后置递增/递减 运算符</p>
+<p><strong>Note：</strong>由于变量是一个只有运算对象而没有运算符的表达式，而变量表达式都是左值，因此我们<strong>不能将一个右值引用绑定到一个右值引用类型的表达式上</strong>。</p>
 
       
 
@@ -319,7 +332,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#第七章、类"><span class="toc-number">1.</span> <span class="toc-text">第七章、类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-5-3-默认构造函数的作用"><span class="toc-number">1.1.</span> <span class="toc-text">7.5.3 默认构造函数的作用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用默认构造函数"><span class="toc-number">1.1.1.</span> <span class="toc-text">使用默认构造函数</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#第七章、类"><span class="toc-number">1.</span> <span class="toc-text">第七章、类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-5-3-默认构造函数的作用"><span class="toc-number">1.1.</span> <span class="toc-text">7.5.3 默认构造函数的作用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用默认构造函数"><span class="toc-number">1.1.1.</span> <span class="toc-text">使用默认构造函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第十三章"><span class="toc-number">2.</span> <span class="toc-text">第十三章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#13-6-1-右值引用"><span class="toc-number">2.1.</span> <span class="toc-text">13.6.1 右值引用</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -533,6 +546,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">c++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">回溯</a>
               </li>
             
             <div class="clearfix"></div>
