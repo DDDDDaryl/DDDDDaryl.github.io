@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/assets/pics/image-20200518113518440.png">
 <meta property="article:published_time" content="2020-05-18T01:45:03.930Z">
-<meta property="article:modified_time" content="2020-05-18T05:03:54.304Z">
+<meta property="article:modified_time" content="2020-05-19T03:04:23.442Z">
 <meta property="article:author" content="Frank Young">
 <meta property="article:tag" content="计算机基础">
 <meta name="twitter:card" content="summary">
@@ -208,6 +208,15 @@
 <li>步长为1的引用模式是好的，因为存储器层次结构中，所有层次上的缓存都是将数据存储为连续的块（空间局部性）</li>
 </ul>
 <p>对于一个二维数组求和的程序：在数组大小大于高速缓存大小更大的时候，按行访问数组比按列访问数组快很多，因为按列访问数组时，每一次访问都会发生读不命中。</p>
+<h2 id="综合：高速缓存对程序性能的影响"><a href="#综合：高速缓存对程序性能的影响" class="headerlink" title="综合：高速缓存对程序性能的影响"></a>综合：高速缓存对程序性能的影响</h2><h3 id="重新排列循环以提高空间局部性"><a href="#重新排列循环以提高空间局部性" class="headerlink" title="重新排列循环以提高空间局部性"></a>重新排列循环以提高空间局部性</h3><p>在计算矩阵乘法时，考虑$C=A*B$：<br>$$<br>\begin{equation}\left[\begin{array}{c}<br>c_{11} c_{12} \<br>c_{21} c_{22}<br>\end{array}\right]=\left[\begin{array}{l}<br>a_{11} a_{12} \<br>a_{21} a_{22}<br>\end{array}\right]\left[\begin{array}{l}<br>b_{11} b_{12} \<br>b_{21} b_{22}<br>\end{array}\right]\end{equation}<br>$$<br>那么性能最好的三层循环：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; n; k++)</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        r = A[i][k];</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">            C[i][j] += r*B[k][j];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>它的不命中率最低。</p>
+<h3 id="在程序中利用局部性"><a href="#在程序中利用局部性" class="headerlink" title="在程序中利用局部性"></a>在程序中利用局部性</h3><ul>
+<li>将注意力集中在内循环，大部分计算和内存访问都发生在<strong>内循环</strong>；</li>
+<li>按照数据对象存储在内存中的顺序、以步长为1来读数据，使得程序<strong>空间局部性最大</strong>；</li>
+<li>一旦从存储器读入了一个数据对象，就尽可能使用它，<strong>最大化时间局部性</strong>；</li>
+</ul>
 
       
 
@@ -340,7 +349,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#存储器层次结构"><span class="toc-number">1.</span> <span class="toc-text">存储器层次结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#高速缓存存储器"><span class="toc-number">1.1.</span> <span class="toc-text">高速缓存存储器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通用高速缓存存储器组织结构"><span class="toc-number">1.1.1.</span> <span class="toc-text">通用高速缓存存储器组织结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#直接映射高速缓存"><span class="toc-number">1.1.2.</span> <span class="toc-text">直接映射高速缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组相联高速缓存"><span class="toc-number">1.1.3.</span> <span class="toc-text">组相联高速缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全相联高速缓存"><span class="toc-number">1.1.4.</span> <span class="toc-text">全相联高速缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有关写的问题"><span class="toc-number">1.1.5.</span> <span class="toc-text">有关写的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一个真实的高速缓存层次结构的解剖"><span class="toc-number">1.1.6.</span> <span class="toc-text">一个真实的高速缓存层次结构的解剖</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写高速缓存友好的代码"><span class="toc-number">1.2.</span> <span class="toc-text">编写高速缓存友好的代码</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#存储器层次结构"><span class="toc-number">1.</span> <span class="toc-text">存储器层次结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#高速缓存存储器"><span class="toc-number">1.1.</span> <span class="toc-text">高速缓存存储器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通用高速缓存存储器组织结构"><span class="toc-number">1.1.1.</span> <span class="toc-text">通用高速缓存存储器组织结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#直接映射高速缓存"><span class="toc-number">1.1.2.</span> <span class="toc-text">直接映射高速缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组相联高速缓存"><span class="toc-number">1.1.3.</span> <span class="toc-text">组相联高速缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全相联高速缓存"><span class="toc-number">1.1.4.</span> <span class="toc-text">全相联高速缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有关写的问题"><span class="toc-number">1.1.5.</span> <span class="toc-text">有关写的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一个真实的高速缓存层次结构的解剖"><span class="toc-number">1.1.6.</span> <span class="toc-text">一个真实的高速缓存层次结构的解剖</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写高速缓存友好的代码"><span class="toc-number">1.2.</span> <span class="toc-text">编写高速缓存友好的代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#综合：高速缓存对程序性能的影响"><span class="toc-number">1.3.</span> <span class="toc-text">综合：高速缓存对程序性能的影响</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#重新排列循环以提高空间局部性"><span class="toc-number">1.3.1.</span> <span class="toc-text">重新排列循环以提高空间局部性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在程序中利用局部性"><span class="toc-number">1.3.2.</span> <span class="toc-text">在程序中利用局部性</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -473,6 +482,14 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">0-1背包</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Anaconda</a>
               </li>
              
@@ -501,10 +518,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">EfficientNet</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">DeepLearning</a>
               </li>
              
@@ -514,6 +527,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">计算机基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">位运算</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">EfficientDet</a>
               </li>
             
             <div class="clearfix"></div>
