@@ -136,6 +136,139 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dailyLearning/剑指Offer/面试题03. 数组中重复的数字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">03数组中重复的数字</a>
+    </h1>
+  
+
+        
+        <a href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/" class="archive-article-date">
+  	<time datetime="2020-05-22T10:37:20.255Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>找出数组中重复的数字。</p>
+<p>在一个长度为 n 的数组 <code>nums</code> 里的所有数字都在<code>0～n-1</code> 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">[2, 3, 1, 0, 2, 5, 3]</span><br><span class="line">输出：2 或 3 </span><br></pre></td></tr></table></figure>
+
+
+<p>限制：</p>
+<p><code>2 &lt;= n &lt;= 100000</code></p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<!--readmore-->
+
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="审题"><a href="#审题" class="headerlink" title="审题"></a>审题</h2><p>题目是找出任意一个重复数字，意味着我们找到就可以返回了。</p>
+<h2 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h2><p>很明显可以利用<code>unordered set</code>来解决。</p>
+<p>这里复习一下<code>unordered_set</code>的插入操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; lookup;</span><br><span class="line"><span class="keyword">auto</span> res = lookup.insert(n); <span class="comment">// 这里res是pair类型，pair.first是一个迭代器，pair.second是一个bool,返回false说明已经存在</span></span><br></pre></td></tr></table></figure>
+
+<p>代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; lookup;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">int</span>&amp; n:nums) &#123;</span><br><span class="line">            <span class="keyword">if</span>(lookup.insert(n).second == <span class="literal">false</span>) <span class="keyword">return</span> n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度$O(N)$</li>
+<li>空间复杂度$O(N)$</li>
+</ul>
+<p>但是测试用例执行用时112ms，所以肯定需要优化。</p>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>下面用 vector 代替散列表试试看。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">lookup</span><span class="params">(nums.<span class="built_in">size</span>(), <span class="number">-1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">int</span>&amp; n:nums) &#123;</span><br><span class="line">            <span class="keyword">if</span>(lookup[n] != <span class="number">-1</span>) <span class="keyword">return</span> n;</span><br><span class="line">            lookup[n] = n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>时间有提升，但变化不大。</p>
+<h2 id="变式"><a href="#变式" class="headerlink" title="变式"></a>变式</h2><p>如果要求空间复杂度为$O(1)$呢？</p>
+<p>那么我们就必须在原地进行操作。</p>
+<p>由于给定了值域和个数，如果没有重复，那么从 0 到 n-1 应该是一个萝卜一个坑。</p>
+<p>一种简单的思路是原地排序，然后扫描数组，返回第一个错位的数，但是用快排都已经需要$O(NlogN)$的时间复杂度了。</p>
+<p>仔细思考发现我们并不需要对整个数组排序，只要找到第一个“位置被占”的数字就可以了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">    <span class="keyword">while</span>(nums[i] != i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i] == nums[nums[i]]) <span class="keyword">return</span> nums[i];</span><br><span class="line">        swap(nums[i], nums[nums[i]]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">while</span>(nums[i] != i) &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] == nums[nums[i]]) <span class="keyword">return</span> nums[i];</span><br><span class="line">            swap(nums[i], nums[nums[i]]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度，最坏情况为没有重复数字，此时把所有数字归位需要$O(N)$</li>
+</ul>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><p>如果需要在不破坏数组的基础上找到重复数字呢？</p>
+<p>对于数组$[0,1,…,n-1]$，任意取一个数$m$，如果整个数组无重复数字，那么小于$m$的数一定有$m$个，否则一定有重复数字，接下来就是二分查找。时间复杂度$O(NlogN)$，空间复杂度$O(1)$。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">hash table</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dailyLearning/计算机基础/操作系统知识点整理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -288,7 +421,25 @@
 </ul>
 <p>异常发生时，控制传递到<strong>异常处理程序</strong>，处理器将模式从 用户模式 变为 内核模式。异常处理程序运行在内核模式中，当它返回到应用程序代码时，处理器把模式从 内核模式 变为 用户模式。</p>
 <p>/proc 文件系统将许多内核数据结构的内容输出为一个<strong>用户程序可读的文本文件的层次结构</strong>。</p>
-<h4 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h4><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1>
+<h4 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h4><p> 操作系统内核通过<strong>上下文切换</strong>来实现多任务。</p>
+<p><strong>上下文切换</strong>是一种较高层形式的异常控制流。</p>
+<p>内存为每个进程维持一个<strong>上下文</strong>，<strong>上下文</strong>就是内核重新启动一个被强占的进程所需的状态，这些状态通常包括：通用目的寄存器、浮点寄存器、程序计数器、用户栈、状态寄存器、内核栈和各种内核数据结构。</p>
+<p>在进程执行的某些时刻，内核可以决定<strong>抢占该进程</strong>，并重新开始一个之前被强占的进程。这种决策叫做<strong>调度  (scheduling)</strong>，由内核中称为<strong>调度器</strong>的代码处理。</p>
+<p>当内核选择一个新的进程运行时，我们说内核<strong>调度</strong>了这个进程。</p>
+<p>在内核调度了一个新的进程运行后，它抢占当前进程，并使用<strong>上下文切换</strong>的机制来转换到另一个进程。</p>
+<p>上下文切换：</p>
+<ul>
+<li>保存当前进程上下文；</li>
+<li>恢复某个先前被强占的进程的上下文；</li>
+<li>将控制传递给这个新恢复的进程。</li>
+</ul>
+<p>上下文切换可能发生在：</p>
+<ul>
+<li>内核代表用户执行系统调用时，因为等待某个事件而发生阻塞。比如 read 系统调用需要访问磁盘，内核可以选择切换上下文，切换到另一个进程，而不是等待数据从磁盘到达内存；</li>
+<li>内核代表用户执行的系统调用本身请求了上下文切换：sleep 系统调用显式地请求<strong>让调用进程休眠</strong>；</li>
+<li>中断可能引发上下文切换。</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1>
       
 
       
@@ -636,6 +787,10 @@
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">gdb</a>
         		</li>
@@ -1177,178 +1332,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Leetcode/309-%E6%9C%80%E4%BD%B3%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E6%97%B6%E6%9C%BA%E5%90%AB%E5%86%B7%E5%86%BB%E6%9C%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/计算机基础/深入理解计算机系统笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/">深入理解计算机系统笔记</a>
-    </h1>
-  
-
-        
-        <a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2020-05-18T01:45:03.930Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h1 id="存储器层次结构"><a href="#存储器层次结构" class="headerlink" title="存储器层次结构"></a>存储器层次结构</h1><ol>
-<li>存储器层次结构</li>
-</ol>
-<h2 id="高速缓存存储器"><a href="#高速缓存存储器" class="headerlink" title="高速缓存存储器"></a>高速缓存存储器</h2><h3 id="通用高速缓存存储器组织结构"><a href="#通用高速缓存存储器组织结构" class="headerlink" title="通用高速缓存存储器组织结构"></a>通用高速缓存存储器组织结构</h3><p>定义符号：考虑一个计算机系统，每个存储器地址m位，形成$M=2^m$个地址，其高速缓存被组织成一个有$S=2^s$个高速缓存组 (cache set) 的数组，每个组包含$E$个高速缓存行 (cache line)，每个行由一个$B=2^b$字节的数据块 (block) 组成，一个有效位 (valid bit) 指明这个行是否包含有意义的信息，$t=m-(b+s)$个标记位 (tag bit)  (当前块的内存地址的位的一个子集)，标记位唯一标识存储在高速缓存行中的块。</p>
-<p>数据以块为大小在层与层之间传输。</p>
-<p>理解：对一个地址 (32 bits or 64 bits)，将其划分为高位、中间位、低位，用<strong>中间位</strong>进行上一级缓存中某个地址的块的映射，这样可以保证连续内存映射到不同的高速缓存组；用高位 (标记位) 对高速缓存行进行唯一标识；用低位表示高速缓存行中数据块每个字节的偏移。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m(地址长度) &#x3D; t(高位) + s(中间位) + b(低位)</span><br></pre></td></tr></table></figure>
-
-<h3 id="直接映射高速缓存"><a href="#直接映射高速缓存" class="headerlink" title="直接映射高速缓存"></a>直接映射高速缓存</h3><p>每个 cache set 只有一个 cache line。</p>
-<h3 id="组相联高速缓存"><a href="#组相联高速缓存" class="headerlink" title="组相联高速缓存"></a>组相联高速缓存</h3><p>每个 cache set 有$1&lt;E&lt;C/B$个 cache line，$C$为缓冲区大小(字节)，$B$为块大小(字节)。</p>
-<h3 id="全相联高速缓存"><a href="#全相联高速缓存" class="headerlink" title="全相联高速缓存"></a>全相联高速缓存</h3><p>由一个包含所有高速缓存行的组组成，仅仅将地址划分为标记位 (高位) 和块偏移 (低位)。由于高速缓存电路需要并行搜索许多标记位，构造又大又快的相联高速缓存很困难而且价格昂贵，知识和做小的高速缓存。</p>
-<h3 id="有关写的问题"><a href="#有关写的问题" class="headerlink" title="有关写的问题"></a>有关写的问题</h3><ol>
-<li>如何写一个已经缓存了的字$w$（写命中）？<ul>
-<li>直写 (write-through)，立即将$w$的高速缓存块写回到紧接的低一层中。<strong>缺点为</strong>每次写都会引起总线流量；</li>
-<li>写回 (write-back)，只有当替换算法要驱逐这个更新过的块时，才把它写道紧接着的第一层中。由于局部性，<strong>可以显著减少总线流量</strong>，<strong>缺点是</strong>增加了复杂性，需要维护一个表明该高速缓存块是否被额外修改过的修改位 （dirty bit）；</li>
-</ul>
-</li>
-<li>如何处理<strong>写不命中</strong>？<ul>
-<li>写分配 (write-allocate)，加载相应的第一层的块到高速缓存中，然后更新这个高速缓存块，<strong>缺点为</strong>每次写不命中都会导致一个块从低一层到高速缓存；</li>
-<li>非写分配 (not-write-allocate)，避开高速缓存，直接把这个字写道低一层中；</li>
-</ul>
-</li>
-<li>采用使用<strong>写回和写分配</strong>的高速缓存模型，这两种处理方式都利用局部性，因此我们可以在高层次开发程序，展示良好的空间和时间局部性。</li>
-</ol>
-<h3 id="一个真实的高速缓存层次结构的解剖"><a href="#一个真实的高速缓存层次结构的解剖" class="headerlink" title="一个真实的高速缓存层次结构的解剖"></a>一个真实的高速缓存层次结构的解剖</h3><p>一个高速缓存存储器既存储<strong>指令</strong>又存储<strong>程序数据</strong>。</p>
-<ul>
-<li>只存储指令的高速缓存称为$i-cache$</li>
-<li>只存储数据的高速缓存称为$d-cache$</li>
-<li>既保存数据有保存指令的高速缓存称为<strong>统一的高速缓存</strong></li>
-</ul>
-<p>下图为 Intel Core i7 处理器的高速缓存层次结构。</p>
-<img src="/assets/pics/image-20200518113518440.png" alt="image-20200518113518440" style="zoom:50%;" />
-
-<h2 id="编写高速缓存友好的代码"><a href="#编写高速缓存友好的代码" class="headerlink" title="编写高速缓存友好的代码"></a>编写高速缓存友好的代码</h2><p>局部性较好的程序更容易有较低的不命中率，因此也运行得更快。</p>
-<ol>
-<li>把注意力集中在<strong>核心函数里的循环</strong>上，忽略其他部分；</li>
-<li>尽量减小每个循环内部的缓存不命中数量；</li>
-</ol>
-<p>结论：</p>
-<ul>
-<li>对局部变量的反复引用是好的，因为编译器能将他们存储在寄存器文件上（时间局部性）</li>
-<li>步长为1的引用模式是好的，因为存储器层次结构中，所有层次上的缓存都是将数据存储为连续的块（空间局部性）</li>
-</ul>
-<p>对于一个二维数组求和的程序：在数组大小大于高速缓存大小更大的时候，按行访问数组比按列访问数组快很多，因为按列访问数组时，每一次访问都会发生读不命中。</p>
-<h2 id="综合：高速缓存对程序性能的影响"><a href="#综合：高速缓存对程序性能的影响" class="headerlink" title="综合：高速缓存对程序性能的影响"></a>综合：高速缓存对程序性能的影响</h2><h3 id="重新排列循环以提高空间局部性"><a href="#重新排列循环以提高空间局部性" class="headerlink" title="重新排列循环以提高空间局部性"></a>重新排列循环以提高空间局部性</h3><p>在计算矩阵乘法时，考虑$C=A*B$：<br>$$<br>\begin{equation}\left[\begin{array}{c}<br>c_{11} c_{12} \<br>c_{21} c_{22}<br>\end{array}\right]=\left[\begin{array}{l}<br>a_{11} a_{12} \<br>a_{21} a_{22}<br>\end{array}\right]\left[\begin{array}{l}<br>b_{11} b_{12} \<br>b_{21} b_{22}<br>\end{array}\right]\end{equation}<br>$$<br>那么性能最好的三层循环：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; n; k++)</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        r = A[i][k];</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">            C[i][j] += r*B[k][j];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>它的不命中率最低。</p>
-<h3 id="在程序中利用局部性"><a href="#在程序中利用局部性" class="headerlink" title="在程序中利用局部性"></a>在程序中利用局部性</h3><ul>
-<li>将注意力集中在内循环，大部分计算和内存访问都发生在<strong>内循环</strong>；</li>
-<li>按照数据对象存储在内存中的顺序、以步长为1来读数据，使得程序<strong>空间局部性最大</strong>；</li>
-<li>一旦从存储器读入了一个数据对象，就尽可能使用它，<strong>最大化时间局部性</strong>；</li>
-</ul>
-<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p>  链接是将各种代码和数据片段收集并组合为一个单一文件的过程，可以执行于：</p>
-<ul>
-<li>编译时 (compile time)</li>
-<li>加载时 (load time)</li>
-<li>运行时 (run time)</li>
-</ul>
-<h2 id="编译器驱动程序"><a href="#编译器驱动程序" class="headerlink" title="编译器驱动程序"></a>编译器驱动程序</h2><p><strong>编译器驱动程序</strong>：调用</p>
-<ul>
-<li>预处理器</li>
-<li>编译器</li>
-<li>汇编器</li>
-<li>链接器</li>
-</ul>
-<p>Linux 运行可执行文件时，调用一个叫做<strong>加载器</strong>的函数，将可执行文件中的代码和数据复制到内存，然后将控制转移到这个程序的开头。</p>
-<h2 id="静态链接"><a href="#静态链接" class="headerlink" title="静态链接"></a>静态链接</h2><p><code>Linux LD</code>是一个静态链接器 (static linker)，以一组可重定位目标文件和命令行参数为输入，生成一个<strong>完全链接的、可以加载和运行的可执行目标文件</strong>作为输出。</p>
-<p>可重定位目标文件由不同的<strong>代码</strong>和<strong>数据节 (section)</strong>组成。</p>
-<p>链接器的任务：</p>
-<ul>
-<li>符号解析 (symbol resolution)，唯一关联每个<strong>符号引用</strong>和<strong>符号定义</strong>；</li>
-<li>重定位 (relocation)，把每个符号定义与一个<strong>内存位置</strong>关联起来，从而<strong>重定义</strong>这些节，然后修改所有对这些符号的<strong>引用</strong>，使得他们指向这个内存位置。链接器使用编译器产生的<strong>重定位条目 (relocation entry)</strong>的详细指令，不加甄别地执行重定位。</li>
-</ul>
-<h2 id="目标文件"><a href="#目标文件" class="headerlink" title="目标文件"></a>目标文件</h2><p>目标文件有三种形式：</p>
-<ul>
-<li>可重定位目标文件，包含二进制代码和数据，其形式可以在编译时与其他可重定位目标文件合并起来，创建一个可执行目标文件；</li>
-<li>可执行目标文件，包含二进制代码和数据，其形式可以直接复制到内存并运行；</li>
-<li>共享目标文件，共享库，包含静态库和动态库；</li>
-</ul>
-<p>编译器和汇编器生成可重定位目标文件、共享目标文件；链接器生成可执行目标文件。</p>
-<p>目标文件是按照特定的目标文件格式来组织的：</p>
-<ul>
-<li>Windows使用 Portable Executable, PE 格式；</li>
-<li>Mac OS-X 使用 Mach-O 格式；</li>
-<li>现代<code>x86-64 Linux</code>和<code>Unix</code>系统使用 Executable and Linkable Format, ELF 格式；</li>
-</ul>
-<h2 id="可重定位目标文件"><a href="#可重定位目标文件" class="headerlink" title="可重定位目标文件"></a>可重定位目标文件</h2>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/">展开全文 >></a>
         </p>
       
 
