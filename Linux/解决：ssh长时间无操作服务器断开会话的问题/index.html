@@ -11,13 +11,14 @@
   <meta name="description" content="修改服务器端参数修改服务器端的ssh设置：找到 12$ cd &#x2F;etc&#x2F;ssh$ vim sshd_config  添加如下设置： 1ClientAliveInterval  60  该设置意为服务器会每60秒向client发送一次保持连接的信号。如果还要定时断开连接： 1ClientAliveCountMax  60  修改客户端参数与修改服务器参数类似，只不过需要修改的文件为ssh_confi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决：ssh长时间无操作服务器断开会话的问题">
-<meta property="og:url" content="http://yoursite.com/uncategorized/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:url" content="http://yoursite.com/Linux/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
 <meta property="og:description" content="修改服务器端参数修改服务器端的ssh设置：找到 12$ cd &#x2F;etc&#x2F;ssh$ vim sshd_config  添加如下设置： 1ClientAliveInterval  60  该设置意为服务器会每60秒向client发送一次保持连接的信号。如果还要定时断开连接： 1ClientAliveCountMax  60  修改客户端参数与修改服务器参数类似，只不过需要修改的文件为ssh_confi">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-14T11:34:19.186Z">
-<meta property="article:modified_time" content="2020-05-14T11:42:10.644Z">
+<meta property="article:modified_time" content="2020-05-22T14:48:55.163Z">
 <meta property="article:author" content="Frank Young">
+<meta property="article:tag" content="Linux">
 <meta property="article:tag" content="ssh">
 <meta name="twitter:card" content="summary">
   
@@ -151,7 +152,7 @@
   
 
         
-        <a href="/uncategorized/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/" class="archive-article-date">
+        <a href="/Linux/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/" class="archive-article-date">
   	<time datetime="2020-05-14T11:34:19.186Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-14</time>
 </a>
         
@@ -187,6 +188,10 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ssh</a>
         		</li>
       		
@@ -194,6 +199,17 @@
 	</div>
 
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -243,7 +259,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/uncategorized/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/Linux/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -267,7 +283,7 @@
     </a>
   
   
-    <a href="/uncategorized/%E5%A6%82%E4%BD%95%E5%B0%86voc%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BD%AC%E5%8C%96%E4%B8%BAcoco%E6%A0%BC%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/DeepLearning/%E5%A6%82%E4%BD%95%E5%B0%86voc%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BD%AC%E5%8C%96%E4%B8%BAcoco%E6%A0%BC%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">如何将VOC数据集转化为COCO格式</div>
       <i class="icon-circle-right"></i>
     </a>
@@ -532,6 +548,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
             
             <div class="clearfix"></div>
