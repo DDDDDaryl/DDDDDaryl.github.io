@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Frank&#39;s cabin</title>
+  <title>操作系统知识点整理 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Frank&#39;s cabin">
-<meta property="og:url" content="http://yoursite.com/page/4/index.html">
+  <meta name="description" content="[toc] 进程与线程的区别与联系异常异常 (exception)是异常控制流的一种形式，一部分由硬件实现，一部分由操作系统实现。虽然其实现是硬件相关，但是其基本思想是相同的。 异常就是控制流中的突变，用来响应处理器状态的某些变化。 状态变化称为事件 (event)，可能和当前指令的执行直接相关：  发生虚拟内存缺页 算术溢出等等  或者与当前指令的执行无关：  系统定时器产生信号 一个 I&#x2F;O">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统知识点整理">
+<meta property="og:url" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
+<meta property="og:description" content="[toc] 进程与线程的区别与联系异常异常 (exception)是异常控制流的一种形式，一部分由硬件实现，一部分由操作系统实现。虽然其实现是硬件相关，但是其基本思想是相同的。 异常就是控制流中的突变，用来响应处理器状态的某些变化。 状态变化称为事件 (event)，可能和当前指令的执行直接相关：  发生虚拟内存缺页 算术溢出等等  或者与当前指令的执行无关：  系统定时器产生信号 一个 I&#x2F;O">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-22T03:41:42.275Z">
+<meta property="article:modified_time" content="2020-05-22T07:38:04.495Z">
 <meta property="article:author" content="Frank Young">
+<meta property="article:tag" content="summary">
+<meta property="article:tag" content="计算机基础">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Frank&#39;s cabin" type="application/atom+xml">
@@ -134,224 +140,159 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-dailyLearning/Leetcode/53.最大子序和" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-dailyLearning/计算机基础/操作系统知识点整理" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/53-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/">53.最大子序和</a>
+    <h1 class="article-title" itemprop="name">
+      操作系统知识点整理
     </h1>
   
 
         
-        <a href="/Leetcode/53-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/" class="archive-article-date">
-  	<time datetime="2020-05-12T10:34:46.288Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-12</time>
+        <a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/" class="archive-article-date">
+  	<time datetime="2020-05-22T03:41:42.275Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>给定一个整数数组<code>nums</code> ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
-<p>示例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">输出: 6</span><br><span class="line">解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。</span><br></pre></td></tr></table></figure>
+        <p>[toc]</p>
+<h1 id="进程与线程的区别与联系"><a href="#进程与线程的区别与联系" class="headerlink" title="进程与线程的区别与联系"></a>进程与线程的区别与联系</h1><h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p><strong>异常 (exception)</strong>是异常控制流的一种形式，一部分由硬件实现，一部分由操作系统实现。虽然其实现是硬件相关，但是其基本思想是相同的。</p>
+<p><strong>异常</strong>就是控制流中的突变，用来响应<strong>处理器状态的某些变化</strong>。</p>
+<p><strong>状态变化</strong>称为事件 (event)，可能和当前指令的执行直接相关：</p>
+<ul>
+<li>发生虚拟内存缺页</li>
+<li>算术溢出等等</li>
+</ul>
+<p>或者与当前指令的执行无关：</p>
+<ul>
+<li>系统定时器产生信号</li>
+<li>一个 I/O 请求完成</li>
+</ul>
+<p>当处理器检测到有<strong>事件</strong>（处理器状态变化）发生时，通过<strong>异常表 (exception table)</strong> ，它是一个跳转表，进行一个间接过程调用，到一个<strong>操作系统子程序（异常处理程序 (exception handler)）</strong>。异常处理程序完成处理后，<strong>根据引起异常的事件类型</strong>，发生以下三种情况：</p>
+<ul>
+<li>将控制返回当前指令$I_{curr}$，即事件发生时正在执行的指令；</li>
+<li>将控制返回给$I_{next}$，即 如果未发生异常 将会执行的下条指令；</li>
+<li>处理程序<strong>终止</strong>被中断的程序。</li>
+</ul>
+<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><p>系统中可能的每种类型的异常，都有一个<strong>唯一的、非负整数的异常号 (exception number)</strong>。</p>
+<p>系统启动时，操作系统分配和初始化一张称为<strong>异常表</strong>的跳转表。</p>
+<p>跳转表中的每个表目$k$包含异常$k$的处理程序的地址。</p>
+<p>处理器检测到事件发生，并确定异常号之后，通过<strong>执行间接过程调用</strong>触发异常。</p>
+<p>异常号 是 <strong>到异常表中的索引</strong>，异常表的起始地址存放在叫做 异常表基址寄存器 的 <strong>特殊CPU寄存器</strong>中。</p>
+<p>异常类似于过程调用，但也存在不同之处：</p>
+<ul>
+<li>过程调用时，在跳转到处理程序之前，处理器将返回地址压入栈中。根据异常类型，返回地址要么是当前指令，要么是下条指令；</li>
+<li>处理器将一些额外的处理器状态入栈；</li>
+<li>如果控制从 用户程序 转移到 内核，所有这些项目被压入内核栈，而不是用户栈；</li>
+<li>异常处理程序运行在内核模式下，对所有系统资源都有完全访问权限。</li>
+</ul>
+<h3 id="异常类别"><a href="#异常类别" class="headerlink" title="异常类别"></a>异常类别</h3><p>异常分为四类：</p>
+<ul>
+<li>中断 (interrupt)</li>
+<li>陷阱 (trap)</li>
+<li>故障 (fault)</li>
+<li>终止 (abort)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>原因</th>
+<th>异步/同步</th>
+<th>返回行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>中断</td>
+<td>来自 I/O 设备的信号</td>
+<td>异步</td>
+<td>总是返回到下一条指令</td>
+</tr>
+<tr>
+<td>陷阱</td>
+<td>有意的异常</td>
+<td>同步</td>
+<td>总是返回到下一条指令</td>
+</tr>
+<tr>
+<td>故障</td>
+<td>潜在可恢复的错误</td>
+<td>同步</td>
+<td>可能返回到当前指令</td>
+</tr>
+<tr>
+<td>终止</td>
+<td>不可恢复的错误</td>
+<td>同步</td>
+<td>不会返回</td>
+</tr>
+</tbody></table>
+<p>异步异常是由处理器外部的 I/O 设备中的事件中产生的；</p>
+<p>同步异常是执行一条指令的直接产物。</p>
+<h4 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h4><p>中断<strong>不是由任何一条专门的指令造成的</strong>，从这个意义上来说，它是<strong>异步的</strong>。</p>
+<p>一个例子：网络适配器、磁盘适配器、定时器芯片，通过向处理器芯片上的一个引脚发信号 （电平信号），并将异常号放到系统总线上，来触发中断，而异常号<strong>表示了触发中断的设备</strong>。</p>
+<p>剩下的异常类型是<strong>同步</strong>发生的，是执行当前指令的结果。这类指令叫做<strong>故障指令</strong>。</p>
+<h4 id="陷阱和系统调用"><a href="#陷阱和系统调用" class="headerlink" title="陷阱和系统调用"></a>陷阱和系统调用</h4><p><strong>陷阱</strong>是<strong>有意的异常</strong>。</p>
+<p>最重要的用途是<strong>在用户程序和内核之间提供一个像过程一样的接口</strong>，叫做<strong>系统调用</strong>。</p>
+<p>用户程序向内核<strong>请求服务</strong>的例子：</p>
+<ul>
+<li>读一个文件 read</li>
+<li>创建一个新的进程 fork</li>
+<li>加载一个新的应用程序 execve</li>
+<li>终止当前进程 exit</li>
+</ul>
+<p><strong>注意：</strong>中断和陷阱都是在执行完当前指令后跳转到异常处理程序，所以返回时返回到下一条指令。</p>
+<h4 id="故障"><a href="#故障" class="headerlink" title="故障"></a>故障</h4><p>故障由错误情况引起，<strong>可能</strong>可以被故障处理程序修正。</p>
+<ul>
+<li>如何处理程序能够修正这个错误情况，处理程序将控制返回到引起故障的指令，重新执行；</li>
+<li>否则，处理程序返回到<strong>内核中的abort例程</strong>，abort 例程终止引起故障的应用程序。</li>
+</ul>
+<p>典型的故障示例：<strong>缺页异常</strong>。当指令引用一个虚拟地址，而该虚拟地址<strong>对应的物理页面</strong>不在内存中，必须从磁盘取出时，会引发故障。缺页处理程序从磁盘中加载适当的页面，然后将控制返回给引起故障的指令，重新执行。</p>
+<h4 id="终止"><a href="#终止" class="headerlink" title="终止"></a>终止</h4><p>通常是一些硬件错误。终止处理程序将控制返回给一个 abort 例程，abort 例程负责终止该应用程序。</p>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>进程是资源分配的基本单位；线程是独立调度的基本单位。</p>
+<p>进程的经典定义，是一个<strong>执行中程序的实例</strong>。</p>
+<p>系统中每个程序都运行在某个进程的<strong>上下文</strong>中。</p>
+<p>上下文由程序正确运行所需的状态组成，包括存放在内存中的代码和数据、栈、通用目的及存取的内容、程序计数器、环境变量以及打开文件描述符的集合。</p>
+<h3 id="进程提供给应用程序的抽象"><a href="#进程提供给应用程序的抽象" class="headerlink" title="进程提供给应用程序的抽象"></a>进程提供给应用程序的抽象</h3><ul>
+<li>一个独立的逻辑控制流，提供一个假象，好像我们的程序独立地使用处理器；</li>
+<li>一个私有的地址空间，提供一个假象，好像我们的程序独占地使用内存系统。</li>
+</ul>
+<h4 id="逻辑控制流"><a href="#逻辑控制流" class="headerlink" title="逻辑控制流"></a>逻辑控制流</h4><p>程序计数器的值唯一地对应于包含在程序的可执行目标文件中的指令，或是包含在运行的时候动链接到程序的共享对象中的指令。</p>
+<p>这个PC值的序列称为逻辑控制流。</p>
+<p><strong>进程是轮流使用处理器的。</strong>每个进程执行它的流的一部分，然后被抢占，轮到其他进程。</p>
+<h4 id="并发流"><a href="#并发流" class="headerlink" title="并发流"></a>并发流</h4><p>逻辑流的不同形式的例子：异常处理程序、进程、线程、信号处理程序等等。</p>
+<p>一个逻辑流的执行，在时间上与另一个流重叠，称为并发流，换句话说，这两个流<strong>并发地运行</strong>。</p>
+<p><strong>多个流并发地执行</strong>这个现象，被称为<strong>并发 (concurrency)</strong>。</p>
+<p>一个进程和其他进程轮流运行，称为<strong>多任务</strong>。</p>
+<p>一个进程<strong>执行它的控制流的一部分</strong>的<strong>每一时间段</strong>叫做<strong>时间片  (time slice)</strong>。</p>
+<p>因此，多任务也叫<strong>时间分片</strong>。</p>
+<p>并发流的思想，与处理器核数 和 计算数 无关。只要在时间上重叠，两个流就是并发的，即使他们运行在同一个处理器上。</p>
+<h4 id="私有地址空间"><a href="#私有地址空间" class="headerlink" title="私有地址空间"></a>私有地址空间</h4><p>在一台$n$位地址的机器上，地址空间可能是$2^n$个地址的集合。</p>
+<p>进程为每个程序提供它自己的<strong>私有地址空间</strong>。<strong>一般来说</strong>，和这个空间中 某个地址相关联的 内存字节 <strong>不能被其他进程读写</strong>。从这个意义上说，这个地址空间是私有的。</p>
+<p>每个私有地址空间有相同的<strong>通用结构</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">内核虚拟内存（用户代码不可见）</span><br><span class="line">代码、数据、堆、栈</span><br><span class="line">-------------------------- &lt; 0xFFFFFFFFFFFF</span><br><span class="line">	用户栈（运行时创建）</span><br><span class="line">--------------------------</span><br><span class="line">	自由空间</span><br><span class="line">--------------------------</span><br><span class="line">	运行时堆</span><br><span class="line">--------------------------</span><br><span class="line">	读写段 (.data, .bss)</span><br><span class="line">--------------------------</span><br><span class="line">只读段 (.init, .text, .rodata)</span><br><span class="line">-------------------------- &lt; 0x400000 </span><br><span class="line">	禁止访问</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br></pre></td></tr></table></figure>
 
-<p>进阶:<br>如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的分治法求解。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/53-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">分治算法</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/53-%E6%9C%80%E5%A4%A7%E5%AD%90%E5%BA%8F%E5%92%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/c++/C++总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/c/summary/c-%E6%80%BB%E7%BB%93/">c++总结</a>
-    </h1>
-  
-
-        
-        <a href="/c/summary/c-%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-12T01:28:08.047Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本篇博客用来总结自己在学习/复习C++的过程中遇到的新的/没掌握的细节。章节划分就参照《c++ Primer》一书的章节。</p>
-        
-          <a class="article-more-a" href="/c/summary/c-%E6%80%BB%E7%BB%93/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/c//" class="article-tag-list-link color4">c++</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/c/summary//" class="article-tag-list-link color3">summary</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/c/summary/c-%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/由0-1背包问题引出的动态规划-总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E7%94%B10-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%80%BB%E7%BB%93/">由0-1背包问题引出的动态规划 总结</a>
-    </h1>
-  
-
-        
-        <a href="/Leetcode/%E7%94%B10-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-11T10:27:29.057Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h1><h2 id="什么是背包问题"><a href="#什么是背包问题" class="headerlink" title="什么是背包问题"></a>什么是背包问题</h2><p>现在有一个背包，<strong>容量(Capacity)</strong>为$C$，有一堆物品，这些物品有<strong>重量(Weight)</strong>和<strong>价值(Value)</strong>两种属性，背包中所有物品的重量之和$\sum{item_{Weight}}$不能超过$C$，问：背包中最多可以装价值总和为多少的物品？</p>
-        
-          <a class="article-more-a" href="/Leetcode/%E7%94%B10-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%80%BB%E7%BB%93/#more">more >></a>
-        
+<p>内核虚拟内存是保留给内核（操作系统常驻内存的部分），包含了<strong>内核在代表进程执行指令时</strong>（比如应用程序进行系统调用时）使用的代码、数据、栈。</p>
+<h4 id="用户模式、内核模式"><a href="#用户模式、内核模式" class="headerlink" title="用户模式、内核模式"></a>用户模式、内核模式</h4><p>处理器通常用某个控制寄存器中的一个<strong>模式位</strong>描述进程当前享有的特权。</p>
+<ul>
+<li>当设置了模式位时，进程运行在<strong>内核模式</strong>运行在内核模式的进程可以执行指令集中的任何指令，并且访问系统中的任何内存位置；</li>
+<li>没有设置模式位时，进程运行在<strong>用户模式</strong>，不允许运行特权指令 (privileged instruction)，比如停止处理器、改变模式位、或发起<code>I/O</code>操作，也不允许用户模式中的进程<strong>直接引用</strong>地址空间中内核区的代码和数据。用户程序必须通过调用<strong>系统接口</strong>间接访问内核代码和数据。</li>
+</ul>
+<p>运行应用程序代码的进程 初始时运行在<strong>用户模式</strong>。</p>
+<p>进程从<strong>用户模式</strong>转变为<strong>内核模式</strong>的唯一方法是 通过<a href="#异常"><strong>异常</strong></a>进入:</p>
+<ul>
+<li>中断</li>
+<li>故障</li>
+<li>系统调用</li>
+</ul>
+<p>异常发生时，控制传递到<strong>异常处理程序</strong>，处理器将模式从 用户模式 变为 内核模式。异常处理程序运行在内核模式中，当它返回到应用程序代码时，处理器把模式从 内核模式 变为 用户模式。</p>
+<p>/proc 文件系统将许多内核数据结构的内容输出为一个<strong>用户程序可读的文本文件的层次结构</strong>。</p>
+<h4 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h4><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1>
       
 
       
@@ -368,15 +309,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">0-1背包</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机基础</a>
         		</li>
       		
 		</ul>
@@ -388,7 +321,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
         		</li>
       		
 		</ul>
@@ -396,16 +329,75 @@
 
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E7%94%B10-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E5%BC%95%E5%87%BA%E7%9A%84%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/Leetcode/2-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">2.两数相加</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -420,767 +412,32 @@
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/494.目标和" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/494-%E7%9B%AE%E6%A0%87%E5%92%8C/">494.目标和</a>
-    </h1>
-  
-
-        
-        <a href="/Leetcode/494-%E7%9B%AE%E6%A0%87%E5%92%8C/" class="archive-article-date">
-  	<time datetime="2020-05-10T14:57:07.442Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;给定一个非负整数数组，&#96;a1, a2, ..., an&#96;, 和一个目标数，&#96;S&#96;。现在你有两个符号 &#96;+ &#96;和&#96; -&#96;。对于数组中的任意一个整数，你都可以从 &#96;+&#96; 或&#96; -&#96;中选择一个符号添加在前面。</span><br><span class="line"></span><br><span class="line">&gt;返回可以使最终数组和为目标数 &#96;S&#96; 的所有添加符号的方法数。</span><br></pre></td></tr></table></figure>
-
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;输入: nums: [1, 1, 1, 1, 1], S: 3</span><br><span class="line">&gt;输出: 5</span><br><span class="line">&gt;解释: </span><br><span class="line"></span><br><span class="line">&gt;-1+1+1+1+1 &#x3D; 3</span><br><span class="line">&gt;+1-1+1+1+1 &#x3D; 3</span><br><span class="line">&gt;+1+1-1+1+1 &#x3D; 3</span><br><span class="line">&gt;+1+1+1-1+1 &#x3D; 3</span><br><span class="line">&gt;+1+1+1+1-1 &#x3D; 3</span><br><span class="line"></span><br><span class="line">&gt;一共有5种方法让最终目标和为3。</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;注意:</span><br><span class="line"></span><br><span class="line">&gt;数组非空，且长度不会超过20。</span><br><span class="line">&gt;初始的数组的和不会超过1000。</span><br><span class="line">&gt;保证返回的最终结果能被32位整数存下。</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;来源：力扣（LeetCode）</span><br><span class="line">&gt;链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;target-sum</span><br><span class="line">&gt;著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/494-%E7%9B%AE%E6%A0%87%E5%92%8C/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">0-1背包</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/494-%E7%9B%AE%E6%A0%87%E5%92%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#进程与线程的区别与联系"><span class="toc-number">1.</span> <span class="toc-text">进程与线程的区别与联系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">1.1.</span> <span class="toc-text">异常</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#异常处理"><span class="toc-number">1.1.1.</span> <span class="toc-text">异常处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异常类别"><span class="toc-number">1.1.2.</span> <span class="toc-text">异常类别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#中断"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">中断</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#陷阱和系统调用"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">陷阱和系统调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#故障"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">故障</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#终止"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">终止</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程"><span class="toc-number">1.2.</span> <span class="toc-text">进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#进程提供给应用程序的抽象"><span class="toc-number">1.2.1.</span> <span class="toc-text">进程提供给应用程序的抽象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑控制流"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">逻辑控制流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#并发流"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">并发流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#私有地址空间"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">私有地址空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户模式、内核模式"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">用户模式、内核模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#上下文切换"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">上下文切换</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
-
-  
-    <article id="post-dailyLearning/Leetcode/207.课程表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/207-%E8%AF%BE%E7%A8%8B%E8%A1%A8/">207.课程表</a>
-    </h1>
-  
-
-        
-        <a href="/Leetcode/207-%E8%AF%BE%E7%A8%8B%E8%A1%A8/" class="archive-article-date">
-  	<time datetime="2020-05-10T02:55:54.079Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<p>你这个学期必须选修<code>numCourse</code>门课程，记为 <code>0</code> 到<code>numCourse-1</code> 。</p>
-<p>在选修某些课程之前需要一些先修课程。 例如，想要学习课程<code>0</code> ，你需要先完成课程<code>1</code> ，我们用一个匹配来表示他们：<code>[0,1]</code></p>
-<p>给定课程总量以及它们的先决条件，请你<strong>判断是否可能完成所有课程的学习</strong>？</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: 2, [[1,0]] </span><br><span class="line">输出: true</span><br><span class="line">解释: 总共有 2 门课程。学习课程 1 之前，你需要完成课程 0。所以这是可能的。</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: 2, [[1,0],[0,1]]</span><br><span class="line">输出: false</span><br><span class="line">解释: 总共有 2 门课程。学习课程 1 之前，你需要先完成课程 0；并且学习课程 0 之前，你还应先完成课程 1。这是不可能的。</span><br></pre></td></tr></table></figure>
-
-
-<p>提示：</p>
-<ol>
-<li>输入的先决条件是由 边缘列表 表示的图形，而不是 邻接矩阵 。详情请参见<a href="http://blog.csdn.net/woaidapaopao/article/details/51732947" target="_blank" rel="noopener">图的表示法</a>。</li>
-<li>你可以假定输入的先决条件中没有重复的边。</li>
-<li><code>1 &lt;= numCourses &lt;= 10^5</code></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;来源：力扣（LeetCode）</span><br><span class="line">链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;course-schedule</span><br><span class="line">著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/207-%E8%AF%BE%E7%A8%8B%E8%A1%A8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">DFS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">BFS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/207-%E8%AF%BE%E7%A8%8B%E8%A1%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/200.岛屿数量" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/200-%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/">200.岛屿数量</a>
-    </h1>
-  
-
-        
-        <a href="/Leetcode/200-%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/" class="archive-article-date">
-  	<time datetime="2020-05-09T11:48:24.955Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<p>给你一个由 ‘1’（陆地）和 ‘0’（水）组成的的二维网格，请你计算网格中岛屿的数量。</p>
-<p>岛屿总是被水包围，并且每座岛屿只能由水平方向或竖直方向上相邻的陆地连接形成。</p>
-<p>此外，你可以假设该网格的四条边均被水包围。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;输入:</span><br><span class="line">&gt;11110</span><br><span class="line">&gt;11010</span><br><span class="line">&gt;11000</span><br><span class="line">&gt;00000</span><br><span class="line">&gt;输出: 1</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;输入:</span><br><span class="line">&gt;11000</span><br><span class="line">&gt;11000</span><br><span class="line">&gt;00100</span><br><span class="line">&gt;00011</span><br><span class="line">&gt;输出: 3</span><br><span class="line">&gt;解释: 每座岛屿只能由水平和&#x2F;或竖直方向上相邻的陆地连接而成。</span><br></pre></td></tr></table></figure>
-
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/number-of-islands" target="_blank" rel="noopener">https://leetcode-cn.com/problems/number-of-islands</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/200-%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">DFS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">BFS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Union-find</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/200-%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/114.二叉树展开为链表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/114-%E4%BA%8C%E5%8F%89%E6%A0%91%E5%B1%95%E5%BC%80%E4%B8%BA%E9%93%BE%E8%A1%A8/">114.二叉树展开为链表</a>
-    </h1>
-  
-
-        
-        <a href="/Leetcode/114-%E4%BA%8C%E5%8F%89%E6%A0%91%E5%B1%95%E5%BC%80%E4%B8%BA%E9%93%BE%E8%A1%A8/" class="archive-article-date">
-  	<time datetime="2020-05-08T13:09:57.468Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<p>给定一个二叉树，<strong>原地</strong>将它展开为链表。</p>
-<p>例如，给定二叉树</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">       1</span><br><span class="line">      &#x2F; \</span><br><span class="line">    2   5</span><br><span class="line">  &#x2F; \   \</span><br><span class="line">3   4   6</span><br></pre></td></tr></table></figure>
-
-<p>将其展开为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">  \</span><br><span class="line">    2</span><br><span class="line">      \</span><br><span class="line">       3</span><br><span class="line">        \</span><br><span class="line">         4</span><br><span class="line">          \</span><br><span class="line">           5</span><br><span class="line">            \</span><br><span class="line">             6</span><br></pre></td></tr></table></figure>
-
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list" target="_blank" rel="noopener">https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/114-%E4%BA%8C%E5%8F%89%E6%A0%91%E5%B1%95%E5%BC%80%E4%B8%BA%E9%93%BE%E8%A1%A8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">BFS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/114-%E4%BA%8C%E5%8F%89%E6%A0%91%E5%B1%95%E5%BC%80%E4%B8%BA%E9%93%BE%E8%A1%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/105.从前序遍历与中序遍历构造二叉树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/105-%E4%BB%8E%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">105.从前序遍历与中序遍历构造二叉树</a>
-    </h1>
-  
-
-        
-        <a href="/Leetcode/105-%E4%BB%8E%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-05-08T03:45:17.506Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<p>根据一棵树的前序遍历与中序遍历构造二叉树。</p>
-<p>注意:<br>你可以假设树中没有重复的元素。</p>
-<p>例如，给出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">前序遍历 preorder &#x3D; [3,9,20,15,7]</span><br><span class="line">中序遍历 inorder &#x3D; [9,3,15,20,7]</span><br></pre></td></tr></table></figure>
-
-<p>返回如下的二叉树：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> &#x2F; \</span><br><span class="line">9  20</span><br><span class="line">  &#x2F;  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure>
-
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal" target="_blank" rel="noopener">https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/105-%E4%BB%8E%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">hash table</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">BFS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/105-%E4%BB%8E%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/98.验证二叉搜索树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">98.验证二叉搜索树</a>
-    </h1>
-  
-
-        
-        <a href="/Leetcode/98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-05-07T12:30:38.412Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><blockquote>
-<p>给定一个二叉树，判断其是否是一个有效的二叉搜索树。</p>
-<p>假设一个二叉搜索树具有如下特征：</p>
-<p>节点的左子树只包含小于当前节点的数。</p>
-<p>节点的右子树只包含大于当前节点的数。</p>
-<p>所有左子树和右子树自身必须也是二叉搜索树。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">    2</span><br><span class="line">   &#x2F; \</span><br><span class="line">  1   3</span><br><span class="line">输出: true</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">    5</span><br><span class="line">   &#x2F; \</span><br><span class="line">  1   4</span><br><span class="line">     &#x2F; \</span><br><span class="line">    3   6</span><br><span class="line">输出: false</span><br><span class="line">解释: 输入为: [5,1,4,null,null,3,6]。</span><br><span class="line">     根节点的值为 5 ，但是其右子节点值为 4 。</span><br></pre></td></tr></table></figure>
-
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/validate-binary-search-tree" target="_blank" rel="noopener">https://leetcode-cn.com/problems/validate-binary-search-tree</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">DFS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">BST</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/98-%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/104.二叉树的最大深度" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/104-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E6%B7%B1%E5%BA%A6/">104.二叉树的最大深度</a>
-    </h1>
-  
-
-        
-        <a href="/Leetcode/104-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E6%B7%B1%E5%BA%A6/" class="archive-article-date">
-  	<time datetime="2020-05-07T05:00:12.164Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>题目：</li>
-</ul>
-<blockquote>
-<p>给定一个二叉树，找出其最大深度。</p>
-<p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。</p>
-<p>说明: 叶子节点是指没有子节点的节点。</p>
-<p>示例：<br>给定二叉树<code>[3,9,20,null,null,15,7]</code>，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> &#x2F; \</span><br><span class="line">9  20</span><br><span class="line">  &#x2F;  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure>
-
-<p>返回它的最大深度 3 。</p>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree" target="_blank" rel="noopener">https://leetcode-cn.com/problems/maximum-depth-of-binary-tree</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/104-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E6%B7%B1%E5%BA%A6/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">DFS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">二叉树</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/104-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E6%B7%B1%E5%BA%A6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -1203,8 +460,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

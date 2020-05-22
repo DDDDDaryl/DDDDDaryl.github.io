@@ -15,13 +15,15 @@
 <meta property="og:site_name" content="Frank&#39;s cabin">
 <meta property="og:description" content="[toc] EfficientDet学习笔记前言最近才开始为了项目应用做深度学习，前几天训练SSD模型，没过几天同学推荐我去看EfficientDet模型，据说是最强单阶段模型？这两天我就来研究一下。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/assets/pics/810631.jpg">
+<meta property="og:image" content="http://yoursite.com/DeepLearning/efficientdet%E5%AD%A6%E4%B9%A0/efficientNet.assets/810631-1590133355129.jpg%22FPN%22">
+<meta property="og:image" content="http://yoursite.com/DeepLearning/efficientdet%E5%AD%A6%E4%B9%A0/efficientNet.assets/20191122213636119.png">
+<meta property="og:image" content="http://yoursite.com/DeepLearning/efficientdet%E5%AD%A6%E4%B9%A0/efficientNet.assets/image-20200522175120085.png">
 <meta property="article:published_time" content="2020-05-16T08:42:10.165Z">
-<meta property="article:modified_time" content="2020-05-20T10:15:06.879Z">
+<meta property="article:modified_time" content="2020-05-22T10:03:53.259Z">
 <meta property="article:author" content="Frank Young">
 <meta property="article:tag" content="EfficientDet">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/assets/pics/810631.jpg">
+<meta name="twitter:image" content="http://yoursite.com/DeepLearning/efficientdet%E5%AD%A6%E4%B9%A0/efficientNet.assets/810631-1590133355129.jpg%22FPN%22">
   
     <link rel="alternative" href="/atom.xml" title="Frank&#39;s cabin" type="application/atom+xml">
   
@@ -178,13 +180,42 @@
 <blockquote>
 <p>FPN 主要解决的是物体检测中的多尺度问题，通过简单的网络连接改变，在基本不增加原有模型计算量情况下，大幅度提升了<strong>小物体检测</strong>的性能。</p>
 </blockquote>
-<p>理解：小物体检测是通过在浅层 feature map 上设置 anchors 来实现的，然而浅层 feature map 中全局语义信息较少，使得对目标的识别效果并不好，而深层次的 feature map 具有很强的语音信息，使得识别的效果比使用浅层 feature map 效果要好。</p>
+<p>理解：小物体检测是通过在浅层 feature map 上设置 anchors 来实现的，然而浅层 feature map 中全局语义信息较少，使得对目标的识别效果并不好，而深层次的 feature map 具有很强的语义信息，使得识别的效果比使用浅层 feature map 效果要好。</p>
 <blockquote>
 <p>在物体检测里面，有限计算量情况下，网络的深度（对应到感受野）与 stride 通常是一对矛盾的东西，常用的网络结构对应的 stride 一般会比较大（如 32），而图像中的小物体甚至会小于 stride 的大小，造成的结果就是小物体的检测性能急剧下降。传统解决这个问题的思路包括：（1）多尺度训练和测试，又称图像金字塔，如图 1(a) 所示。目前几乎所有在 ImageNet 和 COCO 检测任务上取得好成绩的方法都使用了图像金字塔方法。然而这样的方法由于很高的时间及计算量消耗，难以在实际中应用。（2）特征分层，即每层分别预测对应的 scale 分辨率的检测结果。如图 1(c) 所示。SSD 检测框架采用了类似的思想。这样的方法问题在于直接强行让不同层学习同样的语义信息。而对于卷积神经网络而言，不同深度对应着不同层次的语义特征，浅层网络分辨率高，学的更多是细节特征，深层网络分辨率低，学的更多是语义特征。</p>
-<p><img src="/assets/pics/810631.jpg" alt="img"></p>
+<p><img src="efficientNet.assets/810631-1590133355129.jpg%22FPN%22" alt="FPN"></p>
 </blockquote>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<p>对上图中四幅图进行一个简单的概括：</p>
+<p>​    (a). Featurized image pyramid，翻译为图像金字塔，实际上是通过把同一张图片缩放到不同尺寸并输入网络，对不同尺寸的版本分别进行预测，也就是多尺度训练和测试。这样的确精度很高，但是计算量过大；</p>
+<p>​    (b). Single feature map，只对最后一层 feature map 进行预测，缺点在于深层的网络分辨率较低，对于定位来说并不能做到很好的效果，且不利于小目标检测；</p>
+<p>​    (c). Pyramidal feature hierarchy，金字塔特征分层，SSD采用了类似思想，每一层分别承担对应尺度对象的预测任务，其问题在于，不同层次的神经网络学习的特征不同，浅层学习细节特征，深层学习语义特征；</p>
+<p>​    (d). Feature Pyramid Network，即为文章提出的特征金字塔网络，融合相邻的不同尺度的 feature map 中的语义信息。</p>
+<p>FPN的提出是基于以下三个问题：</p>
+<ul>
+<li>如何学习具有强语义信息的多尺度特征表示？</li>
+<li>如何设计通用的特征表示来解决物体检测中的多个子问题？如 object proposal, box localization, instance segmentation. </li>
+<li>如何高效计算多尺度的特征表示？</li>
+</ul>
+<p>针对上述问题，文章为每个分辨率的 feature map 引入后一个分辨率缩放两倍的 feature map，并进行 element-wise 相加。通过这样的连接，每一层预测所用的 feature map 都融合了不同分辨率、不同语义强度的特征，融合的不同分辨率的 feature map 分别做对应分辨率大小的物体检测。这样保证了每一层都有合适的分辨率以及强语义特征。同时，由于此方法只是在原网络基础上加上了额外的跨层连接，在实际应用中几乎不增加额外的时间和计算量。</p>
+<h2 id="EfficientDet-Scalable-and-Efficient-Object-Detection"><a href="#EfficientDet-Scalable-and-Efficient-Object-Detection" class="headerlink" title="EfficientDet: Scalable and Efficient Object Detection"></a>EfficientDet: Scalable and Efficient Object Detection</h2><p>神经网络的速度和精度之间存在权衡。</p>
+<p>EfficientDet 分为 EfficientDet D1~ EfficientDet D7，速度逐渐变慢，但是精度也逐渐提高。</p>
+<p>文章的两大主要贡献：BiFPN，Compound Scaling。</p>
+<h3 id="BiFPN"><a href="#BiFPN" class="headerlink" title="BiFPN"></a>BiFPN</h3><h4 id="Cross-Scale-Connections"><a href="#Cross-Scale-Connections" class="headerlink" title="Cross-Scale Connections"></a>Cross-Scale Connections</h4><p><img src="efficientNet.assets/20191122213636119.png" alt="img"></p>
+<p><a href="#img">上图</a>展示了从 FPN 到 BiFPN的构思过程。基于 CVPR 2017 提出的 FPN 对不同层进行特征融合的思路，很多人在此基础上做了不同的改进，基本就是改进连接方式。比如 PANet 在 FPN 自上而下融合的基础上，又增加了自下而上融合的操作。</p>
+<p>作者对不同连接方法进行了观察：</p>
+<ul>
+<li>PANet 效果好于 FPN，NAS-FPN，然而计算量更大；</li>
+<li>从 PANet 出发试图降低计算量，因此假设只有一个输入的节点相对不太重要，因而移除了入度为1的节点，得到 (e) Simplified PANet 的结果；</li>
+<li>假设相同层的输入输出节点之间增加一条 edge 可以融合更多特征，得到 (f) BiFPN 的结果（直观上理解，这么做实际上增加了特征融合时这一层原始特征的权值）；</li>
+<li>作者认为先从下往上连，再从上往下连，这个基本结构可以用作一个基本模块，构建重复结构，而重复次数就是一个速度与精度的 trade-off。</li>
+</ul>
+<p>最终，BiFPN 的效果是：相对于 FPN，在 COCO 上的 mAP 上涨了 0.4，而参数量和计算量下降。</p>
+<p><img src="efficientNet.assets/image-20200522175120085.png" alt="image-20200522175120085"></p>
+<h4 id="Weighted-Feature-Fusion"><a href="#Weighted-Feature-Fusion" class="headerlink" title="Weighted Feature Fusion"></a>Weighted Feature Fusion</h4><p>作者提出，FPN采用的相邻层之间的直接上采样并相加的特征融合方式不合理。作者观察发现，由于不同的输入特征有不同的分辨率，它们对输出特征的贡献是不相同的。</p>
+<p>因此，作者提出对每个输入增加一个额外的权重，让网络去学习每个特征的重要程度。</p>
+<h4 id="Compound-Scailing"><a href="#Compound-Scailing" class="headerlink" title="Compound Scailing"></a>Compound Scailing</h4><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
 <li><a href="https://www.jiqizhixin.com/articles/2017-07-25-2" target="_blank" rel="noopener">https://www.jiqizhixin.com/articles/2017-07-25-2</a></li>
+<li><a href="https://blog.csdn.net/dwilimeth/article/details/103206530" target="_blank" rel="noopener">https://blog.csdn.net/dwilimeth/article/details/103206530</a></li>
 </ol>
 
       
@@ -318,7 +349,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#EfficientDet学习笔记"><span class="toc-number">1.</span> <span class="toc-text">EfficientDet学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预备知识"><span class="toc-number">1.2.</span> <span class="toc-text">预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FPN"><span class="toc-number">1.2.1.</span> <span class="toc-text">FPN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Faster-R-CNN"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">Faster R-CNN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RPN网络"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">RPN网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#特征金字塔网络FPN"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">特征金字塔网络FPN</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.3.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#EfficientDet学习笔记"><span class="toc-number">1.</span> <span class="toc-text">EfficientDet学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预备知识"><span class="toc-number">1.2.</span> <span class="toc-text">预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FPN"><span class="toc-number">1.2.1.</span> <span class="toc-text">FPN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Faster-R-CNN"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">Faster R-CNN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RPN网络"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">RPN网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#特征金字塔网络FPN"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">特征金字塔网络FPN</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EfficientDet-Scalable-and-Efficient-Object-Detection"><span class="toc-number">1.3.</span> <span class="toc-text">EfficientDet: Scalable and Efficient Object Detection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BiFPN"><span class="toc-number">1.3.1.</span> <span class="toc-text">BiFPN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cross-Scale-Connections"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">Cross-Scale Connections</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Weighted-Feature-Fusion"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">Weighted Feature Fusion</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Compound-Scailing"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">Compound Scailing</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.4.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
