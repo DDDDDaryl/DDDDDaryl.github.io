@@ -43,7 +43,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="" class="js-avatar">
+			<img src="/assets/pics/Avatar.JPG" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">Frank Young</a></h1>
@@ -97,7 +97,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="" class="js-avatar">
+				<img src="/assets/pics/Avatar.JPG" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">Frank Young</h1>
@@ -165,6 +165,8 @@
     </h1>
   
 
+        <!--显示阅读次数-->
+        
         
         <a href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/" class="archive-article-date">
   	<time datetime="2020-05-22T10:37:20.255Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-22</time>
@@ -298,6 +300,8 @@
     </h1>
   
 
+        <!--显示阅读次数-->
+        
         
         <a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/" class="archive-article-date">
   	<time datetime="2020-05-22T03:41:42.275Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-22</time>
@@ -801,7 +805,14 @@
 <p>通过延迟私有对象中的副本直到最后可能的时刻，写时复制最充分地利用了稀有的物理内存。</p>
 <h3 id="再看-fork-函数"><a href="#再看-fork-函数" class="headerlink" title="再看 fork 函数"></a>再看 fork 函数</h3><p>当 fork 函数被当前进程调用时，内核为子进程<strong>分配一个唯一的 PID</strong>，为了给新进程创建虚拟内存，内核创建了调用进程的<strong>mm_struct、区域结构和页表的原样副本</strong>，并将两个进程中的所有页面标记为只读，并将两个进程中的个每个区域都标记为私有的写时复制。（如果加载了共享库呢？）</p>
 <p>fork 从新进程中返回时，新进程现在的虚拟内存刚好和调用时调用进程的虚拟内存相同。这两个进程中的任意一个进行写操作时，写时复制机制就会为这个进程创建新页面，因此，为每个进程保持了私有空间的抽象概念。</p>
-<h3 id="再看-execve-函数"><a href="#再看-execve-函数" class="headerlink" title="再看 execve 函数"></a>再看 execve 函数</h3><h1 id="高频提问问题"><a href="#高频提问问题" class="headerlink" title="高频提问问题"></a>高频提问问题</h1><ol>
+<h3 id="再看-execve-函数"><a href="#再看-execve-函数" class="headerlink" title="再看 execve 函数"></a>再看 execve 函数</h3><p>execve 函数加载可执行目标文件中的程序，并用该程序替代当前程序。加载并运行一个可执行目标文件需要以下步骤：</p>
+<ul>
+<li>删除已存在用户区域：删除当前虚拟空间中用户部分已存在的区域结构；</li>
+<li>映射私有区域：为新程序的<strong>代码、数据、bss 和栈区域创建新的区域结构</strong>。所有这些新的区域都是私有的，写时复制的。</li>
+<li>映射共享区域：共享对象动态链接到程序，再映射到用户虚拟地址空间中的共享区域内；</li>
+<li>设置程序计数器：设置当前进程上下文中的程序计数器，使其指向程序入口。</li>
+</ul>
+<h1 id="高频提问问题"><a href="#高频提问问题" class="headerlink" title="高频提问问题"></a>高频提问问题</h1><ol>
 <li>一个程序从开始运行到结束的完整过程（四个过程）</li>
 <li>文件读写使用的系统调用</li>
 <li>守护进程、僵尸进程和孤儿进程</li>
@@ -892,6 +903,8 @@
     </h1>
   
 
+        <!--显示阅读次数-->
+        
         
         <a href="/C/c-11%E6%96%B0%E7%89%B9%E6%80%A7/" class="archive-article-date">
   	<time datetime="2020-05-21T14:30:02.032Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-21</time>
@@ -1030,6 +1043,8 @@
     </h1>
   
 
+        <!--显示阅读次数-->
+        
         
         <a href="/Leetcode/2-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/" class="archive-article-date">
   	<time datetime="2020-05-21T10:10:39.218Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-21</time>
@@ -1129,6 +1144,8 @@
     </h1>
   
 
+        <!--显示阅读次数-->
+        
         
         <a href="/Leetcode/647-%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" class="archive-article-date">
   	<time datetime="2020-05-21T05:08:46.922Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-21</time>
@@ -1236,6 +1253,8 @@
     </h1>
   
 
+        <!--显示阅读次数-->
+        
         
         <a href="/Linux/gdb%E4%BD%BF%E7%94%A8/" class="archive-article-date">
   	<time datetime="2020-05-20T13:25:16.630Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-20</time>
@@ -1366,6 +1385,8 @@
     </h1>
   
 
+        <!--显示阅读次数-->
+        
         
         <a href="/Leetcode/416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86/" class="archive-article-date">
   	<time datetime="2020-05-20T05:48:18.616Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-20</time>
@@ -1472,6 +1493,8 @@
     </h1>
   
 
+        <!--显示阅读次数-->
+        
         
         <a href="/Leetcode/338-%E6%AF%94%E7%89%B9%E4%BD%8D%E8%AE%A1%E6%95%B0/" class="archive-article-date">
   	<time datetime="2020-05-20T03:33:08.141Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-20</time>
@@ -1584,6 +1607,8 @@
     </h1>
   
 
+        <!--显示阅读次数-->
+        
         
         <a href="/Leetcode/322-%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2/" class="archive-article-date">
   	<time datetime="2020-05-19T14:09:02.657Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-19</time>
@@ -1686,6 +1711,8 @@
     </h1>
   
 
+        <!--显示阅读次数-->
+        
         
         <a href="/Leetcode/279-%E5%AE%8C%E5%85%A8%E5%B9%B3%E6%96%B9%E6%95%B0/" class="archive-article-date">
   	<time datetime="2020-05-19T09:54:18.349Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-19</time>
@@ -1787,6 +1814,8 @@
     <div id="footer-info">
     	<div class="footer-left">
     		&copy; 2020 Frank Young
+		<span id="busuanzi_container_site_uv">  本站访客数<span id="busuanzi_value_site_uv"></span>人次</span>
+
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1838,6 +1867,9 @@ MathJax.Hub.Queue(function() {
 </script>
 
 
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
     
 <div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
   <div class="tools-nav header-menu">
