@@ -80,13 +80,17 @@ var _hmt = _hmt || [];
 			
 				<li><a href="/">主页</a></li>
 	        
+				<li><a href="/categories/Cpp/">Cpp</a></li>
+	        
 				<li><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
 	        
 				<li><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
 	        
 				<li><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
 	        
-				<li><a href="/categories/DeepLearning/">DeepLearning</a></li>
+				<li><a href="/categories/DeepLearning/">深度学习</a></li>
+	        
+				<li><a href="/null">我的项目</a></li>
 	        
 			</ul>
 		</nav>
@@ -140,6 +144,10 @@ var _hmt = _hmt || [];
 			
 				
 			
+				
+			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -154,15 +162,19 @@ var _hmt = _hmt || [];
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 20%"><a href="/">主页</a></li>
+					<li style="width: 14.285714285714286%"><a href="/">主页</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/Cpp/">Cpp</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/DeepLearning/">DeepLearning</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+		        
+					<li style="width: 14.285714285714286%"><a href="/categories/DeepLearning/">深度学习</a></li>
+		        
+					<li style="width: 14.285714285714286%"><a href="/null">我的项目</a></li>
 		        
 				</ul>
 			</nav>
@@ -178,6 +190,268 @@ var _hmt = _hmt || [];
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-dailyLearning/剑指Offer/面试题05-替换空格" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9805-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/">面试题05.替换空格</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9805-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/" class="archive-article-date">
+  	<time datetime="2020-05-27T10:28:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>请实现一个函数，把字符串 s 中的每个空格替换成”%20”。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：s &#x3D; &quot;We are happy.&quot;</span><br><span class="line">输出：&quot;We%20are%20happy.&quot;</span><br></pre></td></tr></table></figure>
+
+
+<p>限制：</p>
+<p><code>0 &lt;= s 的长度 &lt;= 10000</code></p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h2><p>最暴力的方法就是直接把空格替换为<code>%</code>，然后插入<code>20</code>，然而注意<code>string</code>和<code>vector</code>一样是不支持随机插入和删除的，因为这两个容器将元素保存在连续的内存空间中，在中间插入元素会导致后面的元素全部都要移动。因此，每替换一个空格都需要$O(N)$的时间复杂度，总的时间复杂度为$O(N^2)$。</p>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><p>由于上述算法最大的开销是移动元素，我们观察到这中间实际上存在重复计算，而每个元素最少需要移动一次，因此我们在移动元素时需要确定其最终位置。</p>
+<p>每替换一个空格，字符串长度+2，即空格之后所有元素都要向右偏移两格。</p>
+<p>而从左向右遍历并插入和移动元素会导致后面的元素被覆盖，因此我们从右向左遍历避免这个问题。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">replaceSpace</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> space_num = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; c:s) &#123;</span><br><span class="line">            <span class="keyword">if</span>(c == <span class="string">' '</span>) ++space_num;</span><br><span class="line">        &#125;</span><br><span class="line">        s.append(<span class="number">2</span>*space_num, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> p1=s.rbegin()+<span class="number">2</span>*space_num, p2=s.rbegin(); p1!=s.rend(); ++p1) &#123;</span><br><span class="line">            <span class="keyword">if</span>(*p1 != <span class="string">' '</span>) *(p2++) = *p1;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                *(p2++) = <span class="string">'0'</span>;</span><br><span class="line">                *(p2++) = <span class="string">'2'</span>;</span><br><span class="line">                *(p2++) = <span class="string">'%'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度$O(N)$</li>
+<li>空间复杂度$O(1)$</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">字符串</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9805-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-myProjects/DL/YOLOv4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/DeepLearning/yolov4/">YOLOv4</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/DeepLearning/yolov4/" class="archive-article-date">
+  	<time datetime="2020-05-27T07:49:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="YOLOv4-学习笔记"><a href="#YOLOv4-学习笔记" class="headerlink" title="YOLOv4 学习笔记"></a>YOLOv4 学习笔记</h1><p>论文地址：<a href="https://arxiv.org/abs/2004.10934" target="_blank" rel="noopener">https://arxiv.org/abs/2004.10934</a></p>
+<h2 id="Todo"><a href="#Todo" class="headerlink" title="Todo"></a>Todo</h2><ul>
+<li>CBN</li>
+<li>SAM</li>
+</ul>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>论文主要贡献：</p>
+<ol>
+<li>以提升生产系统中目标检测器的速度以及优化并行计算，而不是优化 BFLOPS（十亿次浮点数运算）。构建的目标检测模型降低了训练对硬件的限制；</li>
+<li>检测器训练时，验证了最先进的Bag-of Freebies and Bag-of-Specials目标检测方法的影响。</li>
+<li>对一些先进的方法进行修改，包括CBN、PAN、SAM，使得它们更加的高效并适合单GPU运算。</li>
+</ol>
+<blockquote>
+<p>A modern detector is usually composed of two parts, a backbone which is pre-trained on ImageNet and a head which is used to predict classes and bounding boxes of objects.</p>
+</blockquote>
+<p>当前的检测器通常由两部分组成：</p>
+<ul>
+<li>在 ImageNet 上预训练的主干网络 (backbone)</li>
+<li>用来预测物体类别以及 bbox 的头部</li>
+</ul>
+<p>运行在不同平台上的模型所常用的 backbone：</p>
+<ul>
+<li>GPU 平台：<ul>
+<li>VGG</li>
+<li>ResNet</li>
+<li>ResNeXt</li>
+<li>DenseNet</li>
+</ul>
+</li>
+<li>CPU 平台<ul>
+<li>SqueezeNet</li>
+<li>MobileNet</li>
+<li>ShuffleNet</li>
+</ul>
+</li>
+</ul>
+<p>检测头一般分为单阶段和双阶段目标检测器：</p>
+<ul>
+<li>双阶段：<ul>
+<li>fast R-CNN</li>
+<li>faster R-CNN</li>
+<li>R-FCN</li>
+<li>Libra R-CNN</li>
+</ul>
+</li>
+<li>单阶段：<ul>
+<li>YOLO</li>
+<li>SSD</li>
+<li>RetinaNet</li>
+</ul>
+</li>
+</ul>
+<p>近年来，目标检测器通常是在头部和主干网络之间加入一些层，这些层被用来收集不同阶段的特征图。采用这种机制的网络包括 FPN, PAN, BiFPN 和 NAS-FPN。</p>
+<blockquote>
+<p>Usually, a conventional object detector is trained offline. Therefore, researchers always like to take this advantage and develop better training methods which can make the object detector receive better accuracy without increasing the inference cost. We call these methods that only change the training strategy or only increase the training cost as “bag of freebies.” </p>
+</blockquote>
+<p>只改变训练策略或者仅仅增加训练强度的方法叫做 bag of freebies。</p>
+<p>比如：</p>
+<ul>
+<li>数据增强，data augmentation</li>
+<li>hard negative example mining，focal loss 等解决正负样本不平衡</li>
+<li>BBox regression 中的 IoU loss，避免 l1 loss 和 l2 loss 对 scale 的敏感性</li>
+</ul>
+<blockquote>
+<p>For those plugin modules and post-processing methods that only increase the inference cost by a small amount but can signiﬁcantly improve the accuracy of object detection, we call them “bag of specials”. Generally speaking, these plugin modules are for enhancing certain attributes in a model, such as enlarging receptive ﬁeld, introducing attention mechanism, or strengthening feature integration capability, etc., and post-processing is a method for screening model prediction results. </p>
+</blockquote>
+<p>只增加小幅推理成本（正向传播）但是可以显著提高目标检测准确度的，增加模块或者预处理的方法叫做 bag of specials。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">YOLO</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/DeepLearning//" class="article-tag-list-link color3">DeepLearning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/DeepLearning/yolov4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-dailyLearning/剑指Offer/面试题04-二维数组中的查找" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -308,14 +582,14 @@ var _hmt = _hmt || [];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/C/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/">new和malloc的区别</a>
+      <a class="article-title" href="/Cpp/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/">new和malloc的区别</a>
     </h1>
   
 
         <!--显示阅读次数-->
         
         
-        <a href="/C/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/" class="archive-article-date">
+        <a href="/Cpp/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/" class="archive-article-date">
   	<time datetime="2020-05-26T13:33:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-26</time>
 </a>
         
@@ -386,11 +660,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C++</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">new</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">new</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
         		</li>
       		
 		</ul>
@@ -402,7 +676,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color4">C++</a>
+        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
         		</li>
       		
 		</ul>
@@ -411,7 +685,7 @@ var _hmt = _hmt || [];
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/C/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/">展开全文 >></a>
+          <a class="article-more-a" href="/Cpp/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/">展开全文 >></a>
         </p>
       
 
@@ -1175,7 +1449,73 @@ var _hmt = _hmt || [];
 <h3 id="引用不存在变量"><a href="#引用不存在变量" class="headerlink" title="引用不存在变量"></a>引用不存在变量</h3><p>函数返回将被释放的局部变量的引用会引发错误。</p>
 <h3 id="引用空闲堆块中的数据"><a href="#引用空闲堆块中的数据" class="headerlink" title="引用空闲堆块中的数据"></a>引用空闲堆块中的数据</h3><p>引用已经被释放了的堆块的数据。</p>
 <h3 id="引起内存泄露"><a href="#引起内存泄露" class="headerlink" title="引起内存泄露"></a>引起内存泄露</h3><p>忘记释放已分配快，在堆里创建垃圾时，会引起内存泄漏。</p>
-<h1 id="程序间的交互与通信"><a href="#程序间的交互与通信" class="headerlink" title="程序间的交互与通信"></a>程序间的交互与通信</h1><h1 id="高频提问问题"><a href="#高频提问问题" class="headerlink" title="高频提问问题"></a>高频提问问题</h1><ol>
+<h1 id="系统级-I-O"><a href="#系统级-I-O" class="headerlink" title="系统级 I/O"></a>系统级 I/O</h1><h2 id="Unix-I-O"><a href="#Unix-I-O" class="headerlink" title="Unix I/O"></a>Unix I/O</h2><p>一个 Linux 文件就是一个 m 字节的序列。</p>
+<p>所有的 I/O 设备都被模型化为<strong>文件</strong>。</p>
+<p>Linux I/O 是 Linux 系统内核引出的<strong>简单、低级的应用接口</strong>，使得所有输入输出都能够以一种统一且一致的方式来执行。</p>
+<ul>
+<li>打开文件。一个应用程序通过要求内核<strong>打开相应的文件</strong>，来宣告它想要访问一个 I/O 设备。内核返回一个小的<strong>非负整数</strong>，叫做<strong>描述符</strong>，在后续对此文件的所有操作中<strong>标识这个文件</strong>。内核记录这个打开文件的所有信息；</li>
+<li>Linux shell 创建的每个进程开始时都有三个打开的文件：标准输入（描述符0），标准输出（描述符1），标准错误（描述符2）；</li>
+<li>对于每个打开的文件，内核保持着一个<strong>文件位置 k</strong>，初始为0。这个文件位置是从文件开头起始的偏移量，应用程序可以通过 seek 操作显式设置文件当前位置；</li>
+<li>读写文件。一个<strong>读操作</strong>就是<strong>从文件复制  n&gt;0 个字节到内存</strong>，从当前文件位置开始，然后将 k 增加到 k+n。当 k&gt;m 时触发一个称为 EOF 的条件==（如何实现？）==，应用程序能够检测到这个条件。<strong>文件结尾处没有明确的 EOF 符号</strong>；</li>
+<li>关闭文件。内核释放文件打开时创建的数据结构，并将这个描述符恢复到<strong>可用的描述符池</strong>。无论一个进程因为何种因素<strong>终止</strong>，内核都会关闭所有打开的文件并释放内存资源。</li>
+</ul>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><p>每个 Linux 文件都有类型属性。</p>
+<ul>
+<li><p>普通文件 (regular file)：  </p>
+<p>包含任意数据。内核不需要而应用程序需要区分：</p>
+<ul>
+<li>文本文件 (text file)</li>
+<li>二进制文件 (binary file)</li>
+</ul>
+</li>
+<li><p>目录 (directory):  </p>
+<p>包含一组链接的文件，其中每个链接都将一个文件名 (filename) 映射到一个文件，这个文件可能是另一个目录。<br>每个目录至少包含两个条目：</p>
+<ul>
+<li><code>.</code>是到自身的链接</li>
+<li><code>..</code>是到目录层次结构中父目录 (parent directory) 的链接。</li>
+</ul>
+</li>
+<li><p>套接字 (socket) 是用来与另一个进程进行跨网络通信的文件。</p>
+</li>
+<li><p>命名通道</p>
+</li>
+<li><p>符号链接</p>
+</li>
+<li><p>字符</p>
+</li>
+<li><p>块设备</p>
+</li>
+</ul>
+<p>Linux 内核将所有目录组织为一个目录层次结构 (directory hierarchy)。</p>
+<p>系统中每个文件都是根目录直接或间接的后代。</p>
+<p>作为<strong>上下文的一部分</strong>，每个进程都一个<strong>当前工作目录 (current working directory)</strong>。</p>
+<h2 id="打开和关闭文件"><a href="#打开和关闭文件" class="headerlink" title="打开和关闭文件"></a>打开和关闭文件</h2><h2 id="读写文件"><a href="#读写文件" class="headerlink" title="读写文件"></a>读写文件</h2><h2 id="RIO包"><a href="#RIO包" class="headerlink" title="RIO包"></a>RIO包</h2><h2 id="读取文件元数据"><a href="#读取文件元数据" class="headerlink" title="读取文件元数据"></a>读取文件元数据</h2><h2 id="读取目录内容"><a href="#读取目录内容" class="headerlink" title="读取目录内容"></a>读取目录内容</h2><h2 id="共享文件"><a href="#共享文件" class="headerlink" title="共享文件"></a>共享文件</h2><p>内核用三个相关的数据结构表示打开的文件。</p>
+<ul>
+<li><p>描述符表 (descriptor table)。<strong>每个进程都有它独立的描述符表</strong>，每个 entry 由打开的文件描述符索引，每个打开的文件描述符表项指向<strong>文件表</strong>中的一个表项；</p>
+</li>
+<li><p>文件表 (file table)。文件表表示一个<strong>打开文件的集合</strong>，<strong>所有进程</strong>共享这张表。文件表的每个 entry 包括</p>
+<ul>
+<li>当前文件位置</li>
+<li>引用计数</li>
+<li>指向 v-node 表中对应表项的指针</li>
+</ul>
+<p>关闭一个文件会减少文件表中该文件的引用计数，一个文件的引用计数为0时，内核删除这个文件表表项。</p>
+</li>
+<li><p>v-node 表。所有进程共享 v-node 表。每个 v-node 表包含大多数文件<strong>元数据（权限、大小、类型等）</strong>。</p>
+</li>
+</ul>
+<p>多个描述符可以通过不同的文件表表项引用同一个文件。</p>
+<p>每个文件描述符都有自己的文件位置，对不同描述符的读操作可以从文件的不同位置读取数据。</p>
+<p>关于父子进程如何共享文件：父进程调用 Fork 函数创建子进程之后，子进程的拥有相同但是独立的描述符表。父子进程共享共同的文件表，因此共享相同的文件位置。</p>
+<p>内核在删除相应文件表项之前，父子进程必须都关闭了它们的文件描述符映射的文件。</p>
+<p><strong>父子进程共享一个文件表条目，父子进程中的任意进程读取该文件位置时，当前文件位置会发生变化，从而影响其他描述符表指向该文件表条目的进程的文件读取。</strong></p>
+<h2 id="I-O-重定向"><a href="#I-O-重定向" class="headerlink" title="I/O 重定向"></a>I/O 重定向</h2><p>Linux shell 提供了 I/O 重定向操作符，允许用户将磁盘文件和标准输入输出联系起来。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">linux&gt;</span><span class="bash">$ ls&gt;foo.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>shell 加载和执行 ls 程序，将标准输出重定向到瓷盆文件 foo.txt。</p>
+<p>I/O 重定向的工作原理：修改标准输入输出的文件描述符指向的文件表中的条目，使其指向一个指定文件。</p>
+<p>相同文件描述符指向相同的文件表项，访问同一个位置。</p>
+<h2 id="标准-I-O"><a href="#标准-I-O" class="headerlink" title="标准 I/O"></a>标准 I/O</h2><h1 id="高频提问问题"><a href="#高频提问问题" class="headerlink" title="高频提问问题"></a>高频提问问题</h1><ol>
 <li>一个程序从开始运行到结束的完整过程（四个过程）</li>
 <li>文件读写使用的系统调用</li>
 <li>守护进程、僵尸进程和孤儿进程</li>
@@ -1263,14 +1603,14 @@ var _hmt = _hmt || [];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/C/c-11%E6%96%B0%E7%89%B9%E6%80%A7/">C++11新特性</a>
+      <a class="article-title" href="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/">c++11新特性</a>
     </h1>
   
 
         <!--显示阅读次数-->
         
         
-        <a href="/C/c-11%E6%96%B0%E7%89%B9%E6%80%A7/" class="archive-article-date">
+        <a href="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/" class="archive-article-date">
   	<time datetime="2020-05-21T14:30:02.032Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-21</time>
 </a>
         
@@ -1345,7 +1685,7 @@ var _hmt = _hmt || [];
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C++</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
         		</li>
       		
 		</ul>
@@ -1357,7 +1697,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color4">C++</a>
+        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
         		</li>
       		
 		</ul>
@@ -1366,7 +1706,7 @@ var _hmt = _hmt || [];
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/C/c-11%E6%96%B0%E7%89%B9%E6%80%A7/">展开全文 >></a>
+          <a class="article-more-a" href="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/">展开全文 >></a>
         </p>
       
 
@@ -1738,228 +2078,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-dailyLearning/Leetcode/416.分割等和子集" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86/">416.分割等和子集</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86/" class="archive-article-date">
-  	<time datetime="2020-05-20T05:48:18.616Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>给定一个只包含正整数的非空数组。是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
-<p>注意:</p>
-<ol>
-<li>每个数组中的元素不会超过 100</li>
-<li>数组的大小不会超过 200</li>
-</ol>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入: [1, 5, 11, 5]</span><br><span class="line"></span><br><span class="line">输出: true</span><br><span class="line"></span><br><span class="line">解释: 数组可以分割成 [1, 5, 5] 和 [11].</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入: [1, 2, 3, 5]</span><br><span class="line"></span><br><span class="line">输出: false</span><br><span class="line"></span><br><span class="line">解释: 数组不能分割成两个元素和相等的子集.</span><br></pre></td></tr></table></figure>
-
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/partition-equal-subset-sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/partition-equal-subset-sum</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">0-1背包</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/416-%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/338.比特位计数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/338-%E6%AF%94%E7%89%B9%E4%BD%8D%E8%AE%A1%E6%95%B0/">338.比特位计数</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/338-%E6%AF%94%E7%89%B9%E4%BD%8D%E8%AE%A1%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2020-05-20T03:33:08.141Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>给定一个非负整数 <code>num</code>。对于 <code>0 ≤ i ≤ num</code> 范围中的每个数字 <code>i</code> ，计算其二进制数中的 <code>1</code> 的数目并将它们作为数组返回。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: 2</span><br><span class="line">输出: [0,1,1]</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: 5</span><br><span class="line">输出: [0,1,1,2,1,2]</span><br></pre></td></tr></table></figure>
-
-
-<p>进阶:</p>
-<ul>
-<li>给出时间复杂度为<code>O(n*sizeof(integer))</code>的解答非常容易。但你可以在线性时间<code>O(n)</code>内用一趟扫描做到吗？</li>
-<li>要求算法的空间复杂度为<code>O(n)</code>。</li>
-<li>你能进一步完善解法吗？要求在C++或任何其他语言中不使用任何内置函数（如 C++ 中的<code>__builtin_popcount</code>）来执行此操作。</li>
-</ul>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/counting-bits" target="_blank" rel="noopener">https://leetcode-cn.com/problems/counting-bits</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/338-%E6%AF%94%E7%89%B9%E4%BD%8D%E8%AE%A1%E6%95%B0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">位运算</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/338-%E6%AF%94%E7%89%B9%E4%BD%8D%E8%AE%A1%E6%95%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -2147,10 +2265,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">c++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">回溯</a>
               </li>
              
@@ -2207,15 +2321,23 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">数组</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">new</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">字符串</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Cpp</a>
               </li>
             
             <div class="clearfix"></div>

@@ -6,20 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>new和malloc的区别 | Frank&#39;s cabin</title>
+  <title>Tag: 字符串 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="细节 申请的内存所在位置new 操作符从自由存储区上为对象动态分配存储空间；malloc 函数在运行时堆上动态分配存储空间。自由存储区是基于 new 操作符的概念，凡是通过 new 操作符进行内存申请，那么该内存就是动态存储区；堆是操作系统虚拟内存系统在一个进程的私有虚拟空间中维护的一个区域，用于程序的动态内存分配。 自由存储区能否是堆取决于 new 操作符的具体实现。  返回类型安全性new 分">
-<meta property="og:type" content="article">
-<meta property="og:title" content="new和malloc的区别">
-<meta property="og:url" content="http://yoursite.com/C/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+  <meta name="description" content="记录自己的学习之路。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Frank&#39;s cabin">
+<meta property="og:url" content="http://yoursite.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
-<meta property="og:description" content="细节 申请的内存所在位置new 操作符从自由存储区上为对象动态分配存储空间；malloc 函数在运行时堆上动态分配存储空间。自由存储区是基于 new 操作符的概念，凡是通过 new 操作符进行内存申请，那么该内存就是动态存储区；堆是操作系统虚拟内存系统在一个进程的私有虚拟空间中维护的一个区域，用于程序的动态内存分配。 自由存储区能否是堆取决于 new 操作符的具体实现。  返回类型安全性new 分">
+<meta property="og:description" content="记录自己的学习之路。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-05-26T13:33:25.000Z">
-<meta property="article:modified_time" content="2020-05-26T14:41:20.238Z">
 <meta property="article:author" content="Frank Young">
-<meta property="article:tag" content="C++">
-<meta property="article:tag" content="new">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Frank&#39;s cabin" type="application/atom+xml">
@@ -84,13 +80,17 @@ var _hmt = _hmt || [];
 			
 				<li><a href="/">主页</a></li>
 	        
+				<li><a href="/categories/Cpp/">Cpp</a></li>
+	        
 				<li><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
 	        
 				<li><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
 	        
 				<li><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
 	        
-				<li><a href="/categories/DeepLearning/">DeepLearning</a></li>
+				<li><a href="/categories/DeepLearning/">深度学习</a></li>
+	        
+				<li><a href="/null">我的项目</a></li>
 	        
 			</ul>
 		</nav>
@@ -144,6 +144,10 @@ var _hmt = _hmt || [];
 			
 				
 			
+				
+			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -158,15 +162,19 @@ var _hmt = _hmt || [];
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 20%"><a href="/">主页</a></li>
+					<li style="width: 14.285714285714286%"><a href="/">主页</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/Cpp/">Cpp</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/DeepLearning/">DeepLearning</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+		        
+					<li style="width: 14.285714285714286%"><a href="/categories/DeepLearning/">深度学习</a></li>
+		        
+					<li style="width: 14.285714285714286%"><a href="/null">我的项目</a></li>
 		        
 				</ul>
 			</nav>
@@ -181,242 +189,75 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dailyLearning/c++/new和malloc的区别" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      new和malloc的区别
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9805-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/" class="archive-article-date">
+  	<time datetime="2020-05-27T10:28:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-27</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9805-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/">面试题05.替换空格</a>
     </h1>
   
 
-        <!--显示阅读次数-->
-        
-  	<br/>
-  	<a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
-  	<span class="icon-sort"></span>
-  	<span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
-            		阅读数: <span id="busuanzi_value_page_pv"></span>次 &nbsp;&nbsp;
-  	</span>
-  	</a>
-  	
-        
-        <a href="/C/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/" class="archive-article-date">
-  	<time datetime="2020-05-26T13:33:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h1><ol>
-<li><p>申请的内存所在位置<br>new 操作符从<strong>自由存储区</strong>上为对象动态分配存储空间；<br>malloc 函数在运行时堆上动态分配存储空间。<br>自由存储区是<strong>基于 new 操作符的概念</strong>，凡是通过 new 操作符进行内存申请，那么该内存就是动态存储区；<br>堆是操作系统虚拟内存系统在一个进程的私有虚拟空间中维护的一个区域，用于程序的动态内存分配。</p>
-<p><strong>自由存储区能否是堆</strong>取决于 new 操作符的具体实现。</p>
-</li>
-<li><p>返回类型安全性<br>new 分配成功时返回一个类型与其指向对象类型严格匹配的指针，<strong>无需进行类型转换</strong>，因此是符合<strong>类型安全性的</strong>操作符；</p>
-<p>而 malloc 返回 void*，需要强制转换成相应的对象类型。</p>
-<p>类型安全的代码不会试图访问禁止访问的内存区域，因此是内存安全的。</p>
-</li>
-<li><p>内存返回失败时的返回值<br>new 分配内存失败时，<strong>抛出 bad_alloc 异常</strong>，不会返回NULL；</p>
-<p>malloc 分配内存失败时，返回 NULL；<br>new 分配失败时使用 catch 捕获异常。</p>
-</li>
-<li><p>是否需要指定内存大小<br>new 无需指定大小，<strong>编译器</strong>会根据其类型信息计算；<br>malloc 需要显式指定内存大小；</p>
-</li>
-<li><p>是否调用构造函数/析构函数<br>使用 new 时会经历三个步骤：</p>
-<ul>
-<li>调用 operator new 函数，分配一块足够大的，原始的，未命名的内存空间以便存储特定类型对象；</li>
-<li>调用相应<strong>构造函数</strong>以构造对象，并为其传入初值；</li>
-<li>对象构造完成后，返回一个指向该对象的指针；</li>
-</ul>
-<p>使用 delete 操作符来释放对象内存时：</p>
-<ul>
-<li>调用对象析构函数；</li>
-<li>调用operator delete 函数释放内存空间；</li>
-</ul>
-</li>
-<li><p>对数组的处理 </p>
-<p>C++ 提供了 new[] 和 delete[] 来专门处理数组类型</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T* ptr = <span class="keyword">new</span> T[<span class="number">10</span>]; <span class="comment">// 分配一个10个T类型元素的数组</span></span><br><span class="line"><span class="keyword">delete</span> [] ptr;</span><br></pre></td></tr></table></figure>
-
-<p>new[] 会分别调用构造函数初始化每一个数组元素，释放对象时为每个对象调用析构函数；</p>
-<p>malloc 仅仅分配一块内存，并返回一个指向首地址的指针。</p>
-</li>
-<li><p>new 和 malloc 是否可以相互调用<br>new/delete 可以基于 malloc/free 实现，反之不行；因为 new 本身比 malloc 更复杂，无法用高级功能体现低级特性。</p>
-</li>
-<li><p>是否可以被重载<br>operator new / operator delete 可以被重载。<br>malloc / free 不允许重载。</p>
-</li>
-<li><p>能否重新分配内存<br>malloc 可以使用 realloc 进行内存重新分配；<br>new 没有扩充内存的工具；</p>
-</li>
-<li><p>客户处理内存分配不足<br>operator new 分配内存失败抛出一个异常之前，会先调用一个用户指定的异常处理函数 new-handler，用户使用 set_new_handler 函数指定异常处理函数。</p>
-<p>其实就是设置了用户定义的异常处理函数，使用了标准库包装的系统调用进行设置（个人理解，有待考证）。</p>
-</li>
-</ol>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>区别在于：</p>
-<ul>
-<li>物理位置</li>
-<li>输入输出，是否安全</li>
-<li>如何实现</li>
-<li>有何功能</li>
-</ul>
-<p>几个方面的差异。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C++</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">new</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">字符串</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/C//" class="article-tag-list-link color4">C++</a>
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/C/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9804-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          面试题04.二维数组中的查找
-        
-      </div>
-    </a>
   
   
-    <a href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">03数组中重复的数字</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#细节"><span class="toc-number">1.</span> <span class="toc-text">细节</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -441,9 +282,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: false,
@@ -599,10 +440,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">c++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">回溯</a>
               </li>
              
@@ -659,15 +496,23 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">数组</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">new</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">字符串</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Cpp</a>
               </li>
             
             <div class="clearfix"></div>

@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>c++视频学习笔记 | Frank&#39;s cabin</title>
+  <title>YOLOv4 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="OO思想的特点：  封装把对象属性和方法结合成独立的系统单位，并尽可能隐藏实现细节，是面向对象思想描述的基础；    抽象对具体问题进行概括，对某一类公共问题进行同意描述； 继承子类对象拥有与基类对象相同的全部属性和方法，称为继承； 多态基类中定义的属性和行为被子类继承后，可以具有不同的特性（行为、数据类型），在共性中寻找特性；   数组的传递 12345678910int main()&amp;#12">
+  <meta name="description" content="YOLOv4 学习笔记论文地址：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2004.10934 Todo CBN SAM  概述论文主要贡献：  以提升生产系统中目标检测器的速度以及优化并行计算，而不是优化 BFLOPS（十亿次浮点数运算）。构建的目标检测模型降低了训练对硬件的限制； 检测器训练时，验证了最先进的Bag-of Freebies and Bag-of-Specials目标检测方法的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="c++视频学习笔记">
-<meta property="og:url" content="http://yoursite.com/c/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:title" content="YOLOv4">
+<meta property="og:url" content="http://yoursite.com/DeepLearning/yolov4/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
-<meta property="og:description" content="OO思想的特点：  封装把对象属性和方法结合成独立的系统单位，并尽可能隐藏实现细节，是面向对象思想描述的基础；    抽象对具体问题进行概括，对某一类公共问题进行同意描述； 继承子类对象拥有与基类对象相同的全部属性和方法，称为继承； 多态基类中定义的属性和行为被子类继承后，可以具有不同的特性（行为、数据类型），在共性中寻找特性；   数组的传递 12345678910int main()&amp;#12">
+<meta property="og:description" content="YOLOv4 学习笔记论文地址：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2004.10934 Todo CBN SAM  概述论文主要贡献：  以提升生产系统中目标检测器的速度以及优化并行计算，而不是优化 BFLOPS（十亿次浮点数运算）。构建的目标检测模型降低了训练对硬件的限制； 检测器训练时，验证了最先进的Bag-of Freebies and Bag-of-Specials目标检测方法的">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-05-17T02:30:50.974Z">
-<meta property="article:modified_time" content="2020-05-20T13:25:05.474Z">
+<meta property="article:published_time" content="2020-05-27T07:49:22.000Z">
+<meta property="article:modified_time" content="2020-05-27T07:49:22.000Z">
 <meta property="article:author" content="Frank Young">
-<meta property="article:tag" content="c++">
+<meta property="article:tag" content="YOLO">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Frank&#39;s cabin" type="application/atom+xml">
@@ -83,13 +83,17 @@ var _hmt = _hmt || [];
 			
 				<li><a href="/">主页</a></li>
 	        
+				<li><a href="/categories/Cpp/">Cpp</a></li>
+	        
 				<li><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
 	        
 				<li><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
 	        
 				<li><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
 	        
-				<li><a href="/categories/DeepLearning/">DeepLearning</a></li>
+				<li><a href="/categories/DeepLearning/">深度学习</a></li>
+	        
+				<li><a href="/null">我的项目</a></li>
 	        
 			</ul>
 		</nav>
@@ -143,6 +147,10 @@ var _hmt = _hmt || [];
 			
 				
 			
+				
+			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -157,15 +165,19 @@ var _hmt = _hmt || [];
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 20%"><a href="/">主页</a></li>
+					<li style="width: 14.285714285714286%"><a href="/">主页</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/Cpp/">Cpp</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
 		        
-					<li style="width: 20%"><a href="/categories/DeepLearning/">DeepLearning</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+		        
+					<li style="width: 14.285714285714286%"><a href="/categories/DeepLearning/">深度学习</a></li>
+		        
+					<li style="width: 14.285714285714286%"><a href="/null">我的项目</a></li>
 		        
 				</ul>
 			</nav>
@@ -180,14 +192,14 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dailyLearning/c++/C++视频学习笔记" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-myProjects/DL/YOLOv4" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      c++视频学习笔记
+      YOLOv4
     </h1>
   
 
@@ -202,64 +214,80 @@ var _hmt = _hmt || [];
   	</a>
   	
         
-        <a href="/c/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2020-05-17T02:30:50.974Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
+        <a href="/DeepLearning/yolov4/" class="archive-article-date">
+  	<time datetime="2020-05-27T07:49:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li><p>OO思想的特点：</p>
+        <h1 id="YOLOv4-学习笔记"><a href="#YOLOv4-学习笔记" class="headerlink" title="YOLOv4 学习笔记"></a>YOLOv4 学习笔记</h1><p>论文地址：<a href="https://arxiv.org/abs/2004.10934" target="_blank" rel="noopener">https://arxiv.org/abs/2004.10934</a></p>
+<h2 id="Todo"><a href="#Todo" class="headerlink" title="Todo"></a>Todo</h2><ul>
+<li>CBN</li>
+<li>SAM</li>
+</ul>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>论文主要贡献：</p>
+<ol>
+<li>以提升生产系统中目标检测器的速度以及优化并行计算，而不是优化 BFLOPS（十亿次浮点数运算）。构建的目标检测模型降低了训练对硬件的限制；</li>
+<li>检测器训练时，验证了最先进的Bag-of Freebies and Bag-of-Specials目标检测方法的影响。</li>
+<li>对一些先进的方法进行修改，包括CBN、PAN、SAM，使得它们更加的高效并适合单GPU运算。</li>
+</ol>
+<blockquote>
+<p>A modern detector is usually composed of two parts, a backbone which is pre-trained on ImageNet and a head which is used to predict classes and bounding boxes of objects.</p>
+</blockquote>
+<p>当前的检测器通常由两部分组成：</p>
 <ul>
-<li>封装<br>把对象属性和方法结合成独立的系统单位，并尽可能隐藏实现细节，是面向对象思想描述的基础；   </li>
-<li>抽象<br>对具体问题进行概括，对某一类公共问题进行同意描述；</li>
-<li>继承<br>子类对象拥有与基类对象相同的全部属性和方法，称为继承；</li>
-<li>多态<br>基类中定义的属性和行为被子类继承后，可以具有不同的特性（行为、数据类型），在共性中寻找特性；</li>
+<li>在 ImageNet 上预训练的主干网络 (backbone)</li>
+<li>用来预测物体类别以及 bbox 的头部</li>
+</ul>
+<p>运行在不同平台上的模型所常用的 backbone：</p>
+<ul>
+<li>GPU 平台：<ul>
+<li>VGG</li>
+<li>ResNet</li>
+<li>ResNeXt</li>
+<li>DenseNet</li>
 </ul>
 </li>
-<li><p>数组的传递</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> data[] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    <span class="built_in">print</span>(<span class="keyword">sizeof</span>(data));</span><br><span class="line">    <span class="comment">// 结果为2*4 Byte=8 Byte</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">addArray</span><span class="params">(<span class="keyword">int</span> <span class="built_in">array</span>[])</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="keyword">sizeof</span>(<span class="built_in">array</span>));</span><br><span class="line">    <span class="comment">// 结果为指针长度（机器相关）4（32位）或8（64位机器）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>CPU 平台<ul>
+<li>SqueezeNet</li>
+<li>MobileNet</li>
+<li>ShuffleNet</li>
+</ul>
 </li>
-<li><p><code>cout</code>是一个输出流对象，是<code>console out</code>的缩写，属于<code>basic_ostream</code>类；</p>
+</ul>
+<p>检测头一般分为单阶段和双阶段目标检测器：</p>
+<ul>
+<li>双阶段：<ul>
+<li>fast R-CNN</li>
+<li>faster R-CNN</li>
+<li>R-FCN</li>
+<li>Libra R-CNN</li>
+</ul>
 </li>
-<li><p>c语言中，<code>scanf</code>从输入流获取值，<code>getchar</code>获取字符</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;i); <span class="comment">// 将读入的十进制数存入变量i</span></span><br><span class="line">ch = getchar(); <span class="comment">// 将读入的char类型数据存入ch，此时读入ch的数据不再存在在输入流中</span></span><br><span class="line">ungetc(ch, <span class="built_in">stdin</span>)； <span class="comment">// 将ch中的数据退回输入流</span></span><br></pre></td></tr></table></figure>
+<li>单阶段：<ul>
+<li>YOLO</li>
+<li>SSD</li>
+<li>RetinaNet</li>
+</ul>
 </li>
-<li><p><code>c++</code>版本的流输入</p>
-<p><code>cin</code>的类型为<code>istream</code>；</p>
-<p>用户输入时，对应的字符进入操作系统的键盘缓冲区中；</p>
-<p>输入<code>enter</code>时，操作系统把家农安缓冲区的内容传输到<code>cin</code>的内部缓冲区，由<code>&gt;&gt;</code>操作符从内部缓冲区中提取需要的信息；</p>
-<p><code>&gt;&gt;</code>操作符对所有内建类型都进行了重载；</p>
-</li>
-<li><p>阻塞性IO、非阻塞、异步</p>
-</li>
-<li><p><code>C++</code>可以在任意位置声明变量，允许我们在实际使用的时候再声明；</p>
-</li>
-<li><pre><code class="c++"><span class="keyword">char</span> buf[<span class="number">20</span>]; <span class="comment">// 可存放19个字符</span>
-<span class="built_in">cin</span>.ignore(n); <span class="comment">//忽略n个字符</span>
-<span class="built_in">cin</span>.getline(buf, <span class="number">10</span>); <span class="comment">// 从cin中读取10个字符存入buf</span>
-<span class="keyword">while</span>(<span class="built_in">cin</span>.<span class="built_in">peek</span>() != <span class="string">'\n'</span>){
-    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">cin</span>.<span class="built_in">get</span>();
-}; <span class="comment">// 当前字符不为换行符时，将读入字符输出，先读入后放回</span>
-
-<span class="keyword">const</span> <span class="keyword">int</span> <span class="built_in">size</span> = <span class="number">50</span>;
-<span class="keyword">int</span> buf[<span class="built_in">size</span>];
-
-<span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入文本："</span>;
-<span class="built_in">cin</span>.<span class="built_in">read</span>(buf, <span class="number">20</span>);
-
-<span class="built_in">cout</span>&lt;&lt;<span class="string">"字符串收集到的字符数为："</span>&lt;&lt; <span class="built_in">cin</span>.gcount() &lt;&lt; <span class="built_in">endl</span>;
-
-<span class="built_in">cout</span> &lt;&lt; <span class="string">"输入的文本信息为："</span>;
-<span class="built_in">cout</span>.<span class="built_in">write</span>(buf, <span class="number">20</span>);
-&lt;!--￼<span class="number">2</span>--&gt;
-
-&lt;!--￼<span class="number">3</span>--&gt;</code></pre>
-</li>
-<li></li>
-</ol>
+</ul>
+<p>近年来，目标检测器通常是在头部和主干网络之间加入一些层，这些层被用来收集不同阶段的特征图。采用这种机制的网络包括 FPN, PAN, BiFPN 和 NAS-FPN。</p>
+<blockquote>
+<p>Usually, a conventional object detector is trained offline. Therefore, researchers always like to take this advantage and develop better training methods which can make the object detector receive better accuracy without increasing the inference cost. We call these methods that only change the training strategy or only increase the training cost as “bag of freebies.” </p>
+</blockquote>
+<p>只改变训练策略或者仅仅增加训练强度的方法叫做 bag of freebies。</p>
+<p>比如：</p>
+<ul>
+<li>数据增强，data augmentation</li>
+<li>hard negative example mining，focal loss 等解决正负样本不平衡</li>
+<li>BBox regression 中的 IoU loss，避免 l1 loss 和 l2 loss 对 scale 的敏感性</li>
+</ul>
+<blockquote>
+<p>For those plugin modules and post-processing methods that only increase the inference cost by a small amount but can signiﬁcantly improve the accuracy of object detection, we call them “bag of specials”. Generally speaking, these plugin modules are for enhancing certain attributes in a model, such as enlarging receptive ﬁeld, introducing attention mechanism, or strengthening feature integration capability, etc., and post-processing is a method for screening model prediction results. </p>
+</blockquote>
+<p>只增加小幅推理成本（正向传播）但是可以显著提高目标检测准确度的，增加模块或者预处理的方法叫做 bag of specials。</p>
 
       
 
@@ -273,7 +301,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">YOLO</a>
         		</li>
       		
 		</ul>
@@ -285,11 +313,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/c//" class="article-tag-list-link color4">c++</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/c/summary//" class="article-tag-list-link color3">summary</a>
+        			<a href="/categories/DeepLearning//" class="article-tag-list-link color3">DeepLearning</a>
         		</li>
       		
 		</ul>
@@ -344,7 +368,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/c/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/DeepLearning/yolov4/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -358,18 +382,18 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/DeepLearning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B9%8Bssd%E6%A8%A1%E5%9E%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9805-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          深度学习目标检测之SSD模型
+          面试题05.替换空格
         
       </div>
     </a>
   
   
-    <a href="/Leetcode/221-%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">221.最大正方形</div>
+    <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9804-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">面试题04.二维数组中的查找</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -396,7 +420,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    Oops, a search miss…
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#YOLOv4-学习笔记"><span class="toc-number">1.</span> <span class="toc-text">YOLOv4 学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Todo"><span class="toc-number">1.1.</span> <span class="toc-text">Todo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.2.</span> <span class="toc-text">概述</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -598,10 +622,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">c++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">回溯</a>
               </li>
              
@@ -658,15 +678,23 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">数组</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">new</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">字符串</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Cpp</a>
               </li>
             
             <div class="clearfix"></div>
