@@ -15,18 +15,18 @@
 <meta property="og:site_name" content="Frank&#39;s cabin">
 <meta property="og:description" content="[toc] 异常控制流异常异常 (exception)是异常控制流的一种形式，一部分由硬件实现，一部分由操作系统实现。虽然其实现是硬件相关，但是其基本思想是相同的。 异常就是控制流中的突变，用来响应处理器状态的某些变化。 状态变化称为事件 (event)，可能和当前指令的执行直接相关：  发生虚拟内存缺页 算术溢出等等  或者与当前指令的执行无关：  系统定时器产生信号 一个 I&#x2F;O 请求完成">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525134521210.png">
-<meta property="og:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525163736355.png">
-<meta property="og:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525165137456.png">
-<meta property="og:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525170118689.png">
-<meta property="og:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525172538950.png">
+<meta property="og:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525134521210.png">
+<meta property="og:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525163736355.png">
+<meta property="og:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525165137456.png">
+<meta property="og:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525170118689.png">
+<meta property="og:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525172538950.png">
 <meta property="article:published_time" content="2020-05-22T03:41:42.275Z">
 <meta property="article:modified_time" content="2020-05-22T03:41:42.275Z">
 <meta property="article:author" content="Frank Young">
 <meta property="article:tag" content="summary">
 <meta property="article:tag" content="计算机基础">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525134521210.png">
+<meta name="twitter:image" content="http://yoursite.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525134521210.png">
   
     <link rel="alternative" href="/atom.xml" title="Frank&#39;s cabin" type="application/atom+xml">
   
@@ -662,7 +662,7 @@ var _hmt = _hmt || [];
 <p>如果 PTE 碰巧缓存在 L1 高速缓存中，那么开销就下降到了1到2个周期。</p>
 <p>MMU 中因此包括了一个关于 PTE 的缓存，称为<strong>翻译后备缓冲器 (Translation Lookaside Buffer)</strong>。</p>
 <h3 id="多级页表"><a href="#多级页表" class="headerlink" title="多级页表"></a>多级页表</h3><p>使用 B-Trees 结构更高效地利用内存空间存储 PTE。</p>
-<p><img src="./%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525134521210.png" alt=""></p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525134521210.png" alt></p>
 <p>在 k 级页表层次结构的地址翻译中，虚拟地址被划分为 k 个 VPN 和一个 VPO。为了构造物理地址，MMU 必须访问 k 个 PTE。</p>
 <p>TLB 将不同层次的页表 PTE 缓存起来加速翻译。</p>
 <h2 id="Intel-Core-i7-Linux-内存系统"><a href="#Intel-Core-i7-Linux-内存系统" class="headerlink" title="Intel Core i7/Linux 内存系统"></a>Intel Core i7/Linux 内存系统</h2><p>L1, L2, L3 高速缓存是物理寻址的，块大小64字节。</p>
@@ -671,15 +671,15 @@ var _hmt = _hmt || [];
 <p>Linux 使用 4KB 的页。</p>
 <h3 id="Core-i7-地址翻译"><a href="#Core-i7-地址翻译" class="headerlink" title="Core i7 地址翻译"></a>Core i7 地址翻译</h3><p>Core i7 采用<strong>四级页表</strong>层次结构。每个进程有它自己私有的页表层次结构。</p>
 <p>与已分配页相关联的<strong>页表</strong>驻留在内存中。CR3 控制寄存器指向第一级页表的起始位置，CR3 的值是每个进程上下文的一部分。每次上下文切换时，CR3 都会被恢复。</p>
-<p><img src="./%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525163736355.png" alt=""></p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525163736355.png" alt></p>
 <p>上图为前三级页表条目 PTE 的格式，其中每个 PTE 引用一个 4KB 子页表。每个条目 64位，8 字节，因此每一级页表层次包含 512 个子页表起始位置。</p>
 <p>当 P=1 时，即该子页表为已缓存状态时，地址字段包含一个<strong>子页表的物理基地址的最高40位</strong>的物理页号，指向适当的页表的起始位置。这使得物理页表必须 4KB 对齐。<strong>（为什么）</strong></p>
 <p>类似地，物理页也被要求 4KB 对齐。</p>
-<p><img src="./%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525165137456.png" alt=""></p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525165137456.png" alt></p>
 <p>当 MMU 翻译每一个虚拟地址时，它会更新另外两个内核缺页处理程序会用到的位。</p>
 <p>每访问一个页，MMU 设置<strong>引用位</strong>。内核可以用这个引用位实现它的页替换算法。</p>
 <p>每对一个位进行写之后，MMU 设置修改位（脏位，dirty bit），告诉内核在复制替换页之前是否必须写回牺牲页。</p>
-<h3 id="Linux-虚拟内存系统"><a href="#Linux-虚拟内存系统" class="headerlink" title="Linux 虚拟内存系统"></a>Linux 虚拟内存系统</h3><p><img src="./%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525170118689.png" alt=""></p>
+<h3 id="Linux-虚拟内存系统"><a href="#Linux-虚拟内存系统" class="headerlink" title="Linux 虚拟内存系统"></a>Linux 虚拟内存系统</h3><p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525170118689.png" alt></p>
 <p>内核虚拟内存位于用户栈之上（更高地址）。</p>
 <p>内核虚拟内存的某些区域被映射到所有进程共享的物理页面。例如，每个进程共享<strong>内核代码和全局数据结构</strong>。</p>
 <p>Linux 也将一组连续的虚拟页面（大小等于系统中 DRAM 总量）映射到相应的一组连续的物理页面。这为内核提供了访问物理内存中任意位置的便利方法。</p>
@@ -688,7 +688,7 @@ var _hmt = _hmt || [];
 <p>一个区域 (area) 就是<strong>已分配的</strong>虚拟内存的连续片 (chunk)。</p>
 <p>区域的概念，允许虚拟地址之间有间隙，而这些间隙不用被内核记录，不占用内存、磁盘或者内核本身中的任何额外资源。</p>
 <p>内核为系统中每个进程维护一个<strong>单独的任务结构</strong>，任务结构中的每个元素包含或者指向运行该进程所需要的所有信息（PID，指向用户栈的指针，可执行目标文件名称，程序计数器）。</p>
-<p><img src="./%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525172538950.png" alt=""></p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525172538950.png" alt></p>
 <ul>
 <li>vm_start：指向区域起始处；</li>
 <li>vm_end：指向区域结束处；</li>
@@ -1133,11 +1133,7 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">c++开发</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">summary</a>
+                <a href="javascript:void(0)" class="js-tag color2">hexo-asset-image</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1149,15 +1145,27 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">c++开发</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">summary</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">二叉树</a>
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">DFS</a>
+                <a href="javascript:void(0)" class="js-tag color2">栈</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">二叉树</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1169,11 +1177,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">栈</a>
+                <a href="javascript:void(0)" class="js-tag color4">DFS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1201,11 +1205,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">位运算</a>
+                <a href="javascript:void(0)" class="js-tag color1">0-1背包</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">0-1背包</a>
+                <a href="javascript:void(0)" class="js-tag color4">位运算</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1217,11 +1221,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">summmary</a>
+                <a href="javascript:void(0)" class="js-tag color3">递归</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">递归</a>
+                <a href="javascript:void(0)" class="js-tag color4">summmary</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1245,11 +1249,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">字符串</a>
+                <a href="javascript:void(0)" class="js-tag color3">数组</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数组</a>
+                <a href="javascript:void(0)" class="js-tag color4">字符串</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1257,11 +1261,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
+                <a href="javascript:void(0)" class="js-tag color5">二分查找</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二分查找</a>
+                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1273,11 +1277,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">网络编程</a>
+                <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">线程</a>
+                <a href="javascript:void(0)" class="js-tag color5">网络编程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1289,19 +1293,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">DeepLearning</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Anaconda</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">proxy</a>
+                <a href="javascript:void(0)" class="js-tag color3">DeepLearning</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1309,7 +1305,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Anaconda</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">proxy</a>
               </li>
              
               <li class="article-tag-list-item">
