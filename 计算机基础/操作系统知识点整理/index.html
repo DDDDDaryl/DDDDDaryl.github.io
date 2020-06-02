@@ -662,8 +662,7 @@ var _hmt = _hmt || [];
 <p>如果 PTE 碰巧缓存在 L1 高速缓存中，那么开销就下降到了1到2个周期。</p>
 <p>MMU 中因此包括了一个关于 PTE 的缓存，称为<strong>翻译后备缓冲器 (Translation Lookaside Buffer)</strong>。</p>
 <h3 id="多级页表"><a href="#多级页表" class="headerlink" title="多级页表"></a>多级页表</h3><p>使用 B-Trees 结构更高效地利用内存空间存储 PTE。</p>
-<img src="操作系统知识点整理/image-20200525134521210.png" alt="image-20200525134521210" style="zoom:67%;" />
-
+<p><img src="./%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525134521210.png" alt=""></p>
 <p>在 k 级页表层次结构的地址翻译中，虚拟地址被划分为 k 个 VPN 和一个 VPO。为了构造物理地址，MMU 必须访问 k 个 PTE。</p>
 <p>TLB 将不同层次的页表 PTE 缓存起来加速翻译。</p>
 <h2 id="Intel-Core-i7-Linux-内存系统"><a href="#Intel-Core-i7-Linux-内存系统" class="headerlink" title="Intel Core i7/Linux 内存系统"></a>Intel Core i7/Linux 内存系统</h2><p>L1, L2, L3 高速缓存是物理寻址的，块大小64字节。</p>
@@ -672,18 +671,15 @@ var _hmt = _hmt || [];
 <p>Linux 使用 4KB 的页。</p>
 <h3 id="Core-i7-地址翻译"><a href="#Core-i7-地址翻译" class="headerlink" title="Core i7 地址翻译"></a>Core i7 地址翻译</h3><p>Core i7 采用<strong>四级页表</strong>层次结构。每个进程有它自己私有的页表层次结构。</p>
 <p>与已分配页相关联的<strong>页表</strong>驻留在内存中。CR3 控制寄存器指向第一级页表的起始位置，CR3 的值是每个进程上下文的一部分。每次上下文切换时，CR3 都会被恢复。</p>
-<img src="操作系统知识点整理/image-20200525163736355.png" alt="image-20200525163736355" style="zoom:67%;" />
-
+<p><img src="./%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525163736355.png" alt=""></p>
 <p>上图为前三级页表条目 PTE 的格式，其中每个 PTE 引用一个 4KB 子页表。每个条目 64位，8 字节，因此每一级页表层次包含 512 个子页表起始位置。</p>
 <p>当 P=1 时，即该子页表为已缓存状态时，地址字段包含一个<strong>子页表的物理基地址的最高40位</strong>的物理页号，指向适当的页表的起始位置。这使得物理页表必须 4KB 对齐。<strong>（为什么）</strong></p>
 <p>类似地，物理页也被要求 4KB 对齐。</p>
-<img src="操作系统知识点整理/image-20200525165137456.png" alt="image-20200525165137456" style="zoom:67%;" />
-
+<p><img src="./%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525165137456.png" alt=""></p>
 <p>当 MMU 翻译每一个虚拟地址时，它会更新另外两个内核缺页处理程序会用到的位。</p>
 <p>每访问一个页，MMU 设置<strong>引用位</strong>。内核可以用这个引用位实现它的页替换算法。</p>
 <p>每对一个位进行写之后，MMU 设置修改位（脏位，dirty bit），告诉内核在复制替换页之前是否必须写回牺牲页。</p>
-<h3 id="Linux-虚拟内存系统"><a href="#Linux-虚拟内存系统" class="headerlink" title="Linux 虚拟内存系统"></a>Linux 虚拟内存系统</h3><img src="操作系统知识点整理/image-20200525170118689.png" alt="image-20200525170118689" style="zoom:75%;" />
-
+<h3 id="Linux-虚拟内存系统"><a href="#Linux-虚拟内存系统" class="headerlink" title="Linux 虚拟内存系统"></a>Linux 虚拟内存系统</h3><p><img src="./%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525170118689.png" alt=""></p>
 <p>内核虚拟内存位于用户栈之上（更高地址）。</p>
 <p>内核虚拟内存的某些区域被映射到所有进程共享的物理页面。例如，每个进程共享<strong>内核代码和全局数据结构</strong>。</p>
 <p>Linux 也将一组连续的虚拟页面（大小等于系统中 DRAM 总量）映射到相应的一组连续的物理页面。这为内核提供了访问物理内存中任意位置的便利方法。</p>
@@ -692,8 +688,7 @@ var _hmt = _hmt || [];
 <p>一个区域 (area) 就是<strong>已分配的</strong>虚拟内存的连续片 (chunk)。</p>
 <p>区域的概念，允许虚拟地址之间有间隙，而这些间隙不用被内核记录，不占用内存、磁盘或者内核本身中的任何额外资源。</p>
 <p>内核为系统中每个进程维护一个<strong>单独的任务结构</strong>，任务结构中的每个元素包含或者指向运行该进程所需要的所有信息（PID，指向用户栈的指针，可执行目标文件名称，程序计数器）。</p>
-<img src="操作系统知识点整理/image-20200525172538950.png" alt="image-20200525172538950" style="zoom:67%;" />
-
+<p><img src="./%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525172538950.png" alt=""></p>
 <ul>
 <li>vm_start：指向区域起始处；</li>
 <li>vm_end：指向区域结束处；</li>
@@ -1014,19 +1009,6 @@ var _hmt = _hmt || [];
         </div>
         
         
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#异常控制流"><span class="toc-number">1.</span> <span class="toc-text">异常控制流</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">1.1.</span> <span class="toc-text">异常</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#异常处理"><span class="toc-number">1.1.1.</span> <span class="toc-text">异常处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异常类别"><span class="toc-number">1.1.2.</span> <span class="toc-text">异常类别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#中断"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">中断</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#陷阱和系统调用"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">陷阱和系统调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#故障"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">故障</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#终止"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">终止</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程"><span class="toc-number">1.2.</span> <span class="toc-text">进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#进程提供给应用程序的抽象"><span class="toc-number">1.2.1.</span> <span class="toc-text">进程提供给应用程序的抽象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑控制流"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">逻辑控制流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#并发流"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">并发流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#私有地址空间"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">私有地址空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户模式、内核模式"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">用户模式、内核模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#上下文切换"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">上下文切换</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程控制"><span class="toc-number">1.3.</span> <span class="toc-text">进程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取进程ID"><span class="toc-number">1.3.1.</span> <span class="toc-text">获取进程ID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建和终止进程"><span class="toc-number">1.3.2.</span> <span class="toc-text">创建和终止进程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建进程"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">创建进程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#回收子进程"><span class="toc-number">1.3.3.</span> <span class="toc-text">回收子进程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#waitpid函数"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">waitpid函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#让进程休眠"><span class="toc-number">1.3.4.</span> <span class="toc-text">让进程休眠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加载并运行程序"><span class="toc-number">1.3.5.</span> <span class="toc-text">加载并运行程序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#程序与进程"><span class="toc-number">1.3.5.1.</span> <span class="toc-text">程序与进程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信号"><span class="toc-number">1.4.</span> <span class="toc-text">信号</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#信号术语"><span class="toc-number">1.4.1.</span> <span class="toc-text">信号术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送信号"><span class="toc-number">1.4.2.</span> <span class="toc-text">发送信号</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#进程组"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">进程组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用-bin-kill-程序发送信号"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">用 &#x2F;bin&#x2F;kill 程序发送信号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#从键盘发送信号"><span class="toc-number">1.4.2.3.</span> <span class="toc-text">从键盘发送信号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用-kill-函数发送信号"><span class="toc-number">1.4.2.4.</span> <span class="toc-text">用 kill 函数发送信号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#alarm-函数发送信号"><span class="toc-number">1.4.2.5.</span> <span class="toc-text">alarm 函数发送信号</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#接收信号"><span class="toc-number">1.4.3.</span> <span class="toc-text">接收信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#阻塞和解除阻塞信号"><span class="toc-number">1.4.4.</span> <span class="toc-text">阻塞和解除阻塞信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写信号处理程序"><span class="toc-number">1.4.5.</span> <span class="toc-text">编写信号处理程序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安全的信号处理"><span class="toc-number">1.4.5.1.</span> <span class="toc-text">安全的信号处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#正确的信号处理"><span class="toc-number">1.4.5.2.</span> <span class="toc-text">正确的信号处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步流以避免讨厌的并发错误"><span class="toc-number">1.4.6.</span> <span class="toc-text">同步流以避免讨厌的并发错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显式地等待信号"><span class="toc-number">1.4.7.</span> <span class="toc-text">显式地等待信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非本地跳转"><span class="toc-number">1.4.8.</span> <span class="toc-text">非本地跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#非本地跳转的应用1"><span class="toc-number">1.4.8.1.</span> <span class="toc-text">非本地跳转的应用1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#非本地跳转的应用2"><span class="toc-number">1.4.8.2.</span> <span class="toc-text">非本地跳转的应用2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#操作进程的工具"><span class="toc-number">1.4.9.</span> <span class="toc-text">操作进程的工具</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#虚拟内存"><span class="toc-number">2.</span> <span class="toc-text">虚拟内存</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存和主存的区别"><span class="toc-number">2.1.</span> <span class="toc-text">内存和主存的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#物理和虚拟地址"><span class="toc-number">2.2.</span> <span class="toc-text">物理和虚拟地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址空间"><span class="toc-number">2.3.</span> <span class="toc-text">地址空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟内存作为缓存工具"><span class="toc-number">2.4.</span> <span class="toc-text">虚拟内存作为缓存工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#页表"><span class="toc-number">2.4.1.</span> <span class="toc-text">页表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#页命中"><span class="toc-number">2.4.2.</span> <span class="toc-text">页命中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺页"><span class="toc-number">2.4.3.</span> <span class="toc-text">缺页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分配页面"><span class="toc-number">2.4.4.</span> <span class="toc-text">分配页面</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟内存作为内存管理的工具"><span class="toc-number">2.5.</span> <span class="toc-text">虚拟内存作为内存管理的工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟内存作为内存保护的工具"><span class="toc-number">2.6.</span> <span class="toc-text">虚拟内存作为内存保护的工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址翻译"><span class="toc-number">2.7.</span> <span class="toc-text">地址翻译</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#页命中时"><span class="toc-number">2.7.0.1.</span> <span class="toc-text">页命中时</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缺页时"><span class="toc-number">2.7.0.2.</span> <span class="toc-text">缺页时</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用TLB加速地址翻译"><span class="toc-number">2.7.1.</span> <span class="toc-text">利用TLB加速地址翻译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多级页表"><span class="toc-number">2.7.2.</span> <span class="toc-text">多级页表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intel-Core-i7-Linux-内存系统"><span class="toc-number">2.8.</span> <span class="toc-text">Intel Core i7&#x2F;Linux 内存系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Core-i7-地址翻译"><span class="toc-number">2.8.1.</span> <span class="toc-text">Core i7 地址翻译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-虚拟内存系统"><span class="toc-number">2.8.2.</span> <span class="toc-text">Linux 虚拟内存系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux-虚拟内存区域"><span class="toc-number">2.8.2.1.</span> <span class="toc-text">Linux 虚拟内存区域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux-缺页异常处理"><span class="toc-number">2.8.2.2.</span> <span class="toc-text">Linux 缺页异常处理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存映射"><span class="toc-number">2.9.</span> <span class="toc-text">内存映射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#再看共享对象"><span class="toc-number">2.9.1.</span> <span class="toc-text">再看共享对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再看-fork-函数"><span class="toc-number">2.9.2.</span> <span class="toc-text">再看 fork 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再看-execve-函数"><span class="toc-number">2.9.3.</span> <span class="toc-text">再看 execve 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-mmap-函数的用户级内存映射"><span class="toc-number">2.9.4.</span> <span class="toc-text">使用 mmap 函数的用户级内存映射</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态内存分配"><span class="toc-number">2.10.</span> <span class="toc-text">动态内存分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用动态内存分配"><span class="toc-number">2.10.1.</span> <span class="toc-text">为什么要使用动态内存分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分配器的要求和目标"><span class="toc-number">2.10.2.</span> <span class="toc-text">分配器的要求和目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#碎片"><span class="toc-number">2.10.3.</span> <span class="toc-text">碎片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集"><span class="toc-number">2.11.</span> <span class="toc-text">垃圾收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#垃圾收集器的基本知识"><span class="toc-number">2.11.1.</span> <span class="toc-text">垃圾收集器的基本知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mark-amp-Sweep-垃圾收集器"><span class="toc-number">2.11.2.</span> <span class="toc-text">Mark &amp; Sweep 垃圾收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-程序的保守-Mark-amp-Sweep"><span class="toc-number">2.11.3.</span> <span class="toc-text">C 程序的保守 Mark &amp; Sweep</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-程序中常见的内存错误"><span class="toc-number">2.12.</span> <span class="toc-text">C 程序中常见的内存错误</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#间接引用坏指针"><span class="toc-number">2.12.1.</span> <span class="toc-text">间接引用坏指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读未初始化的内容"><span class="toc-number">2.12.2.</span> <span class="toc-text">读未初始化的内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#允许栈缓冲区溢出"><span class="toc-number">2.12.3.</span> <span class="toc-text">允许栈缓冲区溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#假设指针和它们指向的对象大小相同"><span class="toc-number">2.12.4.</span> <span class="toc-text">假设指针和它们指向的对象大小相同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#造成错位错误"><span class="toc-number">2.12.5.</span> <span class="toc-text">造成错位错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引用指针，而不是它所指向的对象"><span class="toc-number">2.12.6.</span> <span class="toc-text">引用指针，而不是它所指向的对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#误解指针运算"><span class="toc-number">2.12.7.</span> <span class="toc-text">误解指针运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引用不存在变量"><span class="toc-number">2.12.8.</span> <span class="toc-text">引用不存在变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引用空闲堆块中的数据"><span class="toc-number">2.12.9.</span> <span class="toc-text">引用空闲堆块中的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引起内存泄露"><span class="toc-number">2.12.10.</span> <span class="toc-text">引起内存泄露</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#系统级-I-O"><span class="toc-number">3.</span> <span class="toc-text">系统级 I&#x2F;O</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Unix-I-O"><span class="toc-number">3.1.</span> <span class="toc-text">Unix I&#x2F;O</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件"><span class="toc-number">3.2.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打开和关闭文件"><span class="toc-number">3.3.</span> <span class="toc-text">打开和关闭文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读写文件"><span class="toc-number">3.4.</span> <span class="toc-text">读写文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RIO包"><span class="toc-number">3.5.</span> <span class="toc-text">RIO包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读取文件元数据"><span class="toc-number">3.6.</span> <span class="toc-text">读取文件元数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读取目录内容"><span class="toc-number">3.7.</span> <span class="toc-text">读取目录内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#共享文件"><span class="toc-number">3.8.</span> <span class="toc-text">共享文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-O-重定向"><span class="toc-number">3.9.</span> <span class="toc-text">I&#x2F;O 重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准-I-O"><span class="toc-number">3.10.</span> <span class="toc-text">标准 I&#x2F;O</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#高频提问问题"><span class="toc-number">4.</span> <span class="toc-text">高频提问问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
     </div>
 </aside>
 
@@ -1159,6 +1141,10 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">github</a>
               </li>
              
@@ -1171,10 +1157,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">DFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">BFS</a>
               </li>
              
@@ -1183,11 +1165,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+                <a href="javascript:void(0)" class="js-tag color4">DFS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">回溯</a>
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1196,6 +1178,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">回溯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1231,11 +1217,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">递归</a>
+                <a href="javascript:void(0)" class="js-tag color4">summmary</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">summmary</a>
+                <a href="javascript:void(0)" class="js-tag color3">递归</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1247,11 +1233,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+                <a href="javascript:void(0)" class="js-tag color4">Cpp</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Cpp</a>
+                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1271,6 +1257,18 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二分查找</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">I/O模型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">计算机基础</a>
               </li>
              
@@ -1283,11 +1281,23 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">DeepLearning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">DeepLearning</a>
+                <a href="javascript:void(0)" class="js-tag color3">EfficientDet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1299,19 +1309,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">EfficientDet</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ssh</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二分查找</a>
               </li>
             
             <div class="clearfix"></div>

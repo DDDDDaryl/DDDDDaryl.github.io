@@ -191,6 +191,772 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dailyLearning/计算机基础/深入理解计算机系统笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/">深入理解计算机系统笔记</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2020-05-18T01:45:03.930Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="存储器层次结构"><a href="#存储器层次结构" class="headerlink" title="存储器层次结构"></a>存储器层次结构</h1><ol>
+<li>存储器层次结构</li>
+</ol>
+<h2 id="高速缓存存储器"><a href="#高速缓存存储器" class="headerlink" title="高速缓存存储器"></a>高速缓存存储器</h2><h3 id="通用高速缓存存储器组织结构"><a href="#通用高速缓存存储器组织结构" class="headerlink" title="通用高速缓存存储器组织结构"></a>通用高速缓存存储器组织结构</h3><p>定义符号：考虑一个计算机系统，每个存储器地址m位，形成$M=2^m$个地址，其高速缓存被组织成一个有$S=2^s$个高速缓存组 (cache set) 的数组，每个组包含$E$个高速缓存行 (cache line)，每个行由一个$B=2^b$字节的数据块 (block) 组成，一个有效位 (valid bit) 指明这个行是否包含有意义的信息，$t=m-(b+s)$个标记位 (tag bit)  (当前块的内存地址的位的一个子集)，标记位唯一标识存储在高速缓存行中的块。</p>
+<p>数据以块为大小在层与层之间传输。</p>
+<p>理解：对一个地址 (32 bits or 64 bits)，将其划分为高位、中间位、低位，用<strong>中间位</strong>进行上一级缓存中某个地址的块的映射，这样可以保证连续内存映射到不同的高速缓存组；用高位 (标记位) 对高速缓存行进行唯一标识；用低位表示高速缓存行中数据块每个字节的偏移。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m(地址长度) &#x3D; t(高位) + s(中间位) + b(低位)</span><br></pre></td></tr></table></figure>
+
+<h3 id="直接映射高速缓存"><a href="#直接映射高速缓存" class="headerlink" title="直接映射高速缓存"></a>直接映射高速缓存</h3><p>每个 cache set 只有一个 cache line。</p>
+<h3 id="组相联高速缓存"><a href="#组相联高速缓存" class="headerlink" title="组相联高速缓存"></a>组相联高速缓存</h3><p>每个 cache set 有$1&lt;E&lt;C/B$个 cache line，$C$为缓冲区大小(字节)，$B$为块大小(字节)。</p>
+<h3 id="全相联高速缓存"><a href="#全相联高速缓存" class="headerlink" title="全相联高速缓存"></a>全相联高速缓存</h3><p>由一个包含所有高速缓存行的组组成，仅仅将地址划分为标记位 (高位) 和块偏移 (低位)。由于高速缓存电路需要并行搜索许多标记位，构造又大又快的相联高速缓存很困难而且价格昂贵，知识和做小的高速缓存。</p>
+<h3 id="有关写的问题"><a href="#有关写的问题" class="headerlink" title="有关写的问题"></a>有关写的问题</h3><ol>
+<li>如何写一个已经缓存了的字$w$（写命中）？<ul>
+<li>直写 (write-through)，立即将$w$的高速缓存块写回到紧接的低一层中。<strong>缺点为</strong>每次写都会引起总线流量；</li>
+<li>写回 (write-back)，只有当替换算法要驱逐这个更新过的块时，才把它写道紧接着的第一层中。由于局部性，<strong>可以显著减少总线流量</strong>，<strong>缺点是</strong>增加了复杂性，需要维护一个表明该高速缓存块是否被额外修改过的修改位 （dirty bit）；</li>
+</ul>
+</li>
+<li>如何处理<strong>写不命中</strong>？<ul>
+<li>写分配 (write-allocate)，加载相应的第一层的块到高速缓存中，然后更新这个高速缓存块，<strong>缺点为</strong>每次写不命中都会导致一个块从低一层到高速缓存；</li>
+<li>非写分配 (not-write-allocate)，避开高速缓存，直接把这个字写道低一层中；</li>
+</ul>
+</li>
+<li>采用使用<strong>写回和写分配</strong>的高速缓存模型，这两种处理方式都利用局部性，因此我们可以在高层次开发程序，展示良好的空间和时间局部性。</li>
+</ol>
+<h3 id="一个真实的高速缓存层次结构的解剖"><a href="#一个真实的高速缓存层次结构的解剖" class="headerlink" title="一个真实的高速缓存层次结构的解剖"></a>一个真实的高速缓存层次结构的解剖</h3><p>一个高速缓存存储器既存储<strong>指令</strong>又存储<strong>程序数据</strong>。</p>
+<ul>
+<li>只存储指令的高速缓存称为$i-cache$</li>
+<li>只存储数据的高速缓存称为$d-cache$</li>
+<li>既保存数据有保存指令的高速缓存称为<strong>统一的高速缓存</strong></li>
+</ul>
+<p>下图为 Intel Core i7 处理器的高速缓存层次结构。</p>
+<img src="/assets/pics/image-20200518113518440.png" alt="image-20200518113518440" style="zoom:50%;" />
+
+<h2 id="编写高速缓存友好的代码"><a href="#编写高速缓存友好的代码" class="headerlink" title="编写高速缓存友好的代码"></a>编写高速缓存友好的代码</h2><p>局部性较好的程序更容易有较低的不命中率，因此也运行得更快。</p>
+<ol>
+<li>把注意力集中在<strong>核心函数里的循环</strong>上，忽略其他部分；</li>
+<li>尽量减小每个循环内部的缓存不命中数量；</li>
+</ol>
+<p>结论：</p>
+<ul>
+<li>对局部变量的反复引用是好的，因为编译器能将他们存储在寄存器文件上（时间局部性）</li>
+<li>步长为1的引用模式是好的，因为存储器层次结构中，所有层次上的缓存都是将数据存储为连续的块（空间局部性）</li>
+</ul>
+<p>对于一个二维数组求和的程序：在数组大小大于高速缓存大小更大的时候，按行访问数组比按列访问数组快很多，因为按列访问数组时，每一次访问都会发生读不命中。</p>
+<h2 id="综合：高速缓存对程序性能的影响"><a href="#综合：高速缓存对程序性能的影响" class="headerlink" title="综合：高速缓存对程序性能的影响"></a>综合：高速缓存对程序性能的影响</h2><h3 id="重新排列循环以提高空间局部性"><a href="#重新排列循环以提高空间局部性" class="headerlink" title="重新排列循环以提高空间局部性"></a>重新排列循环以提高空间局部性</h3><p>在计算矩阵乘法时，考虑$C=A*B$：<br>$$<br>\begin{equation}\left[\begin{array}{c}<br>c_{11} c_{12} \<br>c_{21} c_{22}<br>\end{array}\right]=\left[\begin{array}{l}<br>a_{11} a_{12} \<br>a_{21} a_{22}<br>\end{array}\right]\left[\begin{array}{l}<br>b_{11} b_{12} \<br>b_{21} b_{22}<br>\end{array}\right]\end{equation}<br>$$<br>那么性能最好的三层循环：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; n; k++)</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        r = A[i][k];</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">            C[i][j] += r*B[k][j];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>它的不命中率最低。</p>
+<h3 id="在程序中利用局部性"><a href="#在程序中利用局部性" class="headerlink" title="在程序中利用局部性"></a>在程序中利用局部性</h3><ul>
+<li>将注意力集中在内循环，大部分计算和内存访问都发生在<strong>内循环</strong>；</li>
+<li>按照数据对象存储在内存中的顺序、以步长为1来读数据，使得程序<strong>空间局部性最大</strong>；</li>
+<li>一旦从存储器读入了一个数据对象，就尽可能使用它，<strong>最大化时间局部性</strong>；</li>
+</ul>
+<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p>  链接是将各种代码和数据片段收集并组合为一个单一文件的过程，可以执行于：</p>
+<ul>
+<li>编译时 (compile time)</li>
+<li>加载时 (load time)</li>
+<li>运行时 (run time)</li>
+</ul>
+<h2 id="编译器驱动程序"><a href="#编译器驱动程序" class="headerlink" title="编译器驱动程序"></a>编译器驱动程序</h2><p><strong>编译器驱动程序</strong>：调用</p>
+<ul>
+<li>预处理器</li>
+<li>编译器</li>
+<li>汇编器</li>
+<li>链接器</li>
+</ul>
+<p>Linux 运行可执行文件时，调用一个叫做<strong>加载器</strong>的函数，将可执行文件中的代码和数据复制到内存，然后将控制转移到这个程序的开头。</p>
+<h2 id="静态链接"><a href="#静态链接" class="headerlink" title="静态链接"></a>静态链接</h2><p><code>Linux LD</code>是一个静态链接器 (static linker)，以一组可重定位目标文件和命令行参数为输入，生成一个<strong>完全链接的、可以加载和运行的可执行目标文件</strong>作为输出。</p>
+<p>可重定位目标文件由不同的<strong>代码</strong>和<strong>数据节 (section)</strong>组成。</p>
+<p>链接器的任务：</p>
+<ul>
+<li>符号解析 (symbol resolution)，唯一关联每个<strong>符号引用</strong>和<strong>符号定义</strong>；</li>
+<li>重定位 (relocation)，把每个符号定义与一个<strong>内存位置</strong>关联起来，从而<strong>重定义</strong>这些节，然后修改所有对这些符号的<strong>引用</strong>，使得他们指向这个内存位置。链接器使用编译器产生的<strong>重定位条目 (relocation entry)</strong>的详细指令，不加甄别地执行重定位。</li>
+</ul>
+<h2 id="目标文件"><a href="#目标文件" class="headerlink" title="目标文件"></a>目标文件</h2><p>目标文件有三种形式：</p>
+<ul>
+<li>可重定位目标文件，包含二进制代码和数据，其形式可以在编译时与其他可重定位目标文件合并起来，创建一个可执行目标文件；</li>
+<li>可执行目标文件，包含二进制代码和数据，其形式可以直接复制到内存并运行；</li>
+<li>共享目标文件，共享库，包含静态库和动态库；</li>
+</ul>
+<p>编译器和汇编器生成可重定位目标文件、共享目标文件；链接器生成可执行目标文件。</p>
+<p>目标文件是按照特定的目标文件格式来组织的：</p>
+<ul>
+<li>Windows使用 Portable Executable, PE 格式；</li>
+<li>Mac OS-X 使用 Mach-O 格式；</li>
+<li>现代<code>x86-64 Linux</code>和<code>Unix</code>系统使用 Executable and Linkable Format, ELF 格式；</li>
+</ul>
+<h2 id="可重定位目标文件"><a href="#可重定位目标文件" class="headerlink" title="可重定位目标文件"></a>可重定位目标文件</h2>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-dailyLearning/Leetcode/300.最大上升子序列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/300-%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/">300.最大上升子序列</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/300-%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/" class="archive-article-date">
+  	<time datetime="2020-05-17T15:08:20.065Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>给定一个无序的整数数组，找到其中最长上升子序列的长度。</p>
+<p>示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [10,9,2,5,3,7,101,18]</span><br><span class="line">输出: 4 </span><br><span class="line">解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。</span><br></pre></td></tr></table></figure>
+
+
+<p>说明:</p>
+<ul>
+<li>可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。</li>
+<li>你算法的时间复杂度应该为 $O(n^2)$ 。</li>
+</ul>
+<p>进阶: 你能将算法的时间复杂度降低到 $O(n log n) $吗?</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/longest-increasing-subsequence" target="_blank" rel="noopener">https://leetcode-cn.com/problems/longest-increasing-subsequence</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+        
+          <a class="article-more-a" href="/Leetcode/300-%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">binary search</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">贪心法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/300-%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-myProjects/DL/SSD学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/DeepLearning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B9%8Bssd%E6%A8%A1%E5%9E%8B/">深度学习目标检测之SSD模型</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/DeepLearning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B9%8Bssd%E6%A8%A1%E5%9E%8B/" class="archive-article-date">
+  	<time datetime="2020-05-17T06:59:48.143Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="SSD模型总结"><a href="#SSD模型总结" class="headerlink" title="SSD模型总结"></a>SSD模型总结</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>SD论文的中心思想：</p>
+<blockquote>
+<p>Our improvements include using a small convolutional filter to predict object categories and offsets in bounding box locations, using separate predictors (filters) for different aspect ratio detections, and applying these filters to multiple feature maps from the later stages of a network in order to perform detection at multiple scales.</p>
+</blockquote>
+<p>核心：</p>
+<ul>
+<li>用小的卷积核预测目标分类和offsets；</li>
+<li>对使用不同aspect ratio的检测使用不同的卷积核；</li>
+<li>将这些卷积核用于不同大小的feature maps，使得模型能够处理不同尺度的目标检测；</li>
+</ul>
+<p>其主要贡献：</p>
+<ul>
+<li>提出新的OD方法SSD，比YOLO快和准。保证速度的同时，其结果的 <code>mAP</code>可与使用 region proposals 技术的方法（如 <a href="https://arxiv.org/abs/1506.01497" target="_blank" rel="noopener">Faster R-CNN</a>）相媲美；</li>
+<li>SSD 方法的核心就是 <strong>predict</strong> object（目标预测），以及其归属类别的 score（得分）；同时，在 feature map 上使用小的卷积核，去 <strong>predict</strong> 一系列 bounding boxes 的 box offsets（预测结果的bboxes相对于default boxes的offsets）；</li>
+<li>本文中为了得到高精度的检测结果，在不同层次的 feature maps 上进行预测和分类，同时，还得到不同 aspect ratio 的 predictions来更好地贴合ground truths。</li>
+<li>本文的这些改进设计，能够在当输入分辨率较低的图像时，保证检测的精度。同时，这个整体 end-to-end 的设计，训练也变得简单。在检测速度、检测精度之间取得较好的 <strong>trade-off</strong>。</li>
+<li>本文提出的模型（model）在不同的数据集上，如 <a href="http://host.robots.ox.ac.uk/pascal/VOC/" target="_blank" rel="noopener">PASCAL VOC</a>、<a href="http://mscoco.org/home/" target="_blank" rel="noopener">MS COCO</a>、<a href="http://image-net.org/index" target="_blank" rel="noopener">ILSVRC</a>， 都进行了测试。在检测时间（timing）、检测精度（accuracy）上，均与目前物体检测领域 state-of-art 的检测方法进行了比较。</li>
+</ul>
+<h2 id="SSD框架及训练方法"><a href="#SSD框架及训练方法" class="headerlink" title="SSD框架及训练方法"></a>SSD框架及训练方法</h2><p>SSD输出：一系列固定大小的bboxes，以及每个box的score（包含物体实例的可能性），我们看到的图片中标注出的boxes是经过非极大值抑制（Non-maximum suppression）的结果，即选择IOU大于某个阈值的所有boxes中，score最高的box，得到最终的predictions。</p>
+<h3 id="SSD-Model"><a href="#SSD-Model" class="headerlink" title="SSD Model"></a>SSD Model</h3><ul>
+<li><p>base network：</p>
+<p>用于图像分类的标准架构，作用是提取浅层特征；</p>
+</li>
+<li><p>Multi-scale feature  maps for detection</p>
+<p>在base network之后添加的额外卷积层，大小逐层递减，用于在多尺度下进行预测；</p>
+</li>
+<li><p>Convolutional predictors for detection</p>
+<p>对每一个feature map，使用一系列卷积核产生一系列固定大小的predictions</p>
+</li>
+<li><p>Default boxes and aspect ratios</p>
+<p>相对于与其对应的 feature map cell 的位置是固定的。在每一个 feature map cell 中，我们要 predict 得到的 box 与 default box 之间的 offsets，以及每一个 box 中包含物体的 score（每一个类别概率都要计算出）。因此，对于一个位置上的 k 个boxes 中的每一个 box，我们需要计算出 c 个类，每一个类的 score，还有这个 box 相对于它的默认 box 的 4 个偏移值（offsets）。于是，在 feature map 中的每一个 feature map cell 上，就需要有$ (c+4)×k(c+4)×k $个 filters。对于一张 $m×n$ 大小的 feature map，即会产生 $(c+4)×k×m×n$ 个输出结果。</p>
+</li>
+</ul>
+<h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><p>SSD训练集当中人工标注的ground truths需要绑定到固定输出的boxes上，即以：fixed-size bounding boxes + offsets的形式输出。</p>
+<h3 id="Matching-strategy"><a href="#Matching-strategy" class="headerlink" title="Matching strategy"></a>Matching strategy</h3><p>在输入的时候，将具有<code>best jaccard overlap</code>（即最大交并比）的一对groundtruth box和default box匹配，用匹配的default box表示GT；然后将每一个default box与任何jaccard overlap大于一个阈值的所有GT配对，简化了训练（这里没太懂，之后再回来看）；</p>
+<h3 id="Training-objective"><a href="#Training-objective" class="headerlink" title="Training objective"></a>Training objective</h3><p>根据上面的Matching strategy，一个default box可能匹配多个GT，反过来，一个GT也可能对应多个default boxes，那么总的目标损失函数定义如下：<br>$$<br>\begin{equation}<br>L(x, c, l, g)=\frac{1}{N}\left(L_{c o n f}(x, c)+\alpha L_{l o c}(x, l, g)\right)<br>\end{equation}<br>$$<br>其中：</p>
+<ul>
+<li>N是与GT匹配的 default boxes 个数</li>
+<li>$L_{loc}$代表localization loss (loc)，Smooth L1 Loss，用于回归bounding boxes 的参数</li>
+<li>$\begin{equation}L_{c o n f}(x, c)\end{equation}$代表 confidence loss (conf)，是 softmax loss，输入为每一类的置信度$c$</li>
+<li>$\alpha$为权重项，SSD原文中设置为1</li>
+</ul>
+<h3 id="Choosing-scales-and-aspect-ratios-for-default-boxes"><a href="#Choosing-scales-and-aspect-ratios-for-default-boxes" class="headerlink" title="Choosing scales and aspect ratios for default boxes"></a>Choosing scales and aspect ratios for default boxes</h3><p>大部分 CNN 网络在越深的层，feature map 的尺寸（size）会越来越小。这样做不仅仅是为了减少计算与内存的需求，还有个好处就是，最后提取的 feature map 就会有某种程度上的平移与尺度不变性[^1]。</p>
+<p>[^1]:由于conv层的卷积核对于特定的特征才会有较大激活值，所以不论 上一层特征图谱（feature map）中的某一特征平移到何处，卷积核都会找到该特征并在此处呈现较大的激活值。这应该就是“等变性”。而所谓的“尺度不变性”，是由类似于SSD这种对不同尺寸（分辨率）的feature map作相同的处理得到的。CNN本身并不具备尺度不变性。</p>
+<p>同时为了处理不同尺度的物体，一些文章将图像转换成不同的尺度，将这些图像独立地通过 CNN 网络处理，再将这些不同尺度的图像结果进行综合。</p>
+<p>而SSD同时使用lower feature maps, upper feature maps 来对目标进行预测。事实上，使用同一个网络中的、不同层上的 feature maps，也可以达到相同的效果，同时在所有物体尺度中共享参数。</p>
+<p>一般来说，一个 CNN 网络中不同的 layers 有着不同尺寸的感受野（receptive fields）[^2]。在目标检测任务中，需要GT来进行回归与分类任务，而 GT 对应着 feature map 中的default boxes，然而只有被选定的 feature maps 需要执行回归与分类任务，因此也只有选定的 feature maps 需要 default boxes，那么如何选择每个 feature map 中的 default boxes 尺寸呢？</p>
+<p>为了使模型可以处理不同尺度的对象，SSD设计 feature map 中的特定位置来负责图像中特定区域、特定物体尺寸的检测，解释如下：浅层的 feature map，尺寸较大，而感受野较小，因而采用小的 scale 可以使该特定位置检测原图像中一个较小的区域；反之，在深层的 feature map 中采用较大的 scale 可以检测很大的目标。</p>
+<p>SSD同时还在 feature map 的同一位置设置了多个aspect ratio 的default boxes 用于贴合 GT 的形状。</p>
+<h3 id="Hard-negative-mining"><a href="#Hard-negative-mining" class="headerlink" title="Hard negative mining"></a>Hard negative mining</h3><p>在生成一系列的 predictions 之后，会产生很多个匹配 ground truth box 的 predictions boxes，但同时，不匹配 ground truth boxes 也很多，而且这个 negative boxes，远多于 positive boxes。这会造成 negative boxes、positive boxes 之间的不均衡。训练时难以收敛。</p>
+<p>因此，SSD 在训练中的做法是，对一个目标的所有 predictions 的负样本根据对应类别的  score 进行排序，保留 score 最高的几个，这背后的逻辑是保留最难检测的负样本（最容易被检测为正样本的负样本），保证最后正负样本的比例为$3:1$。</p>
+<p>原文中通过实验发现，这样的比例可以更快的优化，训练也更稳定。</p>
+<p>[^2]:卷积神经网络（CNN）中每层的卷积特征图（feature map）上的像素点在原始图像中映射的区域大小，也就相当于高层的特征图中的像素点受原图多大区域的影响。</p>
+<h3 id="Data-augmentation"><a href="#Data-augmentation" class="headerlink" title="Data augmentation"></a>Data augmentation</h3><p>原文中还对数据做了数据增广，对于每一张训练图像，随机地进行如下几种选择：</p>
+<ul>
+<li>使用原始图像</li>
+<li>采样一个 patch，使得它与 object 间的最小 jaccard overlap 为：0.1， 0.3， 0.5， 0.7， 0.9</li>
+<li>随机采样一个 patch</li>
+</ul>
+<p>采样的 patch 与原图的比例在 $[0.1,1]$之间，aspect ratio 在 $[0.5,2]$之间。</p>
+<p>当 groundtruth box 的中心（center）在采样的 patch 中时，我们保留重叠部分。</p>
+<p>在这些采样步骤之后，每一个采样的 patch 被 <strong>resize</strong> 到固定的大小，并且以 0.5 的概率被随机地水平翻转（horizontally flipped）。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">DeepLearning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/DeepLearning//" class="article-tag-list-link color3">DeepLearning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/DeepLearning/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B9%8Bssd%E6%A8%A1%E5%9E%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-dailyLearning/c++/C++视频学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Cpp/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C++视频学习笔记</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Cpp/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2020-05-17T02:30:50.974Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>OO思想的特点：</p>
+<ul>
+<li>封装<br>把对象属性和方法结合成独立的系统单位，并尽可能隐藏实现细节，是面向对象思想描述的基础；   </li>
+<li>抽象<br>对具体问题进行概括，对某一类公共问题进行同意描述；</li>
+<li>继承<br>子类对象拥有与基类对象相同的全部属性和方法，称为继承；</li>
+<li>多态<br>基类中定义的属性和行为被子类继承后，可以具有不同的特性（行为、数据类型），在共性中寻找特性；</li>
+</ul>
+</li>
+<li><p>数组的传递</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> data[] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    <span class="built_in">print</span>(<span class="keyword">sizeof</span>(data));</span><br><span class="line">    <span class="comment">// 结果为2*4 Byte=8 Byte</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">addArray</span><span class="params">(<span class="keyword">int</span> <span class="built_in">array</span>[])</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="keyword">sizeof</span>(<span class="built_in">array</span>));</span><br><span class="line">    <span class="comment">// 结果为指针长度（机器相关）4（32位）或8（64位机器）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>cout</code>是一个输出流对象，是<code>console out</code>的缩写，属于<code>basic_ostream</code>类；</p>
+</li>
+<li><p>c语言中，<code>scanf</code>从输入流获取值，<code>getchar</code>获取字符</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;i); <span class="comment">// 将读入的十进制数存入变量i</span></span><br><span class="line">ch = getchar(); <span class="comment">// 将读入的char类型数据存入ch，此时读入ch的数据不再存在在输入流中</span></span><br><span class="line">ungetc(ch, <span class="built_in">stdin</span>)； <span class="comment">// 将ch中的数据退回输入流</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>c++</code>版本的流输入</p>
+<p><code>cin</code>的类型为<code>istream</code>；</p>
+<p>用户输入时，对应的字符进入操作系统的键盘缓冲区中；</p>
+<p>输入<code>enter</code>时，操作系统把家农安缓冲区的内容传输到<code>cin</code>的内部缓冲区，由<code>&gt;&gt;</code>操作符从内部缓冲区中提取需要的信息；</p>
+<p><code>&gt;&gt;</code>操作符对所有内建类型都进行了重载；</p>
+</li>
+<li><p>阻塞性IO、非阻塞、异步</p>
+</li>
+<li><p><code>C++</code>可以在任意位置声明变量，允许我们在实际使用的时候再声明；</p>
+</li>
+<li><pre><code class="c++"><span class="keyword">char</span> buf[<span class="number">20</span>]; <span class="comment">// 可存放19个字符</span>
+<span class="built_in">cin</span>.ignore(n); <span class="comment">//忽略n个字符</span>
+<span class="built_in">cin</span>.getline(buf, <span class="number">10</span>); <span class="comment">// 从cin中读取10个字符存入buf</span>
+<span class="keyword">while</span>(<span class="built_in">cin</span>.<span class="built_in">peek</span>() != <span class="string">'\n'</span>){
+    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">cin</span>.<span class="built_in">get</span>();
+}; <span class="comment">// 当前字符不为换行符时，将读入字符输出，先读入后放回</span>
+
+<span class="keyword">const</span> <span class="keyword">int</span> <span class="built_in">size</span> = <span class="number">50</span>;
+<span class="keyword">int</span> buf[<span class="built_in">size</span>];
+
+<span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入文本："</span>;
+<span class="built_in">cin</span>.<span class="built_in">read</span>(buf, <span class="number">20</span>);
+
+<span class="built_in">cout</span>&lt;&lt;<span class="string">"字符串收集到的字符数为："</span>&lt;&lt; <span class="built_in">cin</span>.gcount() &lt;&lt; <span class="built_in">endl</span>;
+
+<span class="built_in">cout</span> &lt;&lt; <span class="string">"输入的文本信息为："</span>;
+<span class="built_in">cout</span>.<span class="built_in">write</span>(buf, <span class="number">20</span>);
+&lt;!--￼<span class="number">2</span>--&gt;
+
+&lt;!--￼<span class="number">3</span>--&gt;</code></pre>
+</li>
+<li></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Cpp/summary//" class="article-tag-list-link color3">summary</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Cpp/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-dailyLearning/Leetcode/221.最大正方形" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/221-%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/">221.最大正方形</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/221-%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/" class="archive-article-date">
+  	<time datetime="2020-05-16T13:13:03.442Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>在一个由 0 和 1 组成的二维矩阵内，找到只包含 1 的最大正方形，并返回其面积。</p>
+<p>示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入: </span><br><span class="line"></span><br><span class="line">1 0 1 0 0</span><br><span class="line">1 0 1 1 1</span><br><span class="line">1 1 1 1 1</span><br><span class="line">1 0 0 1 0</span><br><span class="line"></span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
+
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/maximal-square" target="_blank" rel="noopener">https://leetcode-cn.com/problems/maximal-square</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+        
+          <a class="article-more-a" href="/Leetcode/221-%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/221-%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-myProjects/DL/efficientNet" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/DeepLearning/efficientdet%E5%AD%A6%E4%B9%A0/">EfficientDet学习</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/DeepLearning/efficientdet%E5%AD%A6%E4%B9%A0/" class="archive-article-date">
+  	<time datetime="2020-05-16T08:42:10.165Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="EfficientDet学习笔记"><a href="#EfficientDet学习笔记" class="headerlink" title="EfficientDet学习笔记"></a>EfficientDet学习笔记</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近才开始为了项目应用做深度学习，前几天训练SSD模型，没过几天同学推荐我去看EfficientDet模型，据说是最强单阶段模型？这两天我就来研究一下。</p>
+        
+          <a class="article-more-a" href="/DeepLearning/efficientdet%E5%AD%A6%E4%B9%A0/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">EfficientDet</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/DeepLearning//" class="article-tag-list-link color3">DeepLearning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/DeepLearning/efficientdet%E5%AD%A6%E4%B9%A0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dailyLearning/Leetcode/152.乘积最大子数组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -602,705 +1368,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-dailyLearning/Leetcode/64.最小路径和" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/64-%E6%9C%80%E5%B0%8F%E8%B7%AF%E5%BE%84%E5%92%8C/">64.最小路径和</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/64-%E6%9C%80%E5%B0%8F%E8%B7%AF%E5%BE%84%E5%92%8C/" class="archive-article-date">
-  	<time datetime="2020-05-15T03:39:09.766Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>给定一个包含非负整数的 m x n 网格，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。</p>
-<p>说明：每次只能向下或者向右移动一步。</p>
-<p>示例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">[</span><br><span class="line">  [1,3,1],</span><br><span class="line">  [1,5,1],</span><br><span class="line">  [4,2,1]</span><br><span class="line">]</span><br><span class="line">输出: 7</span><br><span class="line">解释: 因为路径 1→3→1→1→1 的总和最小。</span><br></pre></td></tr></table></figure>
-
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/minimum-path-sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/minimum-path-sum</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/64-%E6%9C%80%E5%B0%8F%E8%B7%AF%E5%BE%84%E5%92%8C/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/64-%E6%9C%80%E5%B0%8F%E8%B7%AF%E5%BE%84%E5%92%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/62.不同路径" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/62-%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84/">62.不同路径</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/62-%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84/" class="archive-article-date">
-  	<time datetime="2020-05-15T02:32:17.090Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="# 题目"></a># 题目</h1><blockquote>
-<p>一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。</p>
-<p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。</p>
-<p>问总共有多少条不同的路径？</p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/22/robot_maze.png" alt="img"></p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输入: m &#x3D; 3, n &#x3D; 2</span><br><span class="line">输出: 3</span><br><span class="line">解释:</span><br><span class="line">从左上角开始，总共有 3 条路径可以到达右下角。</span><br><span class="line"></span><br><span class="line">向右 -&gt; 向右 -&gt; 向下</span><br><span class="line"></span><br><span class="line">向右 -&gt; 向下 -&gt; 向右</span><br><span class="line"></span><br><span class="line">向下 -&gt; 向右 -&gt; 向右</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: m &#x3D; 7, n &#x3D; 3</span><br><span class="line">输出: 28</span><br></pre></td></tr></table></figure>
-
-
-<p>提示：</p>
-<ul>
-<li><code>1 &lt;= m, n &lt;= 100</code></li>
-<li>题目数据保证答案小于等于 <code>2 * 10 ^ 9</code></li>
-</ul>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/unique-paths" target="_blank" rel="noopener">https://leetcode-cn.com/problems/unique-paths</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/Leetcode/62-%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/62-%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-myProjects/Tech_issues/ssh自动断开连接问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Linux/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/">解决：ssh长时间无操作服务器断开会话的问题</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Linux/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-05-14T11:34:19.186Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="修改服务器端参数"><a href="#修改服务器端参数" class="headerlink" title="修改服务器端参数"></a>修改服务器端参数</h1><p>修改服务器端的ssh设置：找到</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> /etc/ssh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim sshd_config</span></span><br></pre></td></tr></table></figure>
-
-<p>添加如下设置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClientAliveInterval  60</span><br></pre></td></tr></table></figure>
-
-<p>该设置意为服务器会每60秒向client发送一次保持连接的信号。如果还要定时断开连接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClientAliveCountMax  60</span><br></pre></td></tr></table></figure>
-
-<h1 id="修改客户端参数"><a href="#修改客户端参数" class="headerlink" title="修改客户端参数"></a>修改客户端参数</h1><p>与修改服务器参数类似，只不过需要修改的文件为<code>ssh_config</code>。</p>
-<h1 id="使用ssh登陆前用参数配置"><a href="#使用ssh登陆前用参数配置" class="headerlink" title="使用ssh登陆前用参数配置"></a>使用ssh登陆前用参数配置</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -o ServerAliveInterval=30 root@192.168.1.1</span><br></pre></td></tr></table></figure>
-
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
-<li><a href="https://blog.csdn.net/hustcw98/article/details/79325878" target="_blank" rel="noopener">ssh连接远程服务器自动断开解决</a></li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ssh</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Linux/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-myProjects/Tech_issues/VOC格式数据集转COCO格式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/DeepLearning/%E5%A6%82%E4%BD%95%E5%B0%86voc%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BD%AC%E5%8C%96%E4%B8%BAcoco%E6%A0%BC%E5%BC%8F/">如何将VOC数据集转化为COCO格式</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/DeepLearning/%E5%A6%82%E4%BD%95%E5%B0%86voc%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BD%AC%E5%8C%96%E4%B8%BAcoco%E6%A0%BC%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-05-14T07:39:21.395Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="什么是COCO数据集"><a href="#什么是COCO数据集" class="headerlink" title="什么是COCO数据集"></a>什么是COCO数据集</h2><p>COCO全称Common Objects in COntext，是微软团队提供的一个可以用来进行图像识别的数据集，数据集分为<strong>训练集、验证集、测试集</strong>，数据集共有80个对象类别。</p>
-<p>COCO数据集现在有3种标注类型：</p>
-<ol>
-<li>object instances 目标实例</li>
-<li>object keypoints 目标上的关键点</li>
-<li>image caption </li>
-</ol>
-<p>COCO的标注数据使用<strong>JSON</strong>格式存储。</p>
-<h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><p>以上三种标注类型共享以下的基本类型：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attr">"info"</span> : info,</span><br><span class="line"><span class="attr">"images"</span> : [image], </span><br><span class="line"><span class="attr">"annotations"</span> : [annotation],</span><br><span class="line"><span class="attr">"licenses"</span> : [license],</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">info&#123;</span><br><span class="line">"year" : int,</span><br><span class="line">"version" : str,</span><br><span class="line">"description" : str,</span><br><span class="line">"contributor" : str,</span><br><span class="line">"url" : str,</span><br><span class="line">"date_created" : datetime,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">image&#123;</span><br><span class="line">"id" : int,</span><br><span class="line">"width" : int,</span><br><span class="line">"height" : int,</span><br><span class="line">"file_name" : str,</span><br><span class="line">"license" : int,</span><br><span class="line">"flickr_url" : str,</span><br><span class="line">"coco_url" : str,</span><br><span class="line">"date_captured" : datetime,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">license&#123;</span><br><span class="line">"id" : int,</span><br><span class="line">"name" : str,</span><br><span class="line">"url" : str,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其中annotation类型实现了多态,会根据不同的任务生成不同的标注格式。</p>
-<h2 id="Object-Instance-类型的标注格式"><a href="#Object-Instance-类型的标注格式" class="headerlink" title="Object Instance 类型的标注格式"></a>Object Instance 类型的标注格式</h2><p>因为我们的目的是将VOC格式的目标检测数据集转换为COCO格式，这里我们暂时只关注Object instances类型的标注格式。</p>
-<ol>
-<li>整体JSON文件格式</li>
-</ol>
-<p>此种格式的文件从头到尾按顺序分为以下段落：</p>
-   <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"info"</span>: info,</span><br><span class="line">    <span class="attr">"licenses"</span>: [license],</span><br><span class="line">    <span class="attr">"images"</span>: [image],</span><br><span class="line">    <span class="attr">"annotations"</span>: [annotation],</span><br><span class="line">    <span class="attr">"categories"</span>: [category]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>info, licenses, images这三个结构体定义共享，而annotation, category这两个结构体在不同JSON文件中也不同。</p>
-<ol start="2">
-<li><p><strong>annotations字段</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">annotation&#123;</span><br><span class="line">    "id": int,</span><br><span class="line">    "image_id": int,</span><br><span class="line">    "category_id": int,</span><br><span class="line">    "segmentation": RLE or [polygon],</span><br><span class="line">    "area": float,</span><br><span class="line">    "bbox": [x,y,width,height],</span><br><span class="line">    "iscrowd": 0 or 1,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>categories字段</strong><br>存储当前对象所属category的id，以及所属supercategory的name。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"id"</span>: int,</span><br><span class="line">    <span class="attr">"name"</span>: str,</span><br><span class="line">    <span class="attr">"supercategory"</span>: str,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>从instances_val2017.json文件中摘出的2个category实例如下所示：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"supercategory"</span>: <span class="string">"person"</span>,</span><br><span class="line">	<span class="attr">"id"</span>: <span class="number">1</span>,</span><br><span class="line">	<span class="attr">"name"</span>: <span class="string">"person"</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">"supercategory"</span>: <span class="string">"vehicle"</span>,</span><br><span class="line">	<span class="attr">"id"</span>: <span class="number">2</span>,</span><br><span class="line">	<span class="attr">"name"</span>: <span class="string">"bicycle"</span></span><br><span class="line">&#125;,</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h1 id="转换脚本"><a href="#转换脚本" class="headerlink" title="转换脚本"></a>转换脚本</h1><p>这里直接把脚本贴在下面：</p>
-<p>注意我们的训练集标签需要重新设置为<code>“rice”</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> xml.etree.ElementTree <span class="keyword">as</span> ET</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测框的ID起始值</span></span><br><span class="line">START_BOUNDING_BOX_ID = <span class="number">1</span></span><br><span class="line"><span class="comment"># 类别列表无必要预先创建，程序中会根据所有图像中包含的ID来创建并更新</span></span><br><span class="line">PRE_DEFINE_CATEGORIES = &#123;<span class="string">"rice"</span>: <span class="number">1</span>&#125;</span><br><span class="line"><span class="comment"># If necessary, pre-define category and its id</span></span><br><span class="line"><span class="comment">#  PRE_DEFINE_CATEGORIES = &#123;"aeroplane": 1, "bicycle": 2, "bird": 3, "boat": 4,</span></span><br><span class="line">                         <span class="comment">#  "bottle":5, "bus": 6, "car": 7, "cat": 8, "chair": 9,</span></span><br><span class="line">                         <span class="comment">#  "cow": 10, "diningtable": 11, "dog": 12, "horse": 13,</span></span><br><span class="line">                         <span class="comment">#  "motorbike": 14, "person": 15, "pottedplant": 16,</span></span><br><span class="line">                         <span class="comment">#  "sheep": 17, "sofa": 18, "train": 19, "tvmonitor": 20&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(root, name)</span>:</span></span><br><span class="line">    vars = root.findall(name)</span><br><span class="line">    <span class="keyword">return</span> vars</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_and_check</span><span class="params">(root, name, length)</span>:</span></span><br><span class="line">    vars = root.findall(name)</span><br><span class="line">    <span class="keyword">if</span> len(vars) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError(<span class="string">'Can not find %s in %s.'</span>%(name, root.tag))</span><br><span class="line">    <span class="keyword">if</span> length &gt; <span class="number">0</span> <span class="keyword">and</span> len(vars) != length:</span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError(<span class="string">'The size of %s is supposed to be %d, but is %d.'</span>%(name, length, len(vars)))</span><br><span class="line">    <span class="keyword">if</span> length == <span class="number">1</span>:</span><br><span class="line">        vars = vars[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> vars</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 得到图片唯一标识号</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_filename_as_int</span><span class="params">(filename)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        filename = os.path.splitext(filename)[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">return</span> int(filename)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError(<span class="string">'Filename %s is supposed to be an integer.'</span>%(filename))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert</span><span class="params">(xml_list, xml_dir, json_file)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    :param xml_list: 需要转换的XML文件列表</span></span><br><span class="line"><span class="string">    :param xml_dir: XML的存储文件夹</span></span><br><span class="line"><span class="string">    :param json_file: 导出json文件的路径</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    list_fp = xml_list</span><br><span class="line">    <span class="comment"># 标注基本结构</span></span><br><span class="line">    json_dict = &#123;<span class="string">"images"</span>:[],</span><br><span class="line">                 <span class="string">"type"</span>: <span class="string">"instances"</span>,</span><br><span class="line">                 <span class="string">"annotations"</span>: [],</span><br><span class="line">                 <span class="string">"categories"</span>: []&#125;</span><br><span class="line">    categories = PRE_DEFINE_CATEGORIES</span><br><span class="line">    bnd_id = START_BOUNDING_BOX_ID</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> list_fp:</span><br><span class="line">        line = line.strip()</span><br><span class="line">        print(<span class="string">"buddy~ Processing &#123;&#125;"</span>.format(line))</span><br><span class="line">        <span class="comment"># 解析XML</span></span><br><span class="line">        xml_f = os.path.join(xml_dir, line)</span><br><span class="line">        tree = ET.parse(xml_f)</span><br><span class="line">        root = tree.getroot()</span><br><span class="line">        path = get(root, <span class="string">'path'</span>)</span><br><span class="line">        <span class="comment"># 取出图片名字</span></span><br><span class="line">        <span class="keyword">if</span> len(path) == <span class="number">1</span>:</span><br><span class="line">            filename = os.path.basename(path[<span class="number">0</span>].text)</span><br><span class="line">        <span class="keyword">elif</span> len(path) == <span class="number">0</span>:</span><br><span class="line">            filename = get_and_check(root, <span class="string">'filename'</span>, <span class="number">1</span>).text</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> NotImplementedError(<span class="string">'%d paths found in %s'</span>%(len(path), line))</span><br><span class="line">        <span class="comment">## The filename must be a number</span></span><br><span class="line">        image_id = get_filename_as_int(filename)  <span class="comment"># 图片ID</span></span><br><span class="line">        size = get_and_check(root, <span class="string">'size'</span>, <span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 图片的基本信息</span></span><br><span class="line">        width = int(get_and_check(size, <span class="string">'width'</span>, <span class="number">1</span>).text)</span><br><span class="line">        height = int(get_and_check(size, <span class="string">'height'</span>, <span class="number">1</span>).text)</span><br><span class="line">        image = &#123;<span class="string">'file_name'</span>: filename,</span><br><span class="line">                 <span class="string">'height'</span>: height,</span><br><span class="line">                 <span class="string">'width'</span>: width,</span><br><span class="line">                 <span class="string">'id'</span>:image_id&#125;</span><br><span class="line">        json_dict[<span class="string">'images'</span>].append(image)</span><br><span class="line">        <span class="comment">## Cruuently we do not support segmentation</span></span><br><span class="line">        <span class="comment">#  segmented = get_and_check(root, 'segmented', 1).text</span></span><br><span class="line">        <span class="comment">#  assert segmented == '0'</span></span><br><span class="line">        <span class="comment"># 处理每个标注的检测框</span></span><br><span class="line">        <span class="keyword">for</span> obj <span class="keyword">in</span> get(root, <span class="string">'object'</span>):</span><br><span class="line">            <span class="comment"># 取出检测框类别名称</span></span><br><span class="line">            category = get_and_check(obj, <span class="string">'name'</span>, <span class="number">1</span>).text</span><br><span class="line">            <span class="comment"># 更新类别ID字典</span></span><br><span class="line">            <span class="keyword">if</span> category <span class="keyword">not</span> <span class="keyword">in</span> categories:</span><br><span class="line">                new_id = len(categories)</span><br><span class="line">                categories[category] = new_id</span><br><span class="line">            category_id = categories[category]</span><br><span class="line">            bndbox = get_and_check(obj, <span class="string">'bndbox'</span>, <span class="number">1</span>)</span><br><span class="line">            xmin = int(get_and_check(bndbox, <span class="string">'xmin'</span>, <span class="number">1</span>).text) - <span class="number">1</span></span><br><span class="line">            ymin = int(get_and_check(bndbox, <span class="string">'ymin'</span>, <span class="number">1</span>).text) - <span class="number">1</span></span><br><span class="line">            xmax = int(get_and_check(bndbox, <span class="string">'xmax'</span>, <span class="number">1</span>).text)</span><br><span class="line">            ymax = int(get_and_check(bndbox, <span class="string">'ymax'</span>, <span class="number">1</span>).text)</span><br><span class="line">            <span class="keyword">assert</span>(xmax &gt; xmin)</span><br><span class="line">            <span class="keyword">assert</span>(ymax &gt; ymin)</span><br><span class="line">            o_width = abs(xmax - xmin)</span><br><span class="line">            o_height = abs(ymax - ymin)</span><br><span class="line">            annotation = dict()</span><br><span class="line">            annotation[<span class="string">'area'</span>] = o_width*o_height</span><br><span class="line">            annotation[<span class="string">'iscrowd'</span>] = <span class="number">0</span></span><br><span class="line">            annotation[<span class="string">'image_id'</span>] = image_id</span><br><span class="line">            annotation[<span class="string">'bbox'</span>] = [xmin, ymin, o_width, o_height]</span><br><span class="line">            annotation[<span class="string">'category_id'</span>] = category_id</span><br><span class="line">            annotation[<span class="string">'id'</span>] = bnd_id</span><br><span class="line">            annotation[<span class="string">'ignore'</span>] = <span class="number">0</span></span><br><span class="line">            <span class="comment"># 设置分割数据，点的顺序为逆时针方向</span></span><br><span class="line">            annotation[<span class="string">'segmentation'</span>] = [[xmin,ymin,xmin,ymax,xmax,ymax,xmax,ymin]]</span><br><span class="line"></span><br><span class="line">            json_dict[<span class="string">'annotations'</span>].append(annotation)</span><br><span class="line">            bnd_id = bnd_id + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入类别ID字典</span></span><br><span class="line">    <span class="keyword">for</span> cate, cid <span class="keyword">in</span> categories.items():</span><br><span class="line">        cat = &#123;<span class="string">'supercategory'</span>: <span class="string">'none'</span>, <span class="string">'id'</span>: cid, <span class="string">'name'</span>: cate&#125;</span><br><span class="line">        json_dict[<span class="string">'categories'</span>].append(cat)</span><br><span class="line">    <span class="comment"># 导出到json</span></span><br><span class="line">    json_fp = open(json_file, <span class="string">'w'</span>)</span><br><span class="line">    json_str = json.dumps(json_dict)</span><br><span class="line">    json_fp.write(json_str)</span><br><span class="line">    json_fp.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    root_path = os.getcwd()</span><br><span class="line">    xml_dir = os.path.join(root_path, <span class="string">'Annotations'</span>)</span><br><span class="line"></span><br><span class="line">    xml_labels = os.listdir(os.path.join(root_path, <span class="string">'Annotations'</span>))</span><br><span class="line">    np.random.shuffle(xml_labels)</span><br><span class="line">    split_point = int(len(xml_labels)/<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># validation data</span></span><br><span class="line">    xml_list = xml_labels[<span class="number">0</span>:split_point]</span><br><span class="line">    json_file = <span class="string">'./instances_val2014.json'</span></span><br><span class="line">    convert(xml_list, xml_dir, json_file)</span><br><span class="line">    <span class="keyword">for</span> xml_file <span class="keyword">in</span> xml_list:</span><br><span class="line">        img_name = xml_file[:<span class="number">-4</span>] + <span class="string">'.jpg'</span></span><br><span class="line">        shutil.copy(os.path.join(root_path, <span class="string">'JPEGImages'</span>, img_name),</span><br><span class="line">                    os.path.join(root_path, <span class="string">'val2014'</span>, img_name))</span><br><span class="line">    <span class="comment"># train data</span></span><br><span class="line">    xml_list = xml_labels[split_point:]</span><br><span class="line">    json_file = <span class="string">'./instances_train2014.json'</span></span><br><span class="line">    convert(xml_list, xml_dir, json_file)</span><br><span class="line">    <span class="keyword">for</span> xml_file <span class="keyword">in</span> xml_list:</span><br><span class="line">        img_name = xml_file[:<span class="number">-4</span>] + <span class="string">'.jpg'</span></span><br><span class="line">        shutil.copy(os.path.join(root_path, <span class="string">'JPEGImages'</span>, img_name),</span><br><span class="line">                    os.path.join(root_path, <span class="string">'train2014'</span>, img_name))</span><br></pre></td></tr></table></figure>
-
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://blog.csdn.net/m_buddy/article/details/90348194" target="_blank" rel="noopener">https://blog.csdn.net/m_buddy/article/details/90348194</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">DeepLearning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/DeepLearning//" class="article-tag-list-link color3">DeepLearning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/DeepLearning/%E5%A6%82%E4%BD%95%E5%B0%86voc%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BD%AC%E5%8C%96%E4%B8%BAcoco%E6%A0%BC%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-myProjects/Tech_issues/Anaconda常用指令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/python/anaconda%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86/">Anaconda常用指令整理</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/python/anaconda%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-05-14T07:31:32.934Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="创建、删除、激活、退出环境"><a href="#创建、删除、激活、退出环境" class="headerlink" title="创建、删除、激活、退出环境"></a>创建、删除、激活、退出环境</h1><ol>
-<li><p>首先查看环境</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda env list</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建环境</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n env_name python=3.x</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>删除环境</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda remove -n env_name --all</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>激活环境</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source activate env_name</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>退出当前环境回到base</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source deactivate</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h1 id="包管理"><a href="#包管理" class="headerlink" title="包管理"></a>包管理</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Anaconda</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/python//" class="article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/python/anaconda%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/Leetcode/5.最长回文字串" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/5-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%97%E4%B8%B2/">5.最长回文字串</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/5-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%97%E4%B8%B2/" class="archive-article-date">
-  	<time datetime="2020-05-14T03:00:35.723Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>给定一个字符串 <code>s</code>，找到<code>s</code>中最长的回文子串。你可以假设<code>s</code> 的最大长度为 1000。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;babad&quot;</span><br><span class="line">输出: &quot;bab&quot;</span><br><span class="line">注意: &quot;aba&quot; 也是一个有效答案。</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;cbbd&quot;</span><br><span class="line">输出: &quot;bb&quot;</span><br></pre></td></tr></table></figure>
-
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/longest-palindromic-substring" target="_blank" rel="noopener">https://leetcode-cn.com/problems/longest-palindromic-substring</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>关键字：回文字串，那么什么是回文字串？是正序逆序都一样的字串，也是中心对称的字串。</p>
-<p>思考回文字串有哪些性质：</p>
-<ul>
-<li>一定包含长度更小的回文字串</li>
-<li>单个字符是回文字串，两个连续相同字符是回文子串</li>
-<li>中心对称</li>
-</ul>
-<h2 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h2><p>暴力法当然是遍历所有可能的子字符串，判断是否是回文字串，维护一个全局最大值，暴力法时间复杂度$O(N^3)$，因为每判断一个字符串的时间复杂度为$O(N)$。</p>
-<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><p>接下来，为了改进暴力法，我们思考暴力法中有没有重复计算的部分。我们上面已经发现了回文字串的特点：一定包含长度更小的回文字串，且一定是中心对称的，那么对每一个回文字串，它的最大回文字子串（不含自己）,其前后两个字符一定是相同的。用子字符串的首尾下标表示一个子字符串是否为回文字符串：$S(b,e),~e-b&gt;2$，那么判断它是否为回文字符串的标准为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> S(b+<span class="number">1</span>,e<span class="number">-1</span>) == true <span class="keyword">and</span> S[b] == S[e]:</span><br><span class="line">	S(b,e) = true</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    S(b,e) = false</span><br></pre></td></tr></table></figure>
-
-<p>可以化简为</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">S(b,e) = S(b+<span class="number">1</span>,e<span class="number">-1</span>) &amp; S[b]==S[e]</span><br></pre></td></tr></table></figure>
-
-<p>至此我们有了递归公式，然而递归的过程中有没有重复计算呢？显然在计算更长回文字串的时候重复计算了其包含的子串，因此我们需要进行动态规划。</p>
-<p>如此就产生了动态规划解法。</p>
-<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>我们需要用首尾两个变量来表示一个字符串，因此需要一个二维表来记录每个字符串是否为回文字串，空间复杂度为$O(N^2)$，时间复杂度也为$O(N^2)$，因为还是需要对所有的子字符串进行计算。</p>
-<h3 id="对动态规划的改进"><a href="#对动态规划的改进" class="headerlink" title="对动态规划的改进"></a>对动态规划的改进</h3><p>上述动态规划是否还能改进？对每一个长度$len&gt;2$的字符串，我们只需要判断其长度为$len-2$的中心子字符串是否是回文字符串，而不需要该子字符串的子字符串，因此为了计算长度为$len$的所有子字符串是否为回文字串，我们只需要长度为$len-2$的所有字串的判断结果。事实上，为了计算以$i$为中心（$i$只表示一个位置，而不是特指一个字符，也可能是字符之间的间隙）的字符串，我们可以只用一个标志位来标志内层最长中心子字符串是否是回文字串，自下而上得到以某个位置为中心的最长回文字串，这样一来，只要我们遍历所有位置，并维持一个最长回文字串，就可以得到全局最回文字串。</p>
-<p>这样的空间复杂度就被优化到了$O(1)$，而时间复杂度不变，因为还是遍历了所有可能子字符串。</p>
-<p>以上思路参考了原题目官方题解，思路中比较巧妙的是为了避免区分字符串长度的奇偶带来的不便，将思考的对象由字符串本身改变为字符串中心点：因为对称，所以一定有中心点，这样大大简化了思考的难度。</p>
-<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>我们直接实现优化后的方法。步骤：</p>
-<ol>
-<li>对每个<strong>位置</strong>：寻找以这个位置为中心的最长回文字串；<ul>
-<li>判断该位置为间隙还是字符</li>
-<li>判断中心两侧字符是否相等（注意边界条件）</li>
-<li>拓展</li>
-</ul>
-</li>
-<li>遍历$2N+1$个位置，维护最长回文子串。</li>
-</ol>
-<p>代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">longestPalindrome</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.empty()) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        <span class="keyword">if</span>(s.<span class="built_in">size</span>() == <span class="number">1</span>) <span class="keyword">return</span> s;</span><br><span class="line">        <span class="keyword">if</span>(s.<span class="built_in">size</span>() == <span class="number">2</span> &amp;&amp; s[<span class="number">0</span>] == s[<span class="number">1</span>]) <span class="keyword">return</span> s;</span><br><span class="line">        <span class="built_in">string</span> ans;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> p=<span class="number">0</span>; p&lt;<span class="number">2</span>*s.<span class="built_in">size</span>()+<span class="number">1</span>; ++p)&#123;</span><br><span class="line">            <span class="built_in">string</span> tmp = centerExpand(s, p);</span><br><span class="line">            <span class="keyword">if</span>(tmp.<span class="built_in">size</span>() &gt; ans.<span class="built_in">size</span>()) ans = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// 字符位置为偶数</span></span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">centerExpand</span><span class="params">(<span class="built_in">string</span>&amp; s, <span class="keyword">int</span> pos)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pos == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">string</span>&#123;s[<span class="number">0</span>]&#125;;</span><br><span class="line">        <span class="keyword">auto</span> lo = s.cbegin();</span><br><span class="line">        <span class="keyword">auto</span> hi = s.cbegin();</span><br><span class="line">        <span class="keyword">if</span>(pos%<span class="number">2</span>)&#123;</span><br><span class="line">            lo += pos/<span class="number">2</span>;</span><br><span class="line">            hi = lo+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            lo += pos/<span class="number">2</span><span class="number">-1</span>;</span><br><span class="line">            hi += pos/<span class="number">2</span>+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">string</span> ans;</span><br><span class="line">        <span class="keyword">while</span>(lo &gt;= s.cbegin() &amp;&amp; hi &lt; s.cend())&#123;</span><br><span class="line">            <span class="keyword">if</span>(*lo == *hi) ans.assign(lo, hi+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> ans;</span><br><span class="line">            lo -= <span class="number">1</span>;</span><br><span class="line">            hi += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>但是时间和内存都爆炸了，于是我发现我的代码有如下问题：</p>
-<ul>
-<li>没必要维护最长回文字串，只要维持最大长度及其位置就可以了；</li>
-</ul>
-<h4 id="读高赞题解的代码"><a href="#读高赞题解的代码" class="headerlink" title="读高赞题解的代码"></a>读高赞题解的代码</h4><p>先贴代码再分析思路：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">longestPalindrome</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len=s.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span>(len==<span class="number">0</span>||len==<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> s;</span><br><span class="line">        <span class="keyword">int</span> start=<span class="number">0</span>;<span class="comment">//记录回文子串起始位置</span></span><br><span class="line">        <span class="keyword">int</span> <span class="built_in">end</span>=<span class="number">0</span>;<span class="comment">//记录回文子串终止位置</span></span><br><span class="line">        <span class="keyword">int</span> mlen=<span class="number">0</span>;<span class="comment">//记录最大回文子串的长度</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> len1=expendaroundcenter(s,i,i);<span class="comment">//一个元素为中心</span></span><br><span class="line">            <span class="keyword">int</span> len2=expendaroundcenter(s,i,i+<span class="number">1</span>);<span class="comment">//两个元素为中心</span></span><br><span class="line">            mlen=<span class="built_in">max</span>(<span class="built_in">max</span>(len1,len2),mlen);</span><br><span class="line">            <span class="keyword">if</span>(mlen&gt;<span class="built_in">end</span>-start+<span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                start=i-(mlen<span class="number">-1</span>)/<span class="number">2</span>;</span><br><span class="line">                <span class="built_in">end</span>=i+mlen/<span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.substr(start,mlen);</span><br><span class="line">        <span class="comment">//该函数的意思是获取从start开始长度为mlen长度的字符串</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">expendaroundcenter</span><span class="params">(<span class="built_in">string</span> s,<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function">    <span class="comment">//计算以left和right为中心的回文串长度</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> L=left;</span><br><span class="line">        <span class="keyword">int</span> R=right;</span><br><span class="line">        <span class="keyword">while</span>(L&gt;=<span class="number">0</span> &amp;&amp; R&lt;s.length() &amp;&amp; s[R]==s[L])</span><br><span class="line">        &#123;</span><br><span class="line">            L--;</span><br><span class="line">            R++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> R-L<span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">作者：chenlele</span><br><span class="line">链接：https:<span class="comment">//leetcode-cn.com/problems/longest-palindromic-substring/solution/zui-chang-hui-wen-zi-chuan-c-by-gpe3dbjds1/</span></span><br><span class="line">来源：力扣（LeetCode）</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>首先是中心拓展的辅助函数，接收字符串以及拓展的起点，返回回文字串最大长度；</li>
-<li>然后在主函数中维护最大长度以及首尾位置；</li>
-<li>遍历字符串，以每个位置为中心计算最长回文子串，维护最大回文子串位置；</li>
-</ol>
-<h4 id="马拉车算法代码"><a href="#马拉车算法代码" class="headerlink" title="马拉车算法代码"></a>马拉车算法代码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">longestPalindrome</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.<span class="built_in">size</span>()&lt;<span class="number">2</span>) <span class="keyword">return</span> s;</span><br><span class="line">        <span class="keyword">int</span> n=s.<span class="built_in">size</span>(),maxLen=<span class="number">0</span>,start=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;) &#123;</span><br><span class="line">            <span class="keyword">if</span>(n-i&lt;=maxLen/<span class="number">2</span>) <span class="keyword">break</span>; <span class="comment">//剩余字符&lt;=maxLen的一半,整个回文串长度最多maxLen</span></span><br><span class="line">            <span class="keyword">int</span> left=i,right=i;</span><br><span class="line">            <span class="keyword">while</span>(right&lt;n<span class="number">-1</span>&amp;&amp;s[right+<span class="number">1</span>]==s[right]) ++right;</span><br><span class="line">            i=right+<span class="number">1</span>; <span class="comment">//向右遍历跳过重复项</span></span><br><span class="line">            <span class="keyword">while</span>(right&lt;n<span class="number">-1</span>&amp;&amp;left&gt;<span class="number">0</span>&amp;&amp;s[right+<span class="number">1</span>]==s[left<span class="number">-1</span>]) &#123; <span class="comment">//从第二位开始，由中心向两边扩散</span></span><br><span class="line">                ++right;--left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(maxLen&lt;right-left+<span class="number">1</span>) &#123; <span class="comment">//substr的参数：start以及maxLen</span></span><br><span class="line">                maxLen=right-left+<span class="number">1</span>;</span><br><span class="line">                start=left;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.substr(start,maxLen); <span class="comment">//输出最长回文字符串</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/5-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%97%E4%B8%B2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1421,6 +1491,10 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">github</a>
               </li>
              
@@ -1433,10 +1507,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">DFS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">BFS</a>
               </li>
              
@@ -1445,11 +1515,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+                <a href="javascript:void(0)" class="js-tag color4">DFS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">回溯</a>
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1458,6 +1528,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">回溯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1493,11 +1567,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">递归</a>
+                <a href="javascript:void(0)" class="js-tag color4">summmary</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">summmary</a>
+                <a href="javascript:void(0)" class="js-tag color3">递归</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1509,11 +1583,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
+                <a href="javascript:void(0)" class="js-tag color4">Cpp</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Cpp</a>
+                <a href="javascript:void(0)" class="js-tag color4">gdb</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1533,6 +1607,18 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">二分查找</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">I/O模型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">计算机基础</a>
               </li>
              
@@ -1545,11 +1631,23 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">DeepLearning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">TCP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">DeepLearning</a>
+                <a href="javascript:void(0)" class="js-tag color3">EfficientDet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1561,19 +1659,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">EfficientDet</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ssh</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">二分查找</a>
               </li>
             
             <div class="clearfix"></div>
