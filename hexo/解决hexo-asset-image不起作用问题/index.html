@@ -226,7 +226,10 @@ var _hmt = _hmt || [];
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo -v</span></span><br><span class="line">hexo: 4.2.0</span><br><span class="line">hexo-cli: 3.1.0</span><br><span class="line">os: Windows_NT 10.0.18362 win32 x64</span><br><span class="line">node: 12.16.3</span><br><span class="line">v8: 7.8.279.23-node.35</span><br><span class="line">uv: 1.34.2</span><br><span class="line">zlib: 1.2.11</span><br><span class="line">brotli: 1.0.7</span><br><span class="line">ares: 1.16.0</span><br><span class="line">modules: 72</span><br><span class="line">nghttp2: 1.40.0</span><br><span class="line">napi: 5</span><br><span class="line">llhttp: 2.0.4</span><br><span class="line">http_parser: 2.9.3</span><br><span class="line">openssl: 1.1.1g</span><br><span class="line">cldr: 36.0</span><br><span class="line">icu: 65.1</span><br><span class="line">tz: 2019c</span><br><span class="line">unicode: 12.1</span><br></pre></td></tr></table></figure>
 
 <p>问题：本地图片上传到文章同名文件夹下，而 <code>.html</code>中图片引用相对链接并没有被转换为绝对路径，也就是说插件并没有工作。</p>
-<p>解决</p>
+<p>解决：在 <code>hexo</code> 创建的博客文件夹下安装插件以及依赖。</p>
+<p>在此过程中发现，实际上将本地图片拷贝到 <code>public</code> 文件夹下的操作是由 <code>config</code>中的<code>post_asset_folder</code>控制的，需要把选项置为<code>true</code>。</p>
+<p>而我把自己的<code>permalink</code>修改为了<code>permalink: :category/:post_title/</code>，这样的话，相对路径转换为绝对路径时出现问题，字符串拆分错误，具体解决参考链接：<a href="https://nobige.cn/post/20190605-hexo-asset-imageFix/。" target="_blank" rel="noopener">https://nobige.cn/post/20190605-hexo-asset-imageFix/。</a></p>
+<p>至此问题解决。</p>
 
       
 
