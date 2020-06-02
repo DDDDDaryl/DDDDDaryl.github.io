@@ -251,6 +251,9 @@ var _hmt = _hmt || [];
 <p>$$<br>G_{n} \leqslant A_{n}<br>$$</p>
 <p>在本题中，要求的就是$G_n$，而根据均值不等式，$G_n$有上界，因此我们只需要计算其上界，同时注意必须剪一刀的设定。<br>$$<br>x_1x_2…x_n\leq (\frac{n}{m})^m<br>$$<br>上式中，等号当且仅当$x_1=x_2=…=x_n$时成立，因此<br>$$<br>x = \frac{n}{m}<br>$$</p>
 <p>$$<br>x^m = x^{\frac{n}{x}} = (x^{\frac{1}{x}})^n<br>$$</p>
+<p>令$y=x^{\frac{1}{x}}$，求其极大值：<br>$$<br>ln\ y = \frac{1}{x}ln\ x<br>$$<br>求导<br>$$<br>\frac{1}{y} \dot{y}= \frac{1}{x^2}-\frac{1}{x^2}ln\ x = \frac{1-ln\ x}{x^2}<br>$$</p>
+<p>$$<br>\dot{y} = \frac{1-ln\ x}{x^2} x^{\frac{1}{x}}<br>$$</p>
+<p>求得极大值点为$x_0=e$，将$2,\ 3$分别带入$y$中，得到$y|<em>{x=3}&gt;y|</em>{x=2}$。</p>
 
       
 
@@ -491,6 +494,10 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">github</a>
               </li>
              
@@ -500,10 +507,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">summary</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -519,15 +522,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">BFS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hash table</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -547,15 +550,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">sliding window</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">binary search</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">贪心法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">sliding window</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -575,11 +578,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">递归</a>
+                <a href="javascript:void(0)" class="js-tag color4">summmary</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">summmary</a>
+                <a href="javascript:void(0)" class="js-tag color3">递归</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -631,15 +634,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网络编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
+                <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -648,6 +647,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">UDP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">YOLO</a>
               </li>
              
               <li class="article-tag-list-item">
