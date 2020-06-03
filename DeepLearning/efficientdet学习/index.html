@@ -100,7 +100,7 @@ var _hmt = _hmt || [];
 	        
 				<li><a href="/categories/DeepLearning/">深度学习</a></li>
 	        
-				<li><a href="/null">我的项目</a></li>
+				<li><a href="/categories/myprj/">我的项目</a></li>
 	        
 			</ul>
 		</nav>
@@ -184,7 +184,7 @@ var _hmt = _hmt || [];
 		        
 					<li style="width: 14.285714285714286%"><a href="/categories/DeepLearning/">深度学习</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/null">我的项目</a></li>
+					<li style="width: 14.285714285714286%"><a href="/categories/myprj/">我的项目</a></li>
 		        
 				</ul>
 			</nav>
@@ -451,6 +451,33 @@ var _hmt = _hmt || [];
   
 
 
+        <!-- 目录内容 -->
+        
+            <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+            <span class="btn-bg"></span>
+            <span class="btn-text">文章导航</span>
+            </p>
+            <div id="toc-article" class="toc-article">
+                <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#EfficientDet学习笔记"><span class="toc-number">1.</span> <span class="toc-text">EfficientDet学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预备知识"><span class="toc-number">1.2.</span> <span class="toc-text">预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FPN"><span class="toc-number">1.2.1.</span> <span class="toc-text">FPN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Faster-R-CNN"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">Faster R-CNN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RPN网络"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">RPN网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#特征金字塔网络FPN"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">特征金字塔网络FPN</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EfﬁcientNet-Rethinking-Model-Scaling-for-Convolutional-Neural-Networks"><span class="toc-number">1.3.</span> <span class="toc-text">EfﬁcientNet: Rethinking Model Scaling for Convolutional Neural Networks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EfficientDet-Scalable-and-Efficient-Object-Detection"><span class="toc-number">1.4.</span> <span class="toc-text">EfficientDet: Scalable and Efficient Object Detection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BiFPN"><span class="toc-number">1.4.1.</span> <span class="toc-text">BiFPN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cross-Scale-Connections"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">Cross-Scale Connections</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Weighted-Feature-Fusion"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">Weighted Feature Fusion</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Compound-Scaling"><span class="toc-number">1.4.1.3.</span> <span class="toc-text">Compound Scaling</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.5.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+           </div>
+           <script type="text/javascript">
+            function showToc(){
+                var toc_article = document.getElementById("toc-article");
+                var show_toc_btn = document.getElementById("show-toc-btn");
+                toc_article.setAttribute("style","display:block");
+                show_toc_btn.setAttribute("style","display:none");
+                };
+            function showBtn(){
+                var toc_article = document.getElementById("toc-article");
+                var show_toc_btn = document.getElementById("show-toc-btn");
+                toc_article.setAttribute("style","display:none");
+                show_toc_btn.setAttribute("style","display:block");
+                };
+           </script>
+             
+        <!-- 目录内容结束 -->
           </div>
         </div>
       </div>
@@ -752,6 +779,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">HTTP/HTTPS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Tinywebserver</a>
               </li>
             
             <div class="clearfix"></div>
