@@ -191,6 +191,351 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dailyLearning/剑指Offer/面试题10-2-青蛙跳台阶问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-2-%E9%9D%92%E8%9B%99%E8%B7%B3%E5%8F%B0%E9%98%B6%E9%97%AE%E9%A2%98/">面试题10-2.青蛙跳台阶问题</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-2-%E9%9D%92%E8%9B%99%E8%B7%B3%E5%8F%B0%E9%98%B6%E9%97%AE%E9%A2%98/" class="archive-article-date">
+  	<time datetime="2020-05-29T05:35:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>一只青蛙一次可以跳上1级台阶，也可以跳上2级台阶。求该青蛙跳上一个 n 级的台阶总共有多少种跳法。</p>
+<p>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：n &#x3D; 2</span><br><span class="line">输出：2</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：n &#x3D; 7</span><br><span class="line">输出：21</span><br></pre></td></tr></table></figure>
+
+
+<p>提示：</p>
+<p><code>0 &lt;= n &lt;= 100</code></p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>最简单为递归实现，包含大量重复计算。</p>
+<p>优化：记忆化递归，空间复杂度$O(N)$。</p>
+<h2 id="举例计算"><a href="#举例计算" class="headerlink" title="举例计算"></a>举例计算</h2><ul>
+<li>n=1, ans=1</li>
+<li>n=2, ans=2</li>
+<li>n=3, ans=3</li>
+<li>n=4, ans=5</li>
+</ul>
+<p>可以看出实际上还是一个斐波那契数列。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numWays</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(n &lt; <span class="number">4</span>) <span class="keyword">return</span> n;</span><br><span class="line">        <span class="keyword">int</span> ppre = <span class="number">2</span>, pre = <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">int</span> curr = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">4</span>; i&lt;=n; ++i) &#123;</span><br><span class="line">            curr = (ppre + pre)&lt;<span class="number">1000000007</span>?(ppre + pre):(ppre + pre)%<span class="number">1000000007</span>;</span><br><span class="line">            ppre = pre;</span><br><span class="line">            pre = curr;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> curr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-2-%E9%9D%92%E8%9B%99%E8%B7%B3%E5%8F%B0%E9%98%B6%E9%97%AE%E9%A2%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-dailyLearning/计算机基础/线程互斥和同步的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E7%BA%BF%E7%A8%8B%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E6%B3%95/">线程互斥和同步的方法</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E7%BA%BF%E7%A8%8B%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2020-05-29T03:46:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="用信号量同步线程"><a href="#用信号量同步线程" class="headerlink" title="用信号量同步线程"></a>用信号量同步线程</h1><p>共享变量引入了同步错误 (synchronization error) 的可能性。</p>
+<p>比如某个对等线程在将某个共享变量加载到寄存器并修改之后，在存储寄存器的值到内存之前，另一个对等线程执行了加载变量到寄存器的操作，引起同步错误。</p>
+<p>对于一个线程，操作共享变量内容的<strong>指令</strong>构成了一个关于<strong>该共享变量的</strong>临界区 (critical section)，不同线程之间的临界区不能存在交集，否则是不安全的。</p>
+<p>我们想要确保每个线程在执行其临界区中的指令时，拥有对共享变量的<strong>互斥访问 (mutually exclusive access)</strong>，这种现象称为<strong>互斥</strong>。</p>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>信号量 (semaphore) 是具有非负整数值的<strong>全局变量</strong>。</p>
+<p>只能由两种操作进行处理 P 和 V：</p>
+<ul>
+<li><p>$P(s)$：$\begin{equation} \left{\begin{array}{lr}if(s\ne 0),<del>s=s-1\if(s=0),hang</del>thread,<del>until</del>s\ne0\ \end{array}\right. \end{equation}$</p>
+</li>
+<li><p>$V(s)$：$s=s+1<br>$</p>
+</li>
+</ul>
+<p>P 操作是原子的，不可分割的，一旦预测信号量 s 变为非零，就会将 s 减一，<strong>不能有中断</strong>。</p>
+<p>V 的加1操作也是原子的，也就是说<strong>加载、加1、存储信号量</strong>的过程<strong>不能有中断</strong>。</p>
+<p>V 的加1操作只能重启一个阻塞在 P 的线程，有多个线程在等待同一个信号量时，不能预测 V 会重启哪一个线程。</p>
+<p>这两个操作的定义<strong>确保了一个正确初始化了的信号量不为负</strong>，这个属性叫做<strong>信号量不变性 (semaphore invariant)</strong>。</p>
+<h3 id="使用信号量实现互斥"><a href="#使用信号量实现互斥" class="headerlink" title="使用信号量实现互斥"></a>使用信号量实现互斥</h3><p>使用信号量来实现互斥的基本思想是<strong>将每个共享变量（或一组相关的共享变量）与一个信号量 s （初始为1）关联起来</strong>。</p>
+<p>而 P 和 V 操作确保了互斥访问（即信号量不能为-1）。</p>
+<p>在一个线程的临界区前后增加信号量操作，以这种方式保护共享变量的信号量称为<strong>二元信号量</strong>。</p>
+<p>以<strong>提供互斥为目的</strong>的二元信号量常常称为<strong>互斥锁 (mutex)</strong>。</p>
+<p>在一个互斥锁上执行 P 操作称为对互斥锁<strong>加锁</strong>；V 为对互斥锁解锁。</p>
+<p>对一个互斥锁加了锁但是还没有解锁的<strong>线程</strong>称为<strong>占用</strong>这个互斥锁。</p>
+<p>一个被用作一组可用资源的计数器的信号量被称为<strong>计数信号量</strong>。</p>
+<p>从可操作的意义上来说，由 P 和 V 操作创建的禁止区，使得在任何时间点上，被包围的临界区中，都不可能有多个线程在执行指令。换句话说，<strong>信号量操作</strong>确保了线程对临界区的互斥访问。</p>
+<h3 id="利用信号量来调度共享资源"><a href="#利用信号量来调度共享资源" class="headerlink" title="利用信号量来调度共享资源"></a>利用信号量来调度共享资源</h3><p>信号量的另外一个作用是调度对共享资源的访问。一个线程用一个信号量来通知另一个线程，程序状态中的某个条件已经为真。</p>
+<h4 id="生产者-消费者问题"><a href="#生产者-消费者问题" class="headerlink" title="生产者-消费者问题"></a>生产者-消费者问题</h4><p>生产者和消费者线程共享一个有 n 个槽的有限缓冲区。生产者线程反复地生成新的项目，并把它们插入到缓冲区中。消费者线程不断地从缓冲区中取出这些项目，然后消费（使用）它们。</p>
+<h4 id="读者-写者问题"><a href="#读者-写者问题" class="headerlink" title="读者-写者问题"></a>读者-写者问题</h4><p>是互斥问题的一个概括。一组并发的线程要访问一个共享对象。修改对象的线程叫做写者，制度对象的线程叫做读者。</p>
+<p>写者必须拥有对对象的独占访问，而读者可以和无限多个其他读者共享对象。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E7%BA%BF%E7%A8%8B%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E6%B3%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-dailyLearning/剑指Offer/面试题10-1-斐波那契数列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-1-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/">面试题10-1.斐波那契数列</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-1-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/" class="archive-article-date">
+  	<time datetime="2020-05-28T14:27:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项。斐波那契数列的定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">F(0) &#x3D; 0,   F(1) &#x3D; 1</span><br><span class="line">F(N) &#x3D; F(N - 1) + F(N - 2), 其中 N &gt; 1.</span><br></pre></td></tr></table></figure>
+
+
+<p>斐波那契数列由 0 和 1 开始，之后的斐波那契数就是由之前的两数相加而得出。</p>
+<p>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：n &#x3D; 2</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：n &#x3D; 5</span><br><span class="line">输出：5</span><br></pre></td></tr></table></figure>
+
+
+<p>提示：</p>
+<p><code>0 &lt;= n &lt;= 100</code></p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>需要注意的点：</p>
+<ul>
+<li>需要取模，由于斐波那契数列递增，我们只要把每一个新求出的值取模就可以（如果需要）。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n &lt; <span class="number">2</span>) <span class="keyword">return</span> n;</span><br><span class="line">        <span class="keyword">int</span> window[<span class="number">3</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>; i&lt;=n; ++i) &#123;</span><br><span class="line">            window[<span class="number">2</span>] = (window[<span class="number">0</span>]+window[<span class="number">1</span>])&gt;<span class="number">1000000007</span>?(window[<span class="number">0</span>]+window[<span class="number">1</span>])%<span class="number">1000000007</span>:(window[<span class="number">0</span>]+window[<span class="number">1</span>]);   </span><br><span class="line">            window[<span class="number">0</span>] = window[<span class="number">1</span>];</span><br><span class="line">            window[<span class="number">1</span>] = window[<span class="number">2</span>];                    </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> window[<span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度$O(N)$</li>
+<li>空间复杂度$O(1)$</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>求余运算规则：</p>
+<p>设正整数 x, y, p，有：<br>$$<br>(x+y)%p=(x%p+y%p)%p<br>$$<br>也就是我们之前想的只需对两数之和取余即可。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">递归</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-1-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dailyLearning/剑指Offer/面试题09-用两个栈实现队列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1038,376 +1383,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-dailyLearning/c++/new和malloc的区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Cpp/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/">new和malloc的区别</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Cpp/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/" class="archive-article-date">
-  	<time datetime="2020-05-26T13:33:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h1><ol>
-<li><p>申请的内存所在位置<br>new 操作符从<strong>自由存储区</strong>上为对象动态分配存储空间；<br>malloc 函数在运行时堆上动态分配存储空间。<br>自由存储区是<strong>基于 new 操作符的概念</strong>，凡是通过 new 操作符进行内存申请，那么该内存就是动态存储区；<br>堆是操作系统虚拟内存系统在一个进程的私有虚拟空间中维护的一个区域，用于程序的动态内存分配。</p>
-<p><strong>自由存储区能否是堆</strong>取决于 new 操作符的具体实现。</p>
-</li>
-<li><p>返回类型安全性<br>new 分配成功时返回一个类型与其指向对象类型严格匹配的指针，<strong>无需进行类型转换</strong>，因此是符合<strong>类型安全性的</strong>操作符；</p>
-<p>而 malloc 返回 void*，需要强制转换成相应的对象类型。</p>
-<p>类型安全的代码不会试图访问禁止访问的内存区域，因此是内存安全的。</p>
-</li>
-<li><p>内存返回失败时的返回值<br>new 分配内存失败时，<strong>抛出 bad_alloc 异常</strong>，不会返回NULL；</p>
-<p>malloc 分配内存失败时，返回 NULL；<br>new 分配失败时使用 catch 捕获异常。</p>
-</li>
-<li><p>是否需要指定内存大小<br>new 无需指定大小，<strong>编译器</strong>会根据其类型信息计算；<br>malloc 需要显式指定内存大小；</p>
-</li>
-<li><p>是否调用构造函数/析构函数<br>使用 new 时会经历三个步骤：</p>
-<ul>
-<li>调用 operator new 函数，分配一块足够大的，原始的，未命名的内存空间以便存储特定类型对象；</li>
-<li>调用相应<strong>构造函数</strong>以构造对象，并为其传入初值；</li>
-<li>对象构造完成后，返回一个指向该对象的指针；</li>
-</ul>
-<p>使用 delete 操作符来释放对象内存时：</p>
-<ul>
-<li>调用对象析构函数；</li>
-<li>调用operator delete 函数释放内存空间；</li>
-</ul>
-</li>
-<li><p>对数组的处理 </p>
-<p>C++ 提供了 new[] 和 delete[] 来专门处理数组类型</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T* ptr = <span class="keyword">new</span> T[<span class="number">10</span>]; <span class="comment">// 分配一个10个T类型元素的数组</span></span><br><span class="line"><span class="keyword">delete</span> [] ptr;</span><br></pre></td></tr></table></figure>
-
-<p>new[] 会分别调用构造函数初始化每一个数组元素，释放对象时为每个对象调用析构函数；</p>
-<p>malloc 仅仅分配一块内存，并返回一个指向首地址的指针。</p>
-</li>
-<li><p>new 和 malloc 是否可以相互调用<br>new/delete 可以基于 malloc/free 实现，反之不行；因为 new 本身比 malloc 更复杂，无法用高级功能体现低级特性。</p>
-</li>
-<li><p>是否可以被重载<br>operator new / operator delete 可以被重载。<br>malloc / free 不允许重载。</p>
-</li>
-<li><p>能否重新分配内存<br>malloc 可以使用 realloc 进行内存重新分配；<br>new 没有扩充内存的工具；</p>
-</li>
-<li><p>客户处理内存分配不足<br>operator new 分配内存失败抛出一个异常之前，会先调用一个用户指定的异常处理函数 new-handler，用户使用 set_new_handler 函数指定异常处理函数。</p>
-<p>其实就是设置了用户定义的异常处理函数，使用了标准库包装的系统调用进行设置（个人理解，有待考证）。</p>
-</li>
-</ol>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>区别在于：</p>
-<ul>
-<li>物理位置</li>
-<li>输入输出，是否安全</li>
-<li>如何实现</li>
-<li>有何功能</li>
-</ul>
-<p>几个方面的差异。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">new</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Cpp/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-git/git-error-https-not-supported" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/git/git-error-protocol-https-not-supported/">git error - protocol &#39;https&#39; not supported.</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/git/git-error-protocol-https-not-supported/" class="archive-article-date">
-  	<time datetime="2020-05-26T08:46:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>精准到位一针见血的回答：<a href="https://stackoverflow.com/questions/53988638/git-fatal-protocol-https-is-not-supported" target="_blank" rel="noopener">https://stackoverflow.com/questions/53988638/git-fatal-protocol-https-is-not-supported</a></p>
-<p>具体来说，我们是如何遇到问题的呢？</p>
-<ul>
-<li>在 github 仓库中 paste url</li>
-<li>在 git bash 中<code>ctrl+v</code>，发现没用</li>
-<li>于是右键点击<code>paste</code> </li>
-<li>事实上在<code>ctrl+v</code>时命令行有一个不可见的错误编码的<code>^?</code></li>
-<li>因此删掉重新打就好了</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/git//" class="article-tag-list-link color4">git</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/git/git-error-protocol-https-not-supported/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dailyLearning/剑指Offer/面试题03. 数组中重复的数字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">03数组中重复的数字</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/" class="archive-article-date">
-  	<time datetime="2020-05-22T10:37:20.255Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>找出数组中重复的数字。</p>
-<p>在一个长度为 n 的数组 <code>nums</code> 里的所有数字都在<code>0～n-1</code> 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">[2, 3, 1, 0, 2, 5, 3]</span><br><span class="line">输出：2 或 3 </span><br></pre></td></tr></table></figure>
-
-
-<p>限制：</p>
-<p><code>2 &lt;= n &lt;= 100000</code></p>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<!--readmore-->
-
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="审题"><a href="#审题" class="headerlink" title="审题"></a>审题</h2><p>题目是找出任意一个重复数字，意味着我们找到就可以返回了。</p>
-<h2 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h2><p>很明显可以利用<code>unordered set</code>来解决。</p>
-<p>这里复习一下<code>unordered_set</code>的插入操作：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; lookup;</span><br><span class="line"><span class="keyword">auto</span> res = lookup.insert(n); <span class="comment">// 这里res是pair类型，pair.first是一个迭代器，pair.second是一个bool,返回false说明已经存在</span></span><br></pre></td></tr></table></figure>
-
-<p>代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; lookup;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">int</span>&amp; n:nums) &#123;</span><br><span class="line">            <span class="keyword">if</span>(lookup.insert(n).second == <span class="literal">false</span>) <span class="keyword">return</span> n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>时间复杂度$O(N)$</li>
-<li>空间复杂度$O(N)$</li>
-</ul>
-<p>但是测试用例执行用时112ms，所以肯定需要优化。</p>
-<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>下面用 vector 代替散列表试试看。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">lookup</span><span class="params">(nums.<span class="built_in">size</span>(), <span class="number">-1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">int</span>&amp; n:nums) &#123;</span><br><span class="line">            <span class="keyword">if</span>(lookup[n] != <span class="number">-1</span>) <span class="keyword">return</span> n;</span><br><span class="line">            lookup[n] = n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>时间有提升，但变化不大。</p>
-<h2 id="变式"><a href="#变式" class="headerlink" title="变式"></a>变式</h2><p>如果要求空间复杂度为$O(1)$呢？</p>
-<p>那么我们就必须在原地进行操作。</p>
-<p>由于给定了值域和个数，如果没有重复，那么从 0 到 n-1 应该是一个萝卜一个坑。</p>
-<p>一种简单的思路是原地排序，然后扫描数组，返回第一个错位的数，但是用快排都已经需要$O(NlogN)$的时间复杂度了。</p>
-<p>仔细思考发现我们并不需要对整个数组排序，只要找到第一个“位置被占”的数字就可以了。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">    <span class="keyword">while</span>(nums[i] != i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i] == nums[nums[i]]) <span class="keyword">return</span> nums[i];</span><br><span class="line">        swap(nums[i], nums[nums[i]]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>代码：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">while</span>(nums[i] != i) &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] == nums[nums[i]]) <span class="keyword">return</span> nums[i];</span><br><span class="line">            swap(nums[i], nums[nums[i]]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>时间复杂度，最坏情况为没有重复数字，此时把所有数字归位需要$O(N)$</li>
-</ul>
-<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><p>如果需要在不破坏数组的基础上找到重复数字呢？</p>
-<p>对于数组$[0,1,…,n-1]$，任意取一个数$m$，如果整个数组无重复数字，那么小于$m$的数一定有$m$个，否则一定有重复数字，接下来就是二分查找。时间复杂度$O(NlogN)$，空间复杂度$O(1)$。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">hash table</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1708,6 +1683,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ssh</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">URL</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HTTP/HTTPS</a>
               </li>
             
             <div class="clearfix"></div>
