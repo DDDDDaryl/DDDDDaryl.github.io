@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>基于目标检测的稻苗导航线拟合 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="背景为了解决项目中的基于目标检测的稻苗线拟合问题，需要设计一个算法实现基本功能。基于深度学习的目标检测输出 bounding boxes 的 location 的 list，表示检测出的所有稻苗的位置（我们假设为中心点，质心），而我们的目标是利用这些位置坐标，采用回归算法拟合出我们想要的稻苗导航线（也就是稻苗线按行的延伸方向）。想要的效果大概如下图所示：">
+  <meta name="description" content="背景为了解决项目中的基于目标检测的稻苗线拟合问题，需要设计一个算法实现基本功能。基于深度学习的目标检测输出 bounding boxes 的 location 的 list，表示检测出的所有稻苗的位置（我们假设为中心点，质心），而我们的目标是利用这些位置坐标，采用回归算法拟合出我们想要的稻苗导航线（也就是稻苗线按行的延伸方向）。想要的效果大概如下图所示：  实际遇到的问题然而每一帧里面的目标个数实">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于目标检测的稻苗导航线拟合">
 <meta property="og:url" content="http://yoursite.com/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
-<meta property="og:description" content="背景为了解决项目中的基于目标检测的稻苗线拟合问题，需要设计一个算法实现基本功能。基于深度学习的目标检测输出 bounding boxes 的 location 的 list，表示检测出的所有稻苗的位置（我们假设为中心点，质心），而我们的目标是利用这些位置坐标，采用回归算法拟合出我们想要的稻苗导航线（也就是稻苗线按行的延伸方向）。想要的效果大概如下图所示：">
+<meta property="og:description" content="背景为了解决项目中的基于目标检测的稻苗线拟合问题，需要设计一个算法实现基本功能。基于深度学习的目标检测输出 bounding boxes 的 location 的 list，表示检测出的所有稻苗的位置（我们假设为中心点，质心），而我们的目标是利用这些位置坐标，采用回归算法拟合出我们想要的稻苗导航线（也就是稻苗线按行的延伸方向）。想要的效果大概如下图所示：  实际遇到的问题然而每一帧里面的目标个数实">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/IMG_9715.jpg">
 <meta property="article:published_time" content="2020-06-03T09:43:26.000Z">
@@ -225,6 +225,24 @@ var _hmt = _hmt || [];
       
         <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>为了解决项目中的基于目标检测的稻苗线拟合问题，需要设计一个算法实现基本功能。基于深度学习的目标检测输出 bounding boxes 的 location 的 list，表示检测出的所有稻苗的位置（我们假设为中心点，质心），而我们的目标是利用这些位置坐标，采用回归算法拟合出我们想要的稻苗导航线（也就是稻苗线按行的延伸方向）。想要的效果大概如下图所示：</p>
 <p><img src="/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/IMG_9715.jpg" alt></p>
+<h1 id="实际遇到的问题"><a href="#实际遇到的问题" class="headerlink" title="实际遇到的问题"></a>实际遇到的问题</h1><p>然而每一帧里面的目标个数实在是太少了，一般不会超过十个。我们已经采用了简单的条件判断去避免一定会发生错误的情况：</p>
+<ul>
+<li>某一个类只有一个样本时，该类不需要拟合直线；</li>
+<li>某一个类样本过少时，比如该类只有两个样本，那么拟合出的直线完全取决于这两个点是否“没有出现过大的偏移”（相较于前几帧），如果当前帧只有两个样本，而某一个样本偏离了苗线，那么直线将出现严重偏差，而这条直线对于控制系统没有任何作用，甚至会导致不稳定；</li>
+<li>有时视野中可能会出现两行以上的目标，此时如果不加甄别地将这些目标聚类成两类，其结果会有严重偏差，因为我们实际上把第三条线的点强行分入了其他类中；</li>
+</ul>
+<p>回到实际问题中，对苗带引导线的提取，其目的就是为了控制机具避开绝大多数的稻苗，因此我们的目的是检测出苗线的走势。</p>
+<p>控制需要偏差，导航线给出的便是控制目标。由于抖动或者其他不确定因素，我们使用当前帧中的像素的绝对位置信息来作为控制目标是不合适的，因为这种方法依赖的是相机与稻苗之间的相对位置，如果相机出现了抖动，算法无法知道到底是谁出了问题。</p>
+<p>所以，就像上面所说的，我们需要苗线本身的”走势“，也就是苗线在垂直于苗线方向上的变化率。要让这个变化率与目标本身的像素位置无关，就需要算法有记忆性。</p>
+<p>而记忆性所针对的实体应该是每一帧中，由算法计算出的数据，因为帧与帧之间是割裂的，不连续的，而单帧中的数据可以保证目标之间的相对位置是没有噪声的，噪声指的是无关变量引入的误差。</p>
+<p>同时，为了使输出平滑，尽量减少抖动，使用记忆性的算法也是合理的，这实际上也是对苗线数据的滤波处理。</p>
+<p>至此，我们为了实现算法，需要维护一个窗口，窗口内的数据是有效的，而每个新进入窗口的数据需要一个合适的权值来更新当前苗线参数。这是我们假设有效的算法的初步模型，如果使用指数加权平均方法来降低维持窗口所需的空间资源消耗，效果是类似的。</p>
+<p>下面把我们初步假设的算法具体化：</p>
+<p>假设我们维护一个大小为 <code>m</code> 的窗口，新样本的权值为 $\alpha$，那么这两个参数有如下关系：<br>$$<br>m = \frac{1}{\alpha}<br>$$<br>假设我们有导航线 $y=kx+b$，那么对于 $k$ 和 $b$，分别用指数加权平均计算：<br>$$<br>k_{new} = \frac{1}{1-\alpha} k_{old} + \frac{1}{\alpha} k,\ \alpha \in [0,\ 1]<br>$$</p>
+<p>$$<br>b_{new} = \frac{1}{1-\alpha} b_{old} + \frac{1}{\alpha} b,\ \alpha \in [0,\ 1]<br>$$</p>
+<p>实际上，我们计算一帧当中的 $k$ 时，可以看成是截取了很长的一条苗线中的一部分，如果把这一部分看成一点，那么 $k$ 值为该点斜率，这个斜率表示了单位时间内，苗线横向位移与纵向位移的比例，因此如果我们有一个速度参数，就可以求出执行机构横向位移的速度，乘以采样时间，我们就有了该采样时间内机构应执行的偏移量。对这个偏移量累积求和，就得到执行机构的目标位置。因此，$b$ 值实际上是不需要的。</p>
+<p>那么如何从一帧图像中提取导航线数据？对一帧图像，假如有多行稻苗，我们希望从这一帧提取出的 $k$ 能够反映出这一帧中苗线走势的最真实的状态，使得机器可以避开大部分稻苗，那么，最容易想到的就是，对于不同的苗线，假设其 $k$ 值为 $k_n$，对每个 $k_n$ 加权求和，权值由用来拟合直线的数据点数决定。</p>
+<p>我们可以先假设相机高度固定时，视野中仅有两行稻苗。</p>
 
       
 
@@ -346,7 +364,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实际遇到的问题"><span class="toc-number">2.</span> <span class="toc-text">实际遇到的问题</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -696,6 +714,14 @@ MathJax.Hub.Queue(function() {
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Tinywebserver</a>
               </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">快速幂</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">大数运算</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -819,5 +845,5 @@ MathJax.Hub.Queue(function() {
 
 </div>
   </div>
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":250,"height":600,"position":"left","hOffset":40,"vOffset":20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"superSample":2,"width":125,"height":300,"position":"right","hOffset":40,"vOffset":20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>
