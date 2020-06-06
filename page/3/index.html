@@ -191,6 +191,717 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dailyLearning/剑指Offer/面试题11-旋转数组的最小数字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9811-%E6%97%8B%E8%BD%AC%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%B0%8F%E6%95%B0%E5%AD%97/">面试题11.旋转数组的最小数字</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9811-%E6%97%8B%E8%BD%AC%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%B0%8F%E6%95%B0%E5%AD%97/" class="archive-article-date">
+  	<time datetime="2020-05-30T11:33:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1。  </p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：[3,4,5,1,2]</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：[2,2,2,0,1]</span><br><span class="line">输出：0</span><br></pre></td></tr></table></figure>
+
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="从简单例子入手"><a href="#从简单例子入手" class="headerlink" title="从简单例子入手"></a>从简单例子入手</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[2,3,4,1]</span><br><span class="line">[1,2,3,4]</span><br><span class="line">[0,0,1,1]</span><br><span class="line">[0,1,1,0]</span><br></pre></td></tr></table></figure>
+
+<p>我们的思路为二分查找，无重复数字的情况很简单（注意一种特殊情况是不旋转）。而有重复数字的情况复杂一些。</p>
+<p>由于我们的策略是判断中间位置的元素与数组第一个元素（大于等于最小元素的最小元素）的大小：</p>
+<ul>
+<li>如果大于，证明最小元素不在左半区间（左半区间非严格递增）；</li>
+<li>如果小于，证明中点取得位置被旋转了，也就是说最小元素在左半区间（含中点）；</li>
+<li>如果等于，我们无法判断中点所处位置，这时我们可以将中点与右侧区间的最大值（最右侧元素）比较，如果大于，那么可以判定中点在第一个非严格递增区间，而最小值在右侧区间；如果小于，整个区间为非严格递增，这种情况属于没有旋转；如果等于，我们无法判断位置，只能遍历。</li>
+</ul>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">minArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; numbers)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(numbers.empty()) <span class="keyword">throw</span> <span class="string">"Invalid input"</span>;</span><br><span class="line">        <span class="keyword">int</span> lo = <span class="number">0</span>, hi = numbers.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">if</span>(numbers[lo] &lt; numbers[hi]) <span class="keyword">return</span> numbers[lo];</span><br><span class="line">        <span class="keyword">while</span>(lo &lt; hi) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (lo+hi)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(numbers[mid] &gt; numbers[<span class="number">0</span>]) lo = mid + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[mid] &lt; numbers[<span class="number">0</span>]) hi = mid;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(numbers[mid] == numbers[<span class="number">0</span>] &amp;&amp; numbers[mid] &gt; numbers.back()) lo = mid + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> *min_element(numbers.<span class="built_in">begin</span>(), numbers.<span class="built_in">end</span>());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> numbers[lo];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度$O(N)$，因为存在必须遍历的情况</li>
+<li>空间复杂度$O(1)$</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">二分查找</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9811-%E6%97%8B%E8%BD%AC%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%B0%8F%E6%95%B0%E5%AD%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/剑指Offer/面试题10-2-青蛙跳台阶问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-2-%E9%9D%92%E8%9B%99%E8%B7%B3%E5%8F%B0%E9%98%B6%E9%97%AE%E9%A2%98/">面试题10-2.青蛙跳台阶问题</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-2-%E9%9D%92%E8%9B%99%E8%B7%B3%E5%8F%B0%E9%98%B6%E9%97%AE%E9%A2%98/" class="archive-article-date">
+  	<time datetime="2020-05-29T05:35:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>一只青蛙一次可以跳上1级台阶，也可以跳上2级台阶。求该青蛙跳上一个 n 级的台阶总共有多少种跳法。</p>
+<p>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：n &#x3D; 2</span><br><span class="line">输出：2</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：n &#x3D; 7</span><br><span class="line">输出：21</span><br></pre></td></tr></table></figure>
+
+
+<p>提示：</p>
+<p><code>0 &lt;= n &lt;= 100</code></p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>最简单为递归实现，包含大量重复计算。</p>
+<p>优化：记忆化递归，空间复杂度$O(N)$。</p>
+<h2 id="举例计算"><a href="#举例计算" class="headerlink" title="举例计算"></a>举例计算</h2><ul>
+<li>n=1, ans=1</li>
+<li>n=2, ans=2</li>
+<li>n=3, ans=3</li>
+<li>n=4, ans=5</li>
+</ul>
+<p>可以看出实际上还是一个斐波那契数列。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numWays</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(n &lt; <span class="number">4</span>) <span class="keyword">return</span> n;</span><br><span class="line">        <span class="keyword">int</span> ppre = <span class="number">2</span>, pre = <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">int</span> curr = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">4</span>; i&lt;=n; ++i) &#123;</span><br><span class="line">            curr = (ppre + pre)&lt;<span class="number">1000000007</span>?(ppre + pre):(ppre + pre)%<span class="number">1000000007</span>;</span><br><span class="line">            ppre = pre;</span><br><span class="line">            pre = curr;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> curr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-2-%E9%9D%92%E8%9B%99%E8%B7%B3%E5%8F%B0%E9%98%B6%E9%97%AE%E9%A2%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/计算机基础/线程互斥和同步的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E7%BA%BF%E7%A8%8B%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E6%B3%95/">线程互斥和同步的方法</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E7%BA%BF%E7%A8%8B%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2020-05-29T03:46:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="用信号量同步线程"><a href="#用信号量同步线程" class="headerlink" title="用信号量同步线程"></a>用信号量同步线程</h1><p>共享变量引入了同步错误 (synchronization error) 的可能性。</p>
+<p>比如某个对等线程在将某个共享变量加载到寄存器并修改之后，在存储寄存器的值到内存之前，另一个对等线程执行了加载变量到寄存器的操作，引起同步错误。</p>
+<p>对于一个线程，操作共享变量内容的<strong>指令</strong>构成了一个关于<strong>该共享变量的</strong>临界区 (critical section)，不同线程之间的临界区不能存在交集，否则是不安全的。</p>
+<p>我们想要确保每个线程在执行其临界区中的指令时，拥有对共享变量的<strong>互斥访问 (mutually exclusive access)</strong>，这种现象称为<strong>互斥</strong>。</p>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>信号量 (semaphore) 是具有非负整数值的<strong>全局变量</strong>。</p>
+<p>只能由两种操作进行处理 P 和 V：</p>
+<ul>
+<li><p>$P(s)$：$\begin{equation} \left{\begin{array}{lr}if(s\ne 0),<del>s=s-1\if(s=0),hang</del>thread,<del>until</del>s\ne0\ \end{array}\right. \end{equation}$</p>
+</li>
+<li><p>$V(s)$：$s=s+1<br>$</p>
+</li>
+</ul>
+<p>P 操作是原子的，不可分割的，一旦预测信号量 s 变为非零，就会将 s 减一，<strong>不能有中断</strong>。</p>
+<p>V 的加1操作也是原子的，也就是说<strong>加载、加1、存储信号量</strong>的过程<strong>不能有中断</strong>。</p>
+<p>V 的加1操作只能重启一个阻塞在 P 的线程，有多个线程在等待同一个信号量时，不能预测 V 会重启哪一个线程。</p>
+<p>这两个操作的定义<strong>确保了一个正确初始化了的信号量不为负</strong>，这个属性叫做<strong>信号量不变性 (semaphore invariant)</strong>。</p>
+<h3 id="使用信号量实现互斥"><a href="#使用信号量实现互斥" class="headerlink" title="使用信号量实现互斥"></a>使用信号量实现互斥</h3><p>使用信号量来实现互斥的基本思想是<strong>将每个共享变量（或一组相关的共享变量）与一个信号量 s （初始为1）关联起来</strong>。</p>
+<p>而 P 和 V 操作确保了互斥访问（即信号量不能为-1）。</p>
+<p>在一个线程的临界区前后增加信号量操作，以这种方式保护共享变量的信号量称为<strong>二元信号量</strong>。</p>
+<p>以<strong>提供互斥为目的</strong>的二元信号量常常称为<strong>互斥锁 (mutex)</strong>。</p>
+<p>在一个互斥锁上执行 P 操作称为对互斥锁<strong>加锁</strong>；V 为对互斥锁解锁。</p>
+<p>对一个互斥锁加了锁但是还没有解锁的<strong>线程</strong>称为<strong>占用</strong>这个互斥锁。</p>
+<p>一个被用作一组可用资源的计数器的信号量被称为<strong>计数信号量</strong>。</p>
+<p>从可操作的意义上来说，由 P 和 V 操作创建的禁止区，使得在任何时间点上，被包围的临界区中，都不可能有多个线程在执行指令。换句话说，<strong>信号量操作</strong>确保了线程对临界区的互斥访问。</p>
+<h3 id="利用信号量来调度共享资源"><a href="#利用信号量来调度共享资源" class="headerlink" title="利用信号量来调度共享资源"></a>利用信号量来调度共享资源</h3><p>信号量的另外一个作用是调度对共享资源的访问。一个线程用一个信号量来通知另一个线程，程序状态中的某个条件已经为真。</p>
+<h4 id="生产者-消费者问题"><a href="#生产者-消费者问题" class="headerlink" title="生产者-消费者问题"></a>生产者-消费者问题</h4><p>生产者和消费者线程共享一个有 n 个槽的有限缓冲区。生产者线程反复地生成新的项目，并把它们插入到缓冲区中。消费者线程不断地从缓冲区中取出这些项目，然后消费（使用）它们。</p>
+<h4 id="读者-写者问题"><a href="#读者-写者问题" class="headerlink" title="读者-写者问题"></a>读者-写者问题</h4><p>是互斥问题的一个概括。一组并发的线程要访问一个共享对象。修改对象的线程叫做写者，制度对象的线程叫做读者。</p>
+<p>写者必须拥有对对象的独占访问，而读者可以和无限多个其他读者共享对象。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E7%BA%BF%E7%A8%8B%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E6%B3%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/剑指Offer/面试题10-1-斐波那契数列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-1-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/">面试题10-1.斐波那契数列</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-1-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/" class="archive-article-date">
+  	<time datetime="2020-05-28T14:27:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项。斐波那契数列的定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">F(0) &#x3D; 0,   F(1) &#x3D; 1</span><br><span class="line">F(N) &#x3D; F(N - 1) + F(N - 2), 其中 N &gt; 1.</span><br></pre></td></tr></table></figure>
+
+
+<p>斐波那契数列由 0 和 1 开始，之后的斐波那契数就是由之前的两数相加而得出。</p>
+<p>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：n &#x3D; 2</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：n &#x3D; 5</span><br><span class="line">输出：5</span><br></pre></td></tr></table></figure>
+
+
+<p>提示：</p>
+<p><code>0 &lt;= n &lt;= 100</code></p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>需要注意的点：</p>
+<ul>
+<li>需要取模，由于斐波那契数列递增，我们只要把每一个新求出的值取模就可以（如果需要）。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n &lt; <span class="number">2</span>) <span class="keyword">return</span> n;</span><br><span class="line">        <span class="keyword">int</span> window[<span class="number">3</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>; i&lt;=n; ++i) &#123;</span><br><span class="line">            window[<span class="number">2</span>] = (window[<span class="number">0</span>]+window[<span class="number">1</span>])&gt;<span class="number">1000000007</span>?(window[<span class="number">0</span>]+window[<span class="number">1</span>])%<span class="number">1000000007</span>:(window[<span class="number">0</span>]+window[<span class="number">1</span>]);   </span><br><span class="line">            window[<span class="number">0</span>] = window[<span class="number">1</span>];</span><br><span class="line">            window[<span class="number">1</span>] = window[<span class="number">2</span>];                    </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> window[<span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度$O(N)$</li>
+<li>空间复杂度$O(1)$</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>求余运算规则：</p>
+<p>设正整数 x, y, p，有：<br>$$<br>(x+y)%p=(x%p+y%p)%p<br>$$<br>也就是我们之前想的只需对两数之和取余即可。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">递归</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9810-1-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/剑指Offer/面试题09-用两个栈实现队列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9809-%E7%94%A8%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">面试题09.用两个栈实现队列</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9809-%E7%94%A8%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/" class="archive-article-date">
+  	<time datetime="2020-05-28T13:30:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">[&quot;CQueue&quot;,&quot;appendTail&quot;,&quot;deleteHead&quot;,&quot;deleteHead&quot;]</span><br><span class="line">[[],[3],[],[]]</span><br><span class="line">输出：[null,null,3,-1]</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">[&quot;CQueue&quot;,&quot;deleteHead&quot;,&quot;appendTail&quot;,&quot;appendTail&quot;,&quot;deleteHead&quot;,&quot;deleteHead&quot;]</span><br><span class="line">[[],[],[5],[2],[],[]]</span><br><span class="line">输出：[null,-1,null,null,5,2]</span><br></pre></td></tr></table></figure>
+
+
+<p>提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 &lt;&#x3D; values &lt;&#x3D; 10000</span><br><span class="line">最多会对 appendTail、deleteHead 进行 10000 次调用</span><br></pre></td></tr></table></figure>
+
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>两个栈，一个栈用来接收入队元素，那么出队的时候需要先进先出，也就是栈底先出，于是移到另一个栈实现反向排列，此时出栈顺序与队列出队顺序相同。</p>
+<ul>
+<li>入栈：放入栈<code>rev</code>；</li>
+<li>出栈：另一个栈<code>rrev</code>非空时，意味着这些元素都是按照出队顺序排列的；如果为空，就从<code>rev</code>移动到<code>rrev</code>。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CQueue</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    CQueue() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">appendTail</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        rev.push(value);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">deleteHead</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(rrev.empty() &amp;&amp; rev.empty()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">if</span>(rrev.empty()) &#123;</span><br><span class="line">            <span class="keyword">while</span>(!rev.empty()) &#123;</span><br><span class="line">                rrev.push(rev.top());</span><br><span class="line">                rev.pop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> tmp = rrev.top();</span><br><span class="line">        rrev.pop();</span><br><span class="line">        <span class="keyword">return</span> tmp;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; rev, rrev;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your CQueue object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * CQueue* obj = new CQueue();</span></span><br><span class="line"><span class="comment"> * obj-&gt;appendTail(value);</span></span><br><span class="line"><span class="comment"> * int param_2 = obj-&gt;deleteHead();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>好有趣的一道题。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">栈</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">队列</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9809-%E7%94%A8%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/剑指Offer/面试题07-重建二叉树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9807-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/">面试题07.重建二叉树</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9807-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
+  	<time datetime="2020-05-28T11:41:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</p>
+<p>例如，给出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">前序遍历 preorder &#x3D; [3,9,20,15,7]</span><br><span class="line">中序遍历 inorder &#x3D; [9,3,15,20,7]</span><br></pre></td></tr></table></figure>
+
+
+<p>返回如下的二叉树：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> &#x2F; \</span><br><span class="line">9  20</span><br><span class="line">  &#x2F;  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure>
+
+
+<p>限制：</p>
+<p>0 &lt;= 节点个数 &lt;= 5000</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>二刷这道题。</p>
+<p>前序遍历首元素为根节点。</p>
+<p>中序遍历中，根节点将树分为左子树右子树。</p>
+<p>前序遍历顺序：根节点-&gt;左子树-&gt;右子树，知道左右子树元素数量即可一刀切把数组划为左右子树。前序遍历根据元素数量切，中序遍历从根节点切。</p>
+<h2 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h2><ul>
+<li>非法输入（两数组长度不等）</li>
+<li>空输入</li>
+<li>常规输入</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">buildTree</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; preorder, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; inorder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(preorder.<span class="built_in">size</span>() != inorder.<span class="built_in">size</span>() || preorder.empty()) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">return</span> helper(preorder.<span class="built_in">begin</span>(), preorder.<span class="built_in">end</span>(), inorder.<span class="built_in">begin</span>(), inorder.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">using</span> iter = <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator;</span><br><span class="line">    <span class="function">TreeNode* <span class="title">helper</span><span class="params">(iter pre_b, iter pre_e, iter in_b, iter in_e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pre_b == pre_e) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">auto</span> root_it = <span class="built_in">find</span>(in_b, in_e, *pre_b);</span><br><span class="line">        <span class="keyword">auto</span> root = <span class="keyword">new</span> TreeNode(*root_it);</span><br><span class="line">        root-&gt;left = helper(pre_b+<span class="number">1</span>, pre_b+(root_it-in_b+<span class="number">1</span>), in_b, root_it);</span><br><span class="line">        root-&gt;right = helper(pre_b+(root_it-in_b+<span class="number">1</span>), pre_e, root_it+<span class="number">1</span>, in_e);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度：$O(N^2)$</li>
+<li>空间复杂度：$O(N)$</li>
+</ul>
+<p>之所以空间复杂度高，是因为<code>find</code>进行了重复的查找操作，牺牲空间，使用哈希表可以将时间复杂度优化为$O(N)$。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">buildTree</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; preorder, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; inorder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(preorder.<span class="built_in">size</span>() != inorder.<span class="built_in">size</span>() || preorder.empty()) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> it=inorder.<span class="built_in">begin</span>(); it&lt;inorder.<span class="built_in">end</span>(); ++it)</span><br><span class="line">            lookup.insert(&#123;*it, it&#125;);</span><br><span class="line">        <span class="keyword">return</span> helper(preorder.<span class="built_in">begin</span>(), preorder.<span class="built_in">end</span>(), inorder.<span class="built_in">begin</span>(), inorder.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">using</span> iter = <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, iter&gt; lookup;</span><br><span class="line">    <span class="function">TreeNode* <span class="title">helper</span><span class="params">(iter pre_b, iter pre_e, iter in_b, iter in_e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pre_b == pre_e) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">auto</span> root_it = lookup[*pre_b];</span><br><span class="line">        <span class="keyword">auto</span> root = <span class="keyword">new</span> TreeNode(*root_it);</span><br><span class="line">        root-&gt;left = helper(pre_b+<span class="number">1</span>, pre_b+(root_it-in_b+<span class="number">1</span>), in_b, root_it);</span><br><span class="line">        root-&gt;right = helper(pre_b+(root_it-in_b+<span class="number">1</span>), pre_e, root_it+<span class="number">1</span>, in_e);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>测试时间减半。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">二叉树</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">递归</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9807-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
     <article id="post-dailyLearning/计算机基础/网络编程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -676,1385 +1387,6 @@ var _hmt = _hmt || [];
 
         
   
-    <article id="post-dailyLearning/剑指Offer/面试题04-二维数组中的查找" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9804-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE/">面试题04.二维数组中的查找</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9804-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE/" class="archive-article-date">
-  	<time datetime="2020-05-26T14:43:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
-<p>示例:</p>
-<p>现有矩阵 matrix 如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [1,   4,  7, 11, 15],</span><br><span class="line">  [2,   5,  8, 12, 19],</span><br><span class="line">  [3,   6,  9, 16, 22],</span><br><span class="line">  [10, 13, 14, 17, 24],</span><br><span class="line">  [18, 21, 23, 26, 30]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-
-<p>给定 <code>target = 5</code>，返回 <code>true</code>。</p>
-<p>给定 <code>target = 20</code>，返回 <code>false</code>。</p>
-<p>限制：</p>
-<p><code>0 &lt;= n &lt;= 1000</code></p>
-<p><code>0 &lt;= m &lt;= 1000</code></p>
-<p>注意：本题与主站 240 题相同：<a href="https://leetcode-cn.com/problems/search-a-2d-matrix-ii/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/search-a-2d-matrix-ii/</a></p>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>从左上到右下都是单增，该数组每行每列都是排序数组，因此比较直观地认为可以使用一些搜索算法，比如二分查找。</p>
-<h2 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h2><p>遍历数组。</p>
-<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>对每一行二分查找。</p>
-<p>还可以再优化，先判断该数是否在该行的区间内。</p>
-<p>不过时间复杂度也就是$NlogM$。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">findNumberIn2DArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> row = matrix.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span>(row == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">int</span> col = matrix[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span>(col == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;row:matrix) &#123;</span><br><span class="line">            <span class="keyword">int</span> lo = <span class="number">0</span>, hi = col<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">int</span> mid = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span>(target&lt;row[lo] || target&gt;row[hi]) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">while</span>(lo &lt; hi) &#123;</span><br><span class="line">                mid = (lo + hi) / <span class="number">2</span>;</span><br><span class="line">                <span class="keyword">if</span>(target &gt; row[mid]) lo = mid + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> hi = mid;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(row[lo] == target) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="差一点就想到的优化"><a href="#差一点就想到的优化" class="headerlink" title="差一点就想到的优化"></a>差一点就想到的优化</h2><p>只想到了从左上或者右下开始，但是因为并没能很好地缩小搜索区域而放弃。</p>
-<p>实际上从左下和右上开始搜索，每次可以排除一行或一列。</p>
-<p>事实上，由于每行从左向右递增，每列自上而下递增，我们可以把一个7型排列的数组元素看作是一行，而拐角元素为某个中间值，而与中间值比较，选取左右区间，实际上将一个二维数组重新排列成<strong>$min(m,n)$个一维数组</strong>，按顺序<strong>在这些数组中二分查找目标元素</strong>。</p>
-<p>而以上思路再具体到这道题目中，就是与（例如）右上元素比较，等于则命中，小于则在该元素所在行左侧寻找，大于则在元素所在列下方寻找，但并不一定就在这个范围内。而我们能够确定的，是它一定不在另外一侧，因此收缩搜索区域。</p>
-<p>这种方法并不容易想到，所以需要从简单的例子入手去发现规律。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">findNumberIn2DArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> row = matrix.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span>(row == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">int</span> col = matrix[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span>(col == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> helper(matrix, target, <span class="number">0</span>, col<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix, <span class="keyword">int</span> target, <span class="keyword">int</span> r, <span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(r == matrix.<span class="built_in">size</span>() || c == <span class="number">-1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(target == matrix[r][c]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(target &lt; matrix[r][c]) <span class="keyword">return</span> helper(matrix, target, r, c<span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> helper(matrix, target, r+<span class="number">1</span>, c);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>递归的实现竟然更慢，其时间复杂度为$O(M+N)$。</p>
-<h2 id="迭代实现"><a href="#迭代实现" class="headerlink" title="迭代实现"></a>迭代实现</h2><p>递归的实现，其思路为缩小搜索范围。</p>
-<p>而迭代的实现，其思路为从（例如）右上角元素出发，每次选择一个方向寻找，等于则返回，大于则向下，小于则向左。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数组</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9804-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/c++/new和malloc的区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Cpp/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/">new和malloc的区别</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Cpp/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/" class="archive-article-date">
-  	<time datetime="2020-05-26T13:33:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h1><ol>
-<li><p>申请的内存所在位置<br>new 操作符从<strong>自由存储区</strong>上为对象动态分配存储空间；<br>malloc 函数在运行时堆上动态分配存储空间。<br>自由存储区是<strong>基于 new 操作符的概念</strong>，凡是通过 new 操作符进行内存申请，那么该内存就是动态存储区；<br>堆是操作系统虚拟内存系统在一个进程的私有虚拟空间中维护的一个区域，用于程序的动态内存分配。</p>
-<p><strong>自由存储区能否是堆</strong>取决于 new 操作符的具体实现。</p>
-</li>
-<li><p>返回类型安全性<br>new 分配成功时返回一个类型与其指向对象类型严格匹配的指针，<strong>无需进行类型转换</strong>，因此是符合<strong>类型安全性的</strong>操作符；</p>
-<p>而 malloc 返回 void*，需要强制转换成相应的对象类型。</p>
-<p>类型安全的代码不会试图访问禁止访问的内存区域，因此是内存安全的。</p>
-</li>
-<li><p>内存返回失败时的返回值<br>new 分配内存失败时，<strong>抛出 bad_alloc 异常</strong>，不会返回NULL；</p>
-<p>malloc 分配内存失败时，返回 NULL；<br>new 分配失败时使用 catch 捕获异常。</p>
-</li>
-<li><p>是否需要指定内存大小<br>new 无需指定大小，<strong>编译器</strong>会根据其类型信息计算；<br>malloc 需要显式指定内存大小；</p>
-</li>
-<li><p>是否调用构造函数/析构函数<br>使用 new 时会经历三个步骤：</p>
-<ul>
-<li>调用 operator new 函数，分配一块足够大的，原始的，未命名的内存空间以便存储特定类型对象；</li>
-<li>调用相应<strong>构造函数</strong>以构造对象，并为其传入初值；</li>
-<li>对象构造完成后，返回一个指向该对象的指针；</li>
-</ul>
-<p>使用 delete 操作符来释放对象内存时：</p>
-<ul>
-<li>调用对象析构函数；</li>
-<li>调用operator delete 函数释放内存空间；</li>
-</ul>
-</li>
-<li><p>对数组的处理 </p>
-<p>C++ 提供了 new[] 和 delete[] 来专门处理数组类型</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T* ptr = <span class="keyword">new</span> T[<span class="number">10</span>]; <span class="comment">// 分配一个10个T类型元素的数组</span></span><br><span class="line"><span class="keyword">delete</span> [] ptr;</span><br></pre></td></tr></table></figure>
-
-<p>new[] 会分别调用构造函数初始化每一个数组元素，释放对象时为每个对象调用析构函数；</p>
-<p>malloc 仅仅分配一块内存，并返回一个指向首地址的指针。</p>
-</li>
-<li><p>new 和 malloc 是否可以相互调用<br>new/delete 可以基于 malloc/free 实现，反之不行；因为 new 本身比 malloc 更复杂，无法用高级功能体现低级特性。</p>
-</li>
-<li><p>是否可以被重载<br>operator new / operator delete 可以被重载。<br>malloc / free 不允许重载。</p>
-</li>
-<li><p>能否重新分配内存<br>malloc 可以使用 realloc 进行内存重新分配；<br>new 没有扩充内存的工具；</p>
-</li>
-<li><p>客户处理内存分配不足<br>operator new 分配内存失败抛出一个异常之前，会先调用一个用户指定的异常处理函数 new-handler，用户使用 set_new_handler 函数指定异常处理函数。</p>
-<p>其实就是设置了用户定义的异常处理函数，使用了标准库包装的系统调用进行设置（个人理解，有待考证）。</p>
-</li>
-</ol>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>区别在于：</p>
-<ul>
-<li>物理位置</li>
-<li>输入输出，是否安全</li>
-<li>如何实现</li>
-<li>有何功能</li>
-</ul>
-<p>几个方面的差异。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">new</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Cpp/new%E5%92%8Cmalloc%E7%9A%84%E5%8C%BA%E5%88%AB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-git/git-error-https-not-supported" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/git/git-error-protocol-https-not-supported/">git error - protocol &#39;https&#39; not supported.</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/git/git-error-protocol-https-not-supported/" class="archive-article-date">
-  	<time datetime="2020-05-26T08:46:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>精准到位一针见血的回答：<a href="https://stackoverflow.com/questions/53988638/git-fatal-protocol-https-is-not-supported" target="_blank" rel="noopener">https://stackoverflow.com/questions/53988638/git-fatal-protocol-https-is-not-supported</a></p>
-<p>具体来说，我们是如何遇到问题的呢？</p>
-<ul>
-<li>在 github 仓库中 paste url</li>
-<li>在 git bash 中<code>ctrl+v</code>，发现没用</li>
-<li>于是右键点击<code>paste</code> </li>
-<li>事实上在<code>ctrl+v</code>时命令行有一个不可见的错误编码的<code>^?</code></li>
-<li>因此删掉重新打就好了</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/git//" class="article-tag-list-link color4">git</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/git/git-error-protocol-https-not-supported/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/剑指Offer/面试题03. 数组中重复的数字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">03数组中重复的数字</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/" class="archive-article-date">
-  	<time datetime="2020-05-22T10:37:20.255Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>找出数组中重复的数字。</p>
-<p>在一个长度为 n 的数组 <code>nums</code> 里的所有数字都在<code>0～n-1</code> 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">[2, 3, 1, 0, 2, 5, 3]</span><br><span class="line">输出：2 或 3 </span><br></pre></td></tr></table></figure>
-
-
-<p>限制：</p>
-<p><code>2 &lt;= n &lt;= 100000</code></p>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<!--readmore-->
-
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="审题"><a href="#审题" class="headerlink" title="审题"></a>审题</h2><p>题目是找出任意一个重复数字，意味着我们找到就可以返回了。</p>
-<h2 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h2><p>很明显可以利用<code>unordered set</code>来解决。</p>
-<p>这里复习一下<code>unordered_set</code>的插入操作：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; lookup;</span><br><span class="line"><span class="keyword">auto</span> res = lookup.insert(n); <span class="comment">// 这里res是pair类型，pair.first是一个迭代器，pair.second是一个bool,返回false说明已经存在</span></span><br></pre></td></tr></table></figure>
-
-<p>代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; lookup;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">int</span>&amp; n:nums) &#123;</span><br><span class="line">            <span class="keyword">if</span>(lookup.insert(n).second == <span class="literal">false</span>) <span class="keyword">return</span> n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>时间复杂度$O(N)$</li>
-<li>空间复杂度$O(N)$</li>
-</ul>
-<p>但是测试用例执行用时112ms，所以肯定需要优化。</p>
-<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>下面用 vector 代替散列表试试看。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">lookup</span><span class="params">(nums.<span class="built_in">size</span>(), <span class="number">-1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">int</span>&amp; n:nums) &#123;</span><br><span class="line">            <span class="keyword">if</span>(lookup[n] != <span class="number">-1</span>) <span class="keyword">return</span> n;</span><br><span class="line">            lookup[n] = n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>时间有提升，但变化不大。</p>
-<h2 id="变式"><a href="#变式" class="headerlink" title="变式"></a>变式</h2><p>如果要求空间复杂度为$O(1)$呢？</p>
-<p>那么我们就必须在原地进行操作。</p>
-<p>由于给定了值域和个数，如果没有重复，那么从 0 到 n-1 应该是一个萝卜一个坑。</p>
-<p>一种简单的思路是原地排序，然后扫描数组，返回第一个错位的数，但是用快排都已经需要$O(NlogN)$的时间复杂度了。</p>
-<p>仔细思考发现我们并不需要对整个数组排序，只要找到第一个“位置被占”的数字就可以了。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">    <span class="keyword">while</span>(nums[i] != i) &#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i] == nums[nums[i]]) <span class="keyword">return</span> nums[i];</span><br><span class="line">        swap(nums[i], nums[nums[i]]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>代码：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findRepeatNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">while</span>(nums[i] != i) &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] == nums[nums[i]]) <span class="keyword">return</span> nums[i];</span><br><span class="line">            swap(nums[i], nums[nums[i]]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>时间复杂度，最坏情况为没有重复数字，此时把所有数字归位需要$O(N)$</li>
-</ul>
-<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><p>如果需要在不破坏数组的基础上找到重复数字呢？</p>
-<p>对于数组$[0,1,…,n-1]$，任意取一个数$m$，如果整个数组无重复数字，那么小于$m$的数一定有$m$个，否则一定有重复数字，接下来就是二分查找。时间复杂度$O(NlogN)$，空间复杂度$O(1)$。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">hash table</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/03%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/计算机基础/操作系统知识点整理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">操作系统知识点整理</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-05-22T03:41:42.275Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h1 id="异常控制流"><a href="#异常控制流" class="headerlink" title="异常控制流"></a>异常控制流</h1><h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p><strong>异常 (exception)</strong>是异常控制流的一种形式，一部分由硬件实现，一部分由操作系统实现。虽然其实现是硬件相关，但是其基本思想是相同的。</p>
-<p><strong>异常</strong>就是控制流中的突变，用来响应<strong>处理器状态的某些变化</strong>。</p>
-<p><strong>状态变化</strong>称为事件 (event)，可能和当前指令的执行直接相关：</p>
-<ul>
-<li>发生虚拟内存缺页</li>
-<li>算术溢出等等</li>
-</ul>
-<p>或者与当前指令的执行无关：</p>
-<ul>
-<li>系统定时器产生信号</li>
-<li>一个 I/O 请求完成</li>
-</ul>
-<p>当处理器检测到有<strong>事件</strong>（处理器状态变化）发生时，通过<strong>异常表 (exception table)</strong> ，它是一个跳转表，进行一个间接过程调用，到一个<strong>操作系统子程序（异常处理程序 (exception handler)）</strong>。异常处理程序完成处理后，<strong>根据引起异常的事件类型</strong>，发生以下三种情况：</p>
-<ul>
-<li>将控制返回当前指令$I_{curr}$，即事件发生时正在执行的指令；</li>
-<li>将控制返回给$I_{next}$，即 如果未发生异常 将会执行的下条指令；</li>
-<li>处理程序<strong>终止</strong>被中断的程序。</li>
-</ul>
-<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><p>系统中可能的每种类型的异常，都有一个<strong>唯一的、非负整数的异常号 (exception number)</strong>。</p>
-<p>系统启动时，操作系统分配和初始化一张称为<strong>异常表</strong>的跳转表。</p>
-<p>跳转表中的每个表目$k$包含异常$k$的处理程序的地址。</p>
-<p>处理器检测到事件发生，并确定异常号之后，通过<strong>执行间接过程调用</strong>触发异常。</p>
-<p>异常号 是 <strong>到异常表中的索引</strong>，异常表的起始地址存放在叫做 异常表基址寄存器 的 <strong>特殊CPU寄存器</strong>中。</p>
-<p>异常类似于过程调用，但也存在不同之处：</p>
-<ul>
-<li>过程调用时，在跳转到处理程序之前，处理器将返回地址压入栈中。根据异常类型，返回地址要么是当前指令，要么是下条指令；</li>
-<li>处理器将一些额外的处理器状态入栈；</li>
-<li>如果控制从 用户程序 转移到 内核，所有这些项目被压入内核栈，而不是用户栈；</li>
-<li>异常处理程序运行在内核模式下，对所有系统资源都有完全访问权限。</li>
-</ul>
-<h3 id="异常类别"><a href="#异常类别" class="headerlink" title="异常类别"></a>异常类别</h3><p>异常分为四类：</p>
-<ul>
-<li>中断 (interrupt)</li>
-<li>陷阱 (trap)</li>
-<li>故障 (fault)</li>
-<li>终止 (abort)</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>类别</th>
-<th>原因</th>
-<th>异步/同步</th>
-<th>返回行为</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>中断</td>
-<td>来自 I/O 设备的信号</td>
-<td>异步</td>
-<td>总是返回到下一条指令</td>
-</tr>
-<tr>
-<td>陷阱</td>
-<td>有意的异常</td>
-<td>同步</td>
-<td>总是返回到下一条指令</td>
-</tr>
-<tr>
-<td>故障</td>
-<td>潜在可恢复的错误</td>
-<td>同步</td>
-<td>可能返回到当前指令</td>
-</tr>
-<tr>
-<td>终止</td>
-<td>不可恢复的错误</td>
-<td>同步</td>
-<td>不会返回</td>
-</tr>
-</tbody></table>
-<p>异步异常是由处理器外部的 I/O 设备中的事件中产生的；</p>
-<p>同步异常是执行一条指令的直接产物。</p>
-<h4 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h4><p>中断<strong>不是由任何一条专门的指令造成的</strong>，从这个意义上来说，它是<strong>异步的</strong>。</p>
-<p>一个例子：网络适配器、磁盘适配器、定时器芯片，通过向处理器芯片上的一个引脚发信号 （电平信号），并将异常号放到系统总线上，来触发中断，而异常号<strong>表示了触发中断的设备</strong>。</p>
-<p>剩下的异常类型是<strong>同步</strong>发生的，是执行当前指令的结果。这类指令叫做<strong>故障指令</strong>。</p>
-<h4 id="陷阱和系统调用"><a href="#陷阱和系统调用" class="headerlink" title="陷阱和系统调用"></a>陷阱和系统调用</h4><p><strong>陷阱</strong>是<strong>有意的异常</strong>。</p>
-<p>最重要的用途是<strong>在用户程序和内核之间提供一个像过程一样的接口</strong>，叫做<strong>系统调用</strong>。</p>
-<p>用户程序向内核<strong>请求服务</strong>的例子：</p>
-<ul>
-<li>读一个文件 read</li>
-<li>创建一个新的进程 fork</li>
-<li>加载一个新的应用程序 execve</li>
-<li>终止当前进程 exit</li>
-</ul>
-<p><strong>注意：</strong>中断和陷阱都是在执行完当前指令后跳转到异常处理程序，所以返回时返回到下一条指令。</p>
-<h4 id="故障"><a href="#故障" class="headerlink" title="故障"></a>故障</h4><p>故障由错误情况引起，<strong>可能</strong>可以被故障处理程序修正。</p>
-<ul>
-<li>如何处理程序能够修正这个错误情况，处理程序将控制返回到引起故障的指令，重新执行；</li>
-<li>否则，处理程序返回到<strong>内核中的abort例程</strong>，abort 例程终止引起故障的应用程序。</li>
-</ul>
-<p>典型的故障示例：<strong>缺页异常</strong>。当指令引用一个虚拟地址，而该虚拟地址<strong>对应的物理页面</strong>不在内存中，必须从磁盘取出时，会引发故障。缺页处理程序从磁盘中加载适当的页面，然后将控制返回给引起故障的指令，重新执行。</p>
-<h4 id="终止"><a href="#终止" class="headerlink" title="终止"></a>终止</h4><p>通常是一些硬件错误。终止处理程序将控制返回给一个 abort 例程，abort 例程负责终止该应用程序。</p>
-<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>进程是资源分配的基本单位；线程是独立调度的基本单位。</p>
-<p>进程的经典定义，是一个<strong>执行中程序的实例</strong>。</p>
-<p>系统中每个程序都运行在某个进程的<strong>上下文</strong>中。</p>
-<p>上下文由程序正确运行所需的状态组成，包括存放在内存中的代码和数据、栈、通用目的寄存器的内容、程序计数器、环境变量以及打开文件描述符的集合。</p>
-<p><strong>程序计数器</strong>是用于存放下一条指令所在单元的地址的地方。</p>
-<p>程序计数器是计算机<a href="https://baike.baidu.com/item/处理器" target="_blank" rel="noopener">处理器</a>中的<a href="https://baike.baidu.com/item/寄存器" target="_blank" rel="noopener">寄存器</a>，它包含当前正在执行的指令的地址（位置）。当每个<a href="https://baike.baidu.com/item/指令" target="_blank" rel="noopener">指令</a>被获取，程序计数器的存储地址加一。在每个指令被获取之后，程序计数器指向顺序中的下一个指令。</p>
-<h3 id="进程提供给应用程序的抽象"><a href="#进程提供给应用程序的抽象" class="headerlink" title="进程提供给应用程序的抽象"></a>进程提供给应用程序的抽象</h3><ul>
-<li>一个独立的逻辑控制流，提供一个假象，好像我们的程序独立地使用处理器；</li>
-<li>一个私有的地址空间，提供一个假象，好像我们的程序独占地使用内存系统。</li>
-</ul>
-<h4 id="逻辑控制流"><a href="#逻辑控制流" class="headerlink" title="逻辑控制流"></a>逻辑控制流</h4><p>程序计数器的值唯一地对应于包含在程序的可执行目标文件中的指令，或是包含在运行的时候动链接到程序的共享对象中的指令。</p>
-<p>这个PC值的序列称为逻辑控制流。</p>
-<p><strong>进程是轮流使用处理器的。</strong>每个进程执行它的流的一部分，然后被抢占，轮到其他进程。</p>
-<h4 id="并发流"><a href="#并发流" class="headerlink" title="并发流"></a>并发流</h4><p>逻辑流的不同形式的例子：异常处理程序、进程、线程、信号处理程序等等。</p>
-<p>一个逻辑流的执行，在时间上与另一个流重叠，称为并发流，换句话说，这两个流<strong>并发地运行</strong>。</p>
-<p><strong>多个流并发地执行</strong>这个现象，被称为<strong>并发 (concurrency)</strong>。</p>
-<p>一个进程和其他进程轮流运行，称为<strong>多任务</strong>。</p>
-<p>一个进程<strong>执行它的控制流的一部分</strong>的<strong>每一时间段</strong>叫做<strong>时间片  (time slice)</strong>。</p>
-<p>因此，多任务也叫<strong>时间分片</strong>。</p>
-<p>并发流的思想，与处理器核数 和 计算数 无关。只要在时间上重叠，两个流就是并发的，即使他们运行在同一个处理器上。</p>
-<h4 id="私有地址空间"><a href="#私有地址空间" class="headerlink" title="私有地址空间"></a>私有地址空间</h4><p>在一台$n$位地址的机器上，地址空间可能是$2^n$个地址的集合。</p>
-<p>进程为每个程序提供它自己的<strong>私有地址空间</strong>。<strong>一般来说</strong>，和这个空间中 某个地址相关联的 内存字节 <strong>不能被其他进程读写</strong>。从这个意义上说，这个地址空间是私有的。</p>
-<p>每个私有地址空间有相同的<strong>通用结构</strong>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">内核虚拟内存（用户代码不可见）</span><br><span class="line">代码、数据、堆、栈</span><br><span class="line">-------------------------- &lt; 0xFFFFFFFFFFFF</span><br><span class="line">	用户栈（运行时创建）</span><br><span class="line">--------------------------</span><br><span class="line">	自由空间</span><br><span class="line">--------------------------</span><br><span class="line">	运行时堆</span><br><span class="line">--------------------------</span><br><span class="line">	读写段 (.data, .bss)</span><br><span class="line">--------------------------</span><br><span class="line">只读段 (.init, .text, .rodata)</span><br><span class="line">-------------------------- &lt; 0x400000 </span><br><span class="line">	禁止访问</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br></pre></td></tr></table></figure>
-
-<p>内核虚拟内存是保留给内核（操作系统常驻内存的部分），包含了<strong>内核在代表进程执行指令时</strong>（比如应用程序进行系统调用时）使用的代码、数据、栈。</p>
-<h4 id="用户模式、内核模式"><a href="#用户模式、内核模式" class="headerlink" title="用户模式、内核模式"></a>用户模式、内核模式</h4><p>处理器通常用某个控制寄存器中的一个<strong>模式位</strong>描述进程当前享有的特权。</p>
-<ul>
-<li>当设置了模式位时，进程运行在<strong>内核模式</strong>运行在内核模式的进程可以执行指令集中的任何指令，并且访问系统中的任何内存位置；</li>
-<li>没有设置模式位时，进程运行在<strong>用户模式</strong>，不允许运行特权指令 (privileged instruction)，比如停止处理器、改变模式位、或发起<code>I/O</code>操作，也不允许用户模式中的进程<strong>直接引用</strong>地址空间中内核区的代码和数据。用户程序必须通过调用<strong>系统接口</strong>间接访问内核代码和数据。</li>
-</ul>
-<p>运行应用程序代码的进程 初始时运行在<strong>用户模式</strong>。</p>
-<p>进程从<strong>用户模式</strong>转变为<strong>内核模式</strong>的唯一方法是 通过<a href="#异常"><strong>异常</strong></a>进入:</p>
-<ul>
-<li>中断</li>
-<li>故障</li>
-<li>系统调用</li>
-</ul>
-<p>异常发生时，控制传递到<strong>异常处理程序</strong>，处理器将模式从 用户模式 变为 内核模式。异常处理程序运行在内核模式中，当它返回到应用程序代码时，处理器把模式从 内核模式 变为 用户模式。</p>
-<p>/proc 文件系统将许多内核数据结构的内容输出为一个<strong>用户程序可读的文本文件的层次结构</strong>。</p>
-<h4 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h4><p> 操作系统内核通过<strong>上下文切换</strong>来实现多任务。</p>
-<p><strong>上下文切换</strong>是一种较高层形式的异常控制流。</p>
-<p>内存为每个进程维持一个<strong>上下文</strong>，<strong>上下文</strong>就是内核重新启动一个被强占的进程所需的状态，这些状态通常包括：通用目的寄存器、浮点寄存器、程序计数器、用户栈、状态寄存器、内核栈和各种内核数据结构。</p>
-<p>在进程执行的某些时刻，内核可以决定<strong>抢占该进程</strong>，并重新开始一个之前被强占的进程。这种决策叫做<strong>调度  (scheduling)</strong>，由内核中称为<strong>调度器</strong>的代码处理。</p>
-<p>当内核选择一个新的进程运行时，我们说内核<strong>调度</strong>了这个进程。</p>
-<p>在内核调度了一个新的进程运行后，它抢占当前进程，并使用<strong>上下文切换</strong>的机制来转换到另一个进程。</p>
-<p>上下文切换：</p>
-<ul>
-<li>保存当前进程上下文；</li>
-<li>恢复某个先前被强占的进程的上下文；</li>
-<li>将控制传递给这个新恢复的进程。</li>
-</ul>
-<p>上下文切换可能发生在：</p>
-<ul>
-<li>内核代表用户执行系统调用时，因为等待某个事件而发生阻塞。比如 read 系统调用需要访问磁盘，内核可以选择切换上下文，切换到另一个进程，而不是等待数据从磁盘到达内存；</li>
-<li>内核代表用户执行的系统调用本身请求了上下文切换：sleep 系统调用显式地请求<strong>让调用进程休眠</strong>；</li>
-<li>中断可能引发上下文切换。</li>
-</ul>
-<h2 id="进程控制"><a href="#进程控制" class="headerlink" title="进程控制"></a>进程控制</h2><h3 id="获取进程ID"><a href="#获取进程ID" class="headerlink" title="获取进程ID"></a>获取进程ID</h3><p>每个进程都有一个唯一的正数进程ID (PID)。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/type.h&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">pid_t</span> <span class="title">getpid</span><span class="params">(<span class="keyword">void</span>)</span></span>; <span class="comment">// 返回进程pid</span></span><br><span class="line"><span class="function"><span class="keyword">pid_t</span> <span class="title">getppid</span><span class="params">(<span class="keyword">void</span>)</span></span>; <span class="comment">// 返回父进程pid</span></span><br></pre></td></tr></table></figure>
-
-<p><code>pid_t</code> 在 Linux 系统上，在 <code>type.h</code> 中被定义为 <code>int</code>。</p>
-<h3 id="创建和终止进程"><a href="#创建和终止进程" class="headerlink" title="创建和终止进程"></a>创建和终止进程</h3><p>进程的三种状态：</p>
-<ul>
-<li>运行：在 CPU 中执行，或等待被执行且最终被调度；</li>
-<li>停止：进程执行被挂起 (suspended)，且不会被调度，保持停止直到收到 SIGCONT 信号，此时进程再次开始运行；</li>
-<li>终止：进程永远停止。进程终止的三种方式：<ul>
-<li>收到一个信号，该信号的默认行为是终止进程；</li>
-<li>从主程序返回；</li>
-<li>调用 exit 函数；</li>
-</ul>
-</li>
-</ul>
-<h4 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h4><p><strong>父进程</strong>通过调用 fork 函数创建一个新的运行的<strong>子进程</strong>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># include &lt;sys&#x2F;type.h&gt;</span><br><span class="line"># include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">pid_t fork(void);</span><br></pre></td></tr></table></figure>
-
-<p>新创建的子进程得到与父进程<strong>用户级虚拟地址空间相同的但是独立的</strong>一份副本，包括<strong>代码段、数据段、堆、共享库、用户栈</strong>。</p>
-<p>子进程还获得与<strong>父进程任何打开文件描述符相同的副本</strong>，意味着子进程可以读写父进程打开的任何文件。</p>
-<p><strong>文件描述符</strong>在形式上是一个非负整数。实际上，它是一个<strong>索引值</strong>，指向<a href="https://zh.wikipedia.org/wiki/内核" target="_blank" rel="noopener">内核</a>为每一个<a href="https://zh.wikipedia.org/wiki/进程" target="_blank" rel="noopener">进程</a>所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。</p>
-<p>用 fork 创建子进程的示例：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    pid = Fork();</span><br><span class="line">    <span class="keyword">if</span>(pid == <span class="number">0</span>) &#123;<span class="comment">/* child */</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"child : x=%d\n"</span>, ++x);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* Parent */</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"parent : %d\n"</span>, --x);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在 Unix 系统运行时，结果如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">parent : x=0</span><br><span class="line">child : x=2</span><br></pre></td></tr></table></figure>
-
-<p>注意：上面的子进程创建并不会无限创建子进程，因为新创建的子进程从父进程中创建该子进程的下一条语句的副本开始执行。</p>
-<p>还需要注意：Fork 返回到父进程中的返回值为子进程的 pid，而返回到子进程的返回值为0。</p>
-<ul>
-<li>调用一次，返回两次。一次返回到父进程，返回值为0，一次返回到新创建的进程；</li>
-<li>并发执行。父进程与子进程是并发运行的独立进程。从上述例子的结果来看，先返回父进程，再返回新创建的子进程，而这个结果是<strong>系统实现相关的</strong>，不同系统可能有不同结果，因为两个进程独立运行，内核以任意方式交替执行两个进程的逻辑控制流中的指令；</li>
-<li>相同但是独立的地址空间，他们都有自己私有的地址空间；</li>
-<li>共享文件。由于<strong>子进程继承了父进程所有的打开文件</strong>，而父进程调用 fork 时，stdout 文件是打开的，并指向屏幕。</li>
-</ul>
-<h3 id="回收子进程"><a href="#回收子进程" class="headerlink" title="回收子进程"></a>回收子进程</h3><p>当一个进程因为某种原因终止时（终止信号、运行结束返回、系统调用终止），内核不是立即将其从系统中清除。相反，进程被保持在一种已终止的状态，<strong>直到被父进程回收 (reaped)</strong>。当父进程回收已经终止的子进程时，<strong>内核将子进程的退出状态传递给父进程</strong>，然后<strong>抛弃已终止的进程</strong>。从此时开始，该进程就不存在了。</p>
-<p>一个终止了但还未被回收的进程称为<strong>僵尸进程</strong> (zombie)。</p>
-<p>如果一个父进程终止了，内核会安排 init 进程称为它的<strong>孤儿进程</strong>的<strong>养父</strong>。</p>
-<p>init 进程的 pid 为1，是在系统启动时由<strong>内核</strong>创建的，他不会终止，是所有进程的祖先。</p>
-<p>如果父进程没有回收它的僵尸子进程就终止了，那么内核会安排 init 进程去回收他们。</p>
-<p><strong>一个进程可以通过调用 waitpid 函数来等待它的子进程终止或者停止。</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">pid_t</span> <span class="title">waitpid</span><span class="params">(<span class="keyword">pid_t</span> pid, <span class="keyword">int</span> *statusp, <span class="keyword">int</span> options)</span></span>; <span class="comment">// 默认情况（options=0）时，挂起调用进程的执行，直到它的等待集合中的一个子进程终止。如果等待集合中的一个子进程在刚调用的时候就已经终止了，则立即返回。</span></span><br><span class="line"><span class="comment">// 以上两种情况下，waitpid返回已终止子进程的pid。</span></span><br><span class="line"><span class="comment">// 此时，已终止的子进程已经被回收。</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="waitpid函数"><a href="#waitpid函数" class="headerlink" title="waitpid函数"></a><code>waitpid</code>函数</h4><ol>
-<li><p>判定等待集合的成员<br>  等待集合 (wait set) 的成员由参数 <code>pid</code>确定：</p>
-<ol>
-<li><code>pid&gt;0</code>，那么等待集合是一个单独的子进程，其进程 ID 为 <code>pid</code>；</li>
-<li>如果<code>pid=-1</code>，那么等待集合是父进程的所有子进程的集合；</li>
-</ol>
-<p>支持其它类型的等待集合，包括 Unix 进程组；</p>
-</li>
-<li><p>修改默认行为<br><code>option</code>可以设置为单个常量或组合：</p>
-<ol>
-<li>WNOHANG：（不挂起）等待子进程中任何子进程都还未终止，那么立即返回（返回值0）；</li>
-<li>WUNTRACED：（未被追踪的，即被停止的子进程）挂起调用进程的执行，直到等待集合中的<strong>一个进程</strong>变成已终止或者被停止。返回<strong>导致返回的已终止或者被停止子进程的PID</strong>，与默认状态的区别在于它会返回被停止的子进程的 PID；</li>
-<li>WCONTINUED：（恢复了而继续运行的）挂起调用进程的执行，直到<strong>集合中一个正在运行的进程终止或等待集合中一个被停止的进程收到 SIGCONT信号重新开始执行</strong>，与默认状态的区别在于他会返回之前被停止，然后又重新运行的子进程 PID；</li>
-<li>WNOHANG | WUNTRACED：（不挂起 且 返回停止或终止的进程 PID）立即返回。如果等待集合中所有子进程都没有终止或被停止，返回0；如果有一个停止或终止，则返回该子进程 PID；</li>
-</ol>
-</li>
-<li><p>检查已回收子进程的退出状态<br>如果<code>statusp</code>非空，那么<code>waitpid</code>在其指向的地址中存放<strong>导致返回的子进程的状态信息</strong>：</p>
-<ol>
-<li>WIFEXITED(status)：（正常返回并退出）子进程通过系统调用 exit 或 return 正常返回，status 为 true；</li>
-<li>WEXITSTATUS(status)：（正常返回并退出的进程的状态）返回一个正常终止的子进程的退出状态，只有<code>WIFEXITED()==true</code>时，才会定义这个状态；</li>
-<li>WIFSIGNALED(status)：（由信号终止）子进程是因为一个（未被捕获的）信号终止的，status 为 true；</li>
-<li>WTERMSIG(status)：（由信号终止时该信号的编号）返回导致子进程终止的<strong>信号编号</strong>，只有<code>WISIGNALED（）==true</code>时定义这个状态；</li>
-<li>WIFSTOPPED(status)：（是否为停止状态）如果引起返回的子进程是停止的（不是终止）的，status 为 true；</li>
-<li>WSTOPSIG(status)：（造成子进程停止的信号编号）返回引起子进程停止的信号编号，只有<code>WSTOPPED()==true</code>时定义这个状态；</li>
-<li>WIFCONTINUED(status)：（由 SIGCONT 信号重新启动）如果子进程收到 SIGCONT 信号重新启动，status 为 true；</li>
-</ol>
-</li>
-<li><p>错误条件<br>如果调用进程没有子进程，返回<code>-1</code>，并设置<code>errno</code>为<code>ECHILD</code>;<br>如果<code>waitpid</code>被信号中断，返回<code>-1</code>，并设置<code>errno</code>为<code>EINTR</code>；</p>
-</li>
-<li><p>wait 函数<br>wait 函数是 waitpit 的简单版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># include &lt;sys&#x2F;type.h&gt;</span><br><span class="line"># include &lt;sys&#x2F;wait.h&gt;</span><br><span class="line"></span><br><span class="line">pid_t wait(int *statusp);</span><br><span class="line">&#x2F;&#x2F; 以下调用等价</span><br><span class="line">pid_t pid &#x3D; wait(&amp;status);</span><br><span class="line">pid_t pid &#x3D; waitpid(-1, &amp;status, 0);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>一个使用<code>waitpid</code>不按照特定顺序等待所有子进程结束的例子</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/type.h&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">int</span> status = <span class="number">0</span>, i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">pid_t</span> pid = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* Parent creates N children. */</span></span><br><span class="line">    <span class="keyword">for</span>(; i&lt;N; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span>((pid = Fork()) == <span class="number">0</span>) <span class="comment">// child</span></span><br><span class="line">            <span class="built_in">exit</span>(<span class="number">100</span>+i); <span class="comment">// 子进程什么都不做</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* Parent reaps N children in no particular order. */</span></span><br><span class="line">    <span class="keyword">while</span>(pid = waitpid(<span class="number">-1</span>, &amp;status, <span class="number">0</span>) &gt; <span class="number">0</span>) &#123; <span class="comment">// 返回有效PID，即waitpid本身没有出错</span></span><br><span class="line">        <span class="keyword">if</span>(WIFEXITED(status)) <span class="comment">// 有一个进程号为pid的子进程正常返回并终止</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"child %d terminated normally with exit status %d.\n"</span>, pid, WEXITSTATUS(status));</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"child %d terminated abnormally.\n"</span>, pid);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* The only normal termination is if there are no more children. */</span></span><br><span class="line">    <span class="keyword">if</span>(errno != ECHILD) <span class="comment">// waitpid本身出错</span></span><br><span class="line">        unix_error(<span class="string">"waitpid error."</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="让进程休眠"><a href="#让进程休眠" class="headerlink" title="让进程休眠"></a>让进程休眠</h3><p><code>sleep</code>函数将一个进程挂起一段指定的时间。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">sleep</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> secs)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pause</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>如果请求时间量到了，<code>sleep</code>返回0，否则返回还剩下的要休眠的秒数。</p>
-<p>后一种情况在<code>sleep</code>函数被一个信号中断而过早返回的情况下发生。</p>
-<p><code>pause</code>将进程挂起直到收到一个信号。</p>
-<h3 id="加载并运行程序"><a href="#加载并运行程序" class="headerlink" title="加载并运行程序"></a>加载并运行程序</h3><p><code>execve</code>函数在当前进程的上下文中<strong>加载并运行</strong>一个新程序。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">execve</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *filename, <span class="keyword">const</span> <span class="keyword">char</span> *argv[], <span class="keyword">const</span> <span class="keyword">char</span> *envp[])</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>只有当出现错误时，函数返回调用程序。</p>
-<p><code>execve</code>函数加载<code>filename</code>之后，它调用启动代码。启动代码设置栈，并将控制传递给新程序的主函数。</p>
-<h4 id="程序与进程"><a href="#程序与进程" class="headerlink" title="程序与进程"></a>程序与进程</h4><p>程序是一堆代码和数据，可以作为目标文件存在磁盘上，或者作为段存在于地址空间中。</p>
-<p>进程是执行中程序的一个实例。</p>
-<p>fork 在新的子进程中运行相同程序；</p>
-<p>execve 在当前进程的上下文中加载并运行一个新的程序，覆盖当前进程的地址空间，拥有相同的 PID，继承调用进程的已打开的所有文件描述符。</p>
-<h2 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h2><p><code>Linux信号</code>允许进程和内核中断其他进程。</p>
-<p>每种信号类型对应某种<strong>系统事件</strong>。底层硬件异常由<strong>内核异常处理程序</strong>处理，对用户进程是不可见的。</p>
-<p>信号提供一种机制，通知用户发生了哪种类型的异常。</p>
-<p>信号是一种软件异常。</p>
-<h3 id="信号术语"><a href="#信号术语" class="headerlink" title="信号术语"></a>信号术语</h3><p>传送一个信号到目的进程的步骤：</p>
-<ul>
-<li>发送信号。<br>内核通过<strong>更新目的进程上下文</strong>的某个状态，发送一个信号给目的进程。发送信号的原因：<ul>
-<li>内核检测到一个<strong>系统事件</strong>，比如零错误或子进程终止；</li>
-<li>一个进程调用了 kill 函数，显式地要求内核发送信号给目的进程；</li>
-</ul>
-</li>
-<li>接收信号。<br>目的进程被内核强迫以某种方式对信号的发送作出反应时，它就接受了信号。一个进程可以<strong>有选择性地</strong>阻塞某种信号，当信号被阻塞时，他仍可以被发送，但是不会被接收，直到进程取消对这种信号的阻塞。<br>一个信号只能被接收一次。<br>内核为每个进程在 pending 位向量中维护一个<strong>待处理信号的集合</strong>，在 block 位向量中维护<strong>被阻塞的信号集合</strong>。传送信号时，内核设置 pending 相应位，接收后，内核清除 pending 相应位。</li>
-</ul>
-<h3 id="发送信号"><a href="#发送信号" class="headerlink" title="发送信号"></a>发送信号</h3><h4 id="进程组"><a href="#进程组" class="headerlink" title="进程组"></a>进程组</h4><p>每个进程都<strong>只属于一个</strong>进程组，<strong>进程组</strong>由一个正整数进程组 ID 来标识。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">pid_t</span> <span class="title">getpgrp</span><span class="params">(<span class="keyword">void</span>)</span></span>; <span class="comment">// 获取当前进程所在进程组ID</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">setpgid</span><span class="params">(<span class="keyword">pid_t</span> pid, <span class="keyword">pid_t</span> pgid)</span></span>; <span class="comment">// 改变自己或其他进程的进程组</span></span><br><span class="line"><span class="comment">// pid为0则使用调用进程的pid，pgid为0则使用调用进程pid作为pgid</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="用-bin-kill-程序发送信号"><a href="#用-bin-kill-程序发送信号" class="headerlink" title="用 /bin/kill 程序发送信号"></a>用 /bin/kill 程序发送信号</h4><p>kill 程序可以向另外的进程发送任意信号。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">linux&gt;</span><span class="bash"> <span class="built_in">kill</span> -9 15213 <span class="comment"># 向GPID为15213的进程组的每个进程发送编号为9的SIGKILL信号</span></span></span><br></pre></td></tr></table></figure>
-
-<h4 id="从键盘发送信号"><a href="#从键盘发送信号" class="headerlink" title="从键盘发送信号"></a>从键盘发送信号</h4><p>Unix shell 使用<strong>作业 (job)</strong>这个抽象概念来表示为<strong>对一条命令行求值而创建的进程</strong>。</p>
-<p>在任何时刻，最多只有一个前台作业和0个或多个后台作业。</p>
-<h4 id="用-kill-函数发送信号"><a href="#用-kill-函数发送信号" class="headerlink" title="用 kill 函数发送信号"></a>用 kill 函数发送信号</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/type.h&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">kill</span><span class="params">(<span class="keyword">pid_t</span> pid, <span class="keyword">int</span> sig)</span></span>; <span class="comment">// 发送信号号码sig给PID为abs(pid)的进程，如果pid==0，那么发送sig给调用进程所在进程组的所有进程，包括自己</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="alarm-函数发送信号"><a href="#alarm-函数发送信号" class="headerlink" title="alarm 函数发送信号"></a>alarm 函数发送信号</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">alarm</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> secs)</span></span>; <span class="comment">// 安排内核在 secs 秒之后发送一个SIGALRM信号给调用进程，对alarm函数的任何调用都会取消待处理的闹钟，并返回剩余秒数；如果没有待处理闹钟，返回0</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="接收信号"><a href="#接收信号" class="headerlink" title="接收信号"></a>接收信号</h3><p>当进程<strong>从内核模式切换到用户模式</strong>，内核检查<strong>进程为被阻塞的待处理信号集合 (pending &amp; ~blocked)</strong>。</p>
-<ul>
-<li>集合为空，内核将控制返回到进程<strong>逻辑控制流</strong>的下一条指令；</li>
-<li>否则，内核选择某个信号（通常为最小），并强制进程接收该信号。收到信号<strong>会触发进程采取某种行为</strong>，当完成该行为时，控制传回进程逻辑控制流中的下一条指令。</li>
-</ul>
-<p>每个信号类型都有默认行为：</p>
-<ul>
-<li>进程终止</li>
-<li>进程终止并转储内存</li>
-<li>进程（停止）挂起，等待 SIGCONT 信号重启</li>
-<li>进程忽略该信号</li>
-</ul>
-<p>进程可以通过使用<code>signal</code>函数<strong>修改信号相关的默认行为</strong>，除 SIGSTOP 和 SIGKILL 外。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*<span class="keyword">sighandler_t</span>)</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sighandler_t</span> <span class="title">signal</span><span class="params">(<span class="keyword">int</span> signum, <span class="keyword">sighandler_t</span> handler)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>if(handler == SIG_IGN)</code>，忽略<code>signum</code>的信号</li>
-<li><code>if(handler == SIG_DFL)</code>，<code>signum</code>信号关联行为恢复默认</li>
-<li>否则，<code>handler</code>为用户定义函数地址，该函数为信号处理程序。</li>
-</ul>
-<p>将处理程序的地址传递到<code>handler</code>称为<strong>设置信号处理程序</strong>。</p>
-<p>调用<strong>信号处理程序</strong>称为<strong>捕获信号</strong>。</p>
-<p>执行<strong>信号处理程序</strong>称为<strong>处理信号</strong>。</p>
-<h3 id="阻塞和解除阻塞信号"><a href="#阻塞和解除阻塞信号" class="headerlink" title="阻塞和解除阻塞信号"></a>阻塞和解除阻塞信号</h3><ul>
-<li>隐式阻塞机制。内核默认阻塞任何<strong>当前信号处理程序正在处理的信号类型</strong>的待处理信号。</li>
-<li>显式阻塞机制。使用 sigprocmask 函数及其赋值函数，明确阻塞和解除阻塞的信号类型。</li>
-</ul>
-<h3 id="编写信号处理程序"><a href="#编写信号处理程序" class="headerlink" title="编写信号处理程序"></a>编写信号处理程序</h3><h4 id="安全的信号处理"><a href="#安全的信号处理" class="headerlink" title="安全的信号处理"></a>安全的信号处理</h4><p>编写处理程序的原则：</p>
-<ul>
-<li><p>处理程序要尽可能简单</p>
-</li>
-<li><p>在处理程序中只调用<strong>异步信号安全</strong>的函数。<br><strong>异步信号安全的函数</strong>（简称为安全的函数）能够被信号处理程序安全调用，原因有二：</p>
-<ul>
-<li>要么是<strong>可重入</strong>的（例如只访问局部变量）</li>
-<li>要么不能被信号处理程序中断</li>
-</ul>
-</li>
-<li><p>保存和恢复 <code>errno</code></p>
-</li>
-<li><p>阻塞所有信号，保护对共享全局数据结构的访问</p>
-</li>
-<li><p>用<code>volatile</code>声明全局变量<br><code>volatile</code>类型限定符定义一个变量，告诉编译器<strong>不要缓存这个变量</strong>。<br>考虑一个处理程序和 main 函数，他们共享一个全局变量 g。处理程序更新 g，main 函数周期性访问 g，那么对于一个优化编译器来说，g 的值看上去完全没有变过，因此使用缓存在寄存器中的副本来满足对 g 的每次引用是安全的。但是这样，main 函数永远无法看到处理程序更新过的 g。</p>
-</li>
-<li><p>用<code>sig_atomic_t</code>声明标志。<br>在常见的处理程序设计中，处理程序会写全局标志来记录接收到了信号。主程序周期性地读这个标志，响应信号，再清除该标志。<br>对于这种方式共享的标志，C 提供一种<strong>整形数据类型 sig_atomic_t</strong> ，对它的读写保证会是<strong>原子的（不可中断的）</strong>，因为可以用一条指令（区别于一行代码）来实现它们：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="keyword">sig_atomic_t</span> flag;</span><br></pre></td></tr></table></figure>
-
-<p>注意：这里对原子性的保证<strong>只适用于单个的读写</strong>，不适用于<code>flag++</code>等，他们可能需要更多指令。</p>
-</li>
-</ul>
-<h4 id="正确的信号处理"><a href="#正确的信号处理" class="headerlink" title="正确的信号处理"></a>正确的信号处理</h4><p>未处理的信号是<strong>不排队的</strong>，因为 pending 位向量中每种类型的信号只有一位。</p>
-<p>所以当<strong>信号处理程序</strong>未返回时，该类型信号被处理程序阻塞，在该时间段内，第二个到达的信号被阻塞，之后的信号都被丢弃，不会触发信号捕获和处理。</p>
-<p>为了解决上述情况，我们总结出：<strong>不能用信号来对其他进程中发生的事件计数</strong>。</p>
-<p>因此，我们在处理函数中，以回收僵尸子进程为例，应该回收尽可能多的僵尸子进程。这样保证了，当有信号被抛弃时，它所对应的事件（子进程终止）已经被当前运行的处理函数所处理。</p>
-<h3 id="同步流以避免讨厌的并发错误"><a href="#同步流以避免讨厌的并发错误" class="headerlink" title="同步流以避免讨厌的并发错误"></a>同步流以避免讨厌的并发错误</h3><p>读写相同存储位置的并发流，可能遇到如下问题：</p>
-<p><strong>竞争 (race)</strong>，经典的同步错误：由于<strong>并发进程的逻辑控制流的交错</strong>导致的意料之外的指令运行顺序，引发错误结果。比如读写顺序的错误。</p>
-<p>解决方法：在正确的位置阻塞对触发时间敏感的信号，使得信号接收发生在正确的时间。</p>
-<p>注意：父进程的信号阻塞集合会被子进程所继承，因此子进程运行时首先需要解除阻塞。</p>
-<h3 id="显式地等待信号"><a href="#显式地等待信号" class="headerlink" title="显式地等待信号"></a>显式地等待信号</h3><p>有时候主程序需要显式地等待某个信号处理程序运行。比如 Linux shell 在创建一个前台作业时，在接收下一条用户命令之前，必须等待作业终止，被 SIGCHLD 处理程序回收。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sigset_t</span> mask, prev;</span><br><span class="line">Sigemptyset(&amp;mask);</span><br><span class="line">Sigaddset(&amp;mask, SIGCHLD);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">    Sigprocmask(SIG_BLOCK, &amp;mask, &amp;prev); <span class="comment">// 显式阻塞SIGCHLD，避免父子进程竞争</span></span><br><span class="line">    <span class="keyword">if</span>(Fork() == <span class="number">0</span>) &#123; <span class="comment">// 子进程</span></span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    pid = <span class="number">0</span>; <span class="comment">// 如果不对SIGCHLD阻塞，pid=0可能发生在处理程序运行之后</span></span><br><span class="line">    Sigprocmask(SIG_SETMASK, &amp;prev, <span class="literal">NULL</span>); <span class="comment">// 取消阻塞，因为此后触发处理程序都是正确的</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(!pid) &#123; <span class="comment">// 等待僵尸子进程回收</span></span><br><span class="line">        ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Do some thing after receiving SIGCHLD."</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上函数正确，但问题在于其中的嵌套循环等待僵尸子进程被回收，浪费了处理器资源，因为父进程需要不停地检测 pid，其余地什么都不做。</p>
-<ul>
-<li><p>方法一：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(!pid)</span><br><span class="line">    <span class="comment">/* 此时收到信号，回收僵尸子进程后父进程仍被挂起，不会再收到SIGCHLD信号，也就会永远睡眠 */</span></span><br><span class="line">    pause(); <span class="comment">// 挂起父进程直到收到一个信号</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>方法二：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(!pid)</span><br><span class="line">    sleep(<span class="number">1</span>); <span class="comment">// 太慢，无法选择合适的时间</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>合适的方法三：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sigsuspend</span><span class="params">(<span class="keyword">const</span> <span class="keyword">sigset_t</span> *mask)</span></span>; <span class="comment">// return -1</span></span><br><span class="line"><span class="comment">// 等价于以下代码的原子（不可中断）版本</span></span><br><span class="line">sigprocmask(SIG_SETMASK, &amp;mask, &amp;prev); <span class="comment">// </span></span><br><span class="line">pause();</span><br><span class="line">sigprocmask(SIG_SETMASK, &amp;prev, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
-
-<p>使用<code>sigsuspend</code>函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sigset_t</span> mask, prev;</span><br><span class="line">Sigemptyset(&amp;mask);</span><br><span class="line">Sigaddset(&amp;mask, SIGCHLD);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">    Sigprocmask(SIG_BLOCK, &amp;mask, &amp;prev); <span class="comment">// 显式阻塞SIGCHLD，避免父子进程竞争</span></span><br><span class="line">    <span class="keyword">if</span>(Fork() == <span class="number">0</span>) &#123; <span class="comment">// 子进程</span></span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    pid = <span class="number">0</span>; <span class="comment">// 如果不对SIGCHLD阻塞，pid=0可能发生在处理程序运行之后</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(!pid) &#123; <span class="comment">// 等待僵尸子进程回收</span></span><br><span class="line">        sigsuspend(&amp;prev); <span class="comment">// 暂时取消阻塞SIGCHLD并挂起，直到收到信号，此时恢复阻塞并返回</span></span><br><span class="line">    &#125;</span><br><span class="line">    Sigprocmask(SIG_SETMASK, &amp;prev, <span class="literal">NULL</span>); <span class="comment">// 可选地取消阻塞</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Do some thing after receiving SIGCHLD."</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="非本地跳转"><a href="#非本地跳转" class="headerlink" title="非本地跳转"></a>非本地跳转</h3><p>C 语言提供了用户级<strong>异常控制流</strong>的形式，称为<strong>非本地跳转 (nonlocal jump)</strong>，将控制直接从一个函数转移到另一个当前正在执行的函数，而不需要进行正常的<strong>调用-返回</strong>。</p>
-<p>C 语言中，非本地跳转通过 <code>setjmp</code> 和 <code>longjmp</code> 函数提供：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;setjmp.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">setjmp</span><span class="params">(jmp_buf env)</span></span>; <span class="comment">// 在env缓冲区中保存当前调用环境，供longjmp使用，并返回0.调用环境包括 程序计数器、栈指针、通用目的寄存器，其返回值不能给变量赋值！！！</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sigsetjmp</span><span class="params">(sigjmp_buf env, <span class="keyword">int</span> savesigs)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">longjmp</span><span class="params">(jmp_buf env, <span class="keyword">int</span> retval)</span></span>; <span class="comment">// 从env缓冲区中回复调用环境，然后触发一个从最近一次初始化env的setjmp调用的返回，并返回带有非零的返回值的retval</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">siglpngjmp</span><span class="params">(sigjump_buf env, <span class="keyword">int</span> retval)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<h4 id="非本地跳转的应用1"><a href="#非本地跳转的应用1" class="headerlink" title="非本地跳转的应用1"></a>非本地跳转的应用1</h4><p>非本地跳转的一个重要应用是：允许从一个深层嵌套的函数调用中立即返回。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> ...</span></span><br><span class="line"></span><br><span class="line">jum_buf buf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> error1 = <span class="number">0</span>, error2 = <span class="number">1</span>;</span><br><span class="line">void foo(void), bar(void);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span>(setjmp(buf)) &#123; <span class="comment">// 初次调用setjmp，将当前调用环境保存在buf中，返回0</span></span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            foo(); <span class="comment">// 初次保存环境后执行foo</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"Detected an error1 condition in foo.\n"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"Detected an error2 condition in foo.\n"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"Unknown error condition in foo.\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(error1)</span><br><span class="line">        longjmp(buf, <span class="number">1</span>);</span><br><span class="line">    bar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bar</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(error2)</span><br><span class="line">        longjmp(buf, <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然而<code>longjmp</code>可以跳过所有中间调用的特性可能产生意外后果。</p>
-<p>内存泄漏：在中间函数的调用中分配了动态内存，预期在结尾释放，而结尾被跳过。 </p>
-<h4 id="非本地跳转的应用2"><a href="#非本地跳转的应用2" class="headerlink" title="非本地跳转的应用2"></a>非本地跳转的应用2</h4><p>使一个信号处理程序分支到一个特殊的代码位置，而不是返回到被信号中断了的指令位置（此时信号处理函数不是正常返回）。</p>
-<p>由于<code>longjmp</code>不是<strong>异步信号安全</strong>的函数（不是可重入也不是原子的），因此在<code>longjmp</code>可到达的区域必须使用<strong>异步信号安全</strong>的函数。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> ...</span></span><br><span class="line"></span><br><span class="line">sigjmp_buf buf;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">handler</span><span class="params">(<span class="keyword">int</span> sig)</span> </span>&#123;</span><br><span class="line">    siglongjmp(buf, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!sigsetjmp(buf, <span class="number">1</span>)) &#123; <span class="comment">// 必须先保存环境，再设置信号处理程序，避免longjmp在set之前发生</span></span><br><span class="line">        Signal(SIGINT, handler); <span class="comment">// 设置信号处理程序</span></span><br><span class="line">        Sio_puts(<span class="string">"Starting...\n"</span>); <span class="comment">// 异步信号安全函数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        Sio_puts(<span class="string">"Restarting...\n"</span>); <span class="comment">// 异步信号安全函数</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">        Sleep(<span class="number">1</span>); <span class="comment">// 异步信号安全函数</span></span><br><span class="line">        Sio_puts(<span class="string">"Processing...\n"</span>); <span class="comment">// 异步信号安全函数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>); <span class="comment">// 不安全，Control never gets here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="操作进程的工具"><a href="#操作进程的工具" class="headerlink" title="操作进程的工具"></a>操作进程的工具</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> STRACE <span class="comment"># 打印一个正在运行的程序和他的子进程调用的每个系统调用的轨迹</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ps <span class="comment"># 列出当前系统的进程（包括僵尸进程）</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> top <span class="comment"># 打印出关于当前进程资源使用的信息</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pmap <span class="comment"># 显示进程的内存映射</span></span></span><br></pre></td></tr></table></figure>
-
-<h1 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h1><h2 id="内存和主存的区别"><a href="#内存和主存的区别" class="headerlink" title="内存和主存的区别"></a>内存和主存的区别</h2><p>内存由<strong>RAM（主存）</strong>和<strong>ROM</strong>组成。</p>
-<p><strong>RAM</strong>有 SRAM 和 DRAM。</p>
-<p><strong>ROM</strong>有 PROM，EPROM，EEPROM。</p>
-<h2 id="物理和虚拟地址"><a href="#物理和虚拟地址" class="headerlink" title="物理和虚拟地址"></a>物理和虚拟地址</h2><p>计算机系统的主存被组织成由 M 个连续字节大小的单元组成的数组。</p>
-<p>每个<strong>字节</strong>都有一个唯一的物理地址。</p>
-<p>CPU 使用物理地址访问内存的方式叫做<strong>物理寻址</strong>。</p>
-<p>使用<strong>虚拟寻址</strong>，CPU 通过生成一个虚拟地址 (virtual address, VA) 来访问<strong>主存</strong>，在被送到内存之前先转换成合适的<strong>物理地址</strong>。</p>
-<p>将虚拟地址转换为物理地址叫做<strong>地址翻译</strong>。</p>
-<p>CPU 上叫做<strong>内存管理单元 (Memory Management Unit, MMU)</strong> 的专用硬件，利用主存中的<strong>查询表</strong>来动态翻译虚拟地址。</p>
-<p>查询表由<strong>操作系统</strong>管理。</p>
-<h2 id="地址空间"><a href="#地址空间" class="headerlink" title="地址空间"></a>地址空间</h2><p><strong>地址空间</strong>是一个非负整数地址的有序集合。</p>
-<p>如果地址空间中的地址是连续的，这个地址空间是<strong>线性地址空间</strong>。</p>
-<p>CPU 在线性地址空间中生成<strong>虚拟地址</strong>，这个地址空间成为<strong>虚拟地址空间</strong>。</p>
-<p>内存中<strong>每字节</strong>都有一个物理地址和虚拟地址。</p>
-<h2 id="虚拟内存作为缓存工具"><a href="#虚拟内存作为缓存工具" class="headerlink" title="虚拟内存作为缓存工具"></a>虚拟内存作为缓存工具</h2><p>概念上，<strong>虚拟内存</strong>被组织为一个由<strong>存放在磁盘上</strong>的 N 个<strong>连续的字节大小的单元</strong>组成的数组。</p>
-<p>每字节有唯一的虚拟地址，作为到数组的索引。</p>
-<p>磁盘上数组的内容被分割成块 (block)，缓存在主存中。</p>
-<p>VM 系统将虚拟内存分割成<strong>虚拟页 (virtual page, VP)</strong>的<strong>大小固定的块</strong>。</p>
-<p>每个虚拟页大小为$P=2^p$字节。类似的，物理内存被分割为物理页。</p>
-<p>在任意时刻，虚拟页面的集合都分为三个互不相交子集：</p>
-<ul>
-<li>未分配：没有与任何数据相关联，不占用任何磁盘空间；</li>
-<li>缓存的：已缓存在物理内存中的已分配页；</li>
-<li>未缓存的：已分配，未缓存的页。</li>
-</ul>
-<h3 id="页表"><a href="#页表" class="headerlink" title="页表"></a>页表</h3><p>页表将<strong>虚拟页映射到物理页</strong>。</p>
-<p>页表就是一个<strong>页表条目 (Page Table Entry, PTE)</strong> 的数组。</p>
-<p>虚拟地址空间中，每个页在页表中的一个固定偏移量处都有一个 PTE，指明当前虚拟页是否被缓存，以及缓存在物理内存中的物理页的起始位置。</p>
-<h3 id="页命中"><a href="#页命中" class="headerlink" title="页命中"></a>页命中</h3><p>CPU 想要读虚拟内存的一个字时，地址翻译硬件查询到该虚拟页已被缓存，从而定位和读取它。</p>
-<h3 id="缺页"><a href="#缺页" class="headerlink" title="缺页"></a>缺页</h3><p><strong>虚拟内存系统</strong>的缓存不命中称为<strong>缺页</strong>。</p>
-<p>CPU 引用了<strong>虚拟页</strong> VP 中的某个字，地址翻译硬件从<strong>内存中</strong>读取对应 PTE，推断出该虚拟页未被缓存，触发缺页异常。进程调用缺页异常处理程序，该程序选择一个<strong>牺牲页</strong> VP1，若该牺牲页被修改，那么写回并修改该牺牲页的 PTE（将 VP1 从主存中删除，将 VP 缓存在主存中）。</p>
-<p>虚拟系统中，块被称为页。</p>
-<p><strong>磁盘和内存</strong>之间传送页的活动叫做<strong>页面调度</strong>。</p>
-<p>发生不命中时才<strong>换入</strong>页面的策略，为<strong>按需页面调度</strong>。</p>
-<h3 id="分配页面"><a href="#分配页面" class="headerlink" title="分配页面"></a>分配页面</h3><p>例如，调用 malloc 时：虚拟内存系统<strong>在磁盘上</strong>创建空间，并更新 PTE，使它指向<strong>磁盘上</strong>新创建的页面。</p>
-<p>我们假设页表通过设置有效位，来区分 PTE 指向的物理内存地址还是磁盘地址。</p>
-<h2 id="虚拟内存作为内存管理的工具"><a href="#虚拟内存作为内存管理的工具" class="headerlink" title="虚拟内存作为内存管理的工具"></a>虚拟内存作为内存管理的工具</h2><p>操作系统为<strong>每个进程提供了一个独立的页表</strong>，因此也就是一个<strong>独立的虚拟内存空间</strong>。</p>
-<p>多个虚拟页可以映射到同一个共享物理页。</p>
-<h2 id="虚拟内存作为内存保护的工具"><a href="#虚拟内存作为内存保护的工具" class="headerlink" title="虚拟内存作为内存保护的工具"></a>虚拟内存作为内存保护的工具</h2><p>操作系统需要控制进程对内存系统的访问：</p>
-<ul>
-<li>不允许用户进程写它的只读代码段</li>
-<li>不允许用户进程<strong>读写</strong>任何内核代码和数据结构</li>
-<li>不允许一个用户进程<strong>读写</strong>其他进程的私有内存</li>
-<li>不允许一个用户进程<strong>写</strong>任何<strong>与其他进程共享的虚拟页面</strong></li>
-</ul>
-<p>通过在页表条目 PTE 中添加一些额外的许可位来控制一个进程对其虚拟页面的访问。</p>
-<p>如果进程逻辑控制流中的一条指令违反了上述限制，那么 CPU 触发一个<strong>一般保护故障</strong>，将控制传递给异常处理程序。</p>
-<p>Linux shell 一般将这种异常报告为<strong>段错误 (segment fault)</strong>。</p>
-<h2 id="地址翻译"><a href="#地址翻译" class="headerlink" title="地址翻译"></a>地址翻译</h2><p>形式上来说，地址翻译是一个<strong>虚拟地址空间</strong>到<strong>物理地址空间</strong>的映射。</p>
-<h4 id="页命中时"><a href="#页命中时" class="headerlink" title="页命中时"></a>页命中时</h4><ol>
-<li>CPU 生成虚拟地址，传送给 MMU；</li>
-<li>MMU 生成 PTE 地址，从高速缓存/主存中请求 PTE；</li>
-<li>高速缓存/主存向 MMU 返回 PTE；</li>
-<li>MMU 构造物理地址，传送给高速缓存/主存；</li>
-<li>高速缓存/主存返回所请求的数据字给 CPU。</li>
-</ol>
-<p>完全由硬件处理。</p>
-<h4 id="缺页时"><a href="#缺页时" class="headerlink" title="缺页时"></a>缺页时</h4><ol>
-<li>CPU 生成虚拟地址，传送给 MMU；</li>
-<li>MMU 生成 PTE 地址，向高速缓存/主存请求 PTE；</li>
-<li>高速缓存/主存向 MMU 返回 PTE;</li>
-<li>MMU 检测到该虚拟页<strong>未被缓存</strong>，因此<strong>触发缺页异常</strong>，传递 CPU 控制到操作系统内核中的缺页异常处理程序；</li>
-<li>缺页异常处理程序选择<strong>物理内存中的牺牲页</strong>，如果该页已被修改，那么把它换出到磁盘（写回）；</li>
-<li>缺页处理程序调入新页面，更新内存中的 PTE；</li>
-<li>缺页处理程序返回调用进程，再次执行缺页指令，此时回到第一步，并完成一个<strong>页命中</strong>的过程。</li>
-</ol>
-<h3 id="利用TLB加速地址翻译"><a href="#利用TLB加速地址翻译" class="headerlink" title="利用TLB加速地址翻译"></a>利用TLB加速地址翻译</h3><p>每次 CPU 产生一个虚拟地址，MMU 就必须查阅一个 PTE，这回要求从内存多取一次数据，代价是<strong>几十到几百个周期</strong>。</p>
-<p>如果 PTE 碰巧缓存在 L1 高速缓存中，那么开销就下降到了1到2个周期。</p>
-<p>MMU 中因此包括了一个关于 PTE 的缓存，称为<strong>翻译后备缓冲器 (Translation Lookaside Buffer)</strong>。</p>
-<h3 id="多级页表"><a href="#多级页表" class="headerlink" title="多级页表"></a>多级页表</h3><p>使用 B-Trees 结构更高效地利用内存空间存储 PTE。</p>
-<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525134521210.png" alt></p>
-<p>在 k 级页表层次结构的地址翻译中，虚拟地址被划分为 k 个 VPN 和一个 VPO。为了构造物理地址，MMU 必须访问 k 个 PTE。</p>
-<p>TLB 将不同层次的页表 PTE 缓存起来加速翻译。</p>
-<h2 id="Intel-Core-i7-Linux-内存系统"><a href="#Intel-Core-i7-Linux-内存系统" class="headerlink" title="Intel Core i7/Linux 内存系统"></a>Intel Core i7/Linux 内存系统</h2><p>L1, L2, L3 高速缓存是物理寻址的，块大小64字节。</p>
-<p>TLB 是虚拟寻址的。</p>
-<p>页大小可以在系统启动时配置为 4KB 或者 4MB。</p>
-<p>Linux 使用 4KB 的页。</p>
-<h3 id="Core-i7-地址翻译"><a href="#Core-i7-地址翻译" class="headerlink" title="Core i7 地址翻译"></a>Core i7 地址翻译</h3><p>Core i7 采用<strong>四级页表</strong>层次结构。每个进程有它自己私有的页表层次结构。</p>
-<p>与已分配页相关联的<strong>页表</strong>驻留在内存中。CR3 控制寄存器指向第一级页表的起始位置，CR3 的值是每个进程上下文的一部分。每次上下文切换时，CR3 都会被恢复。</p>
-<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525163736355.png" alt></p>
-<p>上图为前三级页表条目 PTE 的格式，其中每个 PTE 引用一个 4KB 子页表。每个条目 64位，8 字节，因此每一级页表层次包含 512 个子页表起始位置。</p>
-<p>当 P=1 时，即该子页表为已缓存状态时，地址字段包含一个<strong>子页表的物理基地址的最高40位</strong>的物理页号，指向适当的页表的起始位置。这使得物理页表必须 4KB 对齐。<strong>（为什么）</strong></p>
-<p>类似地，物理页也被要求 4KB 对齐。</p>
-<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525165137456.png" alt></p>
-<p>当 MMU 翻译每一个虚拟地址时，它会更新另外两个内核缺页处理程序会用到的位。</p>
-<p>每访问一个页，MMU 设置<strong>引用位</strong>。内核可以用这个引用位实现它的页替换算法。</p>
-<p>每对一个位进行写之后，MMU 设置修改位（脏位，dirty bit），告诉内核在复制替换页之前是否必须写回牺牲页。</p>
-<h3 id="Linux-虚拟内存系统"><a href="#Linux-虚拟内存系统" class="headerlink" title="Linux 虚拟内存系统"></a>Linux 虚拟内存系统</h3><p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525170118689.png" alt></p>
-<p>内核虚拟内存位于用户栈之上（更高地址）。</p>
-<p>内核虚拟内存的某些区域被映射到所有进程共享的物理页面。例如，每个进程共享<strong>内核代码和全局数据结构</strong>。</p>
-<p>Linux 也将一组连续的虚拟页面（大小等于系统中 DRAM 总量）映射到相应的一组连续的物理页面。这为内核提供了访问物理内存中任意位置的便利方法。</p>
-<p>内核虚拟内存的其他区域包含每个进程都不同的数据（进程相关）。</p>
-<h4 id="Linux-虚拟内存区域"><a href="#Linux-虚拟内存区域" class="headerlink" title="Linux 虚拟内存区域"></a>Linux 虚拟内存区域</h4><p>Linux 将虚拟内存组织成一些区域（段）的集合。</p>
-<p>一个区域 (area) 就是<strong>已分配的</strong>虚拟内存的连续片 (chunk)。</p>
-<p>区域的概念，允许虚拟地址之间有间隙，而这些间隙不用被内核记录，不占用内存、磁盘或者内核本身中的任何额外资源。</p>
-<p>内核为系统中每个进程维护一个<strong>单独的任务结构</strong>，任务结构中的每个元素包含或者指向运行该进程所需要的所有信息（PID，指向用户栈的指针，可执行目标文件名称，程序计数器）。</p>
-<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/image-20200525172538950.png" alt></p>
-<ul>
-<li>vm_start：指向区域起始处；</li>
-<li>vm_end：指向区域结束处；</li>
-<li>vm_prot：描述该区域包含的所有页的读写权限；</li>
-<li>vm_flags：这个区域内的页面是与其他进程共享还是私有；</li>
-<li>vm_next：指向链表中下个结构区域。</li>
-</ul>
-<p>pgd 指向第一级页表（页全局目录）的基址；mmap 指向一个链表，该链表描述了虚拟内存的组织结构。</p>
-<h4 id="Linux-缺页异常处理"><a href="#Linux-缺页异常处理" class="headerlink" title="Linux 缺页异常处理"></a>Linux 缺页异常处理</h4><p>假设 MMU 在试图翻译一个虚拟地址 A 时发生了缺页（该虚拟页没有缓存在内存中），触发了一个缺页异常。该异常导致控制转移到缺页处理程序，处理程序执行以下步骤：</p>
-<ul>
-<li>检查该<strong>虚拟地址</strong>是否合法（存在，就是说该虚拟地址存在于任何一个段中）：在这里，如果从到到尾顺序搜索链表使得算法的时间复杂度较高，因此 Linux 在链表中构建了一棵树（猜测为线段树），并在树中进行查找。访问的虚拟地址不合法的错误叫做段错误：企图访问一个不存在的虚拟页面；</li>
-<li>检查对该<strong>虚拟页面</strong>的访问是否合法：如果对虚拟页面的访问是不合法的，那么缺页处理程序<strong>触发一个保护异常</strong>，从而终止进程；</li>
-<li>否则，内核知道该缺页是由于对合法虚拟地址进行合法访问造成的。按照以下步骤处理缺页：<ul>
-<li>选择牺牲页面</li>
-<li>如果该页面被修改过（检查修改位），那么将它交换出去，换入新的页面，并更新页表</li>
-</ul>
-</li>
-</ul>
-<h2 id="内存映射"><a href="#内存映射" class="headerlink" title="内存映射"></a>内存映射</h2><p>Linux 通过将一个虚拟内存区域（段）与磁盘上的一个对象关联起来，以初始化这个虚拟内存区域（段）的内容，这个过程叫做<strong>内存映射 (memory mapping)</strong>。</p>
-<h3 id="再看共享对象"><a href="#再看共享对象" class="headerlink" title="再看共享对象"></a>再看共享对象</h3><p>一个对象可以被映射到虚拟内存的任意一个区域，要么作为<strong>共享对象</strong>，要么作为<strong>私有对象</strong>。</p>
-<p>如果一个进程将共享对象映射到它的虚拟地址空间的一个区域内，那么这个进程对该共享对象的任何写操作，对其它同样映射了该共享对象的进程是可见的，同时它也改变了磁盘的原始对象。</p>
-<p>对一个映射到私有对象的区域的改变，对其他进程不可见，并且进程对该区域的任何写操作都<strong>不会反映在磁盘上的原始对象中</strong>。</p>
-<p>根据以上，对于一个区域映射到共享对象还是私有对象，可以将区域分为<strong>共享区域</strong>和<strong>私有区域</strong>。</p>
-<p>私有对象使用一种叫做<strong>写时复制 (copy on write)</strong> 的技术被映射到虚拟内存中。由于不同进程的私有对象中的数据可能不同，因此一种直观的方式似乎是为每一个进程中的私有区域映射到的私有对象保留一份单独的副本。然而<strong>写时复制</strong>技术使得两个映射到同一个私有对象的进程共享这一对象的物理副本，并且每个进程中与该私有对象相关的页表条目都被标为<strong>只读</strong>，一旦某个进程对私有区域内的某个页进行写操作时，这个写操作会触发保护故障。</p>
-<p>故障处理程序注意到保护异常是由于进程试图写一个<strong>私有的写时复制区域</strong>中的一个页面时，它就会在物理内存中创建这个<strong>页面</strong>的一个副本，然后更新页表条目指向这个新的副本页面，然后恢复该页面的写权限。</p>
-<p>故障从处理程序返回时，CPU 重新执行写操作，就可以正常执行了。</p>
-<p>通过延迟私有对象中的副本直到最后可能的时刻，写时复制最充分地利用了稀有的物理内存。</p>
-<h3 id="再看-fork-函数"><a href="#再看-fork-函数" class="headerlink" title="再看 fork 函数"></a>再看 fork 函数</h3><p>当 fork 函数被当前进程调用时，内核为子进程<strong>分配一个唯一的 PID</strong>，为了给新进程创建虚拟内存，内核创建了调用进程的<strong>mm_struct、区域结构和页表的原样副本</strong>，并将两个进程中的所有页面标记为只读，并将两个进程中的个每个区域都标记为私有的写时复制。（如果加载了共享库呢？）</p>
-<p>fork 从新进程中返回时，新进程现在的虚拟内存刚好和调用时调用进程的虚拟内存相同。这两个进程中的任意一个进行写操作时，写时复制机制就会为这个进程创建新页面，因此，为每个进程保持了私有空间的抽象概念。</p>
-<h3 id="再看-execve-函数"><a href="#再看-execve-函数" class="headerlink" title="再看 execve 函数"></a>再看 execve 函数</h3><p>execve 函数加载可执行目标文件中的程序，并用该程序替代当前程序。加载并运行一个可执行目标文件需要以下步骤：</p>
-<ul>
-<li>删除已存在用户区域：删除当前虚拟空间中用户部分已存在的区域结构；</li>
-<li>映射私有区域：为新程序的<strong>代码、数据、bss 和栈区域创建新的区域结构</strong>。所有这些新的区域都是私有的，写时复制的。</li>
-<li>映射共享区域：共享对象动态链接到程序，再映射到用户虚拟地址空间中的共享区域内；</li>
-<li>设置程序计数器：设置当前进程上下文中的程序计数器，使其指向程序入口。</li>
-</ul>
-<h3 id="使用-mmap-函数的用户级内存映射"><a href="#使用-mmap-函数的用户级内存映射" class="headerlink" title="使用 mmap 函数的用户级内存映射"></a>使用 mmap 函数的用户级内存映射</h3><p>Linux 进程可以使用 mmap 函数<strong>创建新的虚拟内存区域</strong>，并将对象映射到这些区域中。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">mmap</span><span class="params">(<span class="keyword">void</span> *start, <span class="keyword">size_t</span> length, <span class="keyword">int</span> prot, <span class="keyword">int</span> flags, <span class="keyword">int</span> fd, <span class="keyword">off_t</span> offset)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p><code>mmap</code>函数要求内核创建一个新的<strong>虚拟内存区域</strong>，最好是从地址 start 开始的一个区域，并将文件描述符 fd 指定的对象的连续的片映射到这个新的区域。连续的对象片大小为 length 字节，从据文件开始处偏移 offset 字节的地方开始。</p>
-<p>参数 prot 包含描述新映射的虚拟内存区域的访问权限位：</p>
-<ul>
-<li>PROT_EXEC：该区域页面由可以被 CPU 执行的指令组成；</li>
-<li>PROT_READ：该区域内页面可读；</li>
-<li>PROT_WRITE：该区域内页面可写；</li>
-<li>PROT_NONE：该区域页面不可访问。</li>
-</ul>
-<p>flags 由描述被映射对象的位组成：</p>
-<ul>
-<li>MAP_ANON：被映射的对象为匿名对象，而相应的虚拟页面请求<strong>二进制零</strong>；</li>
-<li>MAP_PRIVATE：被映射的对象是一个私有的、写时复制的对象；</li>
-<li>MAP_SHARED：被映射的对象是一个共享对象。</li>
-</ul>
-<p>munmap 函数删除虚拟内存的区域：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">munmap</span><span class="params">(<span class="keyword">void</span> *start, <span class="keyword">size_t</span> length)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>munmap 删除从 start 开始的 length 字节的虚拟内存区域。</p>
-<h2 id="动态内存分配"><a href="#动态内存分配" class="headerlink" title="动态内存分配"></a>动态内存分配</h2><p>当运行时需要额外虚拟内存时，用<strong>动态内存分配器 (dynamic memory allocator)</strong> 更方便，且有更好地的移植性。</p>
-<p>动态内存分配器维护着一个进程的<strong>虚拟内存区域</strong>，称为<strong>堆 (heap)</strong>。</p>
-<p>对每个进程，内核维护一个<strong>指向堆顶部</strong>的变量 brk。</p>
-<p>分配器将<strong>堆</strong>视为一组大小不同的块的集合来维护，每个块是一个连续的虚拟内存片 (chunk)，要么已分配，要么空闲。</p>
-<p>分配器有两种基本风格，都要求应用显式地分配块，不同之处在于由哪个实体来负责释放已分配的块：</p>
-<ul>
-<li>显式分配器 (explicit allocator)，要求应用显式释放任何已分配的块。例如 malloc 和 free，new 和 delete；</li>
-<li>隐式分配器 (implicit allocator)，要求分配器检测一个已分配块何时不再被程序所使用，那么就释放这个块。隐式分配器也叫做垃圾收集器 (garbage collector)，而自动释放已分配而未使用的块的过程叫做垃圾收集 (garbage collection)。</li>
-</ul>
-<h3 id="为什么要使用动态内存分配"><a href="#为什么要使用动态内存分配" class="headerlink" title="为什么要使用动态内存分配"></a>为什么要使用动态内存分配</h3><p>某些数据结构地大小直到运行时才能获得。</p>
-<h3 id="分配器的要求和目标"><a href="#分配器的要求和目标" class="headerlink" title="分配器的要求和目标"></a>分配器的要求和目标</h3><p>显式分配器的限制：</p>
-<ul>
-<li>处理任意请求序列</li>
-<li>立即响应请求</li>
-<li>只使用堆</li>
-<li>对齐要求</li>
-<li>不修改已分配块</li>
-</ul>
-<p>在以上制约下对以下两个性能目标进行权衡：</p>
-<ul>
-<li>最大化吞吐率</li>
-<li>最大化内存利用率</li>
-</ul>
-<h3 id="碎片"><a href="#碎片" class="headerlink" title="碎片"></a>碎片</h3><p>碎片 (segmenation) 是一种现象，当<strong>虽然有未分配的内存但不能满足分配请求时</strong>，就发生这种现象。</p>
-<ul>
-<li>内部碎片<br><strong>已分配块</strong>比<strong>有效荷载</strong>大时发生。比如，分配器可能会增加块大小以满足对齐要求。<br>内部碎片的量化方式：已分配块大小和它们的有效荷载大小之差的和。</li>
-<li>外部碎片<br>当内存空间合计起来足够满足一个分配请求，但是没有一个单独的空闲块足够大来满足分配请求。<br>因为外部碎片难以量化而且不可能预测，分配器通常采用启发式策略来试图维持少量大的空闲块。</li>
-</ul>
-<h2 id="垃圾收集"><a href="#垃圾收集" class="headerlink" title="垃圾收集"></a>垃圾收集</h2><p>垃圾收集器是一种<strong>动态内存分配器</strong>，自动释放程序不再需要的已分配块（连续的虚拟页），这些已分配块称作垃圾。</p>
-<p>自动回收堆存储的过程叫做垃圾收集。</p>
-<p>在一个支持垃圾收集的系统中，应用显式地分配堆块，但从不显式地释放。</p>
-<h3 id="垃圾收集器的基本知识"><a href="#垃圾收集器的基本知识" class="headerlink" title="垃圾收集器的基本知识"></a>垃圾收集器的基本知识</h3><p>垃圾收集器将内存视为一张<strong>有向图</strong>。该图的节点被分为<strong>一组根节点</strong>和<strong>一组堆节点</strong>，每个堆节点对应<strong>堆中的一个已分配块</strong>。</p>
-<p>在任意时刻，不可达节点属于垃圾。</p>
-<p>垃圾收集器通过释放不可达节点，并且把他们返回给空闲列表来实现定期回收。</p>
-<p>Java 的垃圾回收器能够维护可达图的精确表示，因此能够回收所有垃圾。</p>
-<p>C 和 C++ 这样的语言通常不能维持可达图的精确表示，它们的收集器也叫做<strong>保守的垃圾收集器</strong>，即每个可达块都被正确标记了，但是某些不可达的块可能被错误标记为可达，使得垃圾收集器不能收集所有垃圾。</p>
-<h3 id="Mark-amp-Sweep-垃圾收集器"><a href="#Mark-amp-Sweep-垃圾收集器" class="headerlink" title="Mark &amp; Sweep 垃圾收集器"></a>Mark &amp; Sweep 垃圾收集器</h3><ul>
-<li>标记阶段 (mark)：对每个根节点进行一次 DFS，标记所有未标记的块；结束后，所有未标记的块都是不可达的；</li>
-<li>清除阶段 (sweep)：在堆中每个块上反复循环，释放所有未标记已分配的块，将它们加入空闲列表；</li>
-</ul>
-<h3 id="C-程序的保守-Mark-amp-Sweep"><a href="#C-程序的保守-Mark-amp-Sweep" class="headerlink" title="C 程序的保守 Mark &amp; Sweep"></a>C 程序的保守 Mark &amp; Sweep</h3><ul>
-<li>我们无法知道一个输入参数是否是一个指针，它有可能是一个标量伪装成的指针，而它的值碰巧对应于其他已分配块有效荷载中的一个地址；</li>
-<li>无法判断这个指针是否指向一个已分配块的有效荷载中的某个位置，解决：维护一棵平衡二叉树来保存已分配的块的信息，每个节点包含两个指向其他已分配块头部的指针，并且维护左子节点地址小，右子节点地址大的不变性。每一步都通过头部中的大小字段作为区间，判断该指针指向的位置是否在该区间中，即该位置是否在该已分配块中。</li>
-</ul>
-<h2 id="C-程序中常见的内存错误"><a href="#C-程序中常见的内存错误" class="headerlink" title="C 程序中常见的内存错误"></a>C 程序中常见的内存错误</h2><h3 id="间接引用坏指针"><a href="#间接引用坏指针" class="headerlink" title="间接引用坏指针"></a>间接引用坏指针</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;val);</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, val); <span class="comment">// 严重的内存错误，scanf把val的值解释为一个地址，可能引发异常或者合法地覆盖目的地址内容</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="读未初始化的内容"><a href="#读未初始化的内容" class="headerlink" title="读未初始化的内容"></a>读未初始化的内容</h3><p>bss 内存位置总是被加载器初始化为0，但是<strong>堆内存不会被初始化</strong>。</p>
-<h3 id="允许栈缓冲区溢出"><a href="#允许栈缓冲区溢出" class="headerlink" title="允许栈缓冲区溢出"></a>允许栈缓冲区溢出</h3><p>一个程序不检查输入串的大小就写入目标缓冲区，那么这个程序就会发生缓冲区溢出错误。</p>
-<h3 id="假设指针和它们指向的对象大小相同"><a href="#假设指针和它们指向的对象大小相同" class="headerlink" title="假设指针和它们指向的对象大小相同"></a>假设指针和它们指向的对象大小相同</h3><h3 id="造成错位错误"><a href="#造成错位错误" class="headerlink" title="造成错位错误"></a>造成错位错误</h3><p>注意，C 和 C++ 是 zero-indexed 的。</p>
-<h3 id="引用指针，而不是它所指向的对象"><a href="#引用指针，而不是它所指向的对象" class="headerlink" title="引用指针，而不是它所指向的对象"></a>引用指针，而不是它所指向的对象</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*<span class="built_in">size</span>--; <span class="comment">// 这里由于解引用符和后置自减运算符优先级相同，因而从右向左结合</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="误解指针运算"><a href="#误解指针运算" class="headerlink" title="误解指针运算"></a>误解指针运算</h3><p>指针的算术操作是以<strong>他们指向的对象大小为单位</strong>来进行的，不一定是字节。</p>
-<h3 id="引用不存在变量"><a href="#引用不存在变量" class="headerlink" title="引用不存在变量"></a>引用不存在变量</h3><p>函数返回将被释放的局部变量的引用会引发错误。</p>
-<h3 id="引用空闲堆块中的数据"><a href="#引用空闲堆块中的数据" class="headerlink" title="引用空闲堆块中的数据"></a>引用空闲堆块中的数据</h3><p>引用已经被释放了的堆块的数据。</p>
-<h3 id="引起内存泄露"><a href="#引起内存泄露" class="headerlink" title="引起内存泄露"></a>引起内存泄露</h3><p>忘记释放已分配快，在堆里创建垃圾时，会引起内存泄漏。</p>
-<h1 id="系统级-I-O"><a href="#系统级-I-O" class="headerlink" title="系统级 I/O"></a>系统级 I/O</h1><h2 id="Unix-I-O"><a href="#Unix-I-O" class="headerlink" title="Unix I/O"></a>Unix I/O</h2><p>一个 Linux 文件就是一个 m 字节的序列。</p>
-<p>所有的 I/O 设备都被模型化为<strong>文件</strong>。</p>
-<p>Linux I/O 是 Linux 系统内核引出的<strong>简单、低级的应用接口</strong>，使得所有输入输出都能够以一种统一且一致的方式来执行。</p>
-<ul>
-<li>打开文件。一个应用程序通过要求内核<strong>打开相应的文件</strong>，来宣告它想要访问一个 I/O 设备。内核返回一个小的<strong>非负整数</strong>，叫做<strong>描述符</strong>，在后续对此文件的所有操作中<strong>标识这个文件</strong>。内核记录这个打开文件的所有信息；</li>
-<li>Linux shell 创建的每个进程开始时都有三个打开的文件：标准输入（描述符0），标准输出（描述符1），标准错误（描述符2）；</li>
-<li>对于每个打开的文件，内核保持着一个<strong>文件位置 k</strong>，初始为0。这个文件位置是从文件开头起始的偏移量，应用程序可以通过 seek 操作显式设置文件当前位置；</li>
-<li>读写文件。一个<strong>读操作</strong>就是<strong>从文件复制  n&gt;0 个字节到内存</strong>，从当前文件位置开始，然后将 k 增加到 k+n。当 k&gt;m 时触发一个称为 EOF 的条件==（如何实现？）==，应用程序能够检测到这个条件。<strong>文件结尾处没有明确的 EOF 符号</strong>；</li>
-<li>关闭文件。内核释放文件打开时创建的数据结构，并将这个描述符恢复到<strong>可用的描述符池</strong>。无论一个进程因为何种因素<strong>终止</strong>，内核都会关闭所有打开的文件并释放内存资源。</li>
-</ul>
-<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><p>每个 Linux 文件都有类型属性。</p>
-<ul>
-<li><p>普通文件 (regular file)：  </p>
-<p>包含任意数据。内核不需要而应用程序需要区分：</p>
-<ul>
-<li>文本文件 (text file)</li>
-<li>二进制文件 (binary file)</li>
-</ul>
-</li>
-<li><p>目录 (directory):  </p>
-<p>包含一组链接的文件，其中每个链接都将一个文件名 (filename) 映射到一个文件，这个文件可能是另一个目录。<br>每个目录至少包含两个条目：</p>
-<ul>
-<li><code>.</code>是到自身的链接</li>
-<li><code>..</code>是到目录层次结构中父目录 (parent directory) 的链接。</li>
-</ul>
-</li>
-<li><p>套接字 (socket) 是用来与另一个进程进行跨网络通信的文件。</p>
-</li>
-<li><p>命名通道</p>
-</li>
-<li><p>符号链接</p>
-</li>
-<li><p>字符</p>
-</li>
-<li><p>块设备</p>
-</li>
-</ul>
-<p>Linux 内核将所有目录组织为一个目录层次结构 (directory hierarchy)。</p>
-<p>系统中每个文件都是根目录直接或间接的后代。</p>
-<p>作为<strong>上下文的一部分</strong>，每个进程都一个<strong>当前工作目录 (current working directory)</strong>。</p>
-<h2 id="打开和关闭文件"><a href="#打开和关闭文件" class="headerlink" title="打开和关闭文件"></a>打开和关闭文件</h2><h2 id="读写文件"><a href="#读写文件" class="headerlink" title="读写文件"></a>读写文件</h2><h2 id="RIO包"><a href="#RIO包" class="headerlink" title="RIO包"></a>RIO包</h2><h2 id="读取文件元数据"><a href="#读取文件元数据" class="headerlink" title="读取文件元数据"></a>读取文件元数据</h2><h2 id="读取目录内容"><a href="#读取目录内容" class="headerlink" title="读取目录内容"></a>读取目录内容</h2><h2 id="共享文件"><a href="#共享文件" class="headerlink" title="共享文件"></a>共享文件</h2><p>内核用三个相关的数据结构表示打开的文件。</p>
-<ul>
-<li><p>描述符表 (descriptor table)。<strong>每个进程都有它独立的描述符表</strong>，每个 entry 由打开的文件描述符索引，每个打开的文件描述符表项指向<strong>文件表</strong>中的一个表项；</p>
-</li>
-<li><p>文件表 (file table)。文件表表示一个<strong>打开文件的集合</strong>，<strong>所有进程</strong>共享这张表。文件表的每个 entry 包括</p>
-<ul>
-<li>当前文件位置</li>
-<li>引用计数</li>
-<li>指向 v-node 表中对应表项的指针</li>
-</ul>
-<p>关闭一个文件会减少文件表中该文件的引用计数，一个文件的引用计数为0时，内核删除这个文件表表项。</p>
-</li>
-<li><p>v-node 表。所有进程共享 v-node 表。每个 v-node 表包含大多数文件<strong>元数据（权限、大小、类型等）</strong>。</p>
-</li>
-</ul>
-<p>多个描述符可以通过不同的文件表表项引用同一个文件。</p>
-<p>每个文件描述符都有自己的文件位置，对不同描述符的读操作可以从文件的不同位置读取数据。</p>
-<p>关于父子进程如何共享文件：父进程调用 Fork 函数创建子进程之后，子进程的拥有相同但是独立的描述符表。父子进程共享共同的文件表，因此共享相同的文件位置。</p>
-<p>内核在删除相应文件表项之前，父子进程必须都关闭了它们的文件描述符映射的文件。</p>
-<p><strong>父子进程共享一个文件表条目，父子进程中的任意进程读取该文件位置时，当前文件位置会发生变化，从而影响其他描述符表指向该文件表条目的进程的文件读取。</strong></p>
-<h2 id="I-O-重定向"><a href="#I-O-重定向" class="headerlink" title="I/O 重定向"></a>I/O 重定向</h2><p>Linux shell 提供了 I/O 重定向操作符，允许用户将磁盘文件和标准输入输出联系起来。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">linux&gt;</span><span class="bash">$ ls&gt;foo.txt</span></span><br></pre></td></tr></table></figure>
-
-<p>shell 加载和执行 ls 程序，将标准输出重定向到瓷盆文件 foo.txt。</p>
-<p>I/O 重定向的工作原理：修改标准输入输出的文件描述符指向的文件表中的条目，使其指向一个指定文件。</p>
-<p>相同文件描述符指向相同的文件表项，访问同一个位置。</p>
-<h2 id="标准-I-O"><a href="#标准-I-O" class="headerlink" title="标准 I/O"></a>标准 I/O</h2><h1 id="高频提问问题"><a href="#高频提问问题" class="headerlink" title="高频提问问题"></a>高频提问问题</h1><ol>
-<li>一个程序从开始运行到结束的完整过程（四个过程）</li>
-<li>文件读写使用的系统调用</li>
-<li>守护进程、僵尸进程和孤儿进程</li>
-<li><a href="https://www.cnblogs.com/scut-fm/archive/2013/10/29/3393686.html" target="_blank" rel="noopener">处理僵尸进程的两种经典方法</a></li>
-<li>进程终止的几种方式</li>
-<li>linux 中异常和中断的区别</li>
-<li>守护进程</li>
-<li>内核态和用户态的区别</li>
-<li>常见的进程调度算法以及 linux 的进程调度</li>
-<li>中断、陷阱、故障和终止</li>
-<li></li>
-</ol>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">summary</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/c++/C++11新特性" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/">c++11新特性</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/" class="archive-article-date">
-  	<time datetime="2020-05-21T14:30:02.032Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h1 id="动态内存"><a href="#动态内存" class="headerlink" title="动态内存"></a>动态内存</h1><p><img src="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/image-20200521224633231.png" alt="image-20200521224633231"></p>
-<p>在C++中，内存分成5个区，他们分别是堆、栈、自由存储区、全局/静态存储区和常量存储区。</p>
-<ol>
-<li><p>栈，在执行函数时，函数内局部变量的存储单元都可以在栈上创建，函数执行结束时这些存储单元自动被释放。栈内存分配运算内置于处理器的指令集中，效率很高，但是分配的内存容量有限。</p>
-</li>
-<li><p>堆，就是那些由new分配的内存块，他们的释放编译器不去管，由我们的应用程序去控制，一般一个new就要对应一个delete。如果程序员没有释放掉，那么在程序结束后，操作系统会自动回收。</p>
-</li>
-<li><p>自由存储区，就是那些由malloc等分配的内存块，他和堆是十分相似的，不过它是用free来结束自己的生命的。</p>
-</li>
-<li><p>全局/静态存储区，全局变量和静态变量被分配到同一块内存中，在以前的C语言中，全局变量又分为初始化的和未初始化的，在C++里面没有这个区分了，他们共同占用同一块内存区。</p>
-</li>
-<li><p>常量存储区，这是一块比较特殊的存储区，他们里面存放的是常量，不允许修改。</p>
-</li>
-</ol>
-<p>静态内存用来保存局部 static 对象、类 static 数据成员以及任何定义在函数之外的（全局）变量；栈内存用来保存定义在函数内的非 static 对象，即局部变量。</p>
-<p>分配在静态或栈内存中的对象由编译器自动创建和销毁。</p>
-<p>对于栈对象，仅在其定义的程序块运行时才存在；</p>
-<p>static 对象在使用之前分配，在程序结束时销毁。</p>
-<p>程序用堆 (heap) 来存储动态分配的对象，即在程序运行时分配的对象，其生存期由程序控制，当动态对象不再使用时，必须显式销毁。</p>
-<h2 id="动态内存与智能指针"><a href="#动态内存与智能指针" class="headerlink" title="动态内存与智能指针"></a>动态内存与智能指针</h2><p>C++中动态内存管理通过一对运算符完成：</p>
-<ul>
-<li>new，在动态内存中为对象分配空间，并返回一个指向该对象的<strong>指针</strong>，可以选择对对象进行初始化；</li>
-<li>delete，接受一个动态对象的指针，销毁该对象，并释放与之相关联的内存。</li>
-</ul>
-<p>为了更容易使用动态内存，新标准库提供两种智能指针 (smart pointer) 类型来管理动态对象。</p>
-<p><strong>智能指针与普通指针的区别在于它自动释放所指向的对象</strong>，两种智能指针之间的区别在于管理底层指针之间的方式：</p>
-<ul>
-<li>share_ptr 允许多个指针指向一个对象；</li>
-<li>unique_ptr 独占所指向的对象；</li>
-<li>weak_ptr 伴随类，是一种弱引用，指向 shared_ptr 所管理的对象；</li>
-</ul>
-<p>头文件 &lt;memory&gt;</p>
-<h3 id="shared-ptr-类"><a href="#shared-ptr-类" class="headerlink" title="shared_ptr 类"></a>shared_ptr 类</h3><p>智能指针是模板，默认初始化的智能指针保存空指针。</p>
-<p>shared_ptr 独有操作：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">make_shared&lt;T&gt; (args) <span class="comment">// 返回一个shared_ptr，指向一个动态分配的类型为T的对象，使用args初始化此对象</span></span><br><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;T&gt; <span class="title">p</span><span class="params">(q)</span> <span class="comment">// p是q的拷贝，此操作递增q中的计数器，q中的指针必须能转化成T*</span></span></span><br><span class="line"><span class="function">p</span>=q <span class="comment">// p, q都是shared_ptr，所保存的指针必须能相互转换。此操作递减p中计数值，递增q计数值；若p计数为0，则将其管理的原内存释放</span></span><br><span class="line">p.unique() <span class="comment">// 若p.use_count()为1，返回true；否则返回false</span></span><br><span class="line">p.use_count() <span class="comment">// 返回与p共享对象的智能指针数量，速度可能很慢，主要用于调试</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="make-shared-函数"><a href="#make-shared-函数" class="headerlink" title="make_shared 函数"></a>make_shared 函数</h4><p>make_shared 标准库函数在动态内存中分配一个对象并初始化，返回指向此对象的 shared_ptr。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p = make_shared&lt;<span class="keyword">int</span>&gt; (<span class="number">42</span>); <span class="comment">// 指向一个值为42的int的shared_ptr</span></span><br><span class="line"><span class="keyword">auto</span> p1 = make_shared&lt;<span class="keyword">int</span>&gt; (); <span class="comment">// 指向一个值初始化，即为0的int</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="share-ptr-的拷贝和赋值"><a href="#share-ptr-的拷贝和赋值" class="headerlink" title="share_ptr 的拷贝和赋值"></a>share_ptr 的拷贝和赋值</h4><p>拷贝和赋值操作时，每个 shared_ptr 会记录有多少个其他 shared_ptr 指向相同对象。</p>
-<ul>
-<li>拷贝时，引用计数加一：用其初始化另一个 shared_ptr，作为参数传递给一个函数，或作为函数返回值时，都属于拷贝，因此引用计数加一；</li>
-<li>给一个 shared_ptr 赋予新值或是它被销毁时，引用计数器递减；</li>
-</ul>
-<h4 id="shared-ptr-自动销毁所管理对象"><a href="#shared-ptr-自动销毁所管理对象" class="headerlink" title="shared_ptr 自动销毁所管理对象"></a>shared_ptr 自动销毁所管理对象</h4><p>当指向一个对象的最后一个 shared_ptr 被销毁时，shared_ptr 类通过其析构函数自动销毁此对象，并释放内存。</p>
-<h3 id="直接管理内存"><a href="#直接管理内存" class="headerlink" title="直接管理内存"></a>直接管理内存</h3><h4 id="new-动态分配内存和初始化对象"><a href="#new-动态分配内存和初始化对象" class="headerlink" title="new 动态分配内存和初始化对象"></a>new 动态分配内存和初始化对象</h4><p>运算符 new 分配动态内存，delete 释放内存。</p>
-<p>默认情况下，动态分配的对象是默认初始化的，这意味着<strong>内置类型和组合类型的</strong>对象的值将是未定义的，而类类型对象将用默认构造函数进行初始化。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> *ps = <span class="keyword">new</span> <span class="built_in">string</span>; <span class="comment">// 初始化为一个空string</span></span><br><span class="line"><span class="keyword">int</span> *pi = <span class="keyword">new</span> <span class="keyword">int</span>; <span class="comment">// 指向未初始化的int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//直接初始化</span></span><br><span class="line"><span class="keyword">int</span> *pi = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">1024</span>); <span class="comment">// 1024</span></span><br><span class="line"><span class="built_in">string</span> *ps = <span class="keyword">new</span> <span class="built_in">string</span>(<span class="number">10</span>, <span class="string">'9'</span>); <span class="comment">// "9999999999"</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; *pv = <span class="keyword">new</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;; <span class="comment">// 三个元素，1，2，3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//值初始化</span></span><br><span class="line"><span class="keyword">int</span> *pi = <span class="keyword">new</span> <span class="keyword">int</span>(); <span class="comment">//值初始化为0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//默认初始化</span></span><br><span class="line"><span class="keyword">int</span> *pi1 = <span class="keyword">new</span> <span class="keyword">int</span>; <span class="comment">//值未定义</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> *p1 = <span class="keyword">new</span> <span class="keyword">int</span>(); <span class="comment">// 分配失败抛出 bad_alloc</span></span><br><span class="line"><span class="keyword">int</span> *p2 = <span class="keyword">new</span> (nothrow) <span class="keyword">int</span>; <span class="comment">// 分配失败返回一个空指针</span></span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">summary</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
@@ -2375,6 +1707,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">大数运算</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vivo</a>
               </li>
             
             <div class="clearfix"></div>
