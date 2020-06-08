@@ -8,14 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>基于目标检测的稻苗导航线拟合 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="背景为了解决项目中的基于目标检测的稻苗线拟合问题，需要设计一个算法实现基本功能。基于深度学习的目标检测输出 bounding boxes 的 location 的 list，表示检测出的所有稻苗的位置（我们假设为中心点，质心），而我们的目标是利用这些位置坐标，采用回归算法拟合出我们想要的稻苗导航线（也就是稻苗线按行的延伸方向）。想要的效果大概如下图所示：  实际遇到的问题然而每一帧里面的目标个数实">
+  <meta name="description" content="背景为了解决项目中的基于目标检测的稻苗线拟合问题，需要设计一个算法实现基本功能。基于深度学习的目标检测输出 bounding boxes 的 location 的 list，表示检测出的所有稻苗的位置（我们假设为中心点，质心），而我们的目标是利用这些位置坐标，采用回归算法拟合出我们想要的稻苗导航线（也就是稻苗线按行的延伸方向）。想要的效果大概如下图所示：  关于导航信息提取然而每一帧里面的目标个数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于目标检测的稻苗导航线拟合">
 <meta property="og:url" content="http://yoursite.com/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
-<meta property="og:description" content="背景为了解决项目中的基于目标检测的稻苗线拟合问题，需要设计一个算法实现基本功能。基于深度学习的目标检测输出 bounding boxes 的 location 的 list，表示检测出的所有稻苗的位置（我们假设为中心点，质心），而我们的目标是利用这些位置坐标，采用回归算法拟合出我们想要的稻苗导航线（也就是稻苗线按行的延伸方向）。想要的效果大概如下图所示：  实际遇到的问题然而每一帧里面的目标个数实">
+<meta property="og:description" content="背景为了解决项目中的基于目标检测的稻苗线拟合问题，需要设计一个算法实现基本功能。基于深度学习的目标检测输出 bounding boxes 的 location 的 list，表示检测出的所有稻苗的位置（我们假设为中心点，质心），而我们的目标是利用这些位置坐标，采用回归算法拟合出我们想要的稻苗导航线（也就是稻苗线按行的延伸方向）。想要的效果大概如下图所示：  关于导航信息提取然而每一帧里面的目标个数">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/IMG_9715.jpg">
+<meta property="og:image" content="http://yoursite.com/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200607212431997.png">
+<meta property="og:image" content="http://yoursite.com/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200607212503066.png">
+<meta property="og:image" content="http://yoursite.com/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200607212542711.png">
 <meta property="article:published_time" content="2020-06-03T09:43:26.000Z">
 <meta property="article:modified_time" content="2020-06-03T09:43:26.000Z">
 <meta property="article:author" content="Frank Young">
@@ -225,7 +228,7 @@ var _hmt = _hmt || [];
       
         <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>为了解决项目中的基于目标检测的稻苗线拟合问题，需要设计一个算法实现基本功能。基于深度学习的目标检测输出 bounding boxes 的 location 的 list，表示检测出的所有稻苗的位置（我们假设为中心点，质心），而我们的目标是利用这些位置坐标，采用回归算法拟合出我们想要的稻苗导航线（也就是稻苗线按行的延伸方向）。想要的效果大概如下图所示：</p>
 <p><img src="/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/IMG_9715.jpg" alt></p>
-<h1 id="实际遇到的问题"><a href="#实际遇到的问题" class="headerlink" title="实际遇到的问题"></a>实际遇到的问题</h1><p>然而每一帧里面的目标个数实在是太少了，一般不会超过十个。我们已经采用了简单的条件判断去避免一定会发生错误的情况：</p>
+<h1 id="关于导航信息提取"><a href="#关于导航信息提取" class="headerlink" title="关于导航信息提取"></a>关于导航信息提取</h1><p>然而每一帧里面的目标个数实在是太少了，一般不会超过十个。我们已经采用了简单的条件判断去避免一定会发生错误的情况：</p>
 <ul>
 <li>某一个类只有一个样本时，该类不需要拟合直线；</li>
 <li>某一个类样本过少时，比如该类只有两个样本，那么拟合出的直线完全取决于这两个点是否“没有出现过大的偏移”（相较于前几帧），如果当前帧只有两个样本，而某一个样本偏离了苗线，那么直线将出现严重偏差，而这条直线对于控制系统没有任何作用，甚至会导致不稳定；</li>
@@ -242,9 +245,14 @@ var _hmt = _hmt || [];
 <p>$$<br>b_{new} = \frac{1}{1-\alpha} b_{old} + \frac{1}{\alpha} b,\ \alpha \in [0,\ 1]<br>$$</p>
 <p>实际上，我们计算一帧当中的 $k$ 时，可以看成是截取了很长的一条苗线中的一部分，如果把这一部分看成一点，那么 $k$ 值为该点斜率，这个斜率表示了单位时间内，苗线横向位移与纵向位移的比例，因此如果我们有一个速度参数，就可以求出执行机构横向位移的速度，乘以采样时间，我们就有了该采样时间内机构应执行的偏移量。对这个偏移量累积求和，就得到执行机构的目标位置。因此，$b$ 值实际上是不需要的。</p>
 <p>那么如何从一帧图像中提取导航线数据？对一帧图像，假如有多行稻苗，我们希望从这一帧提取出的 $k$ 能够反映出这一帧中苗线走势的最真实的状态，使得机器可以避开大部分稻苗，那么，最容易想到的就是，对于不同的苗线，假设其 $k$ 值为 $k_n$，对每个 $k_n$ 加权求和，权值由用来拟合直线的数据点数决定。</p>
-<p>我们可以先假设相机高度固定时，视野中仅有两行稻苗。先来分析一下使用聚类是否合理。</p>
+<p>我们可以先假设相机高度固定时，视野中仅有两行稻苗。先来分析一下如何使用聚类较为合理。</p>
 <p>通过把不同类别的颜色分开表示，可以看出直接使用像素位置进行聚类的结果几乎无法正确地将数据点分类到理想的直线中，因为聚类计算的是欧拉距离，将一个点归入距离类中心欧拉距离最小的类，而我们如果想要拟合直线，需要只考虑点与点之间沿着垂直于直线方向的距离，也就是将所有点映射到一个合适的一维空间进行聚类。</p>
-<p>考虑最简单的情况，我们直接对一系列点的y值进行聚类（假设苗线方向大致平行于x轴）。</p>
+<p>考虑最简单的情况，我们直接对一系列点的y值进行聚类（假设苗线方向大致平行于x轴），得到的效果：</p>
+<p><img src="/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200607212431997.png" alt="image-20200607212431997"></p>
+<p><img src="/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200607212503066.png" alt="image-20200607212503066"></p>
+<p><img src="/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200607212542711.png" alt="image-20200607212542711"></p>
+<p>上图中，黑线为当前帧中可信度较高的苗列线，红色线为全局导航信息，表示平滑的稻苗线的弯曲趋势，它可以表示苗线在机具前进方向上和垂直于前进方向上的速度之比，如果可以结合载具前进速度，那么就可以实现控制量的给定。</p>
+<p>如果依赖于载具速度，我们就可以将导航信息提取与相机位置解耦，不过我们需要一种从连续视频流中估计相机运动速度的算法，这里还需要研究一下，看看是否能形成一个基本的算法框架。</p>
 
       
 
@@ -366,7 +374,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实际遇到的问题"><span class="toc-number">2.</span> <span class="toc-text">实际遇到的问题</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于导航信息提取"><span class="toc-number">2.</span> <span class="toc-text">关于导航信息提取</span></a></li></ol>
                     </div>
                 </span>
             </div>

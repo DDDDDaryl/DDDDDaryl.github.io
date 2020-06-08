@@ -191,6 +191,136 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dailyLearning/剑指Offer/面试题12-矩阵中的路径" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9812-%E7%9F%A9%E9%98%B5%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84/">面试题12.矩阵中的路径</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9812-%E7%9F%A9%E9%98%B5%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84/" class="archive-article-date">
+  	<time datetime="2020-05-30T12:27:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一格开始，每一步可以在矩阵中向左、右、上、下移动一格。如果一条路径经过了矩阵的某一格，那么该路径不能再次进入该格子。例如，在下面的3×4的矩阵中包含一条字符串<code>“bfce”</code>的路径（路径中的字母用加粗标出）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;e&quot;],</span><br><span class="line">[&quot;s&quot;,&quot;f&quot;,&quot;c&quot;,&quot;s&quot;],</span><br><span class="line">[&quot;a&quot;,&quot;d&quot;,&quot;e&quot;,&quot;e&quot;]]</span><br></pre></td></tr></table></figure>
+
+<p>但矩阵中不包含字符串<code>“abfb”</code>的路径，因为字符串的第一个字符<code>b</code>占据了矩阵中的第一行第二个格子之后，路径不能再次进入这个格子。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：board &#x3D; [[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]], word &#x3D; &quot;ABCCED&quot;</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：board &#x3D; [[&quot;a&quot;,&quot;b&quot;],[&quot;c&quot;,&quot;d&quot;]], word &#x3D; &quot;abcd&quot;</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
+
+
+<p>提示：</p>
+<ul>
+<li><code>1 &lt;= board.length &lt;= 200</code></li>
+<li><code>1 &lt;= board[i].length &lt;= 200</code></li>
+</ul>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p><strong>回溯法非常适合有多个步骤组成的问题，并且每个步骤都有个多个选择。</strong></p>
+<p>由于这不是一个最优问题，而是要找到满足条件的解，我们不得不遍历所有可能的解，用剪枝来优化，这就是回溯。</p>
+<ul>
+<li>我们首先选择一个与字符串首字母匹配的位置开始；</li>
+<li>因为有限制条件：不能重复进入格子，我们还要用一种方法来标记已经进入过的格子；</li>
+</ul>
+<p>每来到一个新的格子，我们有如下选择：</p>
+<ul>
+<li>已经找到了，返回</li>
+<li>还没找到，但这个格子来过，返回</li>
+<li>还没找到，这个格子不符合条件，返回</li>
+<li>还没找到，这个格子符合条件，继续找；</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">exist</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; board, <span class="built_in">string</span> <span class="keyword">word</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(board.empty() || board[<span class="number">0</span>].empty() || <span class="keyword">word</span>.empty()) &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">word</span>.empty()) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(board.<span class="built_in">size</span>() == <span class="number">1</span> &amp;&amp; board[<span class="number">0</span>].<span class="built_in">size</span>() == <span class="number">1</span> &amp;&amp; <span class="keyword">word</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">word</span>[<span class="number">0</span>] == board[<span class="number">0</span>][<span class="number">0</span>]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mark.resize(board.<span class="built_in">size</span>(), <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;(board[<span class="number">0</span>].<span class="built_in">size</span>(), <span class="literal">false</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;board.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;board[<span class="number">0</span>].<span class="built_in">size</span>(); ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span>(backtrace(board, <span class="keyword">word</span>, i, j)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&gt; mark;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">backtrace</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; board, <span class="built_in">string</span> <span class="keyword">word</span>, <span class="keyword">int</span> row, <span class="keyword">int</span> col)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">word</span>.empty()) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(mark[row][col] == <span class="literal">true</span> || board[row][col] != <span class="keyword">word</span>[<span class="number">0</span>]) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        mark[row][col] = <span class="literal">true</span>; </span><br><span class="line">              </span><br><span class="line">        <span class="keyword">if</span>(row &gt; <span class="number">0</span> &amp;&amp; backtrace(board, <span class="built_in">string</span>(<span class="keyword">word</span>.<span class="built_in">begin</span>()+<span class="number">1</span>, <span class="keyword">word</span>.<span class="built_in">end</span>()), row<span class="number">-1</span>, col)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(row &lt; board.<span class="built_in">size</span>()<span class="number">-1</span> &amp;&amp; backtrace(board, <span class="built_in">string</span>(<span class="keyword">word</span>.<span class="built_in">begin</span>()+<span class="number">1</span>, <span class="keyword">word</span>.<span class="built_in">end</span>()), row+<span class="number">1</span>, col)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(col &gt; <span class="number">0</span> &amp;&amp; backtrace(board, <span class="built_in">string</span>(<span class="keyword">word</span>.<span class="built_in">begin</span>()+<span class="number">1</span>, <span class="keyword">word</span>.<span class="built_in">end</span>()), row, col<span class="number">-1</span>)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(col &lt; board[<span class="number">0</span>].<span class="built_in">size</span>()<span class="number">-1</span> &amp;&amp; backtrace(board, <span class="built_in">string</span>(<span class="keyword">word</span>.<span class="built_in">begin</span>()+<span class="number">1</span>, <span class="keyword">word</span>.<span class="built_in">end</span>()), row, col+<span class="number">1</span>)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        mark[row][col] = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>中间出现的问题是，没有考虑到矩阵大小$1×1$的特殊情况。</p>
+<p>很明显的优化是可以把<code>mark</code>矩阵省略，通过用临时变量保存当前位置值…..想到了但是又钻牛角尖了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">exist</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; board, <span class="built_in">string</span> <span class="keyword">word</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(board.empty() || board[<span class="number">0</span>].empty() || <span class="keyword">word</span>.empty()) &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">word</span>.empty()) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(board.<span class="built_in">size</span>() == <span class="number">1</span> &amp;&amp; board[<span class="number">0</span>].<span class="built_in">size</span>() == <span class="number">1</span> &amp;&amp; <span class="keyword">word</span>.<span class="built_in">size</span>() &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">word</span>[<span class="number">0</span>] == board[<span class="number">0</span>][<span class="number">0</span>]) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;board.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;board[<span class="number">0</span>].<span class="built_in">size</span>(); ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span>(backtrace(board, <span class="keyword">word</span>, i, j)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">backtrace</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt;&gt;&amp; board, <span class="built_in">string</span> <span class="keyword">word</span>, <span class="keyword">int</span> row, <span class="keyword">int</span> col)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">word</span>.empty()) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(board[row][col] == <span class="string">'/'</span> || board[row][col] != <span class="keyword">word</span>[<span class="number">0</span>]) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">char</span> tmp = board[row][col];</span><br><span class="line">        board[row][col] = <span class="string">'/'</span>;</span><br><span class="line">              </span><br><span class="line">        <span class="keyword">if</span>(row &gt; <span class="number">0</span> &amp;&amp; backtrace(board, <span class="built_in">string</span>(<span class="keyword">word</span>.<span class="built_in">begin</span>()+<span class="number">1</span>, <span class="keyword">word</span>.<span class="built_in">end</span>()), row<span class="number">-1</span>, col)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(row &lt; board.<span class="built_in">size</span>()<span class="number">-1</span> &amp;&amp; backtrace(board, <span class="built_in">string</span>(<span class="keyword">word</span>.<span class="built_in">begin</span>()+<span class="number">1</span>, <span class="keyword">word</span>.<span class="built_in">end</span>()), row+<span class="number">1</span>, col)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(col &gt; <span class="number">0</span> &amp;&amp; backtrace(board, <span class="built_in">string</span>(<span class="keyword">word</span>.<span class="built_in">begin</span>()+<span class="number">1</span>, <span class="keyword">word</span>.<span class="built_in">end</span>()), row, col<span class="number">-1</span>)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(col &lt; board[<span class="number">0</span>].<span class="built_in">size</span>()<span class="number">-1</span> &amp;&amp; backtrace(board, <span class="built_in">string</span>(<span class="keyword">word</span>.<span class="built_in">begin</span>()+<span class="number">1</span>, <span class="keyword">word</span>.<span class="built_in">end</span>()), row, col+<span class="number">1</span>)) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        board[row][col] = tmp;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">回溯法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9812-%E7%9F%A9%E9%98%B5%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
     <article id="post-dailyLearning/剑指Offer/面试题11-旋转数组的最小数字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1204,159 +1334,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9805-%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-myProjects/DL/YOLOv4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/DeepLearning/yolov4/">YOLOv4</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/DeepLearning/yolov4/" class="archive-article-date">
-  	<time datetime="2020-05-27T07:49:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="YOLOv4-学习笔记"><a href="#YOLOv4-学习笔记" class="headerlink" title="YOLOv4 学习笔记"></a>YOLOv4 学习笔记</h1><p>论文地址：<a href="https://arxiv.org/abs/2004.10934" target="_blank" rel="noopener">https://arxiv.org/abs/2004.10934</a></p>
-<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ul>
-<li>CBN</li>
-<li>SAM</li>
-</ul>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>论文主要贡献：</p>
-<ol>
-<li>以提升生产系统中目标检测器的速度以及优化并行计算，而不是优化 BFLOPS（十亿次浮点数运算）。构建的目标检测模型降低了训练对硬件的限制；</li>
-<li>检测器训练时，验证了最先进的Bag-of Freebies and Bag-of-Specials目标检测方法的影响。</li>
-<li>对一些先进的方法进行修改，包括CBN、PAN、SAM，使得它们更加的高效并适合单GPU运算。</li>
-</ol>
-<blockquote>
-<p>A modern detector is usually composed of two parts, a backbone which is pre-trained on ImageNet and a head which is used to predict classes and bounding boxes of objects.</p>
-</blockquote>
-<p>当前的检测器通常由两部分组成：</p>
-<ul>
-<li>在 ImageNet 上预训练的主干网络 (backbone)</li>
-<li>用来预测物体类别以及 bbox 的头部</li>
-</ul>
-<p>运行在不同平台上的模型所常用的 backbone：</p>
-<ul>
-<li>GPU 平台：<ul>
-<li>VGG</li>
-<li>ResNet</li>
-<li>ResNeXt</li>
-<li>DenseNet</li>
-</ul>
-</li>
-<li>CPU 平台<ul>
-<li>SqueezeNet</li>
-<li>MobileNet</li>
-<li>ShuffleNet</li>
-</ul>
-</li>
-</ul>
-<p>检测头一般分为单阶段和双阶段目标检测器：</p>
-<ul>
-<li>双阶段：<ul>
-<li>fast R-CNN</li>
-<li>faster R-CNN</li>
-<li>R-FCN</li>
-<li>Libra R-CNN</li>
-</ul>
-</li>
-<li>单阶段：<ul>
-<li>YOLO</li>
-<li>SSD</li>
-<li>RetinaNet</li>
-</ul>
-</li>
-</ul>
-<p>近年来，目标检测器通常是在头部和主干网络之间加入一些层，这些层被用来收集不同阶段的特征图。采用这种机制的网络包括 FPN, PAN, BiFPN 和 NAS-FPN。</p>
-<blockquote>
-<p>Usually, a conventional object detector is trained offline. Therefore, researchers always like to take this advantage and develop better training methods which can make the object detector receive better accuracy without increasing the inference cost. We call these methods that only change the training strategy or only increase the training cost as “bag of freebies.” </p>
-</blockquote>
-<p>只改变训练策略或者仅仅增加训练强度的方法叫做 bag of freebies。</p>
-<p>比如：</p>
-<ul>
-<li>数据增强，data augmentation</li>
-<li>hard negative example mining，focal loss 等解决正负样本不平衡</li>
-<li>BBox regression 中的 IoU loss，避免 l1 loss 和 l2 loss 对 scale 的敏感性</li>
-</ul>
-<blockquote>
-<p>For those plugin modules and post-processing methods that only increase the inference cost by a small amount but can signiﬁcantly improve the accuracy of object detection, we call them “bag of specials”. Generally speaking, these plugin modules are for enhancing certain attributes in a model, such as enlarging receptive ﬁeld, introducing attention mechanism, or strengthening feature integration capability, etc., and post-processing is a method for screening model prediction results. </p>
-</blockquote>
-<p>只增加小幅推理成本（正向传播）但是可以显著提高目标检测准确度的，增加模块或者预处理的方法叫做 bag of specials。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">YOLO</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/DeepLearning//" class="article-tag-list-link color3">DeepLearning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/DeepLearning/yolov4/">展开全文 >></a>
         </p>
       
 
