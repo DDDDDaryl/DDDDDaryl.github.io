@@ -92,6 +92,8 @@ var _hmt = _hmt || [];
 	        
 				<li><a href="/categories/myprj/">我的项目</a></li>
 	        
+				<li><a href="/categories/tech%20issue/">Tech issues</a></li>
+	        
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -148,6 +150,8 @@ var _hmt = _hmt || [];
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -162,19 +166,21 @@ var _hmt = _hmt || [];
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 14.285714285714286%"><a href="/">主页</a></li>
+					<li style="width: 12.5%"><a href="/">主页</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/Cpp/">Cpp</a></li>
+					<li style="width: 12.5%"><a href="/categories/Cpp/">Cpp</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
+					<li style="width: 12.5%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
+					<li style="width: 12.5%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+					<li style="width: 12.5%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/DeepLearning/">深度学习</a></li>
+					<li style="width: 12.5%"><a href="/categories/DeepLearning/">深度学习</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/myprj/">我的项目</a></li>
+					<li style="width: 12.5%"><a href="/categories/myprj/">我的项目</a></li>
+		        
+					<li style="width: 12.5%"><a href="/categories/tech%20issue/">Tech issues</a></li>
 		        
 				</ul>
 			</nav>
@@ -190,6 +196,109 @@ var _hmt = _hmt || [];
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-dailyLearning/Leetcode/202-快乐数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/202-%E5%BF%AB%E4%B9%90%E6%95%B0/">202.快乐数</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/202-%E5%BF%AB%E4%B9%90%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2020-06-09T07:57:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>编写一个算法来判断一个数 n 是不是快乐数。</p>
+<p>「快乐数」定义为：对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和，然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。如果 可以变为  1，那么这个数就是快乐数。</p>
+<p>如果 n 是快乐数就返回 True ；不是，则返回 False 。</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入：19</span><br><span class="line">输出：true</span><br><span class="line">解释：</span><br><span class="line">12 + 92 &#x3D; 82</span><br><span class="line">82 + 22 &#x3D; 68</span><br><span class="line">62 + 82 &#x3D; 100</span><br><span class="line">12 + 02 + 02 &#x3D; 1</span><br></pre></td></tr></table></figure>
+
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/happy-number" target="_blank" rel="noopener">https://leetcode-cn.com/problems/happy-number</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>关键点在于自己写几个数字的推演，其实题目中已经提到有两种情况：无限循环和收敛到 1。如果手写几个非快乐数的推演就会发现推演会陷入一个固定的数字循环中，问题变成链表环的检测，或者某个数出现第二次，说明进入了循环，此数不快乐。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">unordered_set</span>&lt;<span class="keyword">int</span>&gt; dup_check;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isHappy</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(n != <span class="number">1</span> &amp;&amp; dup_check.<span class="built_in">find</span>(n) == dup_check.<span class="built_in">end</span>())&#123;</span><br><span class="line">            dup_check.insert(n);</span><br><span class="line">            n = getnext(n);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> n == <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getnext</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> sq = n % <span class="number">10</span>;</span><br><span class="line">            sum += sq*sq;</span><br><span class="line">            n /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>另外，快慢指针的算法用于检查链表环，慢指针和快指针从同一起点出发，快指针每次移动两个，慢指针每次移动一个，如果存在链表环，两个指针最终相等，如果不存在，快指针率先找到链表尾部。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isHappy</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> fast = getnext(n), slow = n;</span><br><span class="line">        <span class="keyword">while</span>(fast != slow &amp;&amp; fast != <span class="number">1</span>)&#123;</span><br><span class="line">            slow = getnext(slow);</span><br><span class="line">            fast = getnext(getnext(fast));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> fast == <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getnext</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> sq = n % <span class="number">10</span>;</span><br><span class="line">            sum += sq*sq;</span><br><span class="line">            n /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>getnext</code>函数的时间复杂度为$lgN$，10为底，而收敛情况总能在常数次数内收敛，循环情况总能在常数次数内开始循环，因此最终时间复杂度$O(lgN)$。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">快慢指针</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/202-%E5%BF%AB%E4%B9%90%E6%95%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
   
     <article id="post-dailyLearning/真题/vivo/vivo提前批笔试复盘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -234,6 +343,11 @@ var _hmt = _hmt || [];
 </ol>
 <p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/can-place-flowers" target="_blank" rel="noopener">https://leetcode-cn.com/problems/can-place-flowers</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
 </blockquote>
+<p>这个问题很容易分解成子问题并且写出状态转移方程。我们用 <code>flowerbed</code> 和 <code>n</code> 作为状态，<code>dp[flowerbed][n]</code> 表示在此情况下能否种入 <code>n</code> 朵花。我们也可以把问题转化为在子数组表示的范围内最多能多种多少。</p>
+<p>为了简化问题，我们也可以增加一种状态，用 -1 表示，表示该格没有植物，但是禁止种植，这样处理一遍数组之后，我们可以将问题变为多个在全零数组上填最多个 1 的问题，问题之间彼此独立。而向全零数组填 1 的最大个数为 $\frac{n+1}{2}$。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;chrono&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;deque&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;forward_list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;array&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;random&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cctype&gt;s</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode* next;</span><br><span class="line">    ListNode() = <span class="keyword">default</span>;</span><br><span class="line">    ListNode(<span class="keyword">int</span> x): val(x), next(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">canPlaceFlowers</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; flowerbed, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(flowerbed.empty()) <span class="keyword">return</span> n == <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(n &gt; flowerbed.<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;flowerbed.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span>(flowerbed[i] == <span class="number">1</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span>(i &gt; <span class="number">0</span>) flowerbed[i<span class="number">-1</span>] = <span class="number">-1</span>;</span><br><span class="line">                <span class="keyword">if</span>(i &lt; flowerbed.<span class="built_in">size</span>()<span class="number">-1</span>) flowerbed[i+<span class="number">1</span>] = <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">int</span> stat:flowerbed) &#123;</span><br><span class="line">            <span class="keyword">if</span>(stat == <span class="number">0</span>) ++cnt;</span><br><span class="line">            <span class="keyword">if</span>(stat == <span class="number">-1</span>) &#123;</span><br><span class="line">                sum += (cnt+<span class="number">1</span>)/<span class="number">2</span>;</span><br><span class="line">                cnt = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum &gt;= n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* args[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*===============================Args Def================================*/</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">size_t</span> test_case_num = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    Solution solution;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; flowerbed;</span><br><span class="line">    <span class="keyword">int</span> n = <span class="number">0</span>, stat = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/*===========================Input processing============================*/</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> cnt=<span class="number">0</span>; cnt&lt;test_case_num; ++cnt) &#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">cin</span>.<span class="built_in">peek</span>() != <span class="string">'\n'</span>) &#123;</span><br><span class="line">            <span class="built_in">cin</span> &gt;&gt; stat;</span><br><span class="line">            flowerbed.emplace_back(stat);</span><br><span class="line">        &#125;</span><br><span class="line">        flowerbed.emplace_back(<span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">cin</span>.<span class="built_in">get</span>();</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; n;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; boolalpha &lt;&lt; solution.canPlaceFlowers(flowerbed, n) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        flowerbed.<span class="built_in">clear</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>题解方法为贪心，只要满足条件就插，贪心的正确性用归纳来证明。</p>
 <h1 id="第二题、887-鸡蛋掉落"><a href="#第二题、887-鸡蛋掉落" class="headerlink" title="第二题、887. 鸡蛋掉落"></a>第二题、<a href="https://leetcode-cn.com/problems/super-egg-drop/" target="_blank" rel="noopener">887. 鸡蛋掉落</a></h1><p>原题，下面重新做一遍，不过以后做题，在熟练之前都要写完整代码，当然重复工作少做。</p>
 <blockquote>
 <p>你将获得 K 个鸡蛋，并可以使用一栋从 1 到 N  共有 N 层楼的建筑。</p>
@@ -1292,127 +1406,6 @@ var _hmt = _hmt || [];
 
         
   
-    <article id="post-dailyLearning/剑指Offer/面试题16-数值的整数次方" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9816-%E6%95%B0%E5%80%BC%E7%9A%84%E6%95%B4%E6%95%B0%E6%AC%A1%E6%96%B9/">面试题16.数值的整数次方</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9816-%E6%95%B0%E5%80%BC%E7%9A%84%E6%95%B4%E6%95%B0%E6%AC%A1%E6%96%B9/" class="archive-article-date">
-  	<time datetime="2020-06-04T10:40:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>实现函数double Power(double base, int exponent)，求base的exponent次方。不得使用库函数，同时不需要考虑大数问题。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: 2.00000, 10</span><br><span class="line">输出: 1024.00000</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: 2.10000, 3</span><br><span class="line">输出: 9.26100</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 3:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: 2.00000, -2</span><br><span class="line">输出: 0.25000</span><br><span class="line">解释: 2-2 &#x3D; 1&#x2F;22 &#x3D; 1&#x2F;4 &#x3D; 0.25</span><br></pre></td></tr></table></figure>
-
-
-<p>说明:</p>
-<ul>
-<li>-100.0 &lt; x &lt; 100.0</li>
-<li>n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。</li>
-</ul>
-<p>注意：本题与主站 50 题相同：<a href="https://leetcode-cn.com/problems/powx-n/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/powx-n/</a></p>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>没接触过循环快速幂，自己写的二分递归实现：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">myPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">1</span>) <span class="keyword">return</span> x;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">-1</span>) <span class="keyword">return</span> <span class="number">1</span>/x;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(n &amp; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = myPow(x, n/<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">return</span> n&gt;<span class="number">0</span>?tmp * tmp * x:tmp * tmp * <span class="number">1</span>/x;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = myPow(x, n/<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">return</span> tmp * tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>关于把<code>/2</code>优化为<code>&gt;&gt;1</code>，要注意：对负数进行移位运算左侧补1，且负数以补码形式存在于内存中，结果是<code>(-3)&gt;&gt;1</code>的结果为<code>-2</code>。</p>
-<p>其次，运算时可以先将幂次按照正数计算，最后取倒数。值得注意的是需要考虑底数为0的特殊情况。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">myPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(x == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> <span class="built_in">exp</span> = n&gt;<span class="number">0</span>?n:-(<span class="keyword">long</span>)n;</span><br><span class="line">        <span class="keyword">double</span> ans = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">exp</span>) &#123;           </span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">exp</span> &amp; <span class="number">1</span>) ans *= x;</span><br><span class="line">            x *= x;</span><br><span class="line">            <span class="built_in">exp</span> &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n&gt;<span class="number">0</span>?ans:<span class="number">1</span>/ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>还有一个坑，int 的表示范围为 $[-2^{31},\ 2^{31}-1]$，当 n 取边界值时不能对其直接取负数。 </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">快速幂</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9816-%E6%95%B0%E5%80%BC%E7%9A%84%E6%95%B4%E6%95%B0%E6%AC%A1%E6%96%B9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1737,6 +1730,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">vivo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">快慢指针</a>
               </li>
             
             <div class="clearfix"></div>

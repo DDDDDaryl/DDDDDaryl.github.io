@@ -92,6 +92,8 @@ var _hmt = _hmt || [];
 	        
 				<li><a href="/categories/myprj/">我的项目</a></li>
 	        
+				<li><a href="/categories/tech%20issue/">Tech issues</a></li>
+	        
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -148,6 +150,8 @@ var _hmt = _hmt || [];
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -162,19 +166,21 @@ var _hmt = _hmt || [];
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 14.285714285714286%"><a href="/">主页</a></li>
+					<li style="width: 12.5%"><a href="/">主页</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/Cpp/">Cpp</a></li>
+					<li style="width: 12.5%"><a href="/categories/Cpp/">Cpp</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
+					<li style="width: 12.5%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
+					<li style="width: 12.5%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+					<li style="width: 12.5%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/DeepLearning/">深度学习</a></li>
+					<li style="width: 12.5%"><a href="/categories/DeepLearning/">深度学习</a></li>
 		        
-					<li style="width: 14.285714285714286%"><a href="/categories/myprj/">我的项目</a></li>
+					<li style="width: 12.5%"><a href="/categories/myprj/">我的项目</a></li>
+		        
+					<li style="width: 12.5%"><a href="/categories/tech%20issue/">Tech issues</a></li>
 		        
 				</ul>
 			</nav>
@@ -190,6 +196,127 @@ var _hmt = _hmt || [];
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-dailyLearning/剑指Offer/面试题16-数值的整数次方" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9816-%E6%95%B0%E5%80%BC%E7%9A%84%E6%95%B4%E6%95%B0%E6%AC%A1%E6%96%B9/">面试题16.数值的整数次方</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9816-%E6%95%B0%E5%80%BC%E7%9A%84%E6%95%B4%E6%95%B0%E6%AC%A1%E6%96%B9/" class="archive-article-date">
+  	<time datetime="2020-06-04T10:40:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>实现函数double Power(double base, int exponent)，求base的exponent次方。不得使用库函数，同时不需要考虑大数问题。</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: 2.00000, 10</span><br><span class="line">输出: 1024.00000</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: 2.10000, 3</span><br><span class="line">输出: 9.26100</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 3:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: 2.00000, -2</span><br><span class="line">输出: 0.25000</span><br><span class="line">解释: 2-2 &#x3D; 1&#x2F;22 &#x3D; 1&#x2F;4 &#x3D; 0.25</span><br></pre></td></tr></table></figure>
+
+
+<p>说明:</p>
+<ul>
+<li>-100.0 &lt; x &lt; 100.0</li>
+<li>n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。</li>
+</ul>
+<p>注意：本题与主站 50 题相同：<a href="https://leetcode-cn.com/problems/powx-n/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/powx-n/</a></p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>没接触过循环快速幂，自己写的二分递归实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">myPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">1</span>) <span class="keyword">return</span> x;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">-1</span>) <span class="keyword">return</span> <span class="number">1</span>/x;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(n &amp; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = myPow(x, n/<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">return</span> n&gt;<span class="number">0</span>?tmp * tmp * x:tmp * tmp * <span class="number">1</span>/x;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = myPow(x, n/<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">return</span> tmp * tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>关于把<code>/2</code>优化为<code>&gt;&gt;1</code>，要注意：对负数进行移位运算左侧补1，且负数以补码形式存在于内存中，结果是<code>(-3)&gt;&gt;1</code>的结果为<code>-2</code>。</p>
+<p>其次，运算时可以先将幂次按照正数计算，最后取倒数。值得注意的是需要考虑底数为0的特殊情况。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">myPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(x == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> <span class="built_in">exp</span> = n&gt;<span class="number">0</span>?n:-(<span class="keyword">long</span>)n;</span><br><span class="line">        <span class="keyword">double</span> ans = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">exp</span>) &#123;           </span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">exp</span> &amp; <span class="number">1</span>) ans *= x;</span><br><span class="line">            x *= x;</span><br><span class="line">            <span class="built_in">exp</span> &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n&gt;<span class="number">0</span>?ans:<span class="number">1</span>/ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>还有一个坑，int 的表示范围为 $[-2^{31},\ 2^{31}-1]$，当 n 取边界值时不能对其直接取负数。 </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">快速幂</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9816-%E6%95%B0%E5%80%BC%E7%9A%84%E6%95%B4%E6%95%B0%E6%AC%A1%E6%96%B9/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
   
     <article id="post-dailyLearning/剑指Offer/面试题15-二进制中1的个数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -793,14 +920,14 @@ var _hmt = _hmt || [];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/hexo/%E8%A7%A3%E5%86%B3hexo-asset-image%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8%E9%97%AE%E9%A2%98/">解决hexo-asset-image不起作用问题</a>
+      <a class="article-title" href="/tech-issue/%E8%A7%A3%E5%86%B3hexo-asset-image%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8%E9%97%AE%E9%A2%98/">解决hexo-asset-image不起作用问题</a>
     </h1>
   
 
         <!--显示阅读次数-->
         
         
-        <a href="/hexo/%E8%A7%A3%E5%86%B3hexo-asset-image%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8%E9%97%AE%E9%A2%98/" class="archive-article-date">
+        <a href="/tech-issue/%E8%A7%A3%E5%86%B3hexo-asset-image%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8%E9%97%AE%E9%A2%98/" class="archive-article-date">
   	<time datetime="2020-06-02T02:53:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
 </a>
         
@@ -831,6 +958,10 @@ var _hmt = _hmt || [];
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">hexo-asset-image</a>
         		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        		</li>
       		
 		</ul>
 	</div>
@@ -841,7 +972,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/hexo//" class="article-tag-list-link color5">hexo</a>
+        			<a href="/categories/tech-issue//" class="article-tag-list-link color1">tech issue</a>
         		</li>
       		
 		</ul>
@@ -850,7 +981,7 @@ var _hmt = _hmt || [];
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/hexo/%E8%A7%A3%E5%86%B3hexo-asset-image%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8%E9%97%AE%E9%A2%98/">展开全文 >></a>
+          <a class="article-more-a" href="/tech-issue/%E8%A7%A3%E5%86%B3hexo-asset-image%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8%E9%97%AE%E9%A2%98/">展开全文 >></a>
         </p>
       
 
@@ -1432,133 +1563,6 @@ var _hmt = _hmt || [];
 
         
   
-    <article id="post-dailyLearning/剑指Offer/面试题13-机器人的运动范围" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9813-%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E8%BF%90%E5%8A%A8%E8%8C%83%E5%9B%B4/">面试题13.机器人的运动范围</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9813-%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E8%BF%90%E5%8A%A8%E8%8C%83%E5%9B%B4/" class="archive-article-date">
-  	<time datetime="2020-05-30T14:15:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：m &#x3D; 2, n &#x3D; 3, k &#x3D; 1</span><br><span class="line">输出：3</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：m &#x3D; 3, n &#x3D; 1, k &#x3D; 0</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
-
-
-<p>提示：</p>
-<ul>
-<li><code>1 &lt;= n,m &lt;= 100</code></li>
-<li><code>0 &lt;= k &lt;= 20</code></li>
-</ul>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>每一步有多个选择，每个选择被某种条件限制，而目标是求满足条件的情况数量，这种情形适合使用回溯法解决，因为我们需要遍历所有可能路径（必要时剪枝）才可能得到答案。</p>
-<p>由于要求最多能到达多少格子，因此重复进入格子无意义且浪费时间。</p>
-<p>因此，从左上角开始 DFS ，维护最大可到达格子数量即可。</p>
-<p>每到达一个节点，有以下几种选择：</p>
-<ul>
-<li>该节点已经来过，计数不会增加，返回0</li>
-<li>该节点没来过，继续寻找下一个节点</li>
-<li>遍历完所有子节点后计数加一返回计数</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">movingCount</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(m == <span class="number">1</span> &amp;&amp; n == <span class="number">1</span>) <span class="keyword">return</span> k&gt;<span class="number">1</span>?<span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">        limit = k;</span><br><span class="line">        mark.resize(m, <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;(n, <span class="literal">false</span>));</span><br><span class="line">        <span class="keyword">return</span> dfs(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> limit;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&gt; mark;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> row, <span class="keyword">int</span> col)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(mark[row][col] == <span class="literal">true</span> || (row/<span class="number">10</span> + row%<span class="number">10</span> + col/<span class="number">10</span> +col%<span class="number">10</span>) &gt; limit) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        mark[row][col] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(row &gt; <span class="number">0</span>) cnt += dfs(row<span class="number">-1</span>, col);</span><br><span class="line">        <span class="keyword">if</span>(row &lt; mark.<span class="built_in">size</span>()<span class="number">-1</span>) cnt += dfs(row+<span class="number">1</span>, col);</span><br><span class="line">        <span class="keyword">if</span>(col &gt; <span class="number">0</span>) cnt += dfs(row, col<span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">if</span>(col &lt; mark[<span class="number">0</span>].<span class="built_in">size</span>()<span class="number">-1</span>) cnt += dfs(row, col+<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> ++cnt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>时间复杂度$O(mn)$</li>
-<li>空间复杂度$O(mn)$</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">BFS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">DFS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9813-%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E8%BF%90%E5%8A%A8%E8%8C%83%E5%9B%B4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1883,6 +1887,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">vivo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">快慢指针</a>
               </li>
             
             <div class="clearfix"></div>
