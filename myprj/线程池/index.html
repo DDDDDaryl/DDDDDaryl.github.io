@@ -6,20 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>解决hexo-asset-image不起作用问题 | Frank&#39;s cabin</title>
+  <title>线程池 | Frank&#39;s cabin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="首先自己的hexo版本如下： 1234567891011121314151617181920$ hexo -vhexo: 4.2.0hexo-cli: 3.1.0os: Windows_NT 10.0.18362 win32 x64node: 12.16.3v8: 7.8.279.23-node.35uv: 1.34.2zlib: 1.2.11brotli: 1.0.7ares: 1.16.0mo">
+  <meta name="description" content="类定义12345678910111213141516171819202122232425template &lt;typename T&gt;class threadpool&amp;#123;public:    &#x2F;*thread_number是线程池中线程的数量，max_requests是请求队列中最多允许的、等待处理的请求的数量*&#x2F;    threadpool(int actor_model, co">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解决hexo-asset-image不起作用问题">
-<meta property="og:url" content="http://yoursite.com/tech-issue/%E8%A7%A3%E5%86%B3hexo-asset-image%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:title" content="线程池">
+<meta property="og:url" content="http://yoursite.com/myprj/%E7%BA%BF%E7%A8%8B%E6%B1%A0/index.html">
 <meta property="og:site_name" content="Frank&#39;s cabin">
-<meta property="og:description" content="首先自己的hexo版本如下： 1234567891011121314151617181920$ hexo -vhexo: 4.2.0hexo-cli: 3.1.0os: Windows_NT 10.0.18362 win32 x64node: 12.16.3v8: 7.8.279.23-node.35uv: 1.34.2zlib: 1.2.11brotli: 1.0.7ares: 1.16.0mo">
+<meta property="og:description" content="类定义12345678910111213141516171819202122232425template &lt;typename T&gt;class threadpool&amp;#123;public:    &#x2F;*thread_number是线程池中线程的数量，max_requests是请求队列中最多允许的、等待处理的请求的数量*&#x2F;    threadpool(int actor_model, co">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-06-02T02:53:03.000Z">
-<meta property="article:modified_time" content="2020-06-02T02:53:03.000Z">
+<meta property="article:published_time" content="2020-06-09T11:14:22.000Z">
+<meta property="article:modified_time" content="2020-06-09T11:14:22.000Z">
 <meta property="article:author" content="Frank Young">
-<meta property="article:tag" content="hexo-asset-image">
-<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="线程池">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Frank&#39;s cabin" type="application/atom+xml">
@@ -96,7 +95,7 @@ var _hmt = _hmt || [];
 	        
 				<li><a href="/categories/myprj/">我的项目</a></li>
 	        
-				<li><a href="/categories/tech%20issue/">Tech issues</a></li>
+				<li><a href="/categories/techissue/">Tech issues</a></li>
 	        
 			</ul>
 		</nav>
@@ -184,7 +183,7 @@ var _hmt = _hmt || [];
 		        
 					<li style="width: 12.5%"><a href="/categories/myprj/">我的项目</a></li>
 		        
-					<li style="width: 12.5%"><a href="/categories/tech%20issue/">Tech issues</a></li>
+					<li style="width: 12.5%"><a href="/categories/techissue/">Tech issues</a></li>
 		        
 				</ul>
 			</nav>
@@ -199,14 +198,14 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hexo/解决hexo-asset-image不起作用问题" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-myProjects/Tinywebserver/线程池" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      解决hexo-asset-image不起作用问题
+      线程池
     </h1>
   
 
@@ -221,22 +220,30 @@ var _hmt = _hmt || [];
   	</a>
   	
         
-        <a href="/tech-issue/%E8%A7%A3%E5%86%B3hexo-asset-image%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-06-02T02:53:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
+        <a href="/myprj/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="archive-article-date">
+  	<time datetime="2020-06-09T11:14:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先自己的<code>hexo</code>版本如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo -v</span></span><br><span class="line">hexo: 4.2.0</span><br><span class="line">hexo-cli: 3.1.0</span><br><span class="line">os: Windows_NT 10.0.18362 win32 x64</span><br><span class="line">node: 12.16.3</span><br><span class="line">v8: 7.8.279.23-node.35</span><br><span class="line">uv: 1.34.2</span><br><span class="line">zlib: 1.2.11</span><br><span class="line">brotli: 1.0.7</span><br><span class="line">ares: 1.16.0</span><br><span class="line">modules: 72</span><br><span class="line">nghttp2: 1.40.0</span><br><span class="line">napi: 5</span><br><span class="line">llhttp: 2.0.4</span><br><span class="line">http_parser: 2.9.3</span><br><span class="line">openssl: 1.1.1g</span><br><span class="line">cldr: 36.0</span><br><span class="line">icu: 65.1</span><br><span class="line">tz: 2019c</span><br><span class="line">unicode: 12.1</span><br></pre></td></tr></table></figure>
+        <h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">threadpool</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/*thread_number是线程池中线程的数量，max_requests是请求队列中最多允许的、等待处理的请求的数量*/</span></span><br><span class="line">    threadpool(<span class="keyword">int</span> actor_model, connection_pool *connPool, <span class="keyword">int</span> thread_number = <span class="number">8</span>, <span class="keyword">int</span> max_request = <span class="number">10000</span>);</span><br><span class="line">    ~threadpool();</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">append</span><span class="params">(T *request, <span class="keyword">int</span> state)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">append_p</span><span class="params">(T *request)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">/*工作线程运行的函数，它不断从工作队列中取出任务并执行之*/</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="title">worker</span><span class="params">(<span class="keyword">void</span> *arg)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> m_thread_number;        <span class="comment">//线程池中的线程数</span></span><br><span class="line">    <span class="keyword">int</span> m_max_requests;         <span class="comment">//请求队列中允许的最大请求数</span></span><br><span class="line">    <span class="keyword">pthread_t</span> *m_threads;       <span class="comment">//描述线程池的数组，其大小为m_thread_number</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">list</span>&lt;T *&gt; m_workqueue; <span class="comment">//请求队列</span></span><br><span class="line">    locker m_queuelocker;       <span class="comment">//保护请求队列的互斥锁</span></span><br><span class="line">    sem m_queuestat;            <span class="comment">//是否有任务需要处理</span></span><br><span class="line">    connection_pool *m_connPool;  <span class="comment">//数据库</span></span><br><span class="line">    <span class="keyword">int</span> m_actor_model;          <span class="comment">//模型切换</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>问题：本地图片上传到文章同名文件夹下，而 <code>.html</code>中图片引用相对链接并没有被转换为绝对路径，也就是说插件并没有工作。</p>
-<p>解决：在 <code>hexo</code> 创建的博客文件夹下安装插件以及依赖。</p>
-<p>在此过程中发现，实际上将本地图片拷贝到 <code>public</code> 文件夹下的操作是由 <code>config</code>中的<code>post_asset_folder</code>控制的，需要把选项置为<code>true</code>。</p>
-<p>而我把自己的<code>permalink</code>修改为了<code>permalink: :category/:post_title/</code>，这样的话，相对路径转换为绝对路径时出现问题，字符串拆分错误，具体解决参考链接：<a href="https://nobige.cn/post/20190605-hexo-asset-imageFix/。" target="_blank" rel="noopener">https://nobige.cn/post/20190605-hexo-asset-imageFix/。</a></p>
-<p>至此问题解决。</p>
+<p>从类定义看出，该线程池定义了两个用户 API。</p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">threadpool&lt;T&gt;::threadpool( <span class="keyword">int</span> actor_model, connection_pool *connPool, <span class="keyword">int</span> thread_number, <span class="keyword">int</span> max_requests) : m_actor_model(actor_model),m_thread_number(thread_number), m_max_requests(max_requests), m_threads(<span class="literal">NULL</span>),m_connPool(connPool)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (thread_number &lt;= <span class="number">0</span> || max_requests &lt;= <span class="number">0</span>) <span class="comment">// 如果线程数量及队列最大请求数非法，抛出异常</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">std</span>::exception();</span><br><span class="line">    m_threads = <span class="keyword">new</span> <span class="keyword">pthread_t</span>[m_thread_number]; <span class="comment">// 动态分配数组</span></span><br><span class="line">    <span class="keyword">if</span> (!m_threads) <span class="comment">// 内存分配失败</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">std</span>::exception();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; thread_number; ++i)</span><br><span class="line">    &#123; <span class="comment">// 创建线程，并将TID存在数组中，类似于*(m_threads+i)=TID，若线程创建失败返回不为0</span></span><br><span class="line">        <span class="keyword">if</span> (pthread_create(m_threads + i, <span class="literal">NULL</span>, worker, <span class="keyword">this</span>) != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">delete</span>[] m_threads;</span><br><span class="line">            <span class="keyword">throw</span> <span class="built_in">std</span>::exception();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (pthread_detach(m_threads[i])) <span class="comment">// 把线程状态设置为detach</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">delete</span>[] m_threads;</span><br><span class="line">            <span class="keyword">throw</span> <span class="built_in">std</span>::exception();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建一个线程，这个线程的默认状态是 joinable，意味着线程结束之后需要使用 pthread_join 来显式回收资源，而调用 join 时如果线程还没有运行结束，此时调用函数会被阻塞。线程状态为 detach 的线程运行结束之后自动释放资源。</p>
+<h2 id="请求入队"><a href="#请求入队" class="headerlink" title="请求入队"></a>请求入队</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">bool</span> threadpool&lt;T&gt;::append_p(T *request)</span><br><span class="line">&#123;</span><br><span class="line">    m_queuelocker.lock();</span><br><span class="line">    <span class="keyword">if</span> (m_workqueue.<span class="built_in">size</span>() &gt;= m_max_requests)</span><br><span class="line">    &#123;</span><br><span class="line">        m_queuelocker.unlock();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    m_workqueue.push_back(request);</span><br><span class="line">    m_queuelocker.unlock();</span><br><span class="line">    m_queuestat.post();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>写请求队列时需要上锁，利用互斥锁进行线程同步，以保证线程安全；</li>
+<li>写完解锁，并设置信号量</li>
+</ul>
+<h2 id="pthread-create"><a href="#pthread-create" class="headerlink" title="pthread_create"></a>pthread_create</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_create</span> <span class="params">(<span class="keyword">pthread_t</span> *thread_tid,              <span class="comment">//返回新生成的线程的id</span></span></span></span><br><span class="line"><span class="function"><span class="params">                    <span class="keyword">const</span> <span class="keyword">pthread_attr_t</span> *attr,         <span class="comment">//指向线程属性的指针,通常设置为NULL</span></span></span></span><br><span class="line"><span class="function"><span class="params">                    <span class="keyword">void</span> * (*start_routine) (<span class="keyword">void</span> *),   <span class="comment">//处理线程函数的地址</span></span></span></span><br><span class="line"><span class="function"><span class="params">                    <span class="keyword">void</span> *arg)</span></span>;                         <span class="comment">//start_routine()中的参数</span></span><br></pre></td></tr></table></figure>
+
+<p>函数原型中的第三个参数，为函数指针，指向处理线程函数的地址。</p>
+<p>该函数，要求为静态函数，如果处理线程函数为类成员函数时，需要将其设置为<strong>静态成员函数</strong>。</p>
 
       
 
@@ -250,11 +257,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">hexo-asset-image</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
         		</li>
       		
 		</ul>
@@ -266,7 +269,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/tech-issue//" class="article-tag-list-link color1">tech issue</a>
+        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
         		</li>
       		
 		</ul>
@@ -321,7 +324,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/tech-issue/%E8%A7%A3%E5%86%B3hexo-asset-image%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8%E9%97%AE%E9%A2%98/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/myprj/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -335,18 +338,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9814-2-%E5%89%AA%E7%BB%B3%E5%AD%902/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          面试题14-2.剪绳子2
-        
-      </div>
-    </a>
   
-  
-    <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9814-1-%E5%89%AA%E7%BB%B3%E5%AD%90/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">面试题14-1.剪绳子</div>
+    <a href="/Leetcode/202-%E5%BF%AB%E4%B9%90%E6%95%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">202.快乐数</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -373,7 +367,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    Oops, a search miss…
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#类定义"><span class="toc-number">1.</span> <span class="toc-text">类定义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造函数"><span class="toc-number">1.1.</span> <span class="toc-text">构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请求入队"><span class="toc-number">1.2.</span> <span class="toc-text">请求入队</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pthread-create"><span class="toc-number">1.3.</span> <span class="toc-text">pthread_create</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -742,6 +736,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">快慢指针</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
               </li>
             
             <div class="clearfix"></div>
