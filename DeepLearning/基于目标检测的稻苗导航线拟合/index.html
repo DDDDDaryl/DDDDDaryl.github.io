@@ -259,6 +259,21 @@ var _hmt = _hmt || [];
 <p><img src="/DeepLearning/%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E7%A8%BB%E8%8B%97%E5%AF%BC%E8%88%AA%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200607212542711.png" alt="image-20200607212542711"></p>
 <p>上图中，黑线为当前帧中可信度较高的苗列线，红色线为全局导航信息，表示平滑的稻苗线的弯曲趋势，它可以表示苗线在机具前进方向上和垂直于前进方向上的速度之比，如果可以结合载具前进速度，那么就可以实现控制量的给定。</p>
 <p>如果依赖于载具速度，我们就可以将导航信息提取与相机位置解耦，不过我们需要一种从连续视频流中估计相机运动速度的算法，这里还需要研究一下，看看是否能形成一个基本的算法框架。</p>
+<h3 id="Lucas-Kanade-算法"><a href="#Lucas-Kanade-算法" class="headerlink" title="Lucas-Kanade 算法"></a>Lucas-Kanade 算法</h3><p>Lucas-Kanade 算法是一种传统光流算法。</p>
+<p>在计算机视觉中，光流用来定义图像中对象的移动，这个移动可以是相机移动或者物体移动引起的。具体是指，视频图像的一帧中的代表同一对象(物体)像素点移动到下一帧的移动量，使用二维向量表示。</p>
+<p>根据是否选取图像稀疏点进行光流估计，可以将光流估计分为稀疏光流和稠密光流。</p>
+<p>算法基于两个假设：</p>
+<ul>
+<li>亮度不变假设，其假设待估计光流的两帧图像的同一物体的亮度不变，这个假设通常是成立的，因为环境光照通常不会发生太大的变化；</li>
+<li>邻域光流相似假设，假设以一个像素点$(x,y)$为中心的某个大小的邻域内，所有像素点的光流一致；</li>
+</ul>
+<p>基于以上两个假设，在选择合适的点的前提下，我们可以计算出光流的唯一解，即两帧之间像素点的移动距离，以像素点为单位表示。而像素点映射到实际空间距离的参数是可以确定的。</p>
+<h3 id="cv2-goodFeaturesToTrack"><a href="#cv2-goodFeaturesToTrack" class="headerlink" title="cv2.goodFeaturesToTrack"></a>cv2.goodFeaturesToTrack</h3><p>openCV 库提供了 LK 算法的库实现。使用该库函数的流程：</p>
+<ul>
+<li>在第一帧种利用角点选择算法选择一组角点，作为目标跟踪像素的初始点</li>
+<li>利用 LK 算法迭代地跟踪这些特征点</li>
+<li>在物体持续向同方向移动的过程中，每隔一段时间，算法迭代跟踪的角点会全部移出视野范围，因此需要一种策略在合适的时机重新选择角点</li>
+</ul>
 
       
 
@@ -380,7 +395,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于导航信息提取"><span class="toc-number">2.</span> <span class="toc-text">关于导航信息提取</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于导航信息提取"><span class="toc-number">2.</span> <span class="toc-text">关于导航信息提取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Lucas-Kanade-算法"><span class="toc-number">2.0.1.</span> <span class="toc-text">Lucas-Kanade 算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cv2-goodFeaturesToTrack"><span class="toc-number">2.0.2.</span> <span class="toc-text">cv2.goodFeaturesToTrack</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -753,6 +768,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">线程池</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">双指针</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">前序遍历</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">光流估计</a>
               </li>
             
             <div class="clearfix"></div>

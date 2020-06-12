@@ -255,7 +255,34 @@ var _hmt = _hmt || [];
 </ul>
 <p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
 </blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>简单情况例子中已经给出了说明，一个可能的误解就是认为<strong><code>‘*’</code>前面的所有字符都可以被<code>’*&#39;</code>表示任意次</strong>，而最后一个例子虽然没有给出说明，但是透露出了<code>’*&#39;</code>只能作用于该符号之前的一个字符。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>正则表达式匹配，返回是否匹配，为了解决问题，我们至少需要将两个字符串各遍历一遍。由于匹配肯定是从前向后依次匹配，那么字符串的所有前缀一定都有与其相匹配的正则表达式前缀。</p>
+<p>试想这个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s &#x3D; &quot;mississippi&quot;</span><br><span class="line">p &#x3D; &quot;mis*is*p*.&quot;</span><br></pre></td></tr></table></figure>
+
+<p>对于<code>m</code>，匹配，没有其他选择，下一个是<code>i</code>，匹配，直到<code>s</code>与<code>*</code>匹配，遇到<code>*</code>时，它可以代表它之前的字母，也可以代表空字符（忽略该符号）。对于第一个<code>*</code>，我们发现其第一种情况是匹配的，因此需要进行下一次选择，此时可以选择结束<code>*</code>的匹配，或者继续<code>*</code>的匹配，本例中，选择继续匹配之后会匹配失败，需要重置选择，重新选择结束匹配，去匹配<code>i</code>和<code>i</code>，直到遇到<code>i</code>与<code>p</code>的匹配，此时不匹配，不匹配时有以下选择：检查正则表达式下个字符是否为<code>*</code>，如果是，那么可以跳过当前字符和<code>*</code>，用<code>*</code>后的字符继续匹配，否则匹配失败。</p>
+<p>以上流程可以用回溯实现，因为有些操作需要撤销重做。</p>
+<p>需要特判的条件是，匹配空字符，只有前面有合法字符的<code>*</code>才可以匹配空字符，两个空字符匹配代表匹配成功。</p>
+<hr>
+<p>四小时后：</p>
+<p>终于做出来了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMatch</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">string</span> p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.empty() &amp;&amp; p.empty()) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(!p.empty() &amp;&amp; p[<span class="number">0</span>] == <span class="string">'*'</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(p.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        dp.resize(s.<span class="built_in">size</span>()+<span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(p.<span class="built_in">size</span>()+<span class="number">1</span>, <span class="number">-1</span>));</span><br><span class="line">        <span class="comment">// 两者都不空或者只有s为空</span></span><br><span class="line">        <span class="keyword">return</span> helper(s, p, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">helper</span><span class="params">(<span class="built_in">string</span>&amp; s, <span class="built_in">string</span>&amp; p, <span class="keyword">int</span> s_pos, <span class="keyword">int</span> p_pos)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> s_size = s.<span class="built_in">size</span>(), p_size = p.<span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">// 递归出口</span></span><br><span class="line">        <span class="keyword">if</span>(p_pos &gt; p_size) <span class="keyword">return</span> s_pos &gt; s_size;</span><br><span class="line">        <span class="keyword">if</span>(s_pos &lt;= s_size &amp;&amp; dp[s_pos][p_pos] != <span class="number">-1</span>) <span class="keyword">return</span> dp[s_pos][p_pos];</span><br><span class="line">        <span class="keyword">bool</span> ret = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(p_size-p_pos &gt; <span class="number">0</span> &amp;&amp; p[p_pos] == <span class="string">'*'</span>) &#123; <span class="comment">// 下个要匹配的是*</span></span><br><span class="line">            <span class="keyword">if</span>(s_pos &lt;= s_size)</span><br><span class="line">                ret = ((p[p_pos<span class="number">-1</span>] == s[s_pos<span class="number">-1</span>] || p[p_pos<span class="number">-1</span>] == <span class="string">'.'</span>) &amp;&amp; helper(s, p, s_pos+<span class="number">1</span>, p_pos)) || helper(s, p, s_pos, p_pos+<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> helper(s, p, s_pos, p_pos+<span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(s_pos &lt;= s_size)</span><br><span class="line">                ret = (s[s_pos<span class="number">-1</span>] == p[p_pos<span class="number">-1</span>] || p[p_pos<span class="number">-1</span>] == <span class="string">'.'</span>) &amp;&amp; helper(s, p, s_pos+<span class="number">1</span>, p_pos+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[s_pos][p_pos] = ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>为了避免时间浪费，一定要捋清楚条件判断的层次结构。</p>
+<p>就这道题来说，动态规划的状态很好想，但是难点在于针对不同的情况我们要做不同的选择，而不是简单堆砌选择。</p>
+<ul>
+<li>遇到<code>*</code><ul>
+<li><code>s</code>为空，跳过<code>*</code></li>
+<li><code>s</code>非空，匹配</li>
+</ul>
+</li>
+<li>遇到其他<ul>
+<li><code>s</code>非空，匹配</li>
+<li><code>s</code>空，返回匹配失败</li>
+</ul>
+</li>
+</ul>
+<p>写完就能看到那个下面代码了。需要注意的地方是，对于空了的<code>s</code>，dp 数组中没有对应的位置，因为无意义，所以需要直接返回而不填数组。</p>
+<p>每次递归时间复杂度$O(1)$，递归深度为$SP$，因此时间复杂度$O(SP)$，即两字符串长度之积。</p>
 <p>因此，为了正则匹配，我们需要遍历两个字符串，一个不含正则表达式，一个含有正则表达式。</p>
 <p>假设两个指针<code>ps</code>，<code>pp</code>分别初始化为指向<code>s</code>和<code>p</code>的首元素，<code>s</code>为匹配字符串，<code>p</code>为匹配模式，在匹配过程中：</p>
 <ul>
@@ -303,6 +330,7 @@ var _hmt = _hmt || [];
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMatch</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">string</span> p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (p.empty()) <span class="keyword">return</span> s.empty();</span><br><span class="line">        <span class="keyword">if</span> (p.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; p[<span class="number">1</span>] == <span class="string">'*'</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> isMatch(s, p.substr(<span class="number">2</span>)) || (!s.empty() &amp;&amp; (s[<span class="number">0</span>] == p[<span class="number">0</span>] || p[<span class="number">0</span>] == <span class="string">'.'</span>) &amp;&amp; </span><br><span class="line">                isMatch(s.substr(<span class="number">1</span>), p));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> !s.empty() &amp;&amp; (s[<span class="number">0</span>] == p[<span class="number">0</span>] || p[<span class="number">0</span>] == <span class="string">'.'</span>) &amp;&amp; isMatch(s.substr(<span class="number">1</span>), p.substr(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">作者：lioney</span><br><span class="line">链接：https:<span class="comment">//leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/solution/lioney-cjian-dan-di-gui-by-lioney-2/</span></span><br><span class="line">来源：力扣（LeetCode）</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
 
+<p>上面是暴力递归，暴力回溯，没有动态规划。</p>
 
       
 
@@ -808,6 +836,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">线程池</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">双指针</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">前序遍历</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">光流估计</a>
               </li>
             
             <div class="clearfix"></div>
