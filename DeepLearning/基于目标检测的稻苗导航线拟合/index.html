@@ -274,6 +274,15 @@ var _hmt = _hmt || [];
 <li>利用 LK 算法迭代地跟踪这些特征点</li>
 <li>在物体持续向同方向移动的过程中，每隔一段时间，算法迭代跟踪的角点会全部移出视野范围，因此需要一种策略在合适的时机重新选择角点</li>
 </ul>
+<h2 id="完整光流检测-demo-实现"><a href="#完整光流检测-demo-实现" class="headerlink" title="完整光流检测 demo 实现"></a>完整光流检测 demo 实现</h2><ul>
+<li>每 n 帧重新计算角点</li>
+<li>用一个队列维护最新的角点位置，队列长度固定，丢弃最久的数据</li>
+</ul>
+<p>我们可以简单取队列首尾像素位置计算 n 帧的窗口内的相机速度，该速度为矢量，可以直接计算出选定时间内的平均速度，需要额外的 scale 参数来将像素速度转换为真实速度。</p>
+<h2 id="依然存在的问题"><a href="#依然存在的问题" class="headerlink" title="依然存在的问题"></a>依然存在的问题</h2><p>有关聚类算法，我们如何优化算法使得聚类和直线拟合得到的数据最符合我们的期望？如何选择类的数目，如何映射目标点？</p>
+<p>我们先给定一个大前提，视野内行数小于列数，而行是我们要拟合的直线。</p>
+<p>事实上，只有载具在行间正常行驶时我们才需要进行控制，在载具本身调整方向的过程中我们并不需要控制，我们要关注的只是载具在行间正常行驶时如何控制，而在无法正常拟合出直线的情况下我们可以重置控制机构位置，有数据时启动控制器。</p>
+<p>如何提取散点特征判断当前帧是否有效？</p>
 
       
 
@@ -395,7 +404,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于导航信息提取"><span class="toc-number">2.</span> <span class="toc-text">关于导航信息提取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Lucas-Kanade-算法"><span class="toc-number">2.0.1.</span> <span class="toc-text">Lucas-Kanade 算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cv2-goodFeaturesToTrack"><span class="toc-number">2.0.2.</span> <span class="toc-text">cv2.goodFeaturesToTrack</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于导航信息提取"><span class="toc-number">2.</span> <span class="toc-text">关于导航信息提取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Lucas-Kanade-算法"><span class="toc-number">2.0.1.</span> <span class="toc-text">Lucas-Kanade 算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cv2-goodFeaturesToTrack"><span class="toc-number">2.0.2.</span> <span class="toc-text">cv2.goodFeaturesToTrack</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完整光流检测-demo-实现"><span class="toc-number">2.1.</span> <span class="toc-text">完整光流检测 demo 实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依然存在的问题"><span class="toc-number">2.2.</span> <span class="toc-text">依然存在的问题</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -780,6 +789,22 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">光流估计</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">二叉搜索树</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">后序遍历</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">双向链表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">TPLINK</a>
               </li>
             
             <div class="clearfix"></div>
