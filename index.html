@@ -197,6 +197,448 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-myProjects/项目介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/myprj/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D/">项目介绍</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/myprj/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D/" class="archive-article-date">
+  	<time datetime="2020-06-30T01:06:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="基于波束形成的声源定位与语音增强算法开发"><a href="#基于波束形成的声源定位与语音增强算法开发" class="headerlink" title="基于波束形成的声源定位与语音增强算法开发"></a>基于波束形成的声源定位与语音增强算法开发</h1><p>项目简介：要求使用 C++ 开发算法，实现基于多路麦克风的二维空间声源定位以及语音增强，并且移植到嵌入式系统进行实验。</p>
+<p>项目思路：</p>
+<ul>
+<li>确定硬件平台为树莓派3B后，选用四路麦克风树莓派外设，选定目标平台运行系统 Raspbian，最终选择在 Ubuntu 系统下进行开发；</li>
+<li>选择合适的算法进行实现和改进以适应项目定位精度及速度要求：最终选择了基于波束形成的算法；</li>
+<li>不断实验并改进；</li>
+</ul>
+<p>项目中遇到的问题及解决办法：</p>
+<ul>
+<li>开始时使用音频文件进行算法测试，发现运行速度太慢，处理 16kHz 采样率时长 4s 的音频需要 40s 左右，于是需要想办法提高运行速度。由于算法需要对四路麦克风采集的数据分别进行加窗傅里叶变换和逆变换，涉及大量浮点运算，是算法循环中的主要耗时部分，因此看了当时使用的开源 FFT 库的源码，发现存在非必要大量数据拷贝，因此选择更换 FFT 库，结果是同样输入数据的运行时间加速到了 10s 以内；</li>
+<li>但这仍不符合需求，因此需要继续优化算法。整个算法框架大致由 FFT、功率计算、功率排序构成。由于算法原理是计算每个方位角对应的波束功率，取功率最大的方位角作为声源方向，所以算法以 1° 作为分辨率，计算360个角度每个点对应的功率，而对每个角度都需要计算傅里叶逆变换还原时域数据，因此首先考虑算法是否存在冗余计算，由于室内环境下，考虑少数低分贝噪声源影响的情况下，功率随角度的曲线类似凸函数，因此可以分阶段搜索，先用低分辨率计算，过滤非感兴趣区域，再在感兴趣区域中进行高分辨率计算，以24*15为例，最终只需要进行39次复杂计算，运行速度调高到每处理 1s 时长的原始数据需要 300 ms左右，满足实时性要求，并且实验中精度仍然满足要求；</li>
+<li>需要对实时数据进行处理，意味着需要读取流数据，最终使用开源音频接口库异步读数据到缓冲区；</li>
+</ul>
+<h1 id="Linux-下多并发-Web-服务器"><a href="#Linux-下多并发-Web-服务器" class="headerlink" title="Linux 下多并发 Web 服务器"></a>Linux 下多并发 Web 服务器</h1><ul>
+<li>并发模式采用半同步/半反应堆模式，基于 epoll （实现了 ET 和 LT 两种触发模式）实现了 Reactor 和 模拟 Proactor 两种事件处理模式；逻辑单元使用线程池来实现；</li>
+<li>使用基于升序双向链表的定时器实现非活动连接的释放；</li>
+<li>使用有限状态机的思想设计 HTTP 请求报文解析类，支持解析 GET 和 POST 方法；</li>
+<li>通过访问服务器主机 MySQL 数据库实现 web 端用户注册、登录功能，支持大文件请求；</li>
+<li>实现同步/异步日志系统，记录服务器运行状态；</li>
+<li>经Webbench压力测试可以实现上万的并发连接数据交换</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">面试中的项目讲解</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/myprj/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-myProjects/Tinywebserver/服务器调试记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/myprj/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">服务器调试记录</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/myprj/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/" class="archive-article-date">
+  	<time datetime="2020-06-29T02:06:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文记录轻量型服务器中遇到的问题和结果过程。</p>
+<h1 id="LT-LT-触发模式，同步-reactor-模型"><a href="#LT-LT-触发模式，同步-reactor-模型" class="headerlink" title="LT + LT 触发模式，同步 reactor 模型"></a>LT + LT 触发模式，同步 reactor 模型</h1><p>epoll 的 LT 触发模式中，每个事件会被持续触发。</p>
+<p>比如读事件：只要内核接收缓存区可读（字节数大于等于低水位标记 SI_RCVLOWAT），就会持续触发读事件。</p>
+<p>reactor 事件处理模式：主线程（I/O 处理单元只负责监听文件描述符 (listenfd) 上是否有事件发生，一旦事件发生立即通知工作线程（逻辑单元），而工作线程负责接受新连接、数据读写以及处理客户请求。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>浏览器第一次发送 GET 请求，服务器正常返回登陆页面；</p>
+<p>浏览器继续发送 POST 请求，提交请求的页面，服务器正常返回页面；</p>
+<p>浏览器发送 POST 请求，请求 cgi 文件时，错误发生：服务器解析完请求报文后无响应，但查看日志发现服务器会重复解析浏览器端重传的报文，且解析有错误；且此后（仅有一个工作线程的情况下）服务器不再响应任何请求。</p>
+<p>因此可以推断，出现错误后工作线程处于工作状态，且第一个问题首先出在 POST 请求的请求体的解析之后。</p>
+<p>问题解决，程序写错了……实属智障。</p>
+<h1 id="LT-ET-触发模式，同步-reactor-模型"><a href="#LT-ET-触发模式，同步-reactor-模型" class="headerlink" title="LT + ET 触发模式，同步 reactor 模型"></a>LT + ET 触发模式，同步 reactor 模型</h1><p>GET 请求无响应。因为 LT + LT 触发模式经测试没问题，那么就是 ET 触发模式的连接 socket 读取出问题。问题是 ET 模式读取数据时，由于 ET 模式每个事件只触发一次，因此必须循环读取 socket 数据，在第一次读出所有数据的情况下，while 循环会阻塞在 recv()，即工作线程会阻塞在 recv() 上直到再次收到数据。</p>
+<p>问题解决，是设置文件描述符非阻塞时，</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fcntl(fd, F_SETFL, new_option);</span><br><span class="line"><span class="comment">//错写为</span></span><br><span class="line">fcntl(fd, F_SETFD, new_option);</span><br></pre></td></tr></table></figure>
+
+<h1 id="ET-LT-触发模式，同步-reactor-模型"><a href="#ET-LT-触发模式，同步-reactor-模型" class="headerlink" title="ET + LT 触发模式，同步 reactor 模型"></a>ET + LT 触发模式，同步 reactor 模型</h1><p>测试没问题。</p>
+<h1 id="ET-ET-触发模式，同步-reactor-模型"><a href="#ET-ET-触发模式，同步-reactor-模型" class="headerlink" title="ET + ET 触发模式，同步 reactor 模型"></a>ET + ET 触发模式，同步 reactor 模型</h1><p>测试通过。</p>
+<h1 id="BUG"><a href="#BUG" class="headerlink" title="BUG"></a>BUG</h1><p>客户端大量发送数据时会导致段错误。</p>
+<h2 id="timer-野指针"><a href="#timer-野指针" class="headerlink" title="timer 野指针"></a>timer 野指针</h2><p>定时器删除节点后，指针未置空，导致重复删除时访问错误。</p>
+<h2 id="webbench-压测时-http-解析段错误"><a href="#webbench-压测时-http-解析段错误" class="headerlink" title="webbench 压测时 http 解析段错误"></a>webbench 压测时 http 解析段错误</h2><p>webbench使用短连接进行测试，服务器发送完数据</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">server</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/myprj/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/剑指Offer/数组中出现次数超过一半的数字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97/">数组中出现次数超过一半的数字</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97/" class="archive-article-date">
+  	<time datetime="2020-06-22T04:20:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。</p>
+<p>你可以假设数组是非空的，并且给定的数组总是存在多数元素。</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [1, 2, 3, 2, 2, 2, 5, 4, 2]</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
+
+
+<p>限制：</p>
+<p><code>1 &lt;= 数组长度 &lt;= 50000</code></p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>三种解法：</p>
+<ol>
+<li>对数组排序，取中位数下标</li>
+<li>unordered_multi_set 统计</li>
+<li>摩尔投票法</li>
+</ol>
+<p>投票法：</p>
+<ul>
+<li>实际上是找到众数</li>
+<li>假设数组第一个元素是众数，与众数不相同的数字应该使计数减一</li>
+<li>当计数为0时，从数组首元素到当前元素的连续子数组中不存在唯一众数，因此剩余数组一定存在一个唯一众数，因此问题变成原问题的一个子问题</li>
+<li>计数不为0时持续统计，此时当前选择的众数数量一定是最多的，并且遍历结束时计数一定为正</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">摩尔投票法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-myProjects/DL/基于DBSCAN聚类算法的直线拟合" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/">基于DBSCAN聚类算法的直线拟合</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/" class="archive-article-date">
+  	<time datetime="2020-06-21T13:41:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="关于数据是否有效"><a href="#关于数据是否有效" class="headerlink" title="关于数据是否有效"></a>关于数据是否有效</h1><p>有关聚类算法，我们如何优化算法使得聚类和直线拟合得到的数据最符合我们的期望？如何选择类的数目，如何映射目标点？</p>
+<p>我们先给定一个大前提，视野内行数小于列数，而行是我们要拟合的直线。</p>
+<p>事实上，只有载具在行间正常行驶时我们才需要进行控制，在载具本身调整方向的过程中我们并不需要控制，我们要关注的只是载具在行间正常行驶时如何控制，而在无法正常拟合出直线的情况下我们可以重置控制机构位置，有数据时启动控制器。</p>
+<p>如何提取散点特征判断当前帧是否有效？</p>
+<p>如果只有深度学习模型提供的目标位置，我们拥有的信息太少了，很难使用某种算法仅从散点数据中获得当前帧中有几行稻苗，当前帧所描述的稻苗位置是否是机具直线前进时获得的有效数据，或是转弯等过程中拍摄到的无效数据。这里，我们对有效数据和无效数据的定义是：需要根据所得进行控制的数据为有效数据，而转弯过程中拍摄到的图像中提取出的目标位置信息为无效数据，因为转弯过程中我们无需控制。比如下图：</p>
+<p><img src="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200621214918140.png" alt="image-20200621214918140"></p>
+<p>从这样一幅图像中我们自己都无法判断这一帧中是否存在行，而算法如果不加限制条件的话，算法就会试图从无效数据中拟合导航线。</p>
+<h2 id="解决方法思路"><a href="#解决方法思路" class="headerlink" title="解决方法思路"></a>解决方法思路</h2><p>对于以上问题，我们需要考虑如何把有效数据和无效数据用尽可能简单的方法区分开。因此我们考虑使用光流法提供的速度参数来过滤无效运动中的数据，特别是针对非直线前进过程中采到的数据进行过滤和丢弃。</p>
+<p>由于速度是矢量，我们可以获得一个窗口内连续几帧中追踪点的运动方向，默认采集到有效数据的必要条件是移动方向沿 x 轴方向，那么我们可以通过计算并判断速度矢量沿 x 轴方向的与沿 y 轴方向的速度比来判断当前数据是否有效。</p>
+<h1 id="关于聚类算法"><a href="#关于聚类算法" class="headerlink" title="关于聚类算法"></a>关于聚类算法</h1><p>此外，K-Means 聚类算法在这里的应用十分受限，因为它需要指定类别数量，而类别数量是无法确定的。当然我们可以给定一个类别数量的范围，遍历该范围中的所有值，选择聚类结果的方差或标准差最小的类别数量作为聚类结果，但是算法到这里已经过于复杂。</p>
+<p>因此我们需要一种无需类别数目先验知识的聚类算法对散点进行聚类，这里使用 DBSCAN 传统聚类算法。</p>
+<h2 id="DBSCAN密度聚类算法"><a href="#DBSCAN密度聚类算法" class="headerlink" title="DBSCAN密度聚类算法"></a>DBSCAN密度聚类算法</h2><p>DBSCAN是一种基于密度的聚类算法，这类密度聚类算法一般假定类别可以通过样本分布的紧密程度决定。同一类别的样本，他们之间的紧密相连的，也就是说，在该类别任意样本周围不远处一定有同类别的样本存在。通过将紧密相连的样本划为一类，这样就得到了一个聚类类别。通过将所有各组紧密相连的样本划为各个不同的类别，则我们就得到了最终的所有聚类类别结果。</p>
+<p>总地来说，DBSCAN 算法具有如下特点：</p>
+<ul>
+<li>基于密度，对远离密度核心的噪声点鲁棒</li>
+<li><strong>无需知道聚类簇的数量</strong></li>
+<li><strong>可以发现任意形状的聚类簇</strong></li>
+</ul>
+<p>具体到我们的应用场景中，DBSCAN 聚类算法可以在参数选择合适的前提下，根据集合中点之间的欧氏距离将散点分类，可以对任意形状的数据进行分类，并且可以把样本中偏差较大的样本孤立出来并舍弃。由于在我们的应用场景中，样本聚类簇之间密度差异很小，且样本数量少，并且数据维度低，因此我们的应用场景十分适合 DBSCAN 算法。</p>
+<h2 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h2><p><strong>1，寻找核心点形成临时聚类簇。</strong></p>
+<p>扫描全部样本点，如果某个样本点 R 半径范围内点数目不少于 MinPoints，则将其纳入核心点列表，并将其密度直达的点形成对应的临时聚类簇。</p>
+<p><strong>2，合并临时聚类簇得到聚类簇。</strong></p>
+<p>对于每一个临时聚类簇，检查其中的点是否为核心点，如果是，将该点对应的临时聚类簇和当前临时聚类簇合并，得到新的临时聚类簇。</p>
+<p>重复此操作，直到当前临时聚类簇中的每一个点要么不在核心点列表，要么其密度直达的点都已经在该临时聚类簇，该临时聚类簇升级成为聚类簇。</p>
+<p>继续对剩余的临时聚类簇进行相同的合并操作，直到全部临时聚类簇被处理。</p>
+<h2 id="具体应用"><a href="#具体应用" class="headerlink" title="具体应用"></a>具体应用</h2><p>由于每一帧图像中的样本点都比较少，所以 MinPoints 取为 1，在此基础上，对样本点使用归一化像素坐标，设置半径 0.1 时，可以较好地实现聚类，使聚类结果尽可能符合预期。</p>
+<p>将深度学习模型的结果提取出来，加上后续的导航线提取算法，我们可以看到有以下几种情况：（聚类类别过多的情况一定不存在有效数据，因此直接丢弃）</p>
+<p><img src="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200621232110523.png" alt="image-20200621232110523"></p>
+<p><img src="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200621232706749.png" alt="image-20200621232706749"></p>
+<p><img src="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200621233036496.png" alt="image-20200621233036496"></p>
+<p>分别对应：</p>
+<ul>
+<li>无效数据</li>
+<li>一行的情况</li>
+<li>两行的情况</li>
+</ul>
+<p>对于夹杂在大量有效数据中的无效数据，我们不进行直线拟合，并且认为导航线具有瞬时稳定性，用当前窗口的平均值来代替当前导航线数据；而对于连续的无效数据，我们认为此时没有必要进行控制，因此在这种状态下不进行任何导航线计算和控制，直到连续检测到有效数据。</p>
+<p>至此，对于导航线提取算法，我们就已经有了一个合适的算法框架。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
     <article id="post-dailyLearning/剑指Offer/面试题36-二叉搜索树与双向链表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -324,22 +766,111 @@ var _hmt = _hmt || [];
 <p>strcpy 只能拷贝字符串；memcpy 可以拷贝任何类型的数据，但是需要指定以字节为单位的拷贝长度；</p>
 </li>
 <li><p>traits</p>
+<ol>
+<li><p><code>iterator_traits</code>，迭代器特性萃取器，用于萃取迭代器类型  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span> &#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::iterator_category;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::value_type value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::difference_type difference_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::pointer pointer;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::reference reference;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 </li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li><p><code>__type_traits</code><br>其双下划线代表 SGI 内部使用。<br>什么是<code>trivial</code>？</p>
+<blockquote>
+<p>In simple words a “trivial” special member function literally means a member function that does its job in a very straightforward manner. The “straightforward manner” means different thing for different kinds of special member functions.</p>
+<p>For a default constructor and destructor being “trivial” means literally “do nothing at all”. For copy-constructor and copy-assignment operator, being “trivial” means literally “be equivalent to simple raw memory copying” (like copy with <code>memcpy</code>).</p>
+<p>If you define a constructor yourself, it is considered non-trivial, even if it doesn’t do anything, so a trivial constructor must be implicitly defined by the compiler.</p>
+<p>In order for a special member function to satisfy the above requirements, the class must have a very simplistic structure, it must not require any hidden initializations when an object is being created or destroyed, or any hidden additional internal manipulations when it is being copied.</p>
+<p>For example, if class has virtual functions, it will require some extra hidden initializations when objects of this class are being created (initialize virtual method table and such), so the constructor for this class will not qualify as trivial.</p>
+<p>For another example, if a class has virtual base classes, then each object of this class might contain hidden pointers that point to other parts of the very same object. Such a self-referential object cannot be copied by a simple raw memory copy routine (like <code>memcpy</code>). Extra manipulations will be necessary to properly re-initialize the hidden pointers in the copy. For this reason the copy constructor and copy-assignment operator for this class will not qualify as trivial.</p>
+<p>For obvious reasons, this requirement is recursive: all subobjects of the class (bases and non-static members) must also have trivial constructors.</p>
+<p>—–摘自<a href="https://stackoverflow.com/questions/3899223/what-is-a-non-trivial-constructor-in-c" target="_blank" rel="noopener">https://stackoverflow.com/questions/3899223/what-is-a-non-trivial-constructor-in-c</a></p>
+</blockquote>
+<p>也就是说<code>trivial ctor</code>就是不做任何操作的构造函数，构造时没有任何隐式初始化，比如含有虚函数的类，在初始化时需要隐式初始化虚函数表以及虚表指针，不满足<code>trivial</code>的定义，因此不能直接简单地拷贝内存<code>memcpy</code>。</p>
+<p><code>__type_traits</code>用于萃取型别特性，而这些型别特性包括：</p>
+<ul>
+<li><code>has_non_trivial_default_constructor</code></li>
+<li><code>has_trivial_copy_constructor</code></li>
+<li><code>has_trivial_assignment_operator</code></li>
+<li><code>has_trivial_destructor</code></li>
+<li><code>is_POD_type</code></li>
+</ul>
+<p>当一个类型是<code>trivial</code>的，意味着可以直接使用内存操作进行构造，以提升效率。</p>
+<p>而当一个类型具有指针成员，其指向动态分配内存，那么就必须定义<code>non-trivial ctor</code>等。</p>
+</li>
+</ol>
+<ul>
 <li><p>链表是否有环</p>
 <p>快慢指针</p>
 </li>
 <li><p>TCP/IP 层次结构</p>
-<p>链路层、网络层、运输层、应用层</p>
+<ol>
+<li><p>OSI 七层协议</p>
+<blockquote>
+<p>应用层</p>
+<p>表示层</p>
+<p>会话层</p>
+<p>运输层</p>
+<p>网络层</p>
+<p>数据链路层</p>
+<p>物理层</p>
+</blockquote>
+</li>
+<li><p>TCP/IP 四层协议</p>
+<blockquote>
+<p>应用层：TELNET, FTP, SMTP, DNS, HTTP。通过应用进程间交互来完成特定网络应用。</p>
+<p>运输层：TCP, UDP。负责向两台主机中的进程间通信提供通用的数据传输服务。</p>
+<p>网际层：IP。负责为分组交换网上的不同主机提供通信服务，并进行路由选择。</p>
+<p>网络接口层：ICMP, ARP。</p>
+</blockquote>
+</li>
+</ol>
 </li>
 <li><p>进程间通信方式</p>
 <ol>
-<li>管道/匿名管道</li>
-<li>有名管道</li>
-<li>信号</li>
-<li>消息队列</li>
-<li>共享内存</li>
-<li>信号量</li>
-<li>套接字</li>
+<li><p>管道/匿名管道</p>
+<blockquote>
+<p>半双工，数据只能向一个方向流动</p>
+<p>只能用于父子进程或者兄弟进程之间通信</p>
+<p>可以理解为循环数组实现的队列，FIFO</p>
+<p>实质上是一个内核缓冲区，以 FIFO 方式存取数据，缓冲区读空或者写满时，相应进程进入等待队列，可读或可写是唤醒相应进程</p>
+</blockquote>
+</li>
+<li><p>有名管道</p>
+<blockquote>
+<p>不同于匿名管道，以有名管道文件形式存在于文件系统中，实现了无亲缘关系进程间的通信</p>
+<p>名字存在内存系统，而内容存在内存中，相当于两个进程做了相同的虚拟地址映射，</p>
+</blockquote>
+</li>
+<li><p>信号</p>
+<blockquote>
+<p>进程间相互通信的机制</p>
+<p>信号是软件层次上对中断机制的模拟，是一种异步通信方式</p>
+</blockquote>
+</li>
+<li><p>消息队列</p>
+<blockquote>
+<p>存放在内核中的消息链表，每个消息队列由消息队列标识符表示</p>
+<p>允许多个进程 FIFO 读写</p>
+<p>可实现随即查询</p>
+</blockquote>
+</li>
+<li><p>共享内存</p>
+<blockquote>
+<p>将不同进程的某个虚拟内存区域映射到磁盘中同一个共享对象上，避免数据拷贝</p>
+<p>需要进程同步机制来同步进程</p>
+<p><code>mmap()</code></p>
+</blockquote>
+</li>
+<li><p>信号量</p>
+<blockquote>
+<p>是一个计数器，用于多进程对共享数据的访问，实现进程间/线程间同步</p>
+</blockquote>
+</li>
+<li><p>套接字</p>
+</li>
 </ol>
 </li>
 <li><p>讲讲项目</p>
@@ -868,504 +1399,6 @@ var _hmt = _hmt || [];
 
         
   
-    <article id="post-dailyLearning/剑指Offer/面试题26-树的子结构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9826-%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/">面试题26.树的子结构</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9826-%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2020-06-12T06:08:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>输入两棵二叉树A和B，判断B是不是A的子结构。(约定空树不是任意一个树的子结构)</p>
-<p>B是A的子结构， 即 A中有出现和B相同的结构和节点值。</p>
-<p>例如:<br>给定的树 A:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> 3</span><br><span class="line">&#x2F; \</span><br><span class="line">  4   5</span><br><span class="line"> &#x2F; \</span><br><span class="line">1   2</span><br></pre></td></tr></table></figure>
-
-
-<p>给定的树 B：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  4 </span><br><span class="line"> &#x2F;</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-
-
-<p>返回 true，因为 B 与 A 的一个子树拥有相同的结构和节点值。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：A &#x3D; [1,2,3], B &#x3D; [3,1]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：A &#x3D; [3,4,5,1,2], B &#x3D; [4,1]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
-
-
-<p>限制：</p>
-<p><code>0 &lt;= 节点个数 &lt;= 10000</code></p>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>思路很明确，前序遍历 A，因为我们首先要找到与 B 根节点匹配的 A 的子节点才能匹配。</p>
-<p>在前序遍历的过程中，对每一个节点，将它作为可能与 B 匹配的树的根节点，与 B 进行匹配。</p>
-<p>匹配时，首先检查根节点是否匹配，如果是，依次检查左右子树是否匹配。</p>
-<p>一定要注意递归结束条件：</p>
-<ul>
-<li>前序遍历的结束条件是遍历到空节点</li>
-<li>匹配的结束条件是 A 与 B 至少有一个到达空节点，此时递归到最深，如果 A 是空，那么此时如果 B 也为空，说明 B  越过了叶子节点，代表一个分支匹配结束，但不一定不匹配，因此返回 true 才可以继续判断；如果 B 不为空，那么一定不匹配，返回 false；如果 A 不为空，但 B 为空，这种情况下我们一样需要返回 true。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSubStructure</span><span class="params">(TreeNode* A, TreeNode* B)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!A || !B) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> preorderTraversal(A, B);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSameRootSubStructure</span><span class="params">(TreeNode* A, TreeNode* B)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!B) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(!A) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> A-&gt;val == B-&gt;val &amp;&amp; isSameRootSubStructure (A-&gt;left, B-&gt;left) &amp;&amp; isSameRootSubStructure(A-&gt;right, B-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">preorderTraversal</span><span class="params">(TreeNode* root, TreeNode* target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> isSameRootSubStructure(root, target) || preorderTraversal(root-&gt;left, target) || preorderTraversal(root-&gt;right, target);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>时间复杂度$O(MN)$，分别为两个辅助函数的递归深度，而每次递归时间复杂度$O(1)$。</li>
-<li>空间复杂度$O(M)$，因为递归深度不可能超过$M$。</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">二叉树</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">前序遍历</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9826-%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/Leetcode/91-解码方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/91-%E8%A7%A3%E7%A0%81%E6%96%B9%E6%B3%95/">91.解码方法</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/91-%E8%A7%A3%E7%A0%81%E6%96%B9%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-06-11T04:35:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>一条包含字母 A-Z 的消息通过以下方式进行了编码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#39;A&#39; -&gt; 1</span><br><span class="line">&#39;B&#39; -&gt; 2</span><br><span class="line">...</span><br><span class="line">&#39;Z&#39; -&gt; 26</span><br></pre></td></tr></table></figure>
-
-
-<p>给定一个只包含数字的非空字符串，请计算解码方法的总数。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;12&quot;</span><br><span class="line">输出: 2</span><br><span class="line">解释: 它可以解码为 &quot;AB&quot;（1 2）或者 &quot;L&quot;（12）。</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;226&quot;</span><br><span class="line">输出: 3</span><br><span class="line">解释: 它可以解码为 &quot;BZ&quot; (2 26), &quot;VF&quot; (22 6), 或者 &quot;BBF&quot; (2 2 6) 。</span><br></pre></td></tr></table></figure>
-
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/decode-ways" target="_blank" rel="noopener">https://leetcode-cn.com/problems/decode-ways</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>首先这是一道计算方法总数的题目，回溯一定可以解决问题，对于每一个数字，都可以单独解码或者结合下个数字一起解码，如果使用哈希表，那么每次解码时间为$O(1)$，遍历所有情况需要$O(2^N)$的时间复杂度。</p>
-<ul>
-<li><p>确定 base case：只有一个数字时，解码方法只有一种，有两个数字时，有两种。这其实是一道青蛙跳台阶，加上了额外的限定条件；</p>
-</li>
-<li><p>明确状态：数组长度；</p>
-</li>
-<li><p>明确选择：单独解码 or 结合下一个一起解码</p>
-</li>
-<li><p>动态规划数组含义：数组长度为 n 时，对应的解码方法。由于数字与字母一一对应不可能重复，因此不需要去重，只需要判断是否有效；</p>
-</li>
-<li><p>状态转移方程：<br>$$<br>dp[n] = dp[n-1] + dp[n-2],\ if\ nums[i]\times 10+nums[i+1]\ is\ valid<br>$$</p>
-<p>$$<br>dp[n] = dp[n-1],\ else<br>$$</p>
-</li>
-</ul>
-<p>代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numDecodings</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s[<span class="number">0</span>] == <span class="string">'0'</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(s.<span class="built_in">size</span>() == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> ppre = <span class="number">1</span>, pre = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;s.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> curr = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span>(s[i] != <span class="string">'0'</span>) curr += pre;</span><br><span class="line">            <span class="keyword">if</span>(s[i<span class="number">-1</span>] != <span class="string">'0'</span> &amp;&amp; (s[i<span class="number">-1</span>]-<span class="string">'0'</span>)*<span class="number">10</span>+s[i]-<span class="string">'0'</span> &lt; <span class="number">27</span> &amp;&amp; (s[i<span class="number">-1</span>]-<span class="string">'0'</span>)*<span class="number">10</span>+s[i]-<span class="string">'0'</span> &gt; <span class="number">0</span>) curr += ppre;</span><br><span class="line">            ppre = pre;</span><br><span class="line">            pre = curr;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pre;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>通过这道题，明白了最难的其实也不是状态转移方程，而是特殊限制条件，需要考虑周全。为了考虑到所有特殊情况，最好办法是列举每一次选择时可能遇到的特殊值。</p>
-<ul>
-<li>时间复杂度$O(N)$</li>
-<li>空间复杂度$O(1)$</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/91-%E8%A7%A3%E7%A0%81%E6%96%B9%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/Leetcode/15-三数之和" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/">15.三数之和</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" class="archive-article-date">
-  	<time datetime="2020-06-10T12:09:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。</p>
-<p>注意：答案中不可以包含重复的三元组。</p>
-<p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">给定数组 nums &#x3D; [-1, 0, 1, 2, -1, -4]，</span><br><span class="line"></span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/3sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/3sum</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>先考虑两数之和，找到所有可能的组合时间复杂度$O(N^2)$，可不可以用遍历一遍的时间解决？可以，从第一个数开始，对应的，我们都知道要找的是哪个数，这里就要空间换时间了，在一个暂存数组里存放无法配对的数字，每个新的数字都从里面找，这样只需遍历一次数组。</p>
-<p>而三数之和的暴力法需要$O(N^3)$，用同样的思路空间换时间需要$O(N^2)$，难点在于怎么去重。</p>
-<p>题解中先将数组排序，再用双指针加去重的方法就简单很多。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">threeSum</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.<span class="built_in">size</span>() &lt; <span class="number">3</span>) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        sort(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; ret;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> idx=<span class="number">0</span>; idx&lt;nums.<span class="built_in">size</span>() &amp;&amp; nums[idx]&lt;=<span class="number">0</span>; ++idx) &#123;</span><br><span class="line">            <span class="keyword">if</span>(idx&gt;<span class="number">0</span> &amp;&amp; nums[idx] == nums[idx<span class="number">-1</span>]) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">int</span> lo = idx+<span class="number">1</span>, hi = nums.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">while</span>(lo &lt; hi) &#123;</span><br><span class="line">                <span class="keyword">if</span>((lo&gt;idx+<span class="number">1</span> &amp;&amp; nums[lo]==nums[lo<span class="number">-1</span>]))&#123;</span><br><span class="line">                    ++lo;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>((hi&lt;nums.<span class="built_in">size</span>()<span class="number">-1</span> &amp;&amp; nums[hi]==nums[hi+<span class="number">1</span>])) &#123;</span><br><span class="line">                    --hi;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">int</span> sum = nums[idx] + nums[lo] + nums[hi];</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span>(sum == <span class="number">0</span>) ret.emplace_back(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&#123;nums[idx], nums[lo++], nums[hi--]&#125;);</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(sum &lt; <span class="number">0</span>) ++lo;</span><br><span class="line">                <span class="keyword">else</span> --hi;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">双指针</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-myProjects/DL/光流估计" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/myprj/%E5%85%89%E6%B5%81%E4%BC%B0%E8%AE%A1/">光流估计</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/myprj/%E5%85%89%E6%B5%81%E4%BC%B0%E8%AE%A1/" class="archive-article-date">
-  	<time datetime="2020-06-10T07:25:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这一周主要承接上周对导航线算法框架的完善。</p>
-<p>我们对相机的假设为：相机固定，即没有旋转，但对相机是否会随执行机构横向移动，我们不做假设。此外，考虑到相机抖动问题，我们的算法也不应该过度依赖于精确的像素坐标。</p>
-<p>目前的算法框架为：</p>
-<p>对视频流中的每一帧：</p>
-<ul>
-<li>深度学习模型目标检测，生成 bbox</li>
-<li>对解析后的 bbox 像素位置进行聚类</li>
-<li>我们认为聚类结果将目标点按行分类</li>
-<li>从每一类的目标点中最小二乘拟合出直线，直线斜率表示其走向</li>
-<li>使用所有直线斜率的加权表示本帧中苗线的走向</li>
-</ul>
-<p>对整个视频流：</p>
-<ul>
-<li>选择一个窗口，使用指数加权平均计算窗口内各帧中苗线的平均走势</li>
-<li>该平均走势可以体现相机移动速度在两个相互垂直的方向上的比值</li>
-<li>使用 L-K 光流算法估计当前相机速度（矢量）</li>
-<li>结合相机速度以及稻苗线走势计算执行机构在每一时刻的速度</li>
-<li>对速度积分得到每一时刻执行机构的目标位置</li>
-</ul>
-<h1 id="光流法"><a href="#光流法" class="headerlink" title="光流法"></a>光流法</h1><p>光流是利用图像序列中像素在时间域上的变化以及相邻帧之间的相关性来找到上一帧跟当前帧之间存在的对应关系，从而计算出相邻帧之间物体的运动信息的一种方法。</p>
-<p>研究光流场的目的就是为了从图片序列中近似得到不能直接得到的运动场，而运动场恰恰是真实世界中物体的运动。</p>
-<ul>
-<li>运动场：物体所处的真实三维世界</li>
-<li>光流场：运动场在二维空间的投影，即二维图像</li>
-</ul>
-<p>计算光流的方法有三种：</p>
-<ul>
-<li>基于区域或者基于特征的匹配方法</li>
-<li>基于频域的方法</li>
-<li>基于梯度的方法</li>
-</ul>
-<p>计算光流的三个假设前提：</p>
-<ul>
-<li>相邻帧之间的亮度恒定</li>
-<li>相邻帧之间的物体运动幅度小</li>
-<li>保持空间一致性，即相邻像素点具有相同的运动</li>
-</ul>
-<h3 id="Lucas-Kanade-算法"><a href="#Lucas-Kanade-算法" class="headerlink" title="Lucas-Kanade 算法"></a>Lucas-Kanade 算法</h3><p>Lucas-Kanade 算法是一种传统光流算法，它属于基于梯度的光流算法。</p>
-<p>假设第一帧图像中的像素$(x, y)$在事件$dt$后移动到第二帧图像的$(x+d x, y+d y)$处。</p>
-<ol>
-<li>根据亮度恒定假设，我们可以得到：<br>$$<br>I(x, y, t)=I\left(x+d_{x}, y+d_{y}, t+d_{t}\right)<br>$$</li>
-</ol>
-<p>   $I(x, y, t)$表示在时间$t$时刻，像素$(x,y)$点的光强。</p>
-<ol start="2">
-<li><p>对等式进行泰勒展开：<br>$$<br>I\left(x+d_{x}, y+d_{y}, t+d_{t}\right)=I(x, y, t)+\frac{\partial I}{\partial x} \Delta x+\frac{\partial I}{\partial y} \Delta y+\frac{\partial I}{\partial t} \Delta t+\varepsilon<br>$$<br>其中$\varepsilon$为无穷小，可以忽略不计，根据微小位移假设：<br>$$<br>I(x, y, t)=I(x, y, t)+\frac{\partial I}{\partial x} \Delta x+\frac{\partial I}{\partial y} \Delta y+\frac{\partial I}{\partial t} \Delta t<br>$$<br>因此有：<br>$$<br>\frac{\partial I}{\partial x} \Delta x+\frac{\partial I}{\partial y} \Delta y+\frac{\partial I}{\partial t} \Delta t=0<br>$$</p>
-</li>
-<li><p>等式两侧同时储以$dt$，得到：<br>$$<br>\frac{\partial I}{\partial x} \frac{d x}{d t}+\frac{\partial I}{\partial y} \frac{d y}{d t}+\frac{\partial I}{\partial t} \frac{d t}{d t}=0<br>$$<br>设$u,v$分别为光流沿$X$轴与$Y$轴的速度矢量，即：<br>$$<br>\mathrm{u}=\frac{d x}{d t}, v=\frac{d y}{d t}<br>$$<br>设$I_x,I_y$分别表示图像中像素点的灰度沿$x,y$方向的图像梯度，$I_t$表示沿$t$方向的时间梯度，即<br>$$<br>I_{x}=\frac{\partial I}{\partial x}, I_{y}=\frac{\partial I}{\partial y}, I_{t}=\frac{\partial I}{\partial t}<br>$$<br>最终得到光流方程：<br>$$<br>I_{x} u+I_{y} v+I_{t}=0<br>$$</p>
-</li>
-<li><p>由于方程中有两个未知数，无法求得唯一解，因此有了稀疏光流跟踪算法，根据相邻像素的空间一致性，假设一定大小的区域之内的像素点拥有相同的运动，假设该区域大小为$3\times 3$，那么就有：<br>$$<br>\left[\begin{array}{cc}<br>I_{x}\left(\mathrm{p}<em>{1}\right) &amp; I</em>{y}\left(\mathrm{p}<em>{1}\right) \<br>I</em>{x}\left(\mathrm{p}<em>{2}\right) &amp; I</em>{y}\left(\mathrm{p}<em>{2}\right) \<br>\vdots &amp; \vdots \<br>I</em>{x}\left(\mathrm{p}<em>9\right) &amp; I</em>{y}\left(\mathrm{p}<em>{9}\right)<br>\end{array}\right]\left[\begin{array}{c}<br>u \<br>v<br>\end{array}\right]=-\left[\begin{array}{c}<br>I</em>{t}\left(\mathrm{p}<em>{1}\right) \<br>I</em>{t}\left(\mathrm{p}<em>{2}\right) \<br>\vdots \<br>I</em>{t}\left(\mathrm{p}_{9}\right)<br>\end{array}\right]<br>$$<br>联立方程，然而由于约束条件过多，依然不能求得精确解，我们使用最小二乘来拟合解。</p>
-<p>将模型简化为<br>$$<br>\left(A^{T} A\right) d=A^{T} b<br>$$<br>最终得到光流的解：<br>$$<br>\left[\begin{array}{l}<br>\mathrm{u} \<br>v<br>\end{array}\right]=\left[\begin{array}{ll}<br>\sum I_{x}^{2} &amp; \sum I_{x} I_{y} \<br>\sum I_{x} I_{y} &amp; \sum I_{y}^{2}<br>\end{array}\right]^{-1}\left[\begin{array}{c}<br>-\sum I_{x} I_{t} \<br>-\sum I_{y} I_{t}<br>\end{array}\right]<br>$$</p>
-</li>
-</ol>
-<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><p>利用 LK 光流算法和角点选择算法，图像中被选择跟踪的角点在视频流中可视化的效果如下：</p>
-<p><img src="/myprj/%E5%85%89%E6%B5%81%E4%BC%B0%E8%AE%A1/image-20200614220104218.png" alt="image-20200614220104218"></p>
-<p><img src="/myprj/%E5%85%89%E6%B5%81%E4%BC%B0%E8%AE%A1/image-20200614220122196.png" alt="image-20200614220122196"></p>
-<p>以上光流跟踪算法为每一个追踪的角点维护一个固定长度的队列，来存储连续帧中追踪点的位置，根据位置信息我们可以获得相机相对于地面移动的像素距离。</p>
-<p>如果已知图像分辨率以及相机高度等信息，可以唯一确定一个 scale 参数，将像素距离映射到实际距离，再加入视频流帧率信息，我们就可以估计相机相对于地面移动的真实速度。</p>
-<h1 id="实时性"><a href="#实时性" class="headerlink" title="实时性"></a>实时性</h1><p>在30fps的视频流中，每五帧重新选取角点，最大角点数量为50个的参属下，每次迭代在 2.4GHz i7 CPU 上需要大约 0.02 s，减少角点数量还可以更快，因此使用该算法获取速度是可行的。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">光流估计</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/myprj/%E5%85%89%E6%B5%81%E4%BC%B0%E8%AE%A1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1730,6 +1763,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">TPLINK</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">面试中的项目讲解</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">摩尔投票法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">server</a>
               </li>
             
             <div class="clearfix"></div>

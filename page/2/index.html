@@ -197,6 +197,504 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dailyLearning/剑指Offer/面试题26-树的子结构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9826-%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/">面试题26.树的子结构</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9826-%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/" class="archive-article-date">
+  	<time datetime="2020-06-12T06:08:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>输入两棵二叉树A和B，判断B是不是A的子结构。(约定空树不是任意一个树的子结构)</p>
+<p>B是A的子结构， 即 A中有出现和B相同的结构和节点值。</p>
+<p>例如:<br>给定的树 A:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> 3</span><br><span class="line">&#x2F; \</span><br><span class="line">  4   5</span><br><span class="line"> &#x2F; \</span><br><span class="line">1   2</span><br></pre></td></tr></table></figure>
+
+
+<p>给定的树 B：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  4 </span><br><span class="line"> &#x2F;</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+
+<p>返回 true，因为 B 与 A 的一个子树拥有相同的结构和节点值。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：A &#x3D; [1,2,3], B &#x3D; [3,1]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：A &#x3D; [3,4,5,1,2], B &#x3D; [4,1]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+
+
+<p>限制：</p>
+<p><code>0 &lt;= 节点个数 &lt;= 10000</code></p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>思路很明确，前序遍历 A，因为我们首先要找到与 B 根节点匹配的 A 的子节点才能匹配。</p>
+<p>在前序遍历的过程中，对每一个节点，将它作为可能与 B 匹配的树的根节点，与 B 进行匹配。</p>
+<p>匹配时，首先检查根节点是否匹配，如果是，依次检查左右子树是否匹配。</p>
+<p>一定要注意递归结束条件：</p>
+<ul>
+<li>前序遍历的结束条件是遍历到空节点</li>
+<li>匹配的结束条件是 A 与 B 至少有一个到达空节点，此时递归到最深，如果 A 是空，那么此时如果 B 也为空，说明 B  越过了叶子节点，代表一个分支匹配结束，但不一定不匹配，因此返回 true 才可以继续判断；如果 B 不为空，那么一定不匹配，返回 false；如果 A 不为空，但 B 为空，这种情况下我们一样需要返回 true。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSubStructure</span><span class="params">(TreeNode* A, TreeNode* B)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!A || !B) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> preorderTraversal(A, B);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isSameRootSubStructure</span><span class="params">(TreeNode* A, TreeNode* B)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!B) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(!A) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> A-&gt;val == B-&gt;val &amp;&amp; isSameRootSubStructure (A-&gt;left, B-&gt;left) &amp;&amp; isSameRootSubStructure(A-&gt;right, B-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">preorderTraversal</span><span class="params">(TreeNode* root, TreeNode* target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> isSameRootSubStructure(root, target) || preorderTraversal(root-&gt;left, target) || preorderTraversal(root-&gt;right, target);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度$O(MN)$，分别为两个辅助函数的递归深度，而每次递归时间复杂度$O(1)$。</li>
+<li>空间复杂度$O(M)$，因为递归深度不可能超过$M$。</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">二叉树</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">前序遍历</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9826-%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/Leetcode/91-解码方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/91-%E8%A7%A3%E7%A0%81%E6%96%B9%E6%B3%95/">91.解码方法</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/91-%E8%A7%A3%E7%A0%81%E6%96%B9%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2020-06-11T04:35:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>一条包含字母 A-Z 的消息通过以下方式进行了编码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#39;A&#39; -&gt; 1</span><br><span class="line">&#39;B&#39; -&gt; 2</span><br><span class="line">...</span><br><span class="line">&#39;Z&#39; -&gt; 26</span><br></pre></td></tr></table></figure>
+
+
+<p>给定一个只包含数字的非空字符串，请计算解码方法的总数。</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;12&quot;</span><br><span class="line">输出: 2</span><br><span class="line">解释: 它可以解码为 &quot;AB&quot;（1 2）或者 &quot;L&quot;（12）。</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;226&quot;</span><br><span class="line">输出: 3</span><br><span class="line">解释: 它可以解码为 &quot;BZ&quot; (2 26), &quot;VF&quot; (22 6), 或者 &quot;BBF&quot; (2 2 6) 。</span><br></pre></td></tr></table></figure>
+
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/decode-ways" target="_blank" rel="noopener">https://leetcode-cn.com/problems/decode-ways</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>首先这是一道计算方法总数的题目，回溯一定可以解决问题，对于每一个数字，都可以单独解码或者结合下个数字一起解码，如果使用哈希表，那么每次解码时间为$O(1)$，遍历所有情况需要$O(2^N)$的时间复杂度。</p>
+<ul>
+<li><p>确定 base case：只有一个数字时，解码方法只有一种，有两个数字时，有两种。这其实是一道青蛙跳台阶，加上了额外的限定条件；</p>
+</li>
+<li><p>明确状态：数组长度；</p>
+</li>
+<li><p>明确选择：单独解码 or 结合下一个一起解码</p>
+</li>
+<li><p>动态规划数组含义：数组长度为 n 时，对应的解码方法。由于数字与字母一一对应不可能重复，因此不需要去重，只需要判断是否有效；</p>
+</li>
+<li><p>状态转移方程：<br>$$<br>dp[n] = dp[n-1] + dp[n-2],\ if\ nums[i]\times 10+nums[i+1]\ is\ valid<br>$$</p>
+<p>$$<br>dp[n] = dp[n-1],\ else<br>$$</p>
+</li>
+</ul>
+<p>代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">numDecodings</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s[<span class="number">0</span>] == <span class="string">'0'</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(s.<span class="built_in">size</span>() == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> ppre = <span class="number">1</span>, pre = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;s.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> curr = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span>(s[i] != <span class="string">'0'</span>) curr += pre;</span><br><span class="line">            <span class="keyword">if</span>(s[i<span class="number">-1</span>] != <span class="string">'0'</span> &amp;&amp; (s[i<span class="number">-1</span>]-<span class="string">'0'</span>)*<span class="number">10</span>+s[i]-<span class="string">'0'</span> &lt; <span class="number">27</span> &amp;&amp; (s[i<span class="number">-1</span>]-<span class="string">'0'</span>)*<span class="number">10</span>+s[i]-<span class="string">'0'</span> &gt; <span class="number">0</span>) curr += ppre;</span><br><span class="line">            ppre = pre;</span><br><span class="line">            pre = curr;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pre;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>通过这道题，明白了最难的其实也不是状态转移方程，而是特殊限制条件，需要考虑周全。为了考虑到所有特殊情况，最好办法是列举每一次选择时可能遇到的特殊值。</p>
+<ul>
+<li>时间复杂度$O(N)$</li>
+<li>空间复杂度$O(1)$</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/91-%E8%A7%A3%E7%A0%81%E6%96%B9%E6%B3%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/Leetcode/15-三数之和" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/">15.三数之和</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" class="archive-article-date">
+  	<time datetime="2020-06-10T12:09:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。</p>
+<p>注意：答案中不可以包含重复的三元组。</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">给定数组 nums &#x3D; [-1, 0, 1, 2, -1, -4]，</span><br><span class="line"></span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/3sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/3sum</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>先考虑两数之和，找到所有可能的组合时间复杂度$O(N^2)$，可不可以用遍历一遍的时间解决？可以，从第一个数开始，对应的，我们都知道要找的是哪个数，这里就要空间换时间了，在一个暂存数组里存放无法配对的数字，每个新的数字都从里面找，这样只需遍历一次数组。</p>
+<p>而三数之和的暴力法需要$O(N^3)$，用同样的思路空间换时间需要$O(N^2)$，难点在于怎么去重。</p>
+<p>题解中先将数组排序，再用双指针加去重的方法就简单很多。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">threeSum</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.<span class="built_in">size</span>() &lt; <span class="number">3</span>) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        sort(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; ret;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> idx=<span class="number">0</span>; idx&lt;nums.<span class="built_in">size</span>() &amp;&amp; nums[idx]&lt;=<span class="number">0</span>; ++idx) &#123;</span><br><span class="line">            <span class="keyword">if</span>(idx&gt;<span class="number">0</span> &amp;&amp; nums[idx] == nums[idx<span class="number">-1</span>]) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">int</span> lo = idx+<span class="number">1</span>, hi = nums.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">while</span>(lo &lt; hi) &#123;</span><br><span class="line">                <span class="keyword">if</span>((lo&gt;idx+<span class="number">1</span> &amp;&amp; nums[lo]==nums[lo<span class="number">-1</span>]))&#123;</span><br><span class="line">                    ++lo;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>((hi&lt;nums.<span class="built_in">size</span>()<span class="number">-1</span> &amp;&amp; nums[hi]==nums[hi+<span class="number">1</span>])) &#123;</span><br><span class="line">                    --hi;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">int</span> sum = nums[idx] + nums[lo] + nums[hi];</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span>(sum == <span class="number">0</span>) ret.emplace_back(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&#123;nums[idx], nums[lo++], nums[hi--]&#125;);</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(sum &lt; <span class="number">0</span>) ++lo;</span><br><span class="line">                <span class="keyword">else</span> --hi;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">双指针</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/15-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-myProjects/DL/光流估计" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/myprj/%E5%85%89%E6%B5%81%E4%BC%B0%E8%AE%A1/">光流估计</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/myprj/%E5%85%89%E6%B5%81%E4%BC%B0%E8%AE%A1/" class="archive-article-date">
+  	<time datetime="2020-06-10T07:25:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这一周主要承接上周对导航线算法框架的完善。</p>
+<p>我们对相机的假设为：相机固定，即没有旋转，但对相机是否会随执行机构横向移动，我们不做假设。此外，考虑到相机抖动问题，我们的算法也不应该过度依赖于精确的像素坐标。</p>
+<p>目前的算法框架为：</p>
+<p>对视频流中的每一帧：</p>
+<ul>
+<li>深度学习模型目标检测，生成 bbox</li>
+<li>对解析后的 bbox 像素位置进行聚类</li>
+<li>我们认为聚类结果将目标点按行分类</li>
+<li>从每一类的目标点中最小二乘拟合出直线，直线斜率表示其走向</li>
+<li>使用所有直线斜率的加权表示本帧中苗线的走向</li>
+</ul>
+<p>对整个视频流：</p>
+<ul>
+<li>选择一个窗口，使用指数加权平均计算窗口内各帧中苗线的平均走势</li>
+<li>该平均走势可以体现相机移动速度在两个相互垂直的方向上的比值</li>
+<li>使用 L-K 光流算法估计当前相机速度（矢量）</li>
+<li>结合相机速度以及稻苗线走势计算执行机构在每一时刻的速度</li>
+<li>对速度积分得到每一时刻执行机构的目标位置</li>
+</ul>
+<h1 id="光流法"><a href="#光流法" class="headerlink" title="光流法"></a>光流法</h1><p>光流是利用图像序列中像素在时间域上的变化以及相邻帧之间的相关性来找到上一帧跟当前帧之间存在的对应关系，从而计算出相邻帧之间物体的运动信息的一种方法。</p>
+<p>研究光流场的目的就是为了从图片序列中近似得到不能直接得到的运动场，而运动场恰恰是真实世界中物体的运动。</p>
+<ul>
+<li>运动场：物体所处的真实三维世界</li>
+<li>光流场：运动场在二维空间的投影，即二维图像</li>
+</ul>
+<p>计算光流的方法有三种：</p>
+<ul>
+<li>基于区域或者基于特征的匹配方法</li>
+<li>基于频域的方法</li>
+<li>基于梯度的方法</li>
+</ul>
+<p>计算光流的三个假设前提：</p>
+<ul>
+<li>相邻帧之间的亮度恒定</li>
+<li>相邻帧之间的物体运动幅度小</li>
+<li>保持空间一致性，即相邻像素点具有相同的运动</li>
+</ul>
+<h3 id="Lucas-Kanade-算法"><a href="#Lucas-Kanade-算法" class="headerlink" title="Lucas-Kanade 算法"></a>Lucas-Kanade 算法</h3><p>Lucas-Kanade 算法是一种传统光流算法，它属于基于梯度的光流算法。</p>
+<p>假设第一帧图像中的像素$(x, y)$在事件$dt$后移动到第二帧图像的$(x+d x, y+d y)$处。</p>
+<ol>
+<li>根据亮度恒定假设，我们可以得到：<br>$$<br>I(x, y, t)=I\left(x+d_{x}, y+d_{y}, t+d_{t}\right)<br>$$</li>
+</ol>
+<p>   $I(x, y, t)$表示在时间$t$时刻，像素$(x,y)$点的光强。</p>
+<ol start="2">
+<li><p>对等式进行泰勒展开：<br>$$<br>I\left(x+d_{x}, y+d_{y}, t+d_{t}\right)=I(x, y, t)+\frac{\partial I}{\partial x} \Delta x+\frac{\partial I}{\partial y} \Delta y+\frac{\partial I}{\partial t} \Delta t+\varepsilon<br>$$<br>其中$\varepsilon$为无穷小，可以忽略不计，根据微小位移假设：<br>$$<br>I(x, y, t)=I(x, y, t)+\frac{\partial I}{\partial x} \Delta x+\frac{\partial I}{\partial y} \Delta y+\frac{\partial I}{\partial t} \Delta t<br>$$<br>因此有：<br>$$<br>\frac{\partial I}{\partial x} \Delta x+\frac{\partial I}{\partial y} \Delta y+\frac{\partial I}{\partial t} \Delta t=0<br>$$</p>
+</li>
+<li><p>等式两侧同时储以$dt$，得到：<br>$$<br>\frac{\partial I}{\partial x} \frac{d x}{d t}+\frac{\partial I}{\partial y} \frac{d y}{d t}+\frac{\partial I}{\partial t} \frac{d t}{d t}=0<br>$$<br>设$u,v$分别为光流沿$X$轴与$Y$轴的速度矢量，即：<br>$$<br>\mathrm{u}=\frac{d x}{d t}, v=\frac{d y}{d t}<br>$$<br>设$I_x,I_y$分别表示图像中像素点的灰度沿$x,y$方向的图像梯度，$I_t$表示沿$t$方向的时间梯度，即<br>$$<br>I_{x}=\frac{\partial I}{\partial x}, I_{y}=\frac{\partial I}{\partial y}, I_{t}=\frac{\partial I}{\partial t}<br>$$<br>最终得到光流方程：<br>$$<br>I_{x} u+I_{y} v+I_{t}=0<br>$$</p>
+</li>
+<li><p>由于方程中有两个未知数，无法求得唯一解，因此有了稀疏光流跟踪算法，根据相邻像素的空间一致性，假设一定大小的区域之内的像素点拥有相同的运动，假设该区域大小为$3\times 3$，那么就有：<br>$$<br>\left[\begin{array}{cc}<br>I_{x}\left(\mathrm{p}<em>{1}\right) &amp; I</em>{y}\left(\mathrm{p}<em>{1}\right) \<br>I</em>{x}\left(\mathrm{p}<em>{2}\right) &amp; I</em>{y}\left(\mathrm{p}<em>{2}\right) \<br>\vdots &amp; \vdots \<br>I</em>{x}\left(\mathrm{p}<em>9\right) &amp; I</em>{y}\left(\mathrm{p}<em>{9}\right)<br>\end{array}\right]\left[\begin{array}{c}<br>u \<br>v<br>\end{array}\right]=-\left[\begin{array}{c}<br>I</em>{t}\left(\mathrm{p}<em>{1}\right) \<br>I</em>{t}\left(\mathrm{p}<em>{2}\right) \<br>\vdots \<br>I</em>{t}\left(\mathrm{p}_{9}\right)<br>\end{array}\right]<br>$$<br>联立方程，然而由于约束条件过多，依然不能求得精确解，我们使用最小二乘来拟合解。</p>
+<p>将模型简化为<br>$$<br>\left(A^{T} A\right) d=A^{T} b<br>$$<br>最终得到光流的解：<br>$$<br>\left[\begin{array}{l}<br>\mathrm{u} \<br>v<br>\end{array}\right]=\left[\begin{array}{ll}<br>\sum I_{x}^{2} &amp; \sum I_{x} I_{y} \<br>\sum I_{x} I_{y} &amp; \sum I_{y}^{2}<br>\end{array}\right]^{-1}\left[\begin{array}{c}<br>-\sum I_{x} I_{t} \<br>-\sum I_{y} I_{t}<br>\end{array}\right]<br>$$</p>
+</li>
+</ol>
+<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><p>利用 LK 光流算法和角点选择算法，图像中被选择跟踪的角点在视频流中可视化的效果如下：</p>
+<p><img src="/myprj/%E5%85%89%E6%B5%81%E4%BC%B0%E8%AE%A1/image-20200614220104218.png" alt="image-20200614220104218"></p>
+<p><img src="/myprj/%E5%85%89%E6%B5%81%E4%BC%B0%E8%AE%A1/image-20200614220122196.png" alt="image-20200614220122196"></p>
+<p>以上光流跟踪算法为每一个追踪的角点维护一个固定长度的队列，来存储连续帧中追踪点的位置，根据位置信息我们可以获得相机相对于地面移动的像素距离。</p>
+<p>如果已知图像分辨率以及相机高度等信息，可以唯一确定一个 scale 参数，将像素距离映射到实际距离，再加入视频流帧率信息，我们就可以估计相机相对于地面移动的真实速度。</p>
+<h1 id="实时性"><a href="#实时性" class="headerlink" title="实时性"></a>实时性</h1><p>在30fps的视频流中，每五帧重新选取角点，最大角点数量为50个的参属下，每次迭代在 2.4GHz i7 CPU 上需要大约 0.02 s，减少角点数量还可以更快，因此使用该算法获取速度是可行的。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">光流估计</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/myprj/%E5%85%89%E6%B5%81%E4%BC%B0%E8%AE%A1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
     <article id="post-myProjects/Tinywebserver/线程池" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -235,6 +733,23 @@ var _hmt = _hmt || [];
 
 <p>函数原型中的第三个参数，为函数指针，指向处理线程函数的地址。</p>
 <p>该函数，要求为静态函数，如果处理线程函数为类成员函数时，需要将其设置为<strong>静态成员函数</strong>。</p>
+<hr>
+<hr>
+<h1 id="2020-7-3-更新"><a href="#2020-7-3-更新" class="headerlink" title="2020/7/3 更新"></a>2020/7/3 更新</h1><p>近日打算重构一下服务器代码。</p>
+<p>注意到源代码的线程池非单例模式，因此用单例模式和 STL 标准库实现线程池。</p>
+<p>单例模式实现过程中遇到如下问题：</p>
+<h2 id="invalid-use-of-non-static-function"><a href="#invalid-use-of-non-static-function" class="headerlink" title="invalid use of non-static function"></a>invalid use of non-static function</h2><p>错误原因为之前一直没有注意的：创建新线程时指定的入口函数必须为静态函数，但是如果直接把任务函数声明为静态函数就使得我们必须将任务函数中用到的所有数据成员声明为静态，开销太大，因此需要包装函数，通过<code>get_instance</code>返回的单例间接调用任务函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> sockfd, <span class="keyword">typename</span> resource&gt;</span><br><span class="line"><span class="keyword">auto</span> threadpool_proactor&lt;sockfd, resource&gt;::wrapper(threadpool_proactor *arg) -&gt; threadpool_proactor * &#123;</span><br><span class="line">    arg-&gt;workers();</span><br><span class="line">    <span class="keyword">return</span> arg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> sockfd, <span class="keyword">typename</span> resource&gt;</span><br><span class="line"><span class="keyword">void</span> threadpool_proactor&lt;sockfd, resource&gt;::workers() &#123;</span><br><span class="line">    <span class="keyword">while</span> (!m_shutdown) &#123;</span><br><span class="line">        ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上。</p>
+<h2 id="分离-reactor-与-proactor-实现"><a href="#分离-reactor-与-proactor-实现" class="headerlink" title="分离 reactor 与 proactor 实现"></a>分离 reactor 与 proactor 实现</h2><p>为将两种事件处理模式分离，在单例模式的基础上加上了类似简单工厂的设计，但问题来了！每种模式的线程池并不知道另一种模式的线程池是否已经存在，因此需要一个接口以供判断。</p>
+<p>但是通过在每个类中加一个静态探针成员的办法从设计上来说不太容易实现，因此给工厂加一个限制：只能产生一个实例。</p>
+<p>因此把工厂的API分为：获取实例、初始化两种。</p>
+<p>但如何返回不同派生类的实例呢？</p>
+<p>使用重载函数，用一个模板参数激活函数重载。</p>
+<h2 id="使用信号量唤醒线程引起的惊群效应？"><a href="#使用信号量唤醒线程引起的惊群效应？" class="headerlink" title="使用信号量唤醒线程引起的惊群效应？"></a>使用信号量唤醒线程引起的惊群效应？</h2><p>可以使用条件变量加互斥锁解决。</p>
 
       
 
@@ -904,487 +1419,6 @@ var _hmt = _hmt || [];
 
         
   
-    <article id="post-dailyLearning/真题/vivo/vivo智能手机产能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E7%9C%9F%E9%A2%98/vivo%E6%99%BA%E8%83%BD%E6%89%8B%E6%9C%BA%E4%BA%A7%E8%83%BD/">vivo智能手机产能</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E7%9C%9F%E9%A2%98/vivo%E6%99%BA%E8%83%BD%E6%89%8B%E6%9C%BA%E4%BA%A7%E8%83%BD/" class="archive-article-date">
-  	<time datetime="2020-06-06T01:15:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p><img src="/%E7%9C%9F%E9%A2%98/vivo%E6%99%BA%E8%83%BD%E6%89%8B%E6%9C%BA%E4%BA%A7%E8%83%BD/image-20200606091608467.png" alt="image-20200606091608467"></p>
-</blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>这题先后做两遍：</p>
-<p>第二遍的思路是直接上数学推导。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * @param n int整型 第n天</span></span><br><span class="line"><span class="comment">     * @return int整型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">solution</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        <span class="keyword">int</span> round = <span class="number">0</span>, remaider = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(sum &lt; n)</span><br><span class="line">            sum += ++round;</span><br><span class="line">        remaider = n - (sum - round);</span><br><span class="line">        sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;round; ++i) &#123;</span><br><span class="line">            sum += i*i;</span><br><span class="line">        &#125;</span><br><span class="line">        sum += round * remaider;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>而第一遍的做法虽然更符合编程逻辑但是可能计算量更大，思路是对每一天计算当前所属轮次，累积和。但是其实可以用动态规划适当优化，使用一个大小为 <code>n+1</code> 的数组<code>dp[n]</code>，<code>dp[i]</code>表示第<code>i</code>天所属轮次，那么如何判断<code>i-1</code>天是否是其所属轮次的最后一天呢？如果<code>dp[i-1-dp[i-1]+1] = dp[i-dp[i-1]</code>与<code>dp[i-1]</code>属于同一轮次，那么<code>dp[i] = dp[i-1]+1</code>，否则<code>dp[i] = dp[i-1]</code>。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * @param n int整型 第n天</span></span><br><span class="line"><span class="comment">     * @return int整型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">solution</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n+<span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">        dp[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        dp[<span class="number">2</span>] = dp[<span class="number">3</span>] = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">5</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> day=<span class="number">4</span>; day&lt;=n; ++day) &#123;</span><br><span class="line">            <span class="keyword">if</span>(dp[day-dp[day<span class="number">-1</span>]] == dp[day<span class="number">-1</span>]) dp[day] = dp[day<span class="number">-1</span>]+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> dp[day] = dp[day<span class="number">-1</span>];</span><br><span class="line">            sum += dp[day];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vivo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/真题//" class="article-tag-list-link color3">真题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E7%9C%9F%E9%A2%98/vivo%E6%99%BA%E8%83%BD%E6%89%8B%E6%9C%BA%E4%BA%A7%E8%83%BD/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/真题/vivo/数位之积" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E7%9C%9F%E9%A2%98/%E6%95%B0%E4%BD%8D%E4%B9%8B%E7%A7%AF/">数位之积</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E7%9C%9F%E9%A2%98/%E6%95%B0%E4%BD%8D%E4%B9%8B%E7%A7%AF/" class="archive-article-date">
-  	<time datetime="2020-06-06T01:02:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p><img src="/%E7%9C%9F%E9%A2%98/%E6%95%B0%E4%BD%8D%E4%B9%8B%E7%A7%AF/image-20200606090348101.png" alt="image-20200606090348101"></p>
-</blockquote>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 输入一个整形数值，返回一个整形值</span></span><br><span class="line"><span class="comment">     * @param n int整型 n&gt;9</span></span><br><span class="line"><span class="comment">     * @return int整型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">solution</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        <span class="keyword">if</span>(n &lt;= <span class="number">0</span>) <span class="keyword">throw</span>(<span class="string">"Invalid input."</span>);</span><br><span class="line">        <span class="keyword">if</span>(n &lt; <span class="number">10</span>) <span class="keyword">return</span> n;</span><br><span class="line">        <span class="keyword">return</span> traceback(n, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">traceback</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> currbitnum)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 结束条件，该位小于10（可用一位十进制表示）；</span></span><br><span class="line">        <span class="keyword">int</span> origin = <span class="number">0</span>, scale = <span class="built_in">pow</span>(<span class="number">10</span>, currbitnum<span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">if</span>(n &lt; <span class="number">10</span>) <span class="keyword">return</span> n * scale;        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">9</span>; i&gt;<span class="number">1</span>; --i) &#123;</span><br><span class="line">            <span class="keyword">if</span>(n % i) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">int</span> rest = traceback(n/i, currbitnum+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span>(rest != <span class="number">-1</span>) &#123;</span><br><span class="line">                origin = i * scale + rest;</span><br><span class="line">                <span class="keyword">return</span> origin;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> origin <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>实际上是回溯+剪枝。</p>
-<p>思路是：位数越少，m 一定越小；低位尽可能大，高位才能尽可能小。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vivo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/真题//" class="article-tag-list-link color3">真题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E7%9C%9F%E9%A2%98/%E6%95%B0%E4%BD%8D%E4%B9%8B%E7%A7%AF/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/真题/vivo/手机屏幕解锁模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E7%9C%9F%E9%A2%98/%E6%89%8B%E6%9C%BA%E5%B1%8F%E5%B9%95%E8%A7%A3%E9%94%81%E6%A8%A1%E5%BC%8F/">手机屏幕解锁模式</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E7%9C%9F%E9%A2%98/%E6%89%8B%E6%9C%BA%E5%B1%8F%E5%B9%95%E8%A7%A3%E9%94%81%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-06-05T17:57:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p><img src="/%E7%9C%9F%E9%A2%98/%E6%89%8B%E6%9C%BA%E5%B1%8F%E5%B9%95%E8%A7%A3%E9%94%81%E6%A8%A1%E5%BC%8F/image-20200606015916071.png" alt="image-20200606015916071"></p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>DFS，搜索每个位置。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 实现方案</span></span><br><span class="line"><span class="comment">     * @param m int整型 最少m个键</span></span><br><span class="line"><span class="comment">     * @param n int整型 最多n个键</span></span><br><span class="line"><span class="comment">     * @return int整型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">solution</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        <span class="keyword">if</span>(m &gt; <span class="number">9</span> || n &lt; <span class="number">0</span> || m &gt; n) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">9</span>;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        mark.resize(<span class="number">3</span>, <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;(<span class="number">3</span>, <span class="literal">false</span>));</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>, cnt = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">3</span>; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="number">3</span>; ++j) &#123;</span><br><span class="line">                ans += dfs(m, n, i, j, cnt);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">        </span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&gt; mark;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n, <span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">int</span> cnt)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(mark[row][col] || cnt &gt; n) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        mark[row][col] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">3</span>; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="number">3</span>; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span>(row == i &amp;&amp; col == j) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span>((col+j)&amp;<span class="number">1</span> || (row+i)&amp;<span class="number">1</span>) &#123;</span><br><span class="line">                    ans += dfs(m, n, i, j, cnt+<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(mark[(row+i)/<span class="number">2</span>][(col+j)/<span class="number">2</span>]) &#123;</span><br><span class="line">                    ans += dfs(m, n, i, j, cnt+<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        mark[row][col] = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> cnt&gt;=m?ans+<span class="number">1</span>:ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>关键思路：如何判断当前选择是否跳过非选择键？此处需要归纳：当前点与目标点的中点（若存在）必须已经被选中。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/真题//" class="article-tag-list-link color3">真题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E7%9C%9F%E9%A2%98/%E6%89%8B%E6%9C%BA%E5%B1%8F%E5%B9%95%E8%A7%A3%E9%94%81%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/剑指Offer/面试题19-正则表达式匹配" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9819-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/">面试题19.正则表达式匹配</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9819-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/" class="archive-article-date">
-  	<time datetime="2020-06-05T04:07:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>请实现一个函数用来匹配包含’. ‘和’*‘的正则表达式。模式中的字符’.’表示任意一个字符，而’*‘表示它前面的字符可以出现任意次（含0次）。在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串”aaa”与模式”a.a”和”ab*ac*a”匹配，但与”aa.a”和”ab*a”均不匹配。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">s &#x3D; &quot;aa&quot;</span><br><span class="line">p &#x3D; &quot;a&quot;</span><br><span class="line">输出: false</span><br><span class="line">解释: &quot;a&quot; 无法匹配 &quot;aa&quot; 整个字符串。</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">s &#x3D; &quot;aa&quot;</span><br><span class="line">p &#x3D; &quot;a*&quot;</span><br><span class="line">输出: true</span><br><span class="line">解释: 因为 &#39;*&#39; 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 &#39;a&#39;。因此，字符串 &quot;aa&quot; 可被视为 &#39;a&#39; 重复了一次。</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 3:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">s &#x3D; &quot;ab&quot;</span><br><span class="line">p &#x3D; &quot;.*&quot;</span><br><span class="line">输出: true</span><br><span class="line">解释: &quot;.*&quot; 表示可匹配零个或多个（&#39;*&#39;）任意字符（&#39;.&#39;）。</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 4:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">s &#x3D; &quot;aab&quot;</span><br><span class="line">p &#x3D; &quot;c*a*b&quot;</span><br><span class="line">输出: true</span><br><span class="line">解释: 因为 &#39;*&#39; 表示零个或多个，这里 &#39;c&#39; 为 0 个, &#39;a&#39; 被重复一次。因此可以匹配字符串 &quot;aab&quot;。</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 5:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入:</span><br><span class="line">s &#x3D; &quot;mississippi&quot;</span><br><span class="line">p &#x3D; &quot;mis*is*p*.&quot;</span><br><span class="line">输出: false</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>s 可能为空，且只包含从 a-z 的小写字母。</li>
-<li>p 可能为空，且只包含从 a-z 的小写字母以及字符 . 和 *，无连续的 ‘*‘。</li>
-</ul>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>正则表达式匹配，返回是否匹配，为了解决问题，我们至少需要将两个字符串各遍历一遍。由于匹配肯定是从前向后依次匹配，那么字符串的所有前缀一定都有与其相匹配的正则表达式前缀。</p>
-<p>试想这个例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s &#x3D; &quot;mississippi&quot;</span><br><span class="line">p &#x3D; &quot;mis*is*p*.&quot;</span><br></pre></td></tr></table></figure>
-
-<p>对于<code>m</code>，匹配，没有其他选择，下一个是<code>i</code>，匹配，直到<code>s</code>与<code>*</code>匹配，遇到<code>*</code>时，它可以代表它之前的字母，也可以代表空字符（忽略该符号）。对于第一个<code>*</code>，我们发现其第一种情况是匹配的，因此需要进行下一次选择，此时可以选择结束<code>*</code>的匹配，或者继续<code>*</code>的匹配，本例中，选择继续匹配之后会匹配失败，需要重置选择，重新选择结束匹配，去匹配<code>i</code>和<code>i</code>，直到遇到<code>i</code>与<code>p</code>的匹配，此时不匹配，不匹配时有以下选择：检查正则表达式下个字符是否为<code>*</code>，如果是，那么可以跳过当前字符和<code>*</code>，用<code>*</code>后的字符继续匹配，否则匹配失败。</p>
-<p>以上流程可以用回溯实现，因为有些操作需要撤销重做。</p>
-<p>需要特判的条件是，匹配空字符，只有前面有合法字符的<code>*</code>才可以匹配空字符，两个空字符匹配代表匹配成功。</p>
-<hr>
-<p>四小时后：</p>
-<p>终于做出来了</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMatch</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">string</span> p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.empty() &amp;&amp; p.empty()) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(!p.empty() &amp;&amp; p[<span class="number">0</span>] == <span class="string">'*'</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(p.empty()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        dp.resize(s.<span class="built_in">size</span>()+<span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(p.<span class="built_in">size</span>()+<span class="number">1</span>, <span class="number">-1</span>));</span><br><span class="line">        <span class="comment">// 两者都不空或者只有s为空</span></span><br><span class="line">        <span class="keyword">return</span> helper(s, p, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; dp;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">helper</span><span class="params">(<span class="built_in">string</span>&amp; s, <span class="built_in">string</span>&amp; p, <span class="keyword">int</span> s_pos, <span class="keyword">int</span> p_pos)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> s_size = s.<span class="built_in">size</span>(), p_size = p.<span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">// 递归出口</span></span><br><span class="line">        <span class="keyword">if</span>(p_pos &gt; p_size) <span class="keyword">return</span> s_pos &gt; s_size;</span><br><span class="line">        <span class="keyword">if</span>(s_pos &lt;= s_size &amp;&amp; dp[s_pos][p_pos] != <span class="number">-1</span>) <span class="keyword">return</span> dp[s_pos][p_pos];</span><br><span class="line">        <span class="keyword">bool</span> ret = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(p_size-p_pos &gt; <span class="number">0</span> &amp;&amp; p[p_pos] == <span class="string">'*'</span>) &#123; <span class="comment">// 下个要匹配的是*</span></span><br><span class="line">            <span class="keyword">if</span>(s_pos &lt;= s_size)</span><br><span class="line">                ret = ((p[p_pos<span class="number">-1</span>] == s[s_pos<span class="number">-1</span>] || p[p_pos<span class="number">-1</span>] == <span class="string">'.'</span>) &amp;&amp; helper(s, p, s_pos+<span class="number">1</span>, p_pos)) || helper(s, p, s_pos, p_pos+<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> helper(s, p, s_pos, p_pos+<span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(s_pos &lt;= s_size)</span><br><span class="line">                ret = (s[s_pos<span class="number">-1</span>] == p[p_pos<span class="number">-1</span>] || p[p_pos<span class="number">-1</span>] == <span class="string">'.'</span>) &amp;&amp; helper(s, p, s_pos+<span class="number">1</span>, p_pos+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[s_pos][p_pos] = ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>为了避免时间浪费，一定要捋清楚条件判断的层次结构。</p>
-<p>就这道题来说，动态规划的状态很好想，但是难点在于针对不同的情况我们要做不同的选择，而不是简单堆砌选择。</p>
-<ul>
-<li>遇到<code>*</code><ul>
-<li><code>s</code>为空，跳过<code>*</code></li>
-<li><code>s</code>非空，匹配</li>
-</ul>
-</li>
-<li>遇到其他<ul>
-<li><code>s</code>非空，匹配</li>
-<li><code>s</code>空，返回匹配失败</li>
-</ul>
-</li>
-</ul>
-<p>写完就能看到那个下面代码了。需要注意的地方是，对于空了的<code>s</code>，dp 数组中没有对应的位置，因为无意义，所以需要直接返回而不填数组。</p>
-<p>每次递归时间复杂度$O(1)$，递归深度为$SP$，因此时间复杂度$O(SP)$，即两字符串长度之积。</p>
-<p>因此，为了正则匹配，我们需要遍历两个字符串，一个不含正则表达式，一个含有正则表达式。</p>
-<p>假设两个指针<code>ps</code>，<code>pp</code>分别初始化为指向<code>s</code>和<code>p</code>的首元素，<code>s</code>为匹配字符串，<code>p</code>为匹配模式，在匹配过程中：</p>
-<ul>
-<li>字符匹配常规字符<ul>
-<li>若匹配，move on</li>
-<li>不匹配，检查模式字符的后一个字符是否存在，若存在且为<code>*</code>，move on；否则，返回 false</li>
-</ul>
-</li>
-<li>字符匹配正则表达式字符<ul>
-<li>匹配到 <code>.</code> ，move on</li>
-<li>匹配到 <code>*</code> ，查询上一个元素（不能是<code>*</code>，只能是常规字符或 <code>.</code> ），并匹配，若匹配成功，move on，否则返回 false</li>
-</ul>
-</li>
-<li>结束条件：两个字符串到达结尾；<code>s</code>到达结尾，<code>p</code>未到达结尾，若<code>p</code>当前字符为<code>*</code>那么返回true，否则为false；<code>p</code>到达结尾，<code>s</code>未到达结尾，返回false</li>
-</ul>
-<p>按照题目意思，连续两个 <code>*</code> 是非法输入。</p>
-<p>此外特殊情况还应该包含空字符串输入。</p>
-<p>还有一种特殊情况：例如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;aaa&quot;</span><br><span class="line">&quot;a*a&quot;</span><br></pre></td></tr></table></figure>
-
-<p>这种输入使得算法满足<code>s</code>结束而<code>p</code>未结束的条件，且不以<code>*</code>结尾。概括一下这种特殊情况：<code>*</code>前后元素相同。</p>
-<p>条件越想越复杂，干脆看题解。</p>
-<p>题解的思路是动态规划，其实具体说就是对于匹配到<code>*</code>的情况，此时有两种选择：</p>
-<ul>
-<li>忽略，不匹配</li>
-<li>匹配一个字符</li>
-</ul>
-<p>两种选择只要有一个成功匹配即可。下面讨论状态转移：</p>
-<p>问题可以分解为子问题：子串是否可以匹配。记<code>dp[i][j]</code>为<code>s</code>的前<code>i</code>个和<code>p</code>的前<code>j</code>个字符组成的字符串匹配，那么当</p>
-<ul>
-<li>字符匹配常规字符<ul>
-<li>若匹配，检查<code>dp[i-1][j-1]</code>是否为<code>true</code></li>
-<li>不匹配，那么<code>dp[i][j]</code>只能为<code>false</code></li>
-</ul>
-</li>
-<li>字符匹配正则表达式字符<ul>
-<li>匹配到 <code>.</code> ，检查<code>dp[i-1][j-1]</code></li>
-<li>匹配到 <code>*</code> <ul>
-<li>选择不匹配，直接检查<code>dp[i][j-2]</code></li>
-<li>选择匹配，检查</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMatch</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">string</span> p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (p.empty()) <span class="keyword">return</span> s.empty();</span><br><span class="line">        <span class="keyword">if</span> (p.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; p[<span class="number">1</span>] == <span class="string">'*'</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> isMatch(s, p.substr(<span class="number">2</span>)) || (!s.empty() &amp;&amp; (s[<span class="number">0</span>] == p[<span class="number">0</span>] || p[<span class="number">0</span>] == <span class="string">'.'</span>) &amp;&amp; </span><br><span class="line">                isMatch(s.substr(<span class="number">1</span>), p));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> !s.empty() &amp;&amp; (s[<span class="number">0</span>] == p[<span class="number">0</span>] || p[<span class="number">0</span>] == <span class="string">'.'</span>) &amp;&amp; isMatch(s.substr(<span class="number">1</span>), p.substr(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">作者：lioney</span><br><span class="line">链接：https:<span class="comment">//leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/solution/lioney-cjian-dan-di-gui-by-lioney-2/</span></span><br><span class="line">来源：力扣（LeetCode）</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
-
-<p>上面是暴力递归，暴力回溯，没有动态规划。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9819-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1749,6 +1783,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">TPLINK</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">面试中的项目讲解</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">摩尔投票法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">server</a>
               </li>
             
             <div class="clearfix"></div>
