@@ -203,139 +203,6 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-myProjects/Tinywebserver/线程池" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/myprj/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/myprj/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="archive-article-date">
-  	<time datetime="2020-06-09T11:14:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">threadpool</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/*thread_number是线程池中线程的数量，max_requests是请求队列中最多允许的、等待处理的请求的数量*/</span></span><br><span class="line">    threadpool(<span class="keyword">int</span> actor_model, connection_pool *connPool, <span class="keyword">int</span> thread_number = <span class="number">8</span>, <span class="keyword">int</span> max_request = <span class="number">10000</span>);</span><br><span class="line">    ~threadpool();</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">append</span><span class="params">(T *request, <span class="keyword">int</span> state)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">append_p</span><span class="params">(T *request)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">/*工作线程运行的函数，它不断从工作队列中取出任务并执行之*/</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="title">worker</span><span class="params">(<span class="keyword">void</span> *arg)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> m_thread_number;        <span class="comment">//线程池中的线程数</span></span><br><span class="line">    <span class="keyword">int</span> m_max_requests;         <span class="comment">//请求队列中允许的最大请求数</span></span><br><span class="line">    <span class="keyword">pthread_t</span> *m_threads;       <span class="comment">//描述线程池的数组，其大小为m_thread_number</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">list</span>&lt;T *&gt; m_workqueue; <span class="comment">//请求队列</span></span><br><span class="line">    locker m_queuelocker;       <span class="comment">//保护请求队列的互斥锁</span></span><br><span class="line">    sem m_queuestat;            <span class="comment">//是否有任务需要处理</span></span><br><span class="line">    connection_pool *m_connPool;  <span class="comment">//数据库</span></span><br><span class="line">    <span class="keyword">int</span> m_actor_model;          <span class="comment">//模型切换</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>从类定义看出，该线程池定义了两个用户 API。</p>
-<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">threadpool&lt;T&gt;::threadpool( <span class="keyword">int</span> actor_model, connection_pool *connPool, <span class="keyword">int</span> thread_number, <span class="keyword">int</span> max_requests) : m_actor_model(actor_model),m_thread_number(thread_number), m_max_requests(max_requests), m_threads(<span class="literal">NULL</span>),m_connPool(connPool)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (thread_number &lt;= <span class="number">0</span> || max_requests &lt;= <span class="number">0</span>) <span class="comment">// 如果线程数量及队列最大请求数非法，抛出异常</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">std</span>::exception();</span><br><span class="line">    m_threads = <span class="keyword">new</span> <span class="keyword">pthread_t</span>[m_thread_number]; <span class="comment">// 动态分配数组</span></span><br><span class="line">    <span class="keyword">if</span> (!m_threads) <span class="comment">// 内存分配失败</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">std</span>::exception();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; thread_number; ++i)</span><br><span class="line">    &#123; <span class="comment">// 创建线程，并将TID存在数组中，类似于*(m_threads+i)=TID，若线程创建失败返回不为0</span></span><br><span class="line">        <span class="keyword">if</span> (pthread_create(m_threads + i, <span class="literal">NULL</span>, worker, <span class="keyword">this</span>) != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">delete</span>[] m_threads;</span><br><span class="line">            <span class="keyword">throw</span> <span class="built_in">std</span>::exception();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (pthread_detach(m_threads[i])) <span class="comment">// 把线程状态设置为detach</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">delete</span>[] m_threads;</span><br><span class="line">            <span class="keyword">throw</span> <span class="built_in">std</span>::exception();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>创建一个线程，这个线程的默认状态是 joinable，意味着线程结束之后需要使用 pthread_join 来显式回收资源，而调用 join 时如果线程还没有运行结束，此时调用函数会被阻塞。线程状态为 detach 的线程运行结束之后自动释放资源。</p>
-<h2 id="请求入队"><a href="#请求入队" class="headerlink" title="请求入队"></a>请求入队</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">bool</span> threadpool&lt;T&gt;::append_p(T *request)</span><br><span class="line">&#123;</span><br><span class="line">    m_queuelocker.lock();</span><br><span class="line">    <span class="keyword">if</span> (m_workqueue.<span class="built_in">size</span>() &gt;= m_max_requests)</span><br><span class="line">    &#123;</span><br><span class="line">        m_queuelocker.unlock();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    m_workqueue.push_back(request);</span><br><span class="line">    m_queuelocker.unlock();</span><br><span class="line">    m_queuestat.post();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>写请求队列时需要上锁，利用互斥锁进行线程同步，以保证线程安全；</li>
-<li>写完解锁，并设置信号量</li>
-</ul>
-<h2 id="pthread-create"><a href="#pthread-create" class="headerlink" title="pthread_create"></a>pthread_create</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_create</span> <span class="params">(<span class="keyword">pthread_t</span> *thread_tid,              <span class="comment">//返回新生成的线程的id</span></span></span></span><br><span class="line"><span class="function"><span class="params">                    <span class="keyword">const</span> <span class="keyword">pthread_attr_t</span> *attr,         <span class="comment">//指向线程属性的指针,通常设置为NULL</span></span></span></span><br><span class="line"><span class="function"><span class="params">                    <span class="keyword">void</span> * (*start_routine) (<span class="keyword">void</span> *),   <span class="comment">//处理线程函数的地址</span></span></span></span><br><span class="line"><span class="function"><span class="params">                    <span class="keyword">void</span> *arg)</span></span>;                         <span class="comment">//start_routine()中的参数</span></span><br></pre></td></tr></table></figure>
-
-<p>函数原型中的第三个参数，为函数指针，指向处理线程函数的地址。</p>
-<p>该函数，要求为静态函数，如果处理线程函数为类成员函数时，需要将其设置为<strong>静态成员函数</strong>。</p>
-<hr>
-<hr>
-<h1 id="2020-7-3-更新"><a href="#2020-7-3-更新" class="headerlink" title="2020/7/3 更新"></a>2020/7/3 更新</h1><p>近日打算重构一下服务器代码。</p>
-<p>注意到源代码的线程池非单例模式，因此用单例模式和 STL 标准库实现线程池。</p>
-<p>从半异步/半反应堆结构的设计出发，由于工作线程需要频繁访问连接资源和任务队列，因此将这两个数据结构一并封装在线程池中，提供一个 API 给主线程（IO线程）插入任务对象（连接 socket）。</p>
-<p>而资源类中需要封装请求资源的数据结构，并提供报文解析、响应请求等 API。</p>
-<p>单例模式实现过程中遇到如下问题：</p>
-<h2 id="invalid-use-of-non-static-function"><a href="#invalid-use-of-non-static-function" class="headerlink" title="invalid use of non-static function"></a>invalid use of non-static function</h2><p>错误原因为之前一直没有注意的：创建新线程时指定的入口函数必须为静态函数，但是如果直接把任务函数声明为静态函数就使得我们必须将任务函数中用到的所有数据成员声明为静态，开销太大，因此需要包装函数，通过<code>get_instance</code>返回的单例间接调用任务函数</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> sockfd, <span class="keyword">typename</span> resource&gt;</span><br><span class="line"><span class="keyword">auto</span> threadpool_proactor&lt;sockfd, resource&gt;::wrapper(threadpool_proactor *arg) -&gt; threadpool_proactor * &#123;</span><br><span class="line">    arg-&gt;workers();</span><br><span class="line">    <span class="keyword">return</span> arg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> sockfd, <span class="keyword">typename</span> resource&gt;</span><br><span class="line"><span class="keyword">void</span> threadpool_proactor&lt;sockfd, resource&gt;::workers() &#123;</span><br><span class="line">    <span class="keyword">while</span> (!m_shutdown) &#123;</span><br><span class="line">        ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如上。</p>
-<h2 id="分离-reactor-与-proactor-实现"><a href="#分离-reactor-与-proactor-实现" class="headerlink" title="分离 reactor 与 proactor 实现"></a>分离 reactor 与 proactor 实现</h2><p>为将两种事件处理模式分离，在单例模式的基础上加上了类似简单工厂的设计，但问题来了！每种模式的线程池并不知道另一种模式的线程池是否已经存在，因此需要一个接口以供判断。</p>
-<p>但是通过在每个类中加一个静态探针成员的办法从设计上来说不太容易实现，因此给工厂加一个限制：只能产生一个实例。</p>
-<p>因此把工厂的API分为：获取实例、初始化两种。</p>
-<p>但如何返回不同派生类的实例呢？</p>
-<p>使用重载函数，用一个模板参数激活函数重载。</p>
-<h2 id="使用信号量唤醒线程引起的惊群效应？"><a href="#使用信号量唤醒线程引起的惊群效应？" class="headerlink" title="使用信号量唤醒线程引起的惊群效应？"></a>使用信号量唤醒线程引起的惊群效应？</h2><p>可以使用条件变量加互斥锁解决。</p>
-<h3 id="先解锁还是先唤醒？"><a href="#先解锁还是先唤醒？" class="headerlink" title="先解锁还是先唤醒？"></a>先解锁还是先唤醒？</h3><blockquote>
-<p><strong>加锁时调用signal</strong></p>
-<p>​     某些平台上，在执行了signal/broadcast之后，为了减少延迟，操作系统会将上下文切换到被唤醒的线程。在单核系统上，如果在加锁的情况下调用signal/broadcast，这可能导致不必要的上下文切换。</p>
-<p><img src="/myprj/%E7%BA%BF%E7%A8%8B%E6%B1%A0/20160824163410074" alt="img"></p>
-<p>​     考虑上图的场景：T2阻塞在条件变量上，T1在持有锁的情况下调用signal，接着上下文切换到T2，并且T2被唤醒，但是T2在从pthread_cond_wait返回时，需要重新加锁，然而此时锁还在T1手中。因此，T2只能继续阻塞（但是此时是阻塞在锁上），并且上下文又切换回T1。当T1解锁时，T2才得以继续运行。如果是调用broadcast唤醒等待条件变量的多个线程的话，那这种情形会变得更糟。</p>
-<p>​     为了弥补这种缺陷，一些Pthreads的实现采用了一种叫做waitmorphing的优化措施，也就是当锁被持有时，直接将线程从条件变量队列移动到互斥锁队列，而无需上下文切换。</p>
-<p>​     如果使用的Pthreads实现没有waitmorphing，我们可能需要在解锁之后在进行signal/broadcast。解锁操作并不会导致上下文切换到T2，因为T2是在条件变量上阻塞的。当T2被唤醒时，它发现锁已经解开了，从而可以对其加锁。</p>
-<p>以上摘自<a href="https://blog.csdn.net/gqtcgq/article/details/52301749" target="_blank" rel="noopener">https://blog.csdn.net/gqtcgq/article/details/52301749</a></p>
-</blockquote>
-<p>然而先解锁后唤醒可能会导致伪唤醒，还需要理解。</p>
-<p>结论：在没有证明先唤醒后解锁的性能显著低的情况下，先唤醒后解锁。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/myprj/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
     <article id="post-git/merge" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1421,6 +1288,137 @@ var _hmt = _hmt || [];
 
         
   
+    <article id="post-dailyLearning/剑指Offer/面试题18-删除链表的节点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9818-%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E8%8A%82%E7%82%B9/">面试题18.删除链表的节点</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9818-%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E8%8A%82%E7%82%B9/" class="archive-article-date">
+  	<time datetime="2020-06-04T18:18:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。</p>
+<p>返回删除后的链表的头节点。</p>
+<p>注意：此题对比原题有改动</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: head &#x3D; [4,5,1,9], val &#x3D; 5</span><br><span class="line">输出: [4,1,9]</span><br><span class="line">解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -&gt; 1 -&gt; 9.</span><br></pre></td></tr></table></figure>
+
+
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: head &#x3D; [4,5,1,9], val &#x3D; 1</span><br><span class="line">输出: [4,5,9]</span><br><span class="line">解释: 给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -&gt; 5 -&gt; 9.</span><br></pre></td></tr></table></figure>
+
+
+<p>说明：</p>
+<ul>
+<li>题目保证链表中节点的值互不相同</li>
+<li>若使用 C 或 C++ 语言，你不需要 free 或 delete 被删除的节点</li>
+</ul>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>要考虑节点值不存在的情况。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">deleteNode</span><span class="params">(ListNode* head, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head == <span class="literal">nullptr</span>) <span class="keyword">return</span> head;</span><br><span class="line">        <span class="keyword">if</span>(head-&gt;val == val) &#123;</span><br><span class="line">            <span class="keyword">auto</span> tmp = head-&gt;next;</span><br><span class="line">            head = <span class="literal">nullptr</span>;</span><br><span class="line">            <span class="keyword">return</span> tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            head-&gt;next = deleteNode(head-&gt;next, val);</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;            </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这种思路是从头开始匹配节点，匹配到则删除。</p>
+<p>迭代写法思路为：</p>
+<ul>
+<li>先设置一个伪头节点用于边界情况处理</li>
+<li>当前节点 <code>curr</code>，查询 <code>curr-&gt;next</code> 是否是我们需要删除的节点<ul>
+<li>如果下个节点为 <code>nullptr</code> 说明已经到达链表尾部，此时要删除的元素不在链表中</li>
+<li>如果下个节点存在且需要删除，那么把当前节点的 <code>next</code> 指向下个结点的 <code>next</code>，并把下个节点指向 <code>nullptr</code></li>
+<li>如果下个节点存在且不需要删除，那么迭代当前节点</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">deleteNode</span><span class="params">(ListNode* head, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head == <span class="literal">nullptr</span>) <span class="keyword">return</span> head;</span><br><span class="line">        <span class="keyword">auto</span> curr = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">        curr-&gt;next = head;</span><br><span class="line">        head = curr;</span><br><span class="line">        <span class="keyword">while</span>(curr-&gt;next) &#123;</span><br><span class="line">            <span class="keyword">auto</span> next = curr-&gt;next;</span><br><span class="line">            <span class="keyword">if</span>(next-&gt;val == val) &#123;</span><br><span class="line">                curr-&gt;next = next-&gt;next;</span><br><span class="line">                next-&gt;next = <span class="literal">nullptr</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> curr = next;</span><br><span class="line">        &#125;       </span><br><span class="line">        <span class="keyword">return</span> head-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>注意返回值一定是伪首节点的下个节点。</p>
+<ul>
+<li>时间复杂度 $O(N)$</li>
+<li>空间复杂度 $O(1)$</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">链表</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9818-%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E8%8A%82%E7%82%B9/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
@@ -1785,10 +1783,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">TPLINK</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">面试中的项目讲解</a>
               </li>
              
               <li class="article-tag-list-item">

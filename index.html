@@ -934,114 +934,6 @@ var _hmt = _hmt || [];
 
         
   
-    <article id="post-myProjects/项目介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/myprj/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D/">项目介绍</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/myprj/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D/" class="archive-article-date">
-  	<time datetime="2020-06-30T01:06:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="基于波束形成的声源定位与语音增强算法开发"><a href="#基于波束形成的声源定位与语音增强算法开发" class="headerlink" title="基于波束形成的声源定位与语音增强算法开发"></a>基于波束形成的声源定位与语音增强算法开发</h1><p>项目简介：要求使用 C++ 开发算法，实现基于多路麦克风的二维空间声源定位以及语音增强，并且移植到嵌入式系统进行实验。</p>
-<p>项目思路：</p>
-<ul>
-<li>确定硬件平台为树莓派3B后，选用四路麦克风树莓派外设，选定目标平台运行系统 Raspbian，最终选择在 Ubuntu 系统下进行开发；</li>
-<li>选择合适的算法进行实现和改进以适应项目定位精度及速度要求：最终选择了基于波束形成的算法；</li>
-<li>不断实验并改进；</li>
-</ul>
-<p>项目中遇到的问题及解决办法：</p>
-<ul>
-<li>开始时使用音频文件进行算法测试，发现运行速度太慢，处理 16kHz 采样率时长 4s 的音频需要 40s 左右，于是需要想办法提高运行速度。由于算法需要对四路麦克风采集的数据分别进行加窗傅里叶变换和逆变换，涉及大量浮点运算，是算法循环中的主要耗时部分，因此看了当时使用的开源 FFT 库的源码，发现存在非必要大量数据拷贝，因此选择更换 FFT 库，结果是同样输入数据的运行时间加速到了 10s 以内；</li>
-<li>但这仍不符合需求，因此需要继续优化算法。整个算法框架大致由 FFT、功率计算、功率排序构成。由于算法原理是计算每个方位角对应的波束功率，取功率最大的方位角作为声源方向，所以算法以 1° 作为分辨率，计算360个角度每个点对应的功率，而对每个角度都需要计算傅里叶逆变换还原时域数据，因此首先考虑算法是否存在冗余计算，由于室内环境下，考虑少数低分贝噪声源影响的情况下，功率随角度的曲线类似凸函数，因此可以分阶段搜索，先用低分辨率计算，过滤非感兴趣区域，再在感兴趣区域中进行高分辨率计算，以24*15为例，最终只需要进行39次复杂计算，运行速度调高到每处理 1s 时长的原始数据需要 300 ms左右，满足实时性要求，并且实验中精度仍然满足要求；</li>
-<li>需要对实时数据进行处理，意味着需要读取流数据，最终使用开源音频接口库异步读数据到缓冲区；</li>
-</ul>
-<h1 id="Linux-下多并发-Web-服务器"><a href="#Linux-下多并发-Web-服务器" class="headerlink" title="Linux 下多并发 Web 服务器"></a>Linux 下多并发 Web 服务器</h1><ul>
-<li>并发模式采用半同步/半反应堆模式，基于 epoll （实现了 ET 和 LT 两种触发模式）实现了 Reactor 和 模拟 Proactor 两种事件处理模式；逻辑单元使用线程池来实现；</li>
-<li>使用基于升序双向链表的定时器实现非活动连接的释放；</li>
-<li>使用有限状态机的思想设计 HTTP 请求报文解析类，支持解析 GET 和 POST 方法；</li>
-<li>通过访问服务器主机 MySQL 数据库实现 web 端用户注册、登录功能，支持大文件请求；</li>
-<li>实现同步/异步日志系统，记录服务器运行状态；</li>
-<li>经Webbench压力测试可以实现上万的并发连接数据交换</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">面试中的项目讲解</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/myprj/%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
     <article id="post-myProjects/Tinywebserver/服务器调试记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1346,6 +1238,104 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/剑指Offer/面试题36-二叉搜索树与双向链表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9836-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/">面试题36.二叉搜索树与双向链表</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9836-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/" class="archive-article-date">
+  	<time datetime="2020-06-18T11:45:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>题目地址：<a href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/</a></p>
+<p>题目大致意思是要把一棵二叉搜索树转换成排序双向循环链表，返回最小元素节点。每个节点左指针指向前驱结点，右节点指向后继节点。</p>
+<p>利用二叉搜索树中序遍历为升序序列的性质，我们使用中序变量进行转换，递归实现。</p>
+<p>需要考虑的问题是，对于一个节点，我们需要把它的左指针指向它的左子树的最大节点（如果存在），把左子树最大节点右指针指向该节点，这样做我们需要考虑边界情况，也就是首节点，首节点没有前驱。</p>
+<p>为了返回，我们需要保存头节点，为了构造双向链表，我们需要保存前驱结点，并在递归中更新。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">// Definition for a Node.</span></span><br><span class="line"><span class="comment">class Node &#123;</span></span><br><span class="line"><span class="comment">public:</span></span><br><span class="line"><span class="comment">    int val;</span></span><br><span class="line"><span class="comment">    Node* left;</span></span><br><span class="line"><span class="comment">    Node* right;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    Node() &#123;&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    Node(int _val) &#123;</span></span><br><span class="line"><span class="comment">        val = _val;</span></span><br><span class="line"><span class="comment">        left = NULL;</span></span><br><span class="line"><span class="comment">        right = NULL;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    Node(int _val, Node* _left, Node* _right) &#123;</span></span><br><span class="line"><span class="comment">        val = _val;</span></span><br><span class="line"><span class="comment">        left = _left;</span></span><br><span class="line"><span class="comment">        right = _right;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&#125;;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Node* pre, *head;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">Node* <span class="title">treeToDoublyList</span><span class="params">(Node* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> root;</span><br><span class="line">        inorderTraversal(root);</span><br><span class="line">        head-&gt;left = pre;</span><br><span class="line">        pre-&gt;right = head;</span><br><span class="line">        <span class="keyword">return</span> head;       </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inorderTraversal</span><span class="params">(Node* curr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!curr) <span class="keyword">return</span>;</span><br><span class="line">        inorderTraversal(curr-&gt;left);</span><br><span class="line">        curr-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span>(pre) pre-&gt;right = curr;</span><br><span class="line">        <span class="keyword">else</span> head = curr;</span><br><span class="line">        pre = curr;</span><br><span class="line">        inorderTraversal(curr-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">二叉搜索树</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">双向链表</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9836-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/">展开全文 >></a>
         </p>
       
 
@@ -1740,10 +1730,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">TPLINK</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">面试中的项目讲解</a>
               </li>
              
               <li class="article-tag-list-item">

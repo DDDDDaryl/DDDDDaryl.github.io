@@ -203,112 +203,6 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-myProjects/Tech_issues/ssh自动断开连接问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Linux/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/">解决：ssh长时间无操作服务器断开会话的问题</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Linux/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2020-05-14T11:34:19.186Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="修改服务器端参数"><a href="#修改服务器端参数" class="headerlink" title="修改服务器端参数"></a>修改服务器端参数</h1><p>修改服务器端的ssh设置：找到</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> /etc/ssh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim sshd_config</span></span><br></pre></td></tr></table></figure>
-
-<p>添加如下设置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClientAliveInterval  60</span><br></pre></td></tr></table></figure>
-
-<p>该设置意为服务器会每60秒向client发送一次保持连接的信号。如果还要定时断开连接：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClientAliveCountMax  60</span><br></pre></td></tr></table></figure>
-
-<h1 id="修改客户端参数"><a href="#修改客户端参数" class="headerlink" title="修改客户端参数"></a>修改客户端参数</h1><p>与修改服务器参数类似，只不过需要修改的文件为<code>ssh_config</code>。</p>
-<h1 id="使用ssh登陆前用参数配置"><a href="#使用ssh登陆前用参数配置" class="headerlink" title="使用ssh登陆前用参数配置"></a>使用ssh登陆前用参数配置</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -o ServerAliveInterval=30 root@192.168.1.1</span><br></pre></td></tr></table></figure>
-
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
-<li><a href="https://blog.csdn.net/hustcw98/article/details/79325878" target="_blank" rel="noopener">ssh连接远程服务器自动断开解决</a></li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ssh</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Linux/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
     <article id="post-myProjects/Tech_issues/VOC格式数据集转COCO格式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1278,6 +1172,100 @@ var _hmt = _hmt || [];
 
         
   
+    <article id="post-dailyLearning/c++/C++总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Cpp/summary/c-%E6%80%BB%E7%BB%93/">c++总结</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Cpp/summary/c-%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-05-12T01:28:08.047Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本篇博客用来总结自己在学习/复习C++的过程中遇到的新的/没掌握的细节。章节划分就参照《c++ Primer》一书的章节。</p>
+        
+          <a class="article-more-a" href="/Cpp/summary/c-%E6%80%BB%E7%BB%93/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Cpp/summary//" class="article-tag-list-link color3">summary</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Cpp/summary/c-%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
@@ -1642,10 +1630,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">TPLINK</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">面试中的项目讲解</a>
               </li>
              
               <li class="article-tag-list-item">
