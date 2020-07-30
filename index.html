@@ -80,6 +80,8 @@ var _hmt = _hmt || [];
 			
 				<li><a href="/">主页</a></li>
 	        
+				<li><a href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li>
+	        
 				<li><a href="/categories/Cpp/">Cpp</a></li>
 	        
 				<li><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
@@ -152,6 +154,8 @@ var _hmt = _hmt || [];
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -166,21 +170,23 @@ var _hmt = _hmt || [];
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 12.5%"><a href="/">主页</a></li>
+					<li style="width: 11.11111111111111%"><a href="/">主页</a></li>
 		        
-					<li style="width: 12.5%"><a href="/categories/Cpp/">Cpp</a></li>
+					<li style="width: 11.11111111111111%"><a href="/categories/%E9%9D%A2%E7%BB%8F/">面经</a></li>
 		        
-					<li style="width: 12.5%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
+					<li style="width: 11.11111111111111%"><a href="/categories/Cpp/">Cpp</a></li>
 		        
-					<li style="width: 12.5%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
+					<li style="width: 11.11111111111111%"><a href="/categories/Leetcode/">Leetcode学习笔记</a></li>
 		        
-					<li style="width: 12.5%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+					<li style="width: 11.11111111111111%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">操作系统</a></li>
 		        
-					<li style="width: 12.5%"><a href="/categories/DeepLearning/">深度学习</a></li>
+					<li style="width: 11.11111111111111%"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
 		        
-					<li style="width: 12.5%"><a href="/categories/myprj/">我的项目</a></li>
+					<li style="width: 11.11111111111111%"><a href="/categories/DeepLearning/">深度学习</a></li>
 		        
-					<li style="width: 12.5%"><a href="/categories/techissue/">Tech issues</a></li>
+					<li style="width: 11.11111111111111%"><a href="/categories/myprj/">我的项目</a></li>
+		        
+					<li style="width: 11.11111111111111%"><a href="/categories/techissue/">Tech issues</a></li>
 		        
 				</ul>
 			</nav>
@@ -196,6 +202,737 @@ var _hmt = _hmt || [];
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-dailyLearning/Leetcode/手写排序算法总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E6%89%8B%E5%86%99%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">手写排序算法总结</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E6%89%8B%E5%86%99%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-07-24T15:41:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><p>最大堆，先建堆，再 pop 直至堆空，此时得到升序序列。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">sortArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _heap_sort(nums);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">void</span> _max_heapify(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> curr, <span class="keyword">int</span> len) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.empty())</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">int</span> max_child = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">int</span> left_child_idx = <span class="number">-1</span>, right_child_idx = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span> (curr * <span class="number">2</span> + <span class="number">1</span> &lt; len) &#123;</span><br><span class="line">            left_child_idx = curr * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">            right_child_idx = curr * <span class="number">2</span> + <span class="number">2</span>;</span><br><span class="line">            max_child = </span><br><span class="line">                right_child_idx &lt; len ? </span><br><span class="line">                (nums[left_child_idx] &lt; nums[right_child_idx] ? right_child_idx : left_child_idx)</span><br><span class="line">                : left_child_idx;</span><br><span class="line">            <span class="keyword">if</span> (nums[curr] &lt; nums[max_child]) &#123;</span><br><span class="line">                swap(nums[curr], nums[max_child]);</span><br><span class="line">                curr = max_child;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> _build_max_heap(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> len) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> curr = len / <span class="number">2</span>; curr &gt;= <span class="number">0</span>; --curr) &#123;</span><br><span class="line">            _max_heapify(nums, curr, len);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;_heap_sort(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.empty() || nums.<span class="built_in">size</span>() == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> nums;</span><br><span class="line">        <span class="keyword">int</span> len = nums.<span class="built_in">size</span>();</span><br><span class="line">        _build_max_heap(nums, len);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = len - <span class="number">1</span>; i &gt;= <span class="number">1</span>; --i) &#123;</span><br><span class="line">            swap(nums[len - <span class="number">1</span>], nums[<span class="number">0</span>]);</span><br><span class="line">            len -= <span class="number">1</span>;</span><br><span class="line">            _max_heapify(nums, <span class="number">0</span>, len);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E6%89%8B%E5%86%99%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/面经/字节后端一面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E5%90%8E%E7%AB%AF%E4%B8%80%E9%9D%A2%E3%80%81%E4%BA%8C%E9%9D%A2/">字节后端一面、二面</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E5%90%8E%E7%AB%AF%E4%B8%80%E9%9D%A2%E3%80%81%E4%BA%8C%E9%9D%A2/" class="archive-article-date">
+  	<time datetime="2020-07-10T08:18:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>字节</p>
+<ol>
+<li>介绍项目</li>
+<li>日志系统异步并没有提高性能</li>
+<li>多继承虚表</li>
+<li>TCP 为什么要握手</li>
+<li>匹配子串</li>
+</ol>
+<hr>
+<p>阿里</p>
+<ol>
+<li>介绍项目</li>
+<li>介绍并发模式</li>
+<li>如何实现并发</li>
+<li>定时器如何实现，为什么要用双链表，单链表就够了</li>
+<li>有限状态机，为什么要用，为什么用主从状态机</li>
+<li>如何优化定时器</li>
+<li>有参考开源项目吗</li>
+<li>new 一个对象到销毁，操作系统做了什么</li>
+<li>继承中构造函数的调用顺序，为什么要这么设计</li>
+<li>如何遍历二叉树（应该问问目的。。。）</li>
+</ol>
+<hr>
+<p>字节二面</p>
+<ol>
+<li><p>如何实现线程安全hash_map</p>
+<p>CAS，compare and swap</p>
+</li>
+<li><p>如何实现多进程下的hash_map<br>可能是共享内存</p>
+</li>
+<li><p>进程线程区别</p>
+</li>
+<li><p>进程间通信方式</p>
+</li>
+<li><p>2000万学生数据排序，要求由姓名检索排名<br>按一个int来算只有80M，直接map排序</p>
+</li>
+<li><p>一面算法题有没有更优解</p>
+</li>
+<li><p>带随机指针的链表深拷贝</p>
+</li>
+<li><p>概率题，AB胜率相等，A赢两回合获胜，B赢三回合获胜，A的胜率</p>
+</li>
+</ol>
+<hr>
+<p>字节第二次一面</p>
+<ol>
+<li>如何理解虚拟内存</li>
+<li>什么时候使用类方法和类实例方法</li>
+<li>从源码到可执行文件的过程</li>
+<li>说说服务器项目的特点，与成熟框架相比有什么特色（答只是练手的，希望把技巧搞懂了再用上）</li>
+<li>那你学到了什么</li>
+<li>代码：链表表示的十进制数相加</li>
+</ol>
+<p>字节第二次二面</p>
+<ol>
+<li>说说你的深度学习除草机项目</li>
+<li>哪几个模块，如何实现</li>
+<li>项目指标是什么，指标没达到要求可能是什么问题，如何排查，除了控制变量还有什么方法</li>
+<li>服务器项目，假设校园网，上万学生同时选课，怎么保证不挂掉（我说没有请求大文件，应该不会挂掉。。。）</li>
+<li>你是怎么限制连接数的，连接数受限的因素有哪些，为什么限制，超过连接数客户端接收到什么，服务器如何处理？</li>
+<li>连接重置的HTTP状态码是什么？（我提出疑惑说这是TCP的，他说这是他故意挖坑）</li>
+<li>算法：螺旋矩阵2，写太慢被催了。。。</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">字节跳动</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">阿里巴巴</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/面经//" class="article-tag-list-link color3">面经</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E5%90%8E%E7%AB%AF%E4%B8%80%E9%9D%A2%E3%80%81%E4%BA%8C%E9%9D%A2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/面经/字节面经总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/">字节面经总结</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-07-08T16:44:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="面经整理"><a href="#面经整理" class="headerlink" title="面经整理"></a>面经整理</h1><ol>
+<li>三次握手四次挥手的状态</li>
+<li>TCP和UDP的区别</li>
+<li>TCP如何保证可靠传输</li>
+<li>滑动窗口</li>
+<li>IO复用，epoll</li>
+<li>算法：二叉树的左视图</li>
+<li>多线程，线程进程，如何保证线程安全，线程池</li>
+<li>进程和线程介绍；</li>
+<li>进程或线程死锁介绍；</li>
+<li>了解活锁吗？（没听过）</li>
+<li>操作系统中的堆和栈；</li>
+<li>用过哪些锁，介绍一下读写锁、</li>
+<li>三次握手四次挥手，为什么是四次； </li>
+<li>TCP和UDP区别； </li>
+<li>TCP和HTTP分别在那一层；  </li>
+<li>TCP如何保证可靠传输； </li>
+<li>TCP拥塞协议中的慢重传算法； </li>
+<li>HTTP介绍一下； </li>
+<li>HTTP2.0了解吗？（不大清楚） </li>
+<li>HTTP1.1中的参数keepalive作用；</li>
+<li>事务的四大特性，并具体介绍一下；</li>
+<li>脏读和幻读发生场景与区别；</li>
+<li>介绍一下数据库事务；</li>
+<li>讲一下B+树，为什么使用B+树；</li>
+<li>讲一下主键；</li>
+<li><strong><em>LeetCode283 移动零</em></strong><br>每次把第一个非零的往前换</li>
+<li><strong><em>给定链表，确定中间数；</em></strong></li>
+<li>线程池怎么实现的？</li>
+<li>EPOLL写大文件怎么实现</li>
+<li>EPOLL读事件，读缓冲不够用怎么搞？</li>
+<li>海量数据斐波那契</li>
+<li>给一个只有数字和英文的文本，怎么压缩这个文本？</li>
+<li>需要用文件存储键值对数据，都是字符串类型，要考虑查询速率，怎么存储？</li>
+<li>左***上一发子弹，六个人，一人一枪，最后一个人死亡的概率。</li>
+<li>大数问题中的topK问题</li>
+<li>给整数数组做数字次数统计</li>
+<li>linux杀死进程的方式、查看TCP连接（netstat命令）</li>
+<li>阻塞io和非阻塞io</li>
+<li>线程与进程</li>
+<li>服务端并发模型</li>
+<li>ping用到的协议</li>
+<li>三次握手四次挥手</li>
+<li>time_wait</li>
+<li>客户端或服务端崩了，如何结束连接，对方如何感知</li>
+<li>http请求包结构</li>
+<li>你对于i/o 模型的了解</li>
+<li>你了解的设计模式都有哪些？</li>
+<li>单例模式（手撕代码）</li>
+<li>linux cat echo</li>
+<li>杀掉名字里有 “abc”的线程 一条命令</li>
+<li>进程线程间通信，进程线程的区别</li>
+<li>手撕代码 3sum</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">字节跳动</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/面经//" class="article-tag-list-link color3">面经</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/面经/招银网络面经总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E9%9D%A2%E7%BB%8F/%E6%8B%9B%E9%93%B6%E7%BD%91%E7%BB%9C%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/">招银网络面经总结</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E9%9D%A2%E7%BB%8F/%E6%8B%9B%E9%93%B6%E7%BD%91%E7%BB%9C%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-07-07T13:17:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="视频面-一面"><a href="#视频面-一面" class="headerlink" title="视频面 一面"></a>视频面 一面</h1><ol>
+<li><strong><em>TCP, UDP 介绍，使用场景</em></strong></li>
+<li><strong><em>静态链接库，动态链接库</em></strong></li>
+<li><strong><em>hash，链表，二叉树时间复杂度分析，极端情况分析</em></strong></li>
+<li>链表查找倒数第 N 个节点</li>
+<li>C++ 多态实现</li>
+<li><strong><em>HTTP/1.1 前后的区别，GET/POST 区别</em></strong></li>
+<li>进程和线程区别</li>
+<li>设计模式</li>
+<li>数据库事务隔离级别</li>
+<li>聚集索引、非聚集索引</li>
+<li>索引最左原则</li>
+<li>重载和重写</li>
+<li>多态的体现方式</li>
+<li><strong><em>C 是否支持重载</em></strong></li>
+<li>死锁的四个必要条件</li>
+<li>EPOLL/SELECT/POLL 区别</li>
+<li>数据库底层数据结构实现，B 树和 B+树</li>
+<li>sleep 和 wait 的区别</li>
+<li>四次挥手？为什么有 time_wait 状态</li>
+<li>客户端和服务端用了哪些 socket 函数</li>
+<li>比较 STL 常用容器</li>
+<li>常用排序，比较复杂度</li>
+<li>内联函数和宏的区别</li>
+<li>虚函数怎么使用，构造函数和析构函数是否可以是虚函数</li>
+<li>成员函数和友元函数，友元函数是否能访问类的方法</li>
+<li><strong><em>HTTP 状态码</em></strong></li>
+<li>浏览器输入 URL 发生什么</li>
+<li>野指针</li>
+<li>知道哪些数据结构</li>
+</ol>
+<h1 id="本人面经"><a href="#本人面经" class="headerlink" title="本人面经"></a>本人面经</h1><ol>
+<li>数据库会不会 不会</li>
+<li>项目代码量有多少</li>
+<li>c++ const 关键字</li>
+<li>代码，翻转字符串（按单词翻转，空格隔开）</li>
+<li>做错了，说说思路</li>
+<li>哈希表用过没？有什么碰撞处理方法？</li>
+<li>堆排序，大顶堆如何插入新的元素</li>
+<li>平时如何学习编程相关知识？遇到 bug 如何排查？</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">招银网络</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/面经//" class="article-tag-list-link color3">面经</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E9%9D%A2%E7%BB%8F/%E6%8B%9B%E9%93%B6%E7%BD%91%E7%BB%9C%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-myProjects/DL/yolov3-spp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/myprj/yolov3-spp-vs-tiny/">yolov3-spp vs tiny</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/myprj/yolov3-spp-vs-tiny/" class="archive-article-date">
+  	<time datetime="2020-07-05T15:23:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文所有图片来源于<a href="https://medium.com/analytics-vidhya/tensorflow-2-yolov3-tiny-object-detection-implementation-c3ea5d4d0510" target="_blank" rel="noopener">https://medium.com/analytics-vidhya/tensorflow-2-yolov3-tiny-object-detection-implementation-c3ea5d4d0510</a></p>
+</blockquote>
+<p>虽然 YOLOv3 已经比同样是单阶段目标检测模型的 SSD300 要快，但是对于嵌入式设备的应用，基于 Darknet53 backbone 的 YOLOv3 速度仍然不可观，因此 YOLO 的作者定义了 YOLOv3-tiny 模型，通过简化模型来追求推理速度，出于同样目的，Tiny YOLO 模型也被提出。各个版本的主流单阶段目标检测模型在 COCO 数据集上的表现如下：</p>
+<p><img src="/myprj/yolov3-spp-vs-tiny/1_Ypy3hR_AHQAF4V-ARl5LXg.png" alt="1_Ypy3hR_AHQAF4V-ARl5LXg"></p>
+<p>从结果可以看出 YOLOv3-tiny 比常规规模的模型计算量小六倍左右，在单块 GPU 上可以达到 220 FPS 的推理速度。</p>
+<p>YOLOv3-Tiny 使用 Darknet19 作为其 backbone，网络结构如下：</p>
+<p><img src="/myprj/yolov3-spp-vs-tiny/1_bkokbbmBFCXhRwzZAcmfwg.png" alt="1_bkokbbmBFCXhRwzZAcmfwg"></p>
+<p>从图中可以看出，YOLOv3-Tiny 只有两层 YOLO 层，以及更少的卷积层，更形象的结构示意图如下：</p>
+<p><img src="/myprj/yolov3-spp-vs-tiny/1_fz9xdrlvp8fBGdMkuUM0CA.png" alt="1_fz9xdrlvp8fBGdMkuUM0CA"></p>
+<p>与 YOLOv3 相比，YOLOv3-Tiny 保留了对 FPN 的借鉴，仍然通过 feature map 直接叠加的操作来融合特征，只是选择了更少的 feature map 进行特征融合和特征检测。基于精简的模型，很多文章都采用剪枝的策略来进一步压缩参数，在保持精度的前提下提高推理速度，因此对剪枝策略的研究可以作为模型优化的方向。</p>
+<p>这一周在模型训练中遇到了较多问题，最严重的是数据集在转换格式的过程中出现了错误，导致训练结果 mAP 仅有 0.1，因此考虑顺便把数据集中的噪声去掉，重新转换数据集进行训练。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">YOLOv3</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/myprj/yolov3-spp-vs-tiny/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-myProjects/Tinywebserver/连接资源类" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/myprj/%E8%BF%9E%E6%8E%A5%E8%B5%84%E6%BA%90%E7%B1%BB/">连接资源类</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/myprj/%E8%BF%9E%E6%8E%A5%E8%B5%84%E6%BA%90%E7%B1%BB/" class="archive-article-date">
+  	<time datetime="2020-07-04T06:50:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>连接资源类封装 http 连接所需要的用户态资源，比如为每个 socket 分配读写缓冲区，请求解析结果等等。</p>
+<p>在线程池中维护一个连接资源的容器，类需要为容器内的实例提供接口，实现报文解析、任务处理、和响应。</p>
+<p>其中，报文解析用正则表达式标准库实现，可以复用正则匹配功能解析报文和配置文件等。</p>
+<h1 id="解析器类"><a href="#解析器类" class="headerlink" title="解析器类"></a>解析器类</h1><h2 id="解析请求报文"><a href="#解析请求报文" class="headerlink" title="解析请求报文"></a>解析请求报文</h2><p>需要解析的条目：</p>
+<ul>
+<li>请求行<ul>
+<li>method</li>
+<li>url</li>
+<li>version</li>
+</ul>
+</li>
+<li>请求头<ul>
+<li>linger</li>
+<li>host</li>
+<li>content-length</li>
+</ul>
+</li>
+<li>空行</li>
+<li>请求体<ul>
+<li>用户名、密码</li>
+</ul>
+</li>
+</ul>
+<h2 id="解析配置文件"><a href="#解析配置文件" class="headerlink" title="解析配置文件"></a>解析配置文件</h2><p>采用最简单的规则，每行一个配置参数，格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">param &#x3D; anything # comment</span><br></pre></td></tr></table></figure>
+
+<p>空格、空行自动忽略。</p>
+<h2 id="非法格式处理"><a href="#非法格式处理" class="headerlink" title="非法格式处理"></a>非法格式处理</h2><p>非法格式抛出异常。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>正则表达式对象可以理解为运行时“编译”，速度很慢，因此需要在系统启动时创建好所有对象。</p>
+<p>需要完成的逻辑任务：</p>
+<ul>
+<li>解析与 key 匹配的 val 并返回参数集合</li>
+<li>检查无效格式，并反映结果，比如：请求行格式固定，解析出不识别的参数则返回 BAD_REQUEST</li>
+</ul>
+<p>解析器对缓冲区内现有数据进行解析，可能的结果有：</p>
+<ul>
+<li>请求格式有误，返回相应响应报文；</li>
+<li>请求不完整，等待收到新的数据重新解析</li>
+<li>请求无误，处理请求并相应请求</li>
+</ul>
+<p>而解析器的任务只是给自己标识一个状态，剩下的由工作线程处理。</p>
+<p>解析成功或者错误的数据都可以整段标记为失效，可覆盖。</p>
+<h1 id="连接资源类"><a href="#连接资源类" class="headerlink" title="连接资源类"></a>连接资源类</h1><p>连接资源类的每个实例都对应一个单独的连接套接字描述符，因此把每个实例的套接字描述符属性设为 const，在进行读写时如果需要重新注册 epoll 读写事件，需要调用 epoll 包装类的接口。由于系统启动时必须确定监听套接字描述符和连接套接字描述符的 epoll 触发模式，所以初始化 epoll 包装类时将相应类型写入唯一实例中。如此，连接资源便不需要写成模板类。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/myprj/%E8%BF%9E%E6%8E%A5%E8%B5%84%E6%BA%90%E7%B1%BB/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
   
     <article id="post-myProjects/项目介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -639,769 +1376,9 @@ var _hmt = _hmt || [];
 
         
   
-    <article id="post-dailyLearning/剑指Offer/面试题36-二叉搜索树与双向链表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9836-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/">面试题36.二叉搜索树与双向链表</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9836-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/" class="archive-article-date">
-  	<time datetime="2020-06-18T11:45:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>题目地址：<a href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/</a></p>
-<p>题目大致意思是要把一棵二叉搜索树转换成排序双向循环链表，返回最小元素节点。每个节点左指针指向前驱结点，右节点指向后继节点。</p>
-<p>利用二叉搜索树中序遍历为升序序列的性质，我们使用中序变量进行转换，递归实现。</p>
-<p>需要考虑的问题是，对于一个节点，我们需要把它的左指针指向它的左子树的最大节点（如果存在），把左子树最大节点右指针指向该节点，这样做我们需要考虑边界情况，也就是首节点，首节点没有前驱。</p>
-<p>为了返回，我们需要保存头节点，为了构造双向链表，我们需要保存前驱结点，并在递归中更新。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">// Definition for a Node.</span></span><br><span class="line"><span class="comment">class Node &#123;</span></span><br><span class="line"><span class="comment">public:</span></span><br><span class="line"><span class="comment">    int val;</span></span><br><span class="line"><span class="comment">    Node* left;</span></span><br><span class="line"><span class="comment">    Node* right;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    Node() &#123;&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    Node(int _val) &#123;</span></span><br><span class="line"><span class="comment">        val = _val;</span></span><br><span class="line"><span class="comment">        left = NULL;</span></span><br><span class="line"><span class="comment">        right = NULL;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    Node(int _val, Node* _left, Node* _right) &#123;</span></span><br><span class="line"><span class="comment">        val = _val;</span></span><br><span class="line"><span class="comment">        left = _left;</span></span><br><span class="line"><span class="comment">        right = _right;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&#125;;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Node* pre, *head;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">Node* <span class="title">treeToDoublyList</span><span class="params">(Node* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> root;</span><br><span class="line">        inorderTraversal(root);</span><br><span class="line">        head-&gt;left = pre;</span><br><span class="line">        pre-&gt;right = head;</span><br><span class="line">        <span class="keyword">return</span> head;       </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inorderTraversal</span><span class="params">(Node* curr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!curr) <span class="keyword">return</span>;</span><br><span class="line">        inorderTraversal(curr-&gt;left);</span><br><span class="line">        curr-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span>(pre) pre-&gt;right = curr;</span><br><span class="line">        <span class="keyword">else</span> head = curr;</span><br><span class="line">        pre = curr;</span><br><span class="line">        inorderTraversal(curr-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">二叉搜索树</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">双向链表</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9836-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/面经/TPLINK提前批一面复盘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/uncategorized/tplink%E6%8F%90%E5%89%8D%E6%89%B9%E4%B8%80%E9%9D%A2%E5%A4%8D%E7%9B%98/">TPLINK提前批一面复盘</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/uncategorized/tplink%E6%8F%90%E5%89%8D%E6%89%B9%E4%B8%80%E9%9D%A2%E5%A4%8D%E7%9B%98/" class="archive-article-date">
-  	<time datetime="2020-06-17T03:03:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h1><ul>
-<li><p>strcpy 和 memcpy</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">strcpy</span><span class="params">(<span class="keyword">char</span> *dest, <span class="keyword">const</span> <span class="keyword">char</span> *src)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">memcpy</span><span class="params">(<span class="keyword">void</span> *dest, <span class="keyword">const</span> <span class="keyword">void</span> *src, <span class="keyword">size_t</span> n)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>strcpy 只能拷贝字符串；memcpy 可以拷贝任何类型的数据，但是需要指定以字节为单位的拷贝长度；</p>
-</li>
-<li><p>traits</p>
-<ol>
-<li><p><code>iterator_traits</code>，迭代器特性萃取器，用于萃取迭代器类型  </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span> &#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::iterator_category;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::value_type value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::difference_type difference_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::pointer pointer;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::reference reference;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-</li>
-</ul>
-<ol start="2">
-<li><p><code>__type_traits</code><br>其双下划线代表 SGI 内部使用。<br>什么是<code>trivial</code>？</p>
-<blockquote>
-<p>In simple words a “trivial” special member function literally means a member function that does its job in a very straightforward manner. The “straightforward manner” means different thing for different kinds of special member functions.</p>
-<p>For a default constructor and destructor being “trivial” means literally “do nothing at all”. For copy-constructor and copy-assignment operator, being “trivial” means literally “be equivalent to simple raw memory copying” (like copy with <code>memcpy</code>).</p>
-<p>If you define a constructor yourself, it is considered non-trivial, even if it doesn’t do anything, so a trivial constructor must be implicitly defined by the compiler.</p>
-<p>In order for a special member function to satisfy the above requirements, the class must have a very simplistic structure, it must not require any hidden initializations when an object is being created or destroyed, or any hidden additional internal manipulations when it is being copied.</p>
-<p>For example, if class has virtual functions, it will require some extra hidden initializations when objects of this class are being created (initialize virtual method table and such), so the constructor for this class will not qualify as trivial.</p>
-<p>For another example, if a class has virtual base classes, then each object of this class might contain hidden pointers that point to other parts of the very same object. Such a self-referential object cannot be copied by a simple raw memory copy routine (like <code>memcpy</code>). Extra manipulations will be necessary to properly re-initialize the hidden pointers in the copy. For this reason the copy constructor and copy-assignment operator for this class will not qualify as trivial.</p>
-<p>For obvious reasons, this requirement is recursive: all subobjects of the class (bases and non-static members) must also have trivial constructors.</p>
-<p>—–摘自<a href="https://stackoverflow.com/questions/3899223/what-is-a-non-trivial-constructor-in-c" target="_blank" rel="noopener">https://stackoverflow.com/questions/3899223/what-is-a-non-trivial-constructor-in-c</a></p>
-</blockquote>
-<p>也就是说<code>trivial ctor</code>就是不做任何操作的构造函数，构造时没有任何隐式初始化，比如含有虚函数的类，在初始化时需要隐式初始化虚函数表以及虚表指针，不满足<code>trivial</code>的定义，因此不能直接简单地拷贝内存<code>memcpy</code>。</p>
-<p><code>__type_traits</code>用于萃取型别特性，而这些型别特性包括：</p>
-<ul>
-<li><code>has_non_trivial_default_constructor</code></li>
-<li><code>has_trivial_copy_constructor</code></li>
-<li><code>has_trivial_assignment_operator</code></li>
-<li><code>has_trivial_destructor</code></li>
-<li><code>is_POD_type</code></li>
-</ul>
-<p>当一个类型是<code>trivial</code>的，意味着可以直接使用内存操作进行构造，以提升效率。</p>
-<p>而当一个类型具有指针成员，其指向动态分配内存，那么就必须定义<code>non-trivial ctor</code>等。</p>
-</li>
-</ol>
-<ul>
-<li><p>链表是否有环</p>
-<p>快慢指针</p>
-</li>
-<li><p>TCP/IP 层次结构</p>
-<ol>
-<li><p>OSI 七层协议</p>
-<blockquote>
-<p>应用层</p>
-<p>表示层</p>
-<p>会话层</p>
-<p>运输层</p>
-<p>网络层</p>
-<p>数据链路层</p>
-<p>物理层</p>
-</blockquote>
-</li>
-<li><p>TCP/IP 四层协议</p>
-<blockquote>
-<p>应用层：TELNET, FTP, SMTP, DNS, HTTP。通过应用进程间交互来完成特定网络应用。</p>
-<p>运输层：TCP, UDP。负责向两台主机中的进程间通信提供通用的数据传输服务。</p>
-<p>网际层：IP。负责为分组交换网上的不同主机提供通信服务，并进行路由选择。</p>
-<p>网络接口层：ICMP, ARP。</p>
-</blockquote>
-</li>
-</ol>
-</li>
-<li><p>进程间通信方式</p>
-<ol>
-<li><p>管道/匿名管道</p>
-<blockquote>
-<p>半双工，数据只能向一个方向流动</p>
-<p>只能用于父子进程或者兄弟进程之间通信</p>
-<p>可以理解为循环数组实现的队列，FIFO</p>
-<p>实质上是一个内核缓冲区，以 FIFO 方式存取数据，缓冲区读空或者写满时，相应进程进入等待队列，可读或可写是唤醒相应进程</p>
-</blockquote>
-</li>
-<li><p>有名管道</p>
-<blockquote>
-<p>不同于匿名管道，以有名管道文件形式存在于文件系统中，实现了无亲缘关系进程间的通信</p>
-<p>名字存在内存系统，而内容存在内存中，相当于两个进程做了相同的虚拟地址映射，</p>
-</blockquote>
-</li>
-<li><p>信号</p>
-<blockquote>
-<p>进程间相互通信的机制</p>
-<p>信号是软件层次上对中断机制的模拟，是一种异步通信方式</p>
-</blockquote>
-</li>
-<li><p>消息队列</p>
-<blockquote>
-<p>存放在内核中的消息链表，每个消息队列由消息队列标识符表示</p>
-<p>允许多个进程 FIFO 读写</p>
-<p>可实现随即查询</p>
-</blockquote>
-</li>
-<li><p>共享内存</p>
-<blockquote>
-<p>将不同进程的某个虚拟内存区域映射到磁盘中同一个共享对象上，避免数据拷贝</p>
-<p>需要进程同步机制来同步进程</p>
-<p><code>mmap()</code></p>
-</blockquote>
-</li>
-<li><p>信号量</p>
-<blockquote>
-<p>是一个计数器，用于多进程对共享数据的访问，实现进程间/线程间同步</p>
-</blockquote>
-</li>
-<li><p>套接字</p>
-</li>
-</ol>
-</li>
-<li><p>讲讲项目</p>
-</li>
-<li><p>爱好</p>
-</li>
-<li><p>成绩</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/uncategorized/tplink%E6%8F%90%E5%89%8D%E6%89%B9%E4%B8%80%E9%9D%A2%E5%A4%8D%E7%9B%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/真题/TPLINK/TPLINK笔试复盘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E7%9C%9F%E9%A2%98/tplink%E7%AC%94%E8%AF%95%E5%A4%8D%E7%9B%98/">TPLINK笔试复盘</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E7%9C%9F%E9%A2%98/tplink%E7%AC%94%E8%AF%95%E5%A4%8D%E7%9B%98/" class="archive-article-date">
-  	<time datetime="2020-06-16T16:51:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*第一题*/</span></span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">longestSubsequence</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; seq)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(seq.<span class="built_in">size</span>() &lt; <span class="number">2</span>) <span class="keyword">return</span> seq;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">dp</span><span class="params">(seq.<span class="built_in">size</span>()+<span class="number">1</span>)</span></span>;</span><br><span class="line">        dp[<span class="number">1</span>] = &#123;seq[<span class="number">0</span>]&#125;;</span><br><span class="line">        <span class="keyword">unsigned</span> global_max_idx = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> idx=<span class="number">2</span>; idx&lt;=seq.<span class="built_in">size</span>(); ++idx) &#123;</span><br><span class="line">            <span class="keyword">unsigned</span> max_idx = <span class="number">0</span>, max_size = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;=idx; ++i) &#123;</span><br><span class="line">                <span class="keyword">if</span>(seq[idx<span class="number">-1</span>] &gt; seq[i<span class="number">-1</span>] &amp;&amp; dp[i].<span class="built_in">size</span>() &gt; max_size) &#123;</span><br><span class="line">                    max_size = dp[i].<span class="built_in">size</span>();</span><br><span class="line">                    max_idx = i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            dp[idx] = dp[max_idx];</span><br><span class="line">            dp[idx].emplace_back(seq[idx<span class="number">-1</span>]);</span><br><span class="line">            <span class="keyword">if</span>(dp[idx].<span class="built_in">size</span>() &gt; global_max_idx) &#123;</span><br><span class="line">                global_max_idx = idx;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[global_max_idx];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*第二题*/</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">minimumSplicedNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">unsigned</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; <span class="title">buckets</span><span class="params">(nums.<span class="built_in">size</span>())</span></span>;</span><br><span class="line">    <span class="built_in">string</span> ret&#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        buckets[i] = to_string(nums[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">auto</span> my_less = [](<span class="built_in">string</span> str1, <span class="built_in">string</span> str2)-&gt;<span class="keyword">bool</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(str1.length() == str2.length()) <span class="keyword">return</span> str1 &lt; str2;</span><br><span class="line">        <span class="keyword">while</span> (str1.length() &gt; str2.length()) &#123;</span><br><span class="line">            str2 += str2[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (str1.length() &lt; str2.length()) &#123;</span><br><span class="line">            str1 += str1[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> str1 &lt; str2;</span><br><span class="line">    &#125;;</span><br><span class="line">    sort(buckets.<span class="built_in">begin</span>(), buckets.<span class="built_in">end</span>(), my_less);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; str:buckets) &#123;</span><br><span class="line">        ret += str;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; ret &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">TPLINK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/真题//" class="article-tag-list-link color3">真题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E7%9C%9F%E9%A2%98/tplink%E7%AC%94%E8%AF%95%E5%A4%8D%E7%9B%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/剑指Offer/面试题33-二叉搜索树的后序遍历序列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9833-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97/">面试题33.二叉搜索树的后序遍历序列</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9833-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97/" class="archive-article-date">
-  	<time datetime="2020-06-14T02:33:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历结果。如果是则返回 true，否则返回 false。假设输入的数组的任意两个数字都互不相同。</p>
-<p>参考以下这颗二叉搜索树：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> 5</span><br><span class="line">&#x2F; \</span><br><span class="line">  2   6</span><br><span class="line"> &#x2F; \</span><br><span class="line">1   3</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [1,6,3,2,5]</span><br><span class="line">输出: false</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [1,3,2,6,5]</span><br><span class="line">输出: true</span><br></pre></td></tr></table></figure>
-
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h2><p>根据后序遍历以及二叉搜索树的特性很容易分析出，一棵树的后序遍历序列的最后一个元素是根节点的值，该值必须能够将其前面的数组分成两部分，左半部分值小于它，右半部分值大于它。</p>
-<p>所以我们递归地对每一棵树进行判断，取根节点元素，向左找到第一个小于它的元素，继续向左判断每个元素是否小于根节点。</p>
-<p>但是这样的做法很容易看出来需要重复遍历很多节点，如果我们能记住每一次递归的根节点就容易很多。</p>
-<h2 id="单调栈"><a href="#单调栈" class="headerlink" title="单调栈"></a>单调栈</h2><p>从二叉搜索树的节点含义来看上述操作，从后序遍历尾部开始向前遍历，相当于从根节点开始，此时是后序遍历的逆序，即根-&gt;右-&gt;左的顺序，而我们如何判断一棵树是否为二叉搜索树呢？即一个根节点的右子节点必须大于该根节点，左子节点必须小于该根节点。</p>
-<p>我们称根-&gt;右-&gt;左的顺序为 reverse postorder，那么它会首先走一条只有右子节点的路径，每到达一个节点就直接访问，因此访问顺序是递增的，直到叶子节点，此时该节点的后继节点必定小于当前节点，也就是说它是某个节点的左子节点，而这个左子节点必须小于它的父节点，因此我们需要找到这个父节点。</p>
-<p>我们知道当前还未遍历的所有剩余节点都是某个节点的左子节点，因此可以用相同的规则来判断。因此我们要做的就是设计一种方法来保存每个根节点。</p>
-<p>最容易想到的方法就是栈，用栈来存储根节点，因为我们优先访问右子节点，需要利用根节点来访问左子节点。</p>
-<p>我们首先将递增序列全部入栈，接下来遇到小于栈顶元素（当前根节点）的元素时，弹栈并更新当前根节点，该元素的父节点一定是大于该元素的，因此，栈空或者直到栈顶元素小于该元素时，我们知道我们刚刚更新的根节点就是该节点的父节点，因此用该父节点对以该元素为根节点的树进行判断，即将该元素入栈，用当前根节点对后续节点进行判断。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">verifyPostorder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; postorder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(postorder.<span class="built_in">size</span>() &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">int</span> root = INT_MAX;</span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> it=postorder.rbegin(); it != postorder.rend(); ++it) &#123;</span><br><span class="line">            <span class="comment">//我们先把路径上全部为右子节点的节点入栈，剩下的全都是某个节点的左子节点</span></span><br><span class="line">            <span class="keyword">if</span>(*it &gt; root) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">while</span>(!s.empty() &amp;&amp; s.top() &gt; *it) &#123;</span><br><span class="line">                    root = s.top();</span><br><span class="line">                    s.pop();</span><br><span class="line">                &#125;</span><br><span class="line">                s.push(*it);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>感觉逻辑还是不是很清晰，再捋一捋。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">二叉搜索树</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">后序遍历</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9833-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/剑指Offer/面试题31-栈的压入、弹出序列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9831-%E6%A0%88%E7%9A%84%E5%8E%8B%E5%85%A5%E3%80%81%E5%BC%B9%E5%87%BA%E5%BA%8F%E5%88%97/">面试题31.栈的压入、弹出序列</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9831-%E6%A0%88%E7%9A%84%E5%8E%8B%E5%85%A5%E3%80%81%E5%BC%B9%E5%87%BA%E5%BA%8F%E5%88%97/" class="archive-article-date">
-  	<time datetime="2020-06-13T02:50:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如，序列 {1,2,3,4,5} 是某栈的压栈序列，序列 {4,5,3,2,1} 是该压栈序列对应的一个弹出序列，但 {4,3,5,1,2} 就不可能是该压栈序列的弹出序列。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：pushed &#x3D; [1,2,3,4,5], popped &#x3D; [4,5,3,2,1]</span><br><span class="line">输出：true</span><br><span class="line">解释：我们可以按以下顺序执行：</span><br><span class="line">push(1), push(2), push(3), push(4), pop() -&gt; 4,</span><br><span class="line">push(5), pop() -&gt; 5, pop() -&gt; 3, pop() -&gt; 2, pop() -&gt; 1</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：pushed &#x3D; [1,2,3,4,5], popped &#x3D; [4,3,5,1,2]</span><br><span class="line">输出：false</span><br><span class="line">解释：1 不能在 2 之前弹出。</span><br></pre></td></tr></table></figure>
-
-
-<p>提示：</p>
-<ol>
-<li><code>0 &lt;= pushed.length == popped.length &lt;= 1000</code></li>
-<li><code>0 &lt;= pushed[i], popped[i] &lt; 1000</code></li>
-<li><code>pushed</code> 是 <code>popped</code> 的排列。</li>
-</ol>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>观察示例，我们发现，对于出栈序列的每一个元素，该元素出栈意味着在入栈序列中每一个在该元素之前的元素已经入栈，这也意味着这些已经入栈的元素必须按照先进后出的顺序出栈。</p>
-<p>我们可以用一个栈来模拟这个过程，按照入栈顺序入栈，每次入栈后检查栈顶元素与出栈队列当前元素是否相同，相同则出栈，当前移动迭代为下一个元素，如果到达出栈序列尾部说明所有元素均已出栈，返回 true。</p>
-<ul>
-<li>两个数组均未到达尾部时：<ul>
-<li>栈顶元素不相同，那么入栈</li>
-<li>栈顶元素相同，出栈</li>
-</ul>
-</li>
-<li>仅入栈序列到达尾部：<ul>
-<li>栈顶元素相同，出栈</li>
-<li>不相同，返回 false</li>
-</ul>
-</li>
-<li>仅出栈序列到达尾部：<ul>
-<li>栈空，返回 false，因为这种情况下，最终无法全部弹栈</li>
-<li>栈非空，返回 false</li>
-</ul>
-</li>
-<li>两序列均到达尾部：<ul>
-<li>栈空，返回 true</li>
-<li>栈非空，返回 false</li>
-</ul>
-</li>
-<li>由于我们在判断时需要访问栈顶元素，因此必须保证栈非空，也就是说循环开始时如果栈空，我们需要将下个元素入栈，如果没有下个元素，且有出栈元素，那么错误。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">validateStackSequences</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; pushed, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; popped)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pushed.empty() || popped.empty()) <span class="keyword">return</span> !(pushed.empty() ^ popped.empty());</span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">        <span class="keyword">auto</span> it_pushed = pushed.<span class="built_in">begin</span>(), it_poped = popped.<span class="built_in">begin</span>();</span><br><span class="line">        <span class="keyword">while</span>(it_poped != popped.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            <span class="keyword">if</span>(s.empty()) &#123;</span><br><span class="line">                <span class="keyword">if</span>(it_pushed != pushed.<span class="built_in">end</span>())</span><br><span class="line">                    s.push(*(it_pushed++));</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;               </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(it_pushed != pushed.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                <span class="keyword">if</span>(s.top() == *it_poped) &#123;</span><br><span class="line">                    s.pop();</span><br><span class="line">                    ++it_poped;</span><br><span class="line">                &#125; </span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    s.push(*(it_pushed++));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span>(s.top() == *it_poped) &#123;</span><br><span class="line">                    s.pop();</span><br><span class="line">                    ++it_poped;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(it_pushed != pushed.<span class="built_in">end</span>()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> s.empty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>上面的写法本质上还是基于状态去写的，一个状态对应一种操作。</p>
-<p>而如果我们考虑过程，一定先入栈，再出栈，由于出栈可能发生在任意时刻，我们每一次入栈都要判断当前是否满足出栈条件，出栈直至不满足条件，在进行下一次入栈，直至没有元素入栈。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">validateStackSequences</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; pushed, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; popped)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pushed.empty() || popped.empty()) <span class="keyword">return</span> !(pushed.empty() ^ popped.empty());</span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line">        <span class="keyword">auto</span> it_poped = popped.<span class="built_in">begin</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> elem:pushed) &#123;</span><br><span class="line">            s.push(elem);</span><br><span class="line">            <span class="keyword">while</span>(it_poped != popped.<span class="built_in">end</span>() &amp;&amp; !s.empty() &amp;&amp; s.top() == *it_poped) &#123;</span><br><span class="line">                s.pop();</span><br><span class="line">                ++it_poped;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s.empty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>简洁很多，以上思路是面向过程的。</p>
-<ul>
-<li>时间复杂度$O(N)$，每个元素只能入栈或出栈一次</li>
-<li>空间复杂度$O(N)$，用到了一个最差情况下相同长度的辅助栈</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">栈</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9831-%E6%A0%88%E7%9A%84%E5%8E%8B%E5%85%A5%E3%80%81%E5%BC%B9%E5%87%BA%E5%BA%8F%E5%88%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/剑指Offer/面试题29-顺时针打印矩阵" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9829-%E9%A1%BA%E6%97%B6%E9%92%88%E6%89%93%E5%8D%B0%E7%9F%A9%E9%98%B5/">面试题29.顺时针打印矩阵</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9829-%E9%A1%BA%E6%97%B6%E9%92%88%E6%89%93%E5%8D%B0%E7%9F%A9%E9%98%B5/" class="archive-article-date">
-  	<time datetime="2020-06-12T16:02:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：matrix &#x3D; [[1,2,3],[4,5,6],[7,8,9]]</span><br><span class="line">输出：[1,2,3,6,9,8,7,4,5]</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：matrix &#x3D; [[1,2,3,4],[5,6,7,8],[9,10,11,12]]</span><br><span class="line">输出：[1,2,3,4,8,12,11,10,9,5,6,7]</span><br></pre></td></tr></table></figure>
-
-
-<p>限制：</p>
-<ul>
-<li><code>0 &lt;= matrix.length &lt;= 100</code></li>
-<li><code>0 &lt;= matrix[i].length &lt;= 100</code></li>
-</ul>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>一开始我的思路偏向于 event driven，每次遇到右侧 block 的情况就向下走，类似状态转移，为了记录下一个位置是否访问过还需要一个数组来记录。为了实现以上想法试图用递归实现，但是并没有考虑到每次顺时针打印的顺序都是右、下、左、上。</p>
-<p>​    其实如果考虑到顺序是固定的，并且每沿着一个方向走到头都可以正确判断是否结束，我们完全可以记录沿此方向剩余需要访问的元素个数，节省空间。</p>
-<p>因此，思路如下：</p>
-<ul>
-<li>从左上角开始，向右走到头，此时第一行不会再被访问，移除</li>
-<li>向下走到头，此时最右侧列不会再被访问，移除</li>
-<li>向左走到头，此时最下面一行不会再被访问，移除</li>
-<li>向上走到头，此时最左侧一列不会再被访问，移除</li>
-<li>以上每一步结束都需要判断是否有两条边界重合，重合时不再有元素需要访问，退出</li>
-<li>循环以上步骤直至结束</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">spiralOrder</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; matrix)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(matrix.empty() || matrix[<span class="number">0</span>].empty()) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>, right = matrix[<span class="number">0</span>].<span class="built_in">size</span>(), top = <span class="number">0</span>, bottom = matrix.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ret;</span><br><span class="line">        <span class="keyword">while</span>(left &lt; right &amp;&amp; top &lt; bottom) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=left; i&lt;right; ++i) &#123;</span><br><span class="line">                ret.emplace_back(matrix[top][i]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(++top == bottom) <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=top; i&lt;bottom; ++i) &#123;</span><br><span class="line">                ret.emplace_back(matrix[i][right<span class="number">-1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(--right == left) <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=right<span class="number">-1</span>; i&gt;=left; --i) &#123;</span><br><span class="line">                ret.emplace_back(matrix[bottom<span class="number">-1</span>][i]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(--bottom == top) <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=bottom<span class="number">-1</span>; i&gt;=top; --i) &#123;</span><br><span class="line">                ret.emplace_back(matrix[i][left]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(++left == right) <span class="keyword">break</span>;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>时间复杂度$O(MN)$</li>
-<li>空间复杂度$O(1)$</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数组</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9829-%E9%A1%BA%E6%97%B6%E9%92%88%E6%89%93%E5%8D%B0%E7%9F%A9%E9%98%B5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1775,6 +1752,26 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">server</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">字节跳动</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">阿里巴巴</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">招银网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">YOLOv3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">TP</a>
               </li>
             
             <div class="clearfix"></div>
