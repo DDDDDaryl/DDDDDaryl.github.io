@@ -203,125 +203,6 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-dailyLearning/剑指Offer/面试题14-1-剪绳子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9814-1-%E5%89%AA%E7%BB%B3%E5%AD%90/">面试题14-1.剪绳子</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9814-1-%E5%89%AA%E7%BB%B3%E5%AD%90/" class="archive-article-date">
-  	<time datetime="2020-06-01T13:36:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n&gt;1并且m&gt;1），每段绳子的长度记为 <code>k[0],k[1]...k[m-1]</code> 。请问 <code>k[0]*k[1]*...*k[m-1]</code> 可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: 2</span><br><span class="line">输出: 1</span><br><span class="line">解释: 2 &#x3D; 1 + 1, 1 × 1 &#x3D; 1</span><br></pre></td></tr></table></figure>
-
-
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: 10</span><br><span class="line">输出: 36</span><br><span class="line">解释: 10 &#x3D; 3 + 3 + 4, 3 × 3 × 4 &#x3D; 36</span><br></pre></td></tr></table></figure>
-
-
-<p>提示：</p>
-<p><code>2 &lt;= n &lt;= 58</code></p>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/jian-sheng-zi-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/jian-sheng-zi-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>拿一个简单的普通例子：$n=5$来具体分析问题，由于每一段绳子长度必须为整数，通过归纳法很容易可以看出：当且仅当第一段绳子的长度等于1时，得到两段绳子的长度乘积大于升子原长$n$。因此，对于一段长度为$n$的绳子，当我们剪下第一段，假设长度为$n1$的绳子时，剩余长度$n_{reamain}$，那么有：<br>$$<br>multi = n1\times n_{remain} &gt; n<br>$$<br>这时候我们还要不要继续剪呢？很明显，这是一个递归的思路，再剪一次，只要剪出的两端绳子长度均大于1，那么它们的积一定大于$n_{remain}$，得到的乘积$multi$也就越大。因此，最基本的规则是，只要绳子长度大于3，我们就要继续剪，这样一定能得到更优解。</p>
-<p>但是怎样才能得到最优解呢？先来考虑一种简单的情况：把一根绳子剪成两段，最大乘积是多少？这个很简单，只要使两段绳子长度相等或最接近即可。而这两端绳子任意一段的长度只要大于3，我们就可以把它化成一个相同的子问题。</p>
-<p>到这里答案已经呼之欲出：分治法。</p>
-<p>需要注意题目中要求至少剪一次。</p>
-<p>在此基础上，我们很容易发现这中间存在重复计算，因此可以使用动态规划自下而上计算。</p>
-<p>然而以上解法似乎还是得不到最优解…..从结果归纳来看应该是需要尽可能多的3，拆成尽可能多的3和2的组合。</p>
-<p>的确是这样：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">cuttingRope</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">3</span>) <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">int</span> m = n % <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">if</span>(m == <span class="number">0</span>) <span class="keyword">return</span> <span class="built_in">pow</span>(<span class="number">3</span>, n/<span class="number">3</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(m == <span class="number">1</span>) <span class="keyword">return</span> <span class="built_in">pow</span>(<span class="number">3</span>, n/<span class="number">3</span><span class="number">-1</span>)*<span class="number">4</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="built_in">pow</span>(<span class="number">3</span>, n/<span class="number">3</span>)*<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>回过头来想想上面的思路（将绳子对半分）其实是贪心算法：每一次计算都企图得到最优解，但最终结果只是局部最优。</p>
-<p>而正确的贪心算法应该是尽量剪出长度为3的绳子，而这个需要简单的数学推导：均值不等式<br>$$<br>G_{n}=\sqrt[n]{\prod_{i=1}^{n} x_{i}}=\sqrt[n]{x_{1} x_{2} \cdots x_{n}}<br>$$</p>
-<p>$$<br>A_{n}=\frac{\sum_{i=1}^{n} x_{i}}{n}=\frac{x_{1}+x_{2}+\cdots+x_{n}}{n}<br>$$</p>
-<p>$$<br>G_{n} \leqslant A_{n}<br>$$</p>
-<p>在本题中，要求的就是$G_n$，而根据均值不等式，$G_n$有上界，因此我们只需要计算其上界，同时注意必须剪一刀的设定。<br>$$<br>x_1x_2…x_n\leq (\frac{n}{m})^m<br>$$<br>上式中，等号当且仅当$x_1=x_2=…=x_n$时成立，因此<br>$$<br>x = \frac{n}{m}<br>$$</p>
-<p>$$<br>x^m = x^{\frac{n}{x}} = (x^{\frac{1}{x}})^n<br>$$</p>
-<p>令$y=x^{\frac{1}{x}}$，求其极大值：<br>$$<br>ln\ y = \frac{1}{x}ln\ x<br>$$<br>求导<br>$$<br>\frac{1}{y} \dot{y}= \frac{1}{x^2}-\frac{1}{x^2}ln\ x = \frac{1-ln\ x}{x^2}<br>$$</p>
-<p>$$<br>\dot{y} = \frac{1-ln\ x}{x^2} x^{\frac{1}{x}}<br>$$</p>
-<p>求得极大值点为$x_0=e$，将$2,\ 3$分别带入$y$中，得到$y{|}<em>{x=3}&gt;y{|}</em>{x=2}$。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9814-1-%E5%89%AA%E7%BB%B3%E5%AD%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
     <article id="post-dailyLearning/计算机网络/运输层" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1564,6 +1445,134 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9809-%E7%94%A8%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/剑指Offer/面试题07-重建二叉树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9807-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/">面试题07.重建二叉树</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9807-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
+  	<time datetime="2020-05-28T11:41:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</p>
+<p>例如，给出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">前序遍历 preorder &#x3D; [3,9,20,15,7]</span><br><span class="line">中序遍历 inorder &#x3D; [9,3,15,20,7]</span><br></pre></td></tr></table></figure>
+
+
+<p>返回如下的二叉树：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> &#x2F; \</span><br><span class="line">9  20</span><br><span class="line">  &#x2F;  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure>
+
+
+<p>限制：</p>
+<p>0 &lt;= 节点个数 &lt;= 5000</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>二刷这道题。</p>
+<p>前序遍历首元素为根节点。</p>
+<p>中序遍历中，根节点将树分为左子树右子树。</p>
+<p>前序遍历顺序：根节点-&gt;左子树-&gt;右子树，知道左右子树元素数量即可一刀切把数组划为左右子树。前序遍历根据元素数量切，中序遍历从根节点切。</p>
+<h2 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h2><ul>
+<li>非法输入（两数组长度不等）</li>
+<li>空输入</li>
+<li>常规输入</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">buildTree</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; preorder, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; inorder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(preorder.<span class="built_in">size</span>() != inorder.<span class="built_in">size</span>() || preorder.empty()) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">return</span> helper(preorder.<span class="built_in">begin</span>(), preorder.<span class="built_in">end</span>(), inorder.<span class="built_in">begin</span>(), inorder.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">using</span> iter = <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator;</span><br><span class="line">    <span class="function">TreeNode* <span class="title">helper</span><span class="params">(iter pre_b, iter pre_e, iter in_b, iter in_e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pre_b == pre_e) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">auto</span> root_it = <span class="built_in">find</span>(in_b, in_e, *pre_b);</span><br><span class="line">        <span class="keyword">auto</span> root = <span class="keyword">new</span> TreeNode(*root_it);</span><br><span class="line">        root-&gt;left = helper(pre_b+<span class="number">1</span>, pre_b+(root_it-in_b+<span class="number">1</span>), in_b, root_it);</span><br><span class="line">        root-&gt;right = helper(pre_b+(root_it-in_b+<span class="number">1</span>), pre_e, root_it+<span class="number">1</span>, in_e);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>时间复杂度：$O(N^2)$</li>
+<li>空间复杂度：$O(N)$</li>
+</ul>
+<p>之所以空间复杂度高，是因为<code>find</code>进行了重复的查找操作，牺牲空间，使用哈希表可以将时间复杂度优化为$O(N)$。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">buildTree</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; preorder, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; inorder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(preorder.<span class="built_in">size</span>() != inorder.<span class="built_in">size</span>() || preorder.empty()) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> it=inorder.<span class="built_in">begin</span>(); it&lt;inorder.<span class="built_in">end</span>(); ++it)</span><br><span class="line">            lookup.insert(&#123;*it, it&#125;);</span><br><span class="line">        <span class="keyword">return</span> helper(preorder.<span class="built_in">begin</span>(), preorder.<span class="built_in">end</span>(), inorder.<span class="built_in">begin</span>(), inorder.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">using</span> iter = <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, iter&gt; lookup;</span><br><span class="line">    <span class="function">TreeNode* <span class="title">helper</span><span class="params">(iter pre_b, iter pre_e, iter in_b, iter in_e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pre_b == pre_e) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">auto</span> root_it = lookup[*pre_b];</span><br><span class="line">        <span class="keyword">auto</span> root = <span class="keyword">new</span> TreeNode(*root_it);</span><br><span class="line">        root-&gt;left = helper(pre_b+<span class="number">1</span>, pre_b+(root_it-in_b+<span class="number">1</span>), in_b, root_it);</span><br><span class="line">        root-&gt;right = helper(pre_b+(root_it-in_b+<span class="number">1</span>), pre_e, root_it+<span class="number">1</span>, in_e);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>测试时间减半。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">二叉树</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">递归</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9807-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/">展开全文 >></a>
         </p>
       
 

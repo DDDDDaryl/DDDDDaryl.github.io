@@ -203,147 +203,6 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-dailyLearning/c++/C++11新特性" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/">c++11新特性</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/" class="archive-article-date">
-  	<time datetime="2020-05-21T14:30:02.032Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h1 id="动态内存"><a href="#动态内存" class="headerlink" title="动态内存"></a>动态内存</h1><p><img src="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/image-20200521224633231.png" alt="image-20200521224633231"></p>
-<p>在C++中，内存分成5个区，他们分别是堆、栈、自由存储区、全局/静态存储区和常量存储区。</p>
-<ol>
-<li><p>栈，在执行函数时，函数内局部变量的存储单元都可以在栈上创建，函数执行结束时这些存储单元自动被释放。栈内存分配运算内置于处理器的指令集中，效率很高，但是分配的内存容量有限。</p>
-</li>
-<li><p>堆，就是那些由new分配的内存块，他们的释放编译器不去管，由我们的应用程序去控制，一般一个new就要对应一个delete。如果程序员没有释放掉，那么在程序结束后，操作系统会自动回收。</p>
-</li>
-<li><p>自由存储区，就是那些由malloc等分配的内存块，他和堆是十分相似的，不过它是用free来结束自己的生命的。</p>
-</li>
-<li><p>全局/静态存储区，全局变量和静态变量被分配到同一块内存中，在以前的C语言中，全局变量又分为初始化的和未初始化的，在C++里面没有这个区分了，他们共同占用同一块内存区。</p>
-</li>
-<li><p>常量存储区，这是一块比较特殊的存储区，他们里面存放的是常量，不允许修改。</p>
-</li>
-</ol>
-<p>静态内存用来保存局部 static 对象、类 static 数据成员以及任何定义在函数之外的（全局）变量；栈内存用来保存定义在函数内的非 static 对象，即局部变量。</p>
-<p>分配在静态或栈内存中的对象由编译器自动创建和销毁。</p>
-<p>对于栈对象，仅在其定义的程序块运行时才存在；</p>
-<p>static 对象在使用之前分配，在程序结束时销毁。</p>
-<p>程序用堆 (heap) 来存储动态分配的对象，即在程序运行时分配的对象，其生存期由程序控制，当动态对象不再使用时，必须显式销毁。</p>
-<h2 id="动态内存与智能指针"><a href="#动态内存与智能指针" class="headerlink" title="动态内存与智能指针"></a>动态内存与智能指针</h2><p>C++中动态内存管理通过一对运算符完成：</p>
-<ul>
-<li>new，在动态内存中为对象分配空间，并返回一个指向该对象的<strong>指针</strong>，可以选择对对象进行初始化；</li>
-<li>delete，接受一个动态对象的指针，销毁该对象，并释放与之相关联的内存。</li>
-</ul>
-<p>为了更容易使用动态内存，新标准库提供两种智能指针 (smart pointer) 类型来管理动态对象。</p>
-<p><strong>智能指针与普通指针的区别在于它自动释放所指向的对象</strong>，两种智能指针之间的区别在于管理底层指针之间的方式：</p>
-<ul>
-<li>share_ptr 允许多个指针指向一个对象；</li>
-<li>unique_ptr 独占所指向的对象；</li>
-<li>weak_ptr 伴随类，是一种弱引用，指向 shared_ptr 所管理的对象；</li>
-</ul>
-<p>头文件 &lt;memory&gt;</p>
-<h3 id="shared-ptr-类"><a href="#shared-ptr-类" class="headerlink" title="shared_ptr 类"></a>shared_ptr 类</h3><p>智能指针是模板，默认初始化的智能指针保存空指针。</p>
-<p>shared_ptr 独有操作：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">make_shared&lt;T&gt; (args) <span class="comment">// 返回一个shared_ptr，指向一个动态分配的类型为T的对象，使用args初始化此对象</span></span><br><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;T&gt; <span class="title">p</span><span class="params">(q)</span> <span class="comment">// p是q的拷贝，此操作递增q中的计数器，q中的指针必须能转化成T*</span></span></span><br><span class="line"><span class="function">p</span>=q <span class="comment">// p, q都是shared_ptr，所保存的指针必须能相互转换。此操作递减p中计数值，递增q计数值；若p计数为0，则将其管理的原内存释放</span></span><br><span class="line">p.unique() <span class="comment">// 若p.use_count()为1，返回true；否则返回false</span></span><br><span class="line">p.use_count() <span class="comment">// 返回与p共享对象的智能指针数量，速度可能很慢，主要用于调试</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="make-shared-函数"><a href="#make-shared-函数" class="headerlink" title="make_shared 函数"></a>make_shared 函数</h4><p>make_shared 标准库函数在动态内存中分配一个对象并初始化，返回指向此对象的 shared_ptr。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p = make_shared&lt;<span class="keyword">int</span>&gt; (<span class="number">42</span>); <span class="comment">// 指向一个值为42的int的shared_ptr</span></span><br><span class="line"><span class="keyword">auto</span> p1 = make_shared&lt;<span class="keyword">int</span>&gt; (); <span class="comment">// 指向一个值初始化，即为0的int</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="share-ptr-的拷贝和赋值"><a href="#share-ptr-的拷贝和赋值" class="headerlink" title="share_ptr 的拷贝和赋值"></a>share_ptr 的拷贝和赋值</h4><p>拷贝和赋值操作时，每个 shared_ptr 会记录有多少个其他 shared_ptr 指向相同对象。</p>
-<ul>
-<li>拷贝时，引用计数加一：用其初始化另一个 shared_ptr，作为参数传递给一个函数，或作为函数返回值时，都属于拷贝，因此引用计数加一；</li>
-<li>给一个 shared_ptr 赋予新值或是它被销毁时，引用计数器递减；</li>
-</ul>
-<h4 id="shared-ptr-自动销毁所管理对象"><a href="#shared-ptr-自动销毁所管理对象" class="headerlink" title="shared_ptr 自动销毁所管理对象"></a>shared_ptr 自动销毁所管理对象</h4><p>当指向一个对象的最后一个 shared_ptr 被销毁时，shared_ptr 类通过其析构函数自动销毁此对象，并释放内存。</p>
-<h3 id="直接管理内存"><a href="#直接管理内存" class="headerlink" title="直接管理内存"></a>直接管理内存</h3><h4 id="new-动态分配内存和初始化对象"><a href="#new-动态分配内存和初始化对象" class="headerlink" title="new 动态分配内存和初始化对象"></a>new 动态分配内存和初始化对象</h4><p>运算符 new 分配动态内存，delete 释放内存。</p>
-<p>默认情况下，动态分配的对象是默认初始化的，这意味着<strong>内置类型和组合类型的</strong>对象的值将是未定义的，而类类型对象将用默认构造函数进行初始化。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> *ps = <span class="keyword">new</span> <span class="built_in">string</span>; <span class="comment">// 初始化为一个空string</span></span><br><span class="line"><span class="keyword">int</span> *pi = <span class="keyword">new</span> <span class="keyword">int</span>; <span class="comment">// 指向未初始化的int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//直接初始化</span></span><br><span class="line"><span class="keyword">int</span> *pi = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">1024</span>); <span class="comment">// 1024</span></span><br><span class="line"><span class="built_in">string</span> *ps = <span class="keyword">new</span> <span class="built_in">string</span>(<span class="number">10</span>, <span class="string">'9'</span>); <span class="comment">// "9999999999"</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; *pv = <span class="keyword">new</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;; <span class="comment">// 三个元素，1，2，3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//值初始化</span></span><br><span class="line"><span class="keyword">int</span> *pi = <span class="keyword">new</span> <span class="keyword">int</span>(); <span class="comment">//值初始化为0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//默认初始化</span></span><br><span class="line"><span class="keyword">int</span> *pi1 = <span class="keyword">new</span> <span class="keyword">int</span>; <span class="comment">//值未定义</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> *p1 = <span class="keyword">new</span> <span class="keyword">int</span>(); <span class="comment">// 分配失败抛出 bad_alloc</span></span><br><span class="line"><span class="keyword">int</span> *p2 = <span class="keyword">new</span> (nothrow) <span class="keyword">int</span>; <span class="comment">// 分配失败返回一个空指针</span></span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">summary</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Cpp/c-11%E6%96%B0%E7%89%B9%E6%80%A7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
     <article id="post-dailyLearning/Leetcode/2.两数相加" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1367,6 +1226,121 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/Leetcode/300.最大上升子序列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/300-%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/">300.最大上升子序列</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/300-%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/" class="archive-article-date">
+  	<time datetime="2020-05-17T15:08:20.065Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
+<p>给定一个无序的整数数组，找到其中最长上升子序列的长度。</p>
+<p>示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [10,9,2,5,3,7,101,18]</span><br><span class="line">输出: 4 </span><br><span class="line">解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。</span><br></pre></td></tr></table></figure>
+
+
+<p>说明:</p>
+<ul>
+<li>可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。</li>
+<li>你算法的时间复杂度应该为 $O(n^2)$ 。</li>
+</ul>
+<p>进阶: 你能将算法的时间复杂度降低到 $O(n log n) $吗?</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/longest-increasing-subsequence" target="_blank" rel="noopener">https://leetcode-cn.com/problems/longest-increasing-subsequence</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+</blockquote>
+        
+          <a class="article-more-a" href="/Leetcode/300-%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">binary search</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">贪心法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/300-%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97/">展开全文 >></a>
         </p>
       
 
