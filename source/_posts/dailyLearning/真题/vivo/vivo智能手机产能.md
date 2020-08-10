@@ -2,7 +2,7 @@
 title: vivo智能手机产能
 date: 2020-06-06 09:15:22
 categories:
-- 真题
+- 面经
 tags:
 - Algorithm
 - vivo

@@ -2,7 +2,7 @@
 title: vivo提前批笔试复盘
 date: 2020-06-08 10:29:58
 categories:
-- 真题
+- 面经
 tags:
 - vivo
 ---

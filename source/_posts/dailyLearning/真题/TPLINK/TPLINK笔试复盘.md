@@ -2,7 +2,7 @@
 title: TPLINK笔试复盘
 date: 2020-06-17 00:51:52
 categories:
-- 真题
+- 面经
 tags:
 - Algorithm
 - TPLINK
