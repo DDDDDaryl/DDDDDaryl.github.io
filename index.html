@@ -234,16 +234,11 @@ var _hmt = _hmt || [];
         <ol>
 <li><p>new 和 delete 调用了什么</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Foo *p = <span class="keyword">new</span> Foo(x);</span><br><span class="line"><span class="comment">/*something to do*/</span></span><br><span class="line"><span class="keyword">delete</span> p;</span><br></pre></td></tr></table></figure>
-
-<p>实际上，new 先调用 operator new 分配内存，再调用 placement new 构造对象。</p>
-<p>而 delete 先调用对象析构函数，再调用 operator delete 释放内存。</p>
+<p>实际上，new 先调用 operator new 分配内存，再调用 placement new 构造对象。<br>而 delete 先调用对象析构函数，再调用 operator delete 释放内存。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Foo *p = (Foo *)<span class="keyword">operator</span> <span class="keyword">new</span>(<span class="keyword">sizeof</span>(Foo)); <span class="comment">// 调用 ::operator new(size_t) 全局函数</span></span><br><span class="line"><span class="keyword">new</span> (p) Foo(x);</span><br><span class="line"><span class="comment">/*something to do*/</span></span><br><span class="line">p-&gt;~Foo();</span><br><span class="line"><span class="function"><span class="keyword">operator</span> <span class="title">delete</span><span class="params">(p)</span></span>; <span class="comment">// 调用 ::operator delete(void *) 全局函数</span></span><br></pre></td></tr></table></figure>
-
 <p>而全局函数<code>::operator new(size_t)</code>和<code>::operator delete(void *)</code>又做了什么呢</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">malloc</span>(<span class="keyword">size_t</span>);</span><br><span class="line"><span class="built_in">free</span>(<span class="keyword">void</span> *);</span><br></pre></td></tr></table></figure>
-
-<p>实际上就是调用了<code>malloc</code>和<code>free</code>。</p>
-<p>很少重载全局 new 和 delete，一般重载成员函数的 operator new 和 operator delete。这四个函数均可重载。</p>
+<p>实际上就是调用了<code>malloc</code>和<code>free</code>。<br>很少重载全局 new 和 delete，一般重载成员函数的 operator new 和 operator delete。这四个函数均可重载。</p>
 </li>
 <li><p>如何重载 per-class operator new 和 operator delete 实现内存池</p>
 </li>
@@ -1109,53 +1104,21 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <ol>
-<li><p>OO思想的特点：</p>
-<ul>
+<li>OO思想的特点：<ul>
 <li>封装<br>把对象属性和方法结合成独立的系统单位，并尽可能隐藏实现细节，是面向对象思想描述的基础；   </li>
 <li>抽象<br>对具体问题进行概括，对某一类公共问题进行同意描述；</li>
 <li>继承<br>子类对象拥有与基类对象相同的全部属性和方法，称为继承；</li>
 <li>多态<br>基类中定义的属性和行为被子类继承后，可以具有不同的特性（行为、数据类型），在共性中寻找特性；</li>
 </ul>
 </li>
-<li><p>数组的传递</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> data[] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    <span class="built_in">print</span>(<span class="keyword">sizeof</span>(data));</span><br><span class="line">    <span class="comment">// 结果为2*4 Byte=8 Byte</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">addArray</span><span class="params">(<span class="keyword">int</span> <span class="built_in">array</span>[])</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="keyword">sizeof</span>(<span class="built_in">array</span>));</span><br><span class="line">    <span class="comment">// 结果为指针长度（机器相关）4（32位）或8（64位机器）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>cout</code>是一个输出流对象，是<code>console out</code>的缩写，属于<code>basic_ostream</code>类；</p>
-</li>
-<li><p>c语言中，<code>scanf</code>从输入流获取值，<code>getchar</code>获取字符</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;i); <span class="comment">// 将读入的十进制数存入变量i</span></span><br><span class="line">ch = getchar(); <span class="comment">// 将读入的char类型数据存入ch，此时读入ch的数据不再存在在输入流中</span></span><br><span class="line">ungetc(ch, <span class="built_in">stdin</span>)； <span class="comment">// 将ch中的数据退回输入流</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>c++</code>版本的流输入</p>
-<p><code>cin</code>的类型为<code>istream</code>；</p>
-<p>用户输入时，对应的字符进入操作系统的键盘缓冲区中；</p>
-<p>输入<code>enter</code>时，操作系统把家农安缓冲区的内容传输到<code>cin</code>的内部缓冲区，由<code>&gt;&gt;</code>操作符从内部缓冲区中提取需要的信息；</p>
-<p><code>&gt;&gt;</code>操作符对所有内建类型都进行了重载；</p>
-</li>
-<li><p>阻塞性IO、非阻塞、异步</p>
-</li>
-<li><p><code>C++</code>可以在任意位置声明变量，允许我们在实际使用的时候再声明；</p>
-</li>
-<li><pre><code class="c++"><span class="keyword">char</span> buf[<span class="number">20</span>]; <span class="comment">// 可存放19个字符</span>
-<span class="built_in">cin</span>.ignore(n); <span class="comment">//忽略n个字符</span>
-<span class="built_in">cin</span>.getline(buf, <span class="number">10</span>); <span class="comment">// 从cin中读取10个字符存入buf</span>
-<span class="keyword">while</span>(<span class="built_in">cin</span>.<span class="built_in">peek</span>() != <span class="string">'\n'</span>){
-    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">cin</span>.<span class="built_in">get</span>();
-}; <span class="comment">// 当前字符不为换行符时，将读入字符输出，先读入后放回</span>
-
-<span class="keyword">const</span> <span class="keyword">int</span> <span class="built_in">size</span> = <span class="number">50</span>;
-<span class="keyword">int</span> buf[<span class="built_in">size</span>];
-
-<span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入文本："</span>;
-<span class="built_in">cin</span>.<span class="built_in">read</span>(buf, <span class="number">20</span>);
-
-<span class="built_in">cout</span>&lt;&lt;<span class="string">"字符串收集到的字符数为："</span>&lt;&lt; <span class="built_in">cin</span>.gcount() &lt;&lt; <span class="built_in">endl</span>;
-
-<span class="built_in">cout</span> &lt;&lt; <span class="string">"输入的文本信息为："</span>;
-<span class="built_in">cout</span>.<span class="built_in">write</span>(buf, <span class="number">20</span>);
-&lt;!--￼<span class="number">2</span>--&gt;
-
-&lt;!--￼<span class="number">3</span>--&gt;</code></pre>
-</li>
+<li>数组的传递<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> data[] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    <span class="built_in">print</span>(<span class="keyword">sizeof</span>(data));</span><br><span class="line">    <span class="comment">// 结果为2*4 Byte=8 Byte</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">addArray</span><span class="params">(<span class="keyword">int</span> <span class="built_in">array</span>[])</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="keyword">sizeof</span>(<span class="built_in">array</span>));</span><br><span class="line">    <span class="comment">// 结果为指针长度（机器相关）4（32位）或8（64位机器）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><code>cout</code>是一个输出流对象，是<code>console out</code>的缩写，属于<code>basic_ostream</code>类；</li>
+<li>c语言中，<code>scanf</code>从输入流获取值，<code>getchar</code>获取字符<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;i); <span class="comment">// 将读入的十进制数存入变量i</span></span><br><span class="line">ch = getchar(); <span class="comment">// 将读入的char类型数据存入ch，此时读入ch的数据不再存在在输入流中</span></span><br><span class="line">ungetc(ch, <span class="built_in">stdin</span>)； <span class="comment">// 将ch中的数据退回输入流</span></span><br></pre></td></tr></table></figure></li>
+<li><code>c++</code>版本的流输入<br><code>cin</code>的类型为<code>istream</code>；<br>用户输入时，对应的字符进入操作系统的键盘缓冲区中；<br>输入<code>enter</code>时，操作系统把家农安缓冲区的内容传输到<code>cin</code>的内部缓冲区，由<code>&gt;&gt;</code>操作符从内部缓冲区中提取需要的信息；<br><code>&gt;&gt;</code>操作符对所有内建类型都进行了重载；</li>
+<li>阻塞性IO、非阻塞、异步</li>
+<li><code>C++</code>可以在任意位置声明变量，允许我们在实际使用的时候再声明；</li>
+<li>```c++<br>char buf[20]; // 可存放19个字符<br>cin.ignore(n); //忽略n个字符<br>cin.getline(buf, 10); // 从cin中读取10个字符存入buf<br>while(cin.peek() != ‘\n’){<pre><code>cout&lt;&lt;cin.get();</code></pre>}; // 当前字符不为换行符时，将读入字符输出，先读入后放回<br>const int size = 50;<br>int buf[size];<br>cout &lt;&lt; “请输入文本：”;<br>cin.read(buf, 20);<br>cout&lt;&lt;”字符串收集到的字符数为：”&lt;&lt; cin.gcount() &lt;&lt; endl;<br>cout &lt;&lt; “输入的文本信息为：”;<br>cout.write(buf, 20);<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">9. cout</span><br><span class="line">   &#96;&#96;&#96;c++</span><br><span class="line">   int main()&#123;</span><br><span class="line">       double result &#x3D; sqrt(3.0);</span><br><span class="line">       cout &lt;&lt; &quot;对3开方保留小数点后0~9位&quot; &lt;&lt; endl;</span><br><span class="line">       for(int i&#x3D;0; i&lt;&#x3D;9; ++i)&#123;</span><br><span class="line">           cout.precision(i);</span><br><span class="line">           cout &lt;&lt; result &lt;&lt;endl;</span><br><span class="line">           cout &lt;&lt; &quot;当前输入精度： &quot; &lt;&lt; cout.precision();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">width</span> = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">char</span> str[<span class="number">20</span>];</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入一段文本： \n"</span>;</span><br><span class="line">    <span class="built_in">cin</span>.<span class="built_in">width</span>(<span class="number">5</span>);<span class="comment">// 输入宽度为5</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; str)&#123;</span><br><span class="line">        <span class="built_in">cout</span>.<span class="built_in">width</span>(++<span class="built_in">width</span>);</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; str &lt;&lt;<span class="built_in">endl</span>; </span><br><span class="line">        <span class="built_in">cin</span>.<span class="built_in">width</span>(<span class="number">5</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 
       
@@ -1408,10 +1371,7 @@ var _hmt = _hmt || [];
 <li>HTTP GET POST 区别</li>
 <li>平时使用什么语言，C++ 中堆栈在内存管理上的区别</li>
 <li>进程线程区别、线程同步的方式、信号量和自旋锁的区别</li>
-<li>计算机网络，OSI 七层模型，路由器和交换机工作在哪一层</li>
-</ol>
-<p>路由器工作在网络层，根据 IP 地址寻址，交换机工作在数据链路层，根据 MAC 地址寻址；</p>
-<ol>
+<li>计算机网络，OSI 七层模型，路由器和交换机工作在哪一层<br>路由器工作在网络层，根据 IP 地址寻址，交换机工作在数据链路层，根据 MAC 地址寻址；</li>
 <li>TCP 和 UDP 的区别在哪里，应用场景</li>
 <li>DNS 熟悉吗，说说工作原理，DNS 使用 TCP 还是 UDP</li>
 <li>讲讲 TCP 拥塞控制算法</li>
