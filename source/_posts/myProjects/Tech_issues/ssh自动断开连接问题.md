@@ -1,7 +1,7 @@
 ---
 title: 解决：ssh长时间无操作服务器断开会话的问题
 categories:
-- Linux
+- techissue
 tag:
 - Linux
 - ssh

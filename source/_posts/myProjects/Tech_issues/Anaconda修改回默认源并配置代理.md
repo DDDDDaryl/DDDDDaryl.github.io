@@ -1,7 +1,7 @@
 ---
 title: Anaconda修改回默认源并配置代理
 categories:
-- python
+- techissue
 tag:
 - Anaconda
 - proxy

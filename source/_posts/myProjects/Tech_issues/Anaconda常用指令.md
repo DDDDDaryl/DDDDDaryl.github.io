@@ -2,7 +2,7 @@
 title: Anaconda常用指令整理
 toc: true
 categories:
-- python
+- techissue
 tag:
 - Anaconda
 - python
