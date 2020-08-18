@@ -209,6 +209,1123 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dailyLearning/面经/广联达面经" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E9%9D%A2%E7%BB%8F/%E5%B9%BF%E8%81%94%E8%BE%BE%E9%9D%A2%E7%BB%8F/">广联达面经</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E9%9D%A2%E7%BB%8F/%E5%B9%BF%E8%81%94%E8%BE%BE%E9%9D%A2%E7%BB%8F/" class="archive-article-date">
+  	<time datetime="2020-08-18T03:43:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="广联达一面"><a href="#广联达一面" class="headerlink" title="广联达一面"></a>广联达一面</h1><ul>
+<li><p>C++ 问题，多态如何体现</p>
+</li>
+<li><p>怎么知道指针或者引用调用哪个版本的虚函数</p>
+</li>
+<li><p>虚函数表什么时候生成，虚表指针什么时候生成</p>
+</li>
+<li><p>堆和栈的理解</p>
+</li>
+<li><p>递归函数不设置结束条件，会有什么现象（Win 下会跳出内存访问错误的弹窗，Linux 下会 Core dump）</p>
+</li>
+<li><p><strong>如何实现栈溢出的判断</strong></p>
+</li>
+<li><p>栈中会保存什么数据</p>
+</li>
+<li><p>一个没有返回类型，没有参数列表的函数，递归调用自己，不设返回条件，会不会内存溢出</p>
+</li>
+<li><p>Array new 的内存，在释放内存的时候需要注意什么</p>
+</li>
+<li><p>为什么忘记写 [] 不一定导致内存泄漏<br>如果是内置类型的动态数组，array new 有两步动作：  </p>
+<ul>
+<li>分配内存，注意该内存分配只进行一次，并且会在内存中分配 cookie 标记内存大小</li>
+<li>多次调用构造函数，在申请到的一大块内存中调用构造函数  </li>
+</ul>
+<p>因为只进行了一次内存分配，delete 会一次性释放整块内存。</p>
+<p>而如果是自定义类型并且类示例包含指向动态内存的指针，此时因为只调用一次析构函数，会造成内存泄漏（含有指针的内存被释放）。</p>
+</li>
+<li><p>内存泄露的定义  </p>
+<blockquote>
+<p><strong>内存泄漏</strong>（Memory leak）是在<a href="https://zh.wikipedia.org/wiki/计算机科学" target="_blank" rel="noopener">计算机科学</a>中，由于疏忽或错误造成程序未能释放已经不再使用的<a href="https://zh.wikipedia.org/wiki/内存" target="_blank" rel="noopener">内存</a>。内存泄漏并非指内存在物理上的消失，而是应用程序分配某段内存后，由于设计错误，导致在释放该段内存之前就失去了对该段内存的控制，从而造成了内存的浪费。</p>
+<h2 id="后果"><a href="#后果" class="headerlink" title="后果"></a>后果</h2><p>内存泄漏会因为减少可用内存的数量从而降低计算机的性能。最终，在最糟糕的情况下，过多的可用内存被分配掉导致全部或部分设备停止正常工作，或者应用程序崩溃。</p>
+<p>内存泄漏带来的后果可能是不严重的，有时甚至能够被常规的手段检测出来。在现代操作系统中，一个应用程序使用的常规内存在程序终止时被释放。这表示一个短暂运行的应用程序中的内存泄漏不会导致严重后果。</p>
+<p>在以下情况，内存泄漏导致较严重的后果：</p>
+<ul>
+<li>程序运行后置之不理，并且随着时间的流逝消耗越来越多的内存（比如服务器上的后台任务，尤其是<a href="https://zh.wikipedia.org/wiki/嵌入式系统" target="_blank" rel="noopener">嵌入式系统</a>中的后台任务，这些任务可能被运行后很多年内都置之不理）；</li>
+<li>新的内存被频繁地分配，比如当显示电脑游戏或动画视频画面时；</li>
+<li>程序能够请求即使在程序终止之后也不会被释放的内存（比如<a href="https://zh.wikipedia.org/wiki/共享内存" target="_blank" rel="noopener">共享内存</a>）；</li>
+<li>泄漏在操作系统内部发生；</li>
+<li>泄漏在系统关键驱动中发生；</li>
+<li>内存非常有限，比如在<a href="https://zh.wikipedia.org/wiki/嵌入式系统" target="_blank" rel="noopener">嵌入式系统</a>或便携设备中；</li>
+<li>当运行于一个程序终止时内存并不自动释放内存的操作系统（比如<a href="https://zh.wikipedia.org/wiki/AmigaOS" target="_blank" rel="noopener">AmigaOS</a>）之上时。</li>
+</ul>
+</blockquote>
+</li>
+<li><p>聊聊熟悉的项目</p>
+</li>
+<li><p>你觉得你的项目哪里还可以改进</p>
+</li>
+<li><p>遇到问题怎么调试，比如有什么功能是用 gdb 调试才成功的</p>
+</li>
+<li><p>遇到段错误，怎么去找错误</p>
+</li>
+<li><p>你遇到的错误都是第一现场吗？（可能是想问不是第一现场怎么办，但是没有用过 coredump，也没有真的看过栈帧）</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">广联达</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/面经//" class="article-tag-list-link color3">面经</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E9%9D%A2%E7%BB%8F/%E5%B9%BF%E8%81%94%E8%BE%BE%E9%9D%A2%E7%BB%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/数据库/MySQL高级" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E9%AB%98%E7%BA%A7/">MySQL高级</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E9%AB%98%E7%BA%A7/" class="archive-article-date">
+  	<time datetime="2020-08-17T12:38:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E9%AB%98%E7%BA%A7/image-20200817204154373.png" alt="image-20200817204154373"></p>
+<h1 id="MySQL-架构介绍"><a href="#MySQL-架构介绍" class="headerlink" title="MySQL 架构介绍"></a>MySQL 架构介绍</h1><ul>
+<li>数据库内部结构和原理</li>
+<li>数据库建模优化</li>
+<li>数据库索引建立</li>
+<li>数据库索引建立</li>
+<li>SQL 语句优化</li>
+<li>SQL 编程（自定义函数、存储过程、触发器、定时任务）</li>
+<li>MySQL 服务器的安装配置</li>
+<li>数据库的性能监控分析与系统优化</li>
+<li>各种参数常量设定</li>
+<li>主从复制（提高可用性）</li>
+<li>分布式架构搭建、垂直切割和水平切割（提出方案）</li>
+<li>数据迁移（提出方案）</li>
+<li>容灾备份和恢复</li>
+<li>shell 或 python 脚本语言开发</li>
+<li>开源数据库进行二次开发</li>
+</ul>
+<h2 id="MySQL-安装"><a href="#MySQL-安装" class="headerlink" title="MySQL 安装"></a>MySQL 安装</h2><p>Ubuntu 16.04 下配置清华源，直接 <code>apt</code> 安装 MySQL。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install mysql-server</span><br><span class="line">sudo apt install mysql-client</span><br><span class="line">sudo apt install libmysqlclient-dev # 应用编程接口库</span><br></pre></td></tr></table></figure>
+
+<p>初始化 MySQL</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mysql_secure_installation</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，启动服务和查询服务状态。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld</span><br><span class="line">systemctl status mysqld</span><br></pre></td></tr></table></figure>
+
+<p>查询系统自启动任务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl list-unit-files | grep mysqld</span><br><span class="line"></span><br><span class="line">frank@frank-VirtualBox:~$ systemctl list-unit-files | grep mysql</span><br><span class="line">mysql.service                              enabled</span><br></pre></td></tr></table></figure>
+
+<p>安装完毕之后用 root 登录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">frank@frank-VirtualBox:~$ mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">ERROR 1698 (28000): Access denied for user 'root'@'localhost'</span><br></pre></td></tr></table></figure>
+
+<p>解决方案</p>
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/39281594/error-1698-28000-access-denied-for-user-rootlocalhost" target="_blank" rel="noopener">https://stackoverflow.com/questions/39281594/error-1698-28000-access-denied-for-user-rootlocalhost</a></p>
+<p><strong>Option 2:</strong> (replace YOUR_SYSTEM_USER with the username you have)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mysql -u root <span class="comment"># I had to use "sudo" since is new installation</span></span><br><span class="line"></span><br><span class="line">mysql&gt; USE mysql;</span><br><span class="line">mysql&gt; CREATE USER 'YOUR_SYSTEM_USER'@'localhost' IDENTIFIED BY '';</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'YOUR_SYSTEM_USER'@'localhost';</span><br><span class="line">mysql&gt; UPDATE user SET plugin='auth_socket' WHERE User='YOUR_SYSTEM_USER';</span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line">mysql&gt; exit;</span><br><span class="line"></span><br><span class="line">$ service mysql restart</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h1 id="索引优化分析"><a href="#索引优化分析" class="headerlink" title="索引优化分析"></a>索引优化分析</h1><h1 id="查询截取分析"><a href="#查询截取分析" class="headerlink" title="查询截取分析"></a>查询截取分析</h1><h1 id="工具和技巧"><a href="#工具和技巧" class="headerlink" title="工具和技巧"></a>工具和技巧</h1><h1 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/数据库//" class="article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E9%AB%98%E7%BA%A7/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-myProjects/Tech_issues/batch-file-to-set-wireless-hotspot-on-system-boot" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/techissue/batch-file-to-set-wireless-hotspot-on-system-boot/">batch-file-to-set-wireless-hotspot-on-system-boot</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/techissue/batch-file-to-set-wireless-hotspot-on-system-boot/" class="archive-article-date">
+  	<time datetime="2020-08-17T12:10:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><a href="https://stackoverflow.com/questions/29686633/batch-file-to-set-wireless-hotspot-on-system-boot" target="_blank" rel="noopener">https://stackoverflow.com/questions/29686633/batch-file-to-set-wireless-hotspot-on-system-boot</a></p>
+</blockquote>
+<p>Since you tagged “autorun”, I’ll assume this is a windows system.</p>
+<p>a <a href="https://technet.microsoft.com/en-us/library/cc770556.aspx" target="_blank" rel="noopener">startup script</a> could look something like:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">timeout 60</span><br><span class="line">netsh wlan set hostednetwork mode&#x3D;allow ssid&#x3D;WLAN_XXXX key&#x3D;XXXXXXXXXXX</span><br><span class="line">timeout 10</span><br><span class="line">netsh wlan start hostednetwork</span><br></pre></td></tr></table></figure>
+
+<p>On windows systems without the availability of the timeout command, you could use ping for the delays as ping waits 1 second between sending packets:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ping -n 61 127.0.0.1 &gt; nul</span><br><span class="line">netsh wlan set hostednetwork mode&#x3D;allow ssid&#x3D;WLAN_XXXX key&#x3D;XXXXXXXXXXX</span><br><span class="line">ping -n 11 127.0.0.1 &gt; nul</span><br><span class="line">netsh wlan start hostednetwork</span><br></pre></td></tr></table></figure>
+
+<p>The relevant part from linked article about creating startup scripts:</p>
+<blockquote>
+<p>To assign computer startup scripts</p>
+<p>Open the Local Group Policy Editor.</p>
+<p>In the console tree, click Scripts (Startup/Shutdown) . The path is Computer Configuration\Windows Settings\Scripts (Startup/Shutdown).</p>
+<p>In the results pane, double-click Startup.</p>
+<p>In the Startup Properties dialog box, click Add .</p>
+<p>In the Add a Script dialog box, do the following: In the Script Name box, type the path to the script, or click Browse to search for the script file in the Netlogon shared folder on the domain controller.</p>
+<p>In the Script Parameters box, type any parameters that you want, the same way as you would type them on the command line. For example, if your script includes parameters called //logo (display banner) and //I (interactive mode), type //logo //I.</p>
+<p>In the Startup Properties dialog box, specify the options that you want: Startup Scripts for : Lists all the scripts that currently are assigned to the selected Group Policy object (GPO). If you assign multiple scripts, the scripts are processed in the order that you specify. To move a script up in the list, click it and then click Up . To move a script down in the list, click it and then click Down .</p>
+<p>Add : Opens the Add a Script dialog box, where you can specify any additional scripts to use.</p>
+<p>Edit : Opens the Edit Script dialog box, where you can modify script information, such as name and parameters.</p>
+<p>Remove : Removes the selected script from the Startup Scripts list.</p>
+<p>Show Files : Displays the script files that are stored in the selected GPO.</p>
+</blockquote>
+<p><strong>Edit:</strong></p>
+<p>Easier explanation about startup scripts from <a href="https://serverfault.com/questions/116120/need-a-way-to-run-a-script-on-windows-boot-up-prior-to-a-user-logging-in" target="_blank" rel="noopener">this post</a>:</p>
+<blockquote>
+<p>You can use a Group Policy (or the local policy) to assign a startup script; you can configure it in the section <em>Computer Configuration -&gt; Windows Settings -&gt; Scripts (Startup/Shutdown)</em>.</p>
+<p>You can also use Scheduled Tasks to configure a task to run at computer startup.</p>
+</blockquote>
+<hr>
+<h1 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h1><p>首先，写脚本。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ping <span class="literal">-n</span> <span class="number">61</span> <span class="number">127.0</span>.<span class="number">0.1</span> &gt; nul</span><br><span class="line">netsh wlan set hostednetwork mode=allow ssid=YYNB2019 key=<span class="number">12345654321</span></span><br><span class="line">ping <span class="literal">-n</span> <span class="number">11</span> <span class="number">127.0</span>.<span class="number">0.1</span> &gt; nul</span><br><span class="line">netsh wlan start hostednetwork</span><br></pre></td></tr></table></figure>
+
+<p>最后发现无线网卡并不支持承载网络，无法用命令行启动。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Win10</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wireless hotspot</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/techissue//" class="article-tag-list-link color5">techissue</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/techissue/batch-file-to-set-wireless-hotspot-on-system-boot/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-git/LearnGitBranching" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/techissue/learngitbranching/">LearnGitBranching</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/techissue/learngitbranching/" class="archive-article-date">
+  	<time datetime="2020-08-16T17:25:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="git-branch"><a href="#git-branch" class="headerlink" title="git branch"></a>git branch</h1><p>新建分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 新建分支并移动到新的分支</span><br><span class="line">git checkout -b &lt;yourbranchname&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h1><p>从远程仓库创建本地分支，并自动将该远程标记为 origin，若 clone 的是 master 分支，那么本地仓库会生成 origin/master 分支。</p>
+<h1 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a>git fetch</h1><p><code>git fetch</code> 主要做两步动作</p>
+<ul>
+<li>下载远程仓库有，但是本地仓库缺失的提交</li>
+<li>更新远程分支指针（比如 <code>origin/master</code>）</li>
+</ul>
+<p>其最终的效果是将<strong>远程仓库的本地表示</strong>与远程仓库同步。</p>
+<p>而 <code>git fetch</code> 并不会修改本地仓库任何状态，并不会更新本地 <code>master</code> 分支。</p>
+<p>可以把 <code>git fetch</code> 当作一个下载步骤。</p>
+<h1 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h1><p>用来合并两个分支的 commits，<code>git merge</code> 会创建一个特殊的 commit，它拥有两个独立的父节点，该特殊的 commit 包含了两个父节点以及他们所有的父节点的内容，为两者的并集。</p>
+<p>假设本地有两个分支，各自含有不完全相同的内容，如下所示：</p>
+<p><img src="/techissue/learngitbranching/image-20200817235314477.png" alt="image-20200817235314477"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge bugFix</span><br></pre></td></tr></table></figure>
+
+<p>上述命令将 <code>bugFix</code> 合并到 <code>master</code> 分支中。</p>
+<p><img src="/techissue/learngitbranching/image-20200817235447912.png" alt="image-20200817235447912"></p>
+<p>但是此时 <code>bugFix</code> 分支并不是最新的 commit，将 <code>master</code> 分支合并到 <code>bugFix</code> 分支：</p>
+<p><img src="/techissue/learngitbranching/image-20200818000039777.png" alt="image-20200818000039777"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout bugFix</span><br><span class="line">git merge master</span><br></pre></td></tr></table></figure>
+
+<p><img src="/techissue/learngitbranching/image-20200818000116772.png" alt="image-20200818000116772"></p>
+<p>这一次 git 什么都不用做，只是把 <code>bugFix</code> 分支的指针指向了最新的 commit，包含仓库中所有内容，两个分支指向了同一个 commit。</p>
+<h1 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a>git pull</h1><p><code>git</code> 提供了一种命令，同时完成了同步远程仓库到本地，并且合并的操作，<code>git pull</code>。</p>
+<p>假设有本地仓库和远程仓库：</p>
+<p><img src="/techissue/learngitbranching/image-20200818001543083.png" alt="image-20200818001543083"></p>
+<p>此时本地的 <code>master</code> 分支不同于远程分支的 <code>master</code>，此时，下述两种操作等效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git fetch				# 将远程仓库的master分支下载到本地仓库，更新origin&#x2F;master指针</span><br><span class="line">git merge origin&#x2F;master	# 将origin&#x2F;master合并到本地master分支</span><br><span class="line"># or</span><br><span class="line">git pull</span><br></pre></td></tr></table></figure>
+
+<p><img src="/techissue/learngitbranching/image-20200818001950046.png" alt="image-20200818001950046"></p>
+<ul>
+<li>首先把远程仓库的 <code>C3</code> commit 下载到本地仓库，并且把 <code>C1</code> commit 作为他的父节点，把 <code>C3</code> 作为更新后的 <code>origin/master</code> 节点</li>
+<li>然后把 <code>C3</code> 合并到 <code>C2</code>，即将远程分支合并到本地仓库的 <code>master</code> 分支，创建一个新的包含本地分支和远程分支内容的 commit，并将其作为新的本地 <code>master</code> 分支节点，而本地的远程分支节点保持与远程仓库相同</li>
+</ul>
+<h1 id="HEAD"><a href="#HEAD" class="headerlink" title="HEAD"></a>HEAD</h1><p><code>HEAD</code> 是最近提交节点的一个符号别名，通常指向工作树上最近的提交。</p>
+<p>大多数 git 命令都通过首先修改 <code>HEAD</code> 来修改工作树。</p>
+<p>通常 <code>HEAD</code> 指向一个分支名，提交一个分支时，分支的状态变化可通过 <code>HEAD</code> 看出。</p>
+<h2 id="detaching-HEAD"><a href="#detaching-HEAD" class="headerlink" title="detaching HEAD"></a>detaching HEAD</h2><p>分离 <code>HEAD</code> 意味着将分支名与 <code>HEAD</code> 分开，将 <code>HEAD</code> 绑定到一个 commit 而不是一个 branch 上</p>
+<blockquote>
+<h3 id="Detaching-HEAD"><a href="#Detaching-HEAD" class="headerlink" title="Detaching HEAD"></a>Detaching HEAD</h3><p>Detaching HEAD just means attaching it to a commit instead of a branch. This is what it looks like beforehand:</p>
+<p>HEAD -&gt; master -&gt; C1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout C1</span><br></pre></td></tr></table></figure>
+
+<p>And now it’s</p>
+<p>HEAD -&gt; C1</p>
+</blockquote>
+<p><img src="/techissue/learngitbranching/image-20200818015525487.png" alt="image-20200818015525487"></p>
+<p><img src="/techissue/learngitbranching/image-20200818015556502.png" alt="image-20200818015556502"></p>
+<p>因此，我们可以看出，<code>checkout</code> 实际上就是在移动 <code>HEAD</code> 指针，通过指定 <code>HEAD</code> 指针指向的 commit。</p>
+<p>在工作树中引用节点的相对位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout HEAD^ # 将HEAD指向其父节点</span><br><span class="line">git checkout HEAD~2 # 将HEAD指向其父节点的父节点</span><br></pre></td></tr></table></figure>
+
+<h1 id="branch-forcing"><a href="#branch-forcing" class="headerlink" title="branch forcing"></a>branch forcing</h1><blockquote>
+<p>One of the most common ways I use relative refs is to move branches around. You can directly reassign a branch to a commit with the <code>-f</code> option. So something like:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -f master HEAD~3</span><br></pre></td></tr></table></figure>
+
+<p>moves (by force) the master branch to three parents behind HEAD.</p>
+</blockquote>
+<p><img src="/techissue/learngitbranching/image-20200818020817178.png" alt="image-20200818020817178"></p>
+<p><img src="/techissue/learngitbranching/image-20200818020831177.png" alt="image-20200818020831177"></p>
+<p>上述 <code>git branch -f master HEAD~3</code> 的效果实际上就是将 <code>master</code> 分支向前移动了三个版本，而 <code>HEAD</code> 指针与 <code>bugFix branch</code> 重合，并未移动。 </p>
+<h1 id="git-reset-amp-git-revert"><a href="#git-reset-amp-git-revert" class="headerlink" title="git reset &amp; git revert"></a>git reset &amp; git revert</h1><p><code>git reset</code> 和 <code>git revert</code> 两条指令用来撤销变更。</p>
+<h2 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a>git reset</h2><p><code>git reset</code> 将当前分支的引用回退到前一个提交版本。</p>
+<p><img src="/techissue/learngitbranching/image-20200818133128640.png" alt="image-20200818133128640"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD~1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/techissue/learngitbranching/image-20200818133138796.png" alt="image-20200818133138796"></p>
+<p><code>git reset</code> 操作的是本地仓库的分支版本，相当于管理本地仓库的版本，对远程分支无影响。</p>
+<h2 id="git-revert"><a href="#git-revert" class="headerlink" title="git revert"></a>git revert</h2><p><img src="/techissue/learngitbranching/image-20200818134032075.png" alt="image-20200818134032075"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git revert HEAD</span><br></pre></td></tr></table></figure>
+
+<p><img src="/techissue/learngitbranching/image-20200818134048873.png" alt="image-20200818134048873"></p>
+<p><code>git revert</code> 所做的事可以看出是在远程仓库的分支提交了一个新的版本，这个版本包含了本地仓库所做的回退操作结果。</p>
+<h1 id="git-push"><a href="#git-push" class="headerlink" title="git push"></a>git push</h1><blockquote>
+<p><code>git push</code> is responsible for uploading <em>your</em> changes to a specified remote and updating that remote to incorporate your new commits. Once <code>git push</code> completes, all your friends can then download your work from the remote.</p>
+</blockquote>
+<p>可以通过 <code>git push</code> 提交更新到指定的远程分支。</p>
+<blockquote>
+<p><em>note – the behavior of <code>git push</code> with no arguments varies depending on one of git’s settings called <code>push.default</code>. The default value for this setting depends on the version of git you’re using, but we are going to use the <code>upstream</code> value in our lessons. This isn’t a huge deal, but it’s worth checking your settings before pushing in your own projects.</em></p>
+</blockquote>
+<p>无参的 <code>git push</code> 的行为由 <code>git</code> 设置的默认行为决定。</p>
+<p><img src="/techissue/learngitbranching/image-20200818155709828.png" alt="image-20200818155709828"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p><img src="/techissue/learngitbranching/image-20200818155728523.png" alt="image-20200818155728523"></p>
+<ul>
+<li>提交本地变更</li>
+<li>更新远程仓库分支</li>
+<li>更新本地仓库的远程分支</li>
+</ul>
+<h1 id="Diverged-Work"><a href="#Diverged-Work" class="headerlink" title="Diverged Work"></a>Diverged Work</h1><p>给一个场景：</p>
+<blockquote>
+<p>Imagine you clone a repository on Monday and start dabbling on a side feature. By Friday you are ready to publish your feature – but oh no! Your coworkers have written a bunch of code during the week that’s made your feature out of date (and obsolete). They’ve also published these commits to the shared remote repository, so now <em>your</em> work is based on an <em>old</em> version of the project that’s no longer relevant.</p>
+<p>In this case, the command <code>git push</code> is ambiguous. If you run <code>git push</code>, should git change the remote repository back to what it was on Monday? Should it try to add your code in while not removing the new code? Or should it totally ignore your changes since they are totally out of date?</p>
+<p>Because there is so much ambiguity in this situation (where history has diverged), git doesn’t allow you to <code>push</code> your changes. It actually forces you to incorporate the latest state of the remote before being able to share your work.</p>
+</blockquote>
+<p>大致是说，你在拿到一个版本，修改，准备提交的过程中，你拿到的版本已经被更新到新的版本，所以你所做的修改是基于旧的版本，此时 <code>git</code> 该怎么做？</p>
+<p><img src="/techissue/learngitbranching/image-20200818160635617.png" alt="image-20200818160635617"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p>这种情况下，上述指令会被拒绝执行，因为你的修改基于旧的版本。</p>
+<p>如何处理这种情况？简单来说就是 <code>rebase</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git fetch 					# 下载C2到本地</span><br><span class="line">git rebase origin&#x2F;master 	# 将当前的master分支指向的版本复制一份，以C2作为其父节点</span><br><span class="line">git push					# 提交修改，同步本地仓库到远程仓库，并更新状态</span><br><span class="line"># 可以简化为</span><br><span class="line">git pull --rebase # 先fetch再rebase</span><br><span class="line">git push</span><br><span class="line"># 或者</span><br><span class="line">git pull # 先fetch再merge</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p><img src="/techissue/learngitbranching/image-20200818162016774.png" alt="image-20200818162016774"></p>
+<p>第二种方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git fetch</span><br><span class="line">git merge origin&#x2F;master</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p><img src="/techissue/learngitbranching/image-20200818162441447.png" alt="image-20200818162441447"></p>
+<p>不过使用 <code>merge</code> 会将别人提交的更新与自己的更新合并。</p>
+<h1 id="Remote-Rejected"><a href="#Remote-Rejected" class="headerlink" title="Remote Rejected"></a>Remote Rejected</h1><p>当一个项目的 <code>master</code> 分支的设定是不允许直接提交时，你需要新建一个分支并提交。</p>
+<p>如果你不小心忘记新建分支而直接提交，此时提交会被拒绝。</p>
+<p>解决办法就是新建一个分支，回退 <code>master</code> 分支，并且把新建的分支指向你的提交，再 <code>git push</code>。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/techissue//" class="article-tag-list-link color5">techissue</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/techissue/learngitbranching/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/数据库/MySQL必知必会" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/">MySQL必知必会</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/" class="archive-article-date">
+  	<time datetime="2020-08-13T02:34:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<!--readmore-->
+
+<h1 id="DQL-语句"><a href="#DQL-语句" class="headerlink" title="DQL 语句"></a>DQL 语句</h1><h2 id="连结表"><a href="#连结表" class="headerlink" title="连结表"></a>连结表</h2><h3 id="连结"><a href="#连结" class="headerlink" title="连结"></a>连结</h3><p>连结对应的语句为 <code>JOIN</code>。</p>
+<p>为了减少内存浪费、方便更新数据、且维护数据的一致性，在设计关系表时，把信息分解成多个表。</p>
+<p>如果某一列在其中一个表中为主键 (primary key)，并且同样的列也被存储在另外一张表中，用来关联两张表，那么这列在另外一张表中叫做外键。  </p>
+<blockquote>
+<p>外键 (foreign key)</p>
+<p>外键为某个表中的某一列，包含另一个表中的主键值，定义了两个表之间的关系。</p>
+</blockquote>
+<p>类型</p>
+<ul>
+<li>内联结（等值连结）<br>基于行的等值匹配，将一个表中的一行与另一个表中的行连结。</li>
+<li>外部连结<br>除了关联行，还包含没有关联行的那些行。关键字 <code>OUTER JOIN</code>，通过 <code>LEFT</code> 和 <code>RIGHT</code> 关键字指定<strong>包括其所有行的表</strong>。<br>查询结果为主表中的所有的记录，如果从表有匹配项，则显示匹配项；如果从表没有匹配项，则显示 <code>NULL</code>。<br>应用场景：一般用于查询主表中有，但是从表没有的记录。<br>特点：  <ul>
+<li>外联结分主从表，两表顺序不能任意调换</li>
+<li>左连接，左表为主表；有链接，右表为主表</li>
+</ul>
+</li>
+<li>全外联结<br>既有左连接又有右连接。两张表的所有记录都会返回，没有匹配的都为 NULL。</li>
+<li>自然连结<br>不常用。</li>
+<li>自联结</li>
+</ul>
+<p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/image-20200813223842979.png" alt="image-20200813223842979"></p>
+<p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/image-20200813224019449.png" alt="image-20200813224019449"></p>
+<h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><p>当一个查询语句中又嵌套了另一个完整的 SELECT 语句，则被嵌套的 SELECT 语句成为子查询或内查询，外面的 SELECT 语句称为主查询或外查询。</p>
+<p>按照子查询出现的位置进行分类：</p>
+<ul>
+<li>SELECT 后<br>要求：子查询结果为单行单列（标量子查询）</li>
+<li>FROM 后<br>要求：子查询的结果可以为多行多列（无要求）</li>
+<li>WHERE 或 HAVING 后<br>要求：子查询结果必须为单列，单行/多行子查询</li>
+<li>EXIST 后面<br>要求：子查询结果或必须为单列（相关子查询）</li>
+</ul>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>子查询放在条件中，必须放在条件的右侧</li>
+<li>子查询一般放在小括号中</li>
+<li>子查询的执行优先于主查询</li>
+<li>单行子查询对应了单行操作符：<code>&lt; &gt; &gt;= &lt;= = &lt;&gt;</code></li>
+<li>多行子查询对应了多行操作符：<code>ANY/SOME ALL IN</code></li>
+</ul>
+<h3 id="多行子查询"><a href="#多行子查询" class="headerlink" title="多行子查询"></a>多行子查询</h3><ul>
+<li><code>IN</code>：判断某字段是否在指定列表内</li>
+<li><code>ANY/SOME</code>：判断某字段的值是否满足其中任意一个</li>
+<li><code>ALL</code>：判断某字段的值是否满足里面所有的</li>
+</ul>
+<h2 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h2><h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>当页面上的数据，一页显示不全，需要分页显示。</p>
+<p>分页查询的 SQL 命令请求数据库服务器-&gt;服务器响应查询到的多条数据-&gt;前台页面</p>
+<p>语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 	<span class="comment"># 7</span></span><br><span class="line"><span class="keyword">FROM</span> 	<span class="comment"># 1</span></span><br><span class="line"><span class="keyword">JOIN</span>	<span class="comment"># 2</span></span><br><span class="line"><span class="keyword">ON</span>		<span class="comment"># 3</span></span><br><span class="line"><span class="keyword">WHERE</span>	<span class="comment"># 4</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span><span class="comment"># 5</span></span><br><span class="line"><span class="keyword">HAVING</span>	<span class="comment"># 6</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span><span class="comment"># 8</span></span><br><span class="line"><span class="keyword">LIMIT</span>	<span class="comment"># 9</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>0-indexed，默认为0</li>
+<li>LIMIT 两个参数：起始索引，条目数</li>
+</ul>
+<p>假设要显示的页数是 page，每页显示的条目数为 size</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">LIMIT</span> (page - <span class="number">1</span>) * <span class="keyword">size</span>, <span class="keyword">size</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h2><p>当查询结果来自于多张表，但多张表之间没有关联，此时往往使用联合查询。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">FROM</span> <span class="keyword">WHERE</span></span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">FROM</span> <span class="keyword">WHERE</span></span><br></pre></td></tr></table></figure>
+
+<p>多条查询语句的查询列数必须一致。</p>
+<p>列必须对应，虽然语法正确，但数据无意义。</p>
+<p><code>UNION</code> 自动去重，去除重复行。</p>
+<p><code>UNION ALL</code> 可以支持重复项。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/image-20200814224034315.png" alt="image-20200814224034315"></p>
+<h1 id="DDL-语言"><a href="#DDL-语言" class="headerlink" title="DDL 语言"></a>DDL 语言</h1><p>数据定义语言，Data Define Language 数据定义语言，用于对数据库和表的管理和操作。</p>
+<h2 id="库的管理"><a href="#库的管理" class="headerlink" title="库的管理"></a>库的管理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- 创建数据库</span><br><span class="line">CREATE DATABASE stuDB;</span><br><span class="line">CREATE DATABASE IF NOT EXISTS stuDB;</span><br><span class="line">-- 删除数据库</span><br><span class="line">DROP DATABASE stuDB;</span><br><span class="line">DROP DATABASE IF EXISTS stuDB;</span><br></pre></td></tr></table></figure>
+
+<h2 id="表的管理"><a href="#表的管理" class="headerlink" title="表的管理"></a>表的管理</h2><h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE name (</span><br><span class="line">	field type constraint</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">--exmaple</span><br><span class="line"></span><br><span class="line">CREATE TABLE IF NOT EXISTS stuinfo (</span><br><span class="line">	stuid INT,</span><br><span class="line">    stuname VARCHAR(20),</span><br><span class="line">    stugender VARCHAR(20),</span><br><span class="line">    birthday DATETIME</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">DESC stuinfo;</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/image-20200814113834453.png" alt="image-20200814113834453"></p>
+<ul>
+<li><code>CHAR()</code> 固定字符长度，会用空格补齐，效率较高，在数据长度较为固定时使用，长度默认为 1；</li>
+<li><code>VARCHAR()</code> 可变字符长度，不会补齐；</li>
+</ul>
+<p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/image-20200814114305764.png" alt="image-20200814114305764"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">-- 整形</span><br><span class="line">TINYINT SMALLINT INT BIGINT</span><br><span class="line">-- 浮点型</span><br><span class="line">FLOAT(m, n)</span><br><span class="line">DOUBLE(m, n)</span><br><span class="line">DECIMAL(m, n)</span><br><span class="line">-- m, n 可选</span><br><span class="line">-- 字符型</span><br><span class="line">CHAR(n) -- 可选</span><br><span class="line">VARCHAR(n) -- 必选</span><br><span class="line">TEXT -- 保存较长文本</span><br><span class="line">-- n表示最长字符个数</span><br><span class="line">-- 日期型</span><br><span class="line">DATE</span><br><span class="line">TIME</span><br><span class="line">DATETIME</span><br><span class="line">TIMESTAMP</span><br><span class="line"></span><br><span class="line">-- 二进制型</span><br><span class="line">BLOB -- 存储图片数据</span><br></pre></td></tr></table></figure>
+
+<h4 id="常见约束"><a href="#常见约束" class="headerlink" title="常见约束"></a>常见约束</h4><p>用于限制表中字段数据的，从而进一步保证数据表中的数据是一致、准确、可靠的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NOT NULL	# 非空，限制该字段为必填项</span><br><span class="line">DEFAULT		# 默认约束，无显示插入值，则显示默认值</span><br><span class="line">PRIMARY KEY	# 主键约束，限制该字段值不能重复，不能为空</span><br><span class="line">UNIQUE		# 限制该字段值不能重复，可以为空，可以有多个唯一列</span><br><span class="line">CHECK (</span><br><span class="line">    age BETWEEN 1 AND 100</span><br><span class="line">)			# 检查，用于限制该字段值必须满足指定条件,MYSQL支持语法但无效果</span><br><span class="line">FOREIGN KEY	# 外键约束，用于限制两个表的关系，要求外键列的值必须来自于主表的关联列</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可多个字段作为一个组合主键，此时作为主键的多个字段不能同时重复</li>
+<li>主表关联列和从表关联列的类型必须一致</li>
+<li>主表的关联列要求必须是主键</li>
+</ul>
+<p>支持列级约束：<code>NOT NULL, DEFAULT, UNIQUE, PRIMARY KEY, CHECK</code></p>
+<p>支持表级约束：<code>UNIQUE, PRIMARY KEY, FOREIGN KEY</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE stuinfo (</span><br><span class="line">	id INT,</span><br><span class="line">    name VARCHAR(20),</span><br><span class="line">    gender CHAR DEFAULT &#39;男&#39;,</span><br><span class="line">    age INT CHECK(age &gt;&#x3D; 1 AND age &lt;&#x3D; 100),</span><br><span class="line">    email VARCHAR(20) NOT NULL,</span><br><span class="line">    major_id INT,</span><br><span class="line">    PRIMARY KEY(id), # 添加主键</span><br><span class="line">    CONSTRAINT uq UNIQUE(name), # 添加唯一键</span><br><span class="line">    CONSTRAINT fk FOREIGN KEY(major_id) REFERENCES major(id) # 添加外键</span><br><span class="line">)；</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE name</span><br><span class="line">ADD | MODIFY | CHANGE | DROP COLUMN column_name type [colum_constraint];</span><br><span class="line"></span><br><span class="line"># 修改表名</span><br><span class="line">ALTER TABLE major RENAME TO students;</span><br><span class="line"># 添加列并设置约束条件</span><br><span class="line">ALTER TABLE students ADD COLUMN borndate TIMESTAMP NOT NULL;</span><br><span class="line">DESC students;</span><br><span class="line"># 修改列并修改约束条件</span><br><span class="line">ALTER TABLE students CHANGE COLUMN borndate birthday DATETIME NOT NULL;</span><br><span class="line">DESC students;</span><br><span class="line"># 修改字段类型</span><br><span class="line">ALTER TABLE students MODIFY COLUMN birthday TIMESTAMP;</span><br><span class="line"># 删除字段</span><br><span class="line">ALTER TABLE students DROP COLUMN birthday;</span><br><span class="line">DESC students;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE IF EXISTS tbl_name;</span><br></pre></td></tr></table></figure>
+
+<h3 id="复制表"><a href="#复制表" class="headerlink" title="复制表"></a>复制表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE newTable </span><br><span class="line">LIKE oldTable; # 无内容，仅复制表结构</span><br><span class="line"></span><br><span class="line">CREATE TABLE newTable</span><br><span class="line">SELECT  *</span><br><span class="line">FROM SrcTable; # 将数据和表结构都复制</span><br></pre></td></tr></table></figure>
+
+<h1 id="DML-语句"><a href="#DML-语句" class="headerlink" title="DML 语句"></a>DML 语句</h1><p>Data Manipulation Language 数据操纵语言</p>
+<p>对表中的数据增删改。</p>
+<h2 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h2><h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO tbl_name(field1, field2, ...) VALUES(val1, val2, ...);</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>字段和值列表一一对应，包含类型、约束等必须匹配</li>
+<li>数值型的值，不用单引号，非数值型的值，必须使用单引号</li>
+<li>字段顺序无要求</li>
+</ul>
+<p>如何插入空字段：只要在 <code>INSERT</code> 时忽略这个字段即可。</p>
+<p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/image-20200815223746591.png" alt="image-20200815223746591"></p>
+<p>以上为插入单行，还可以批量插入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO tbl_name(field1, field2, ...) </span><br><span class="line">VALUES(val1, val2, ...), (val1, val2, ...), (val1, val2, ...);</span><br></pre></td></tr></table></figure>
+
+<h2 id="自增长列"><a href="#自增长列" class="headerlink" title="自增长列"></a>自增长列</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE gradeinfo (</span><br><span class="line">	gradeID INT PRIMARY KEY AUTO_INCREMENT,</span><br><span class="line">	gradeName VARCHAR(20)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">INSERT INTO gradeinfo </span><br><span class="line">VALUES </span><br><span class="line">(NULL, &#39;一年级&#39;),</span><br><span class="line">(NULL, &#39;二年级&#39;),</span><br><span class="line">(NULL, &#39;三年级&#39;);</span><br><span class="line"></span><br><span class="line">SELECT * FROM gradeinfo;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/image-20200815224838415.png" alt="image-20200815224838415"></p>
+<p>如果自增主键不插入 <code>NULL</code>，则以插入数据为准。</p>
+<h3 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h3><ul>
+<li>自增长列要求必须设置在一个键上，比如主键或唯一键</li>
+<li>自增长列要求数据类型为数值型</li>
+<li>一个表至多有一个自增长列</li>
+</ul>
+<h2 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UPDATE stuinfo SET balance &#x3D; balance - 5000</span><br><span class="line">WHERE stuid &#x3D; 1;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h2><h3 id="DELETE-语句"><a href="#DELETE-语句" class="headerlink" title="DELETE 语句"></a>DELETE 语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DELETE FROM name</span><br><span class="line">WHERE COND;</span><br></pre></td></tr></table></figure>
+
+<h3 id="TRUNCATE-语句"><a href="#TRUNCATE-语句" class="headerlink" title="TRUNCATE 语句"></a>TRUNCATE 语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 不支持 WHERE 语句</span><br><span class="line">TRUNCATE TABLE name; # 删除表中所有数据</span><br></pre></td></tr></table></figure>
+
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ul>
+<li><code>DELETE</code> 可以添加 <code>WHERE</code> 条件，<code>TRUNCATE</code> 不能添加 <code>WHERE</code> 条件，一次性清除所有数据。</li>
+<li><code>TRUNCATE</code> 删除旧表，建立新表。</li>
+<li><code>TRUNCATE</code> 效率较高。</li>
+<li>如果删除带自增长列的表，使用 <code>DELETE</code> 删除后，重新插入数据，记录从断点处开始；<br><code>TRUNCATE</code> 删除，重新插入，记录则从 1 重新开始。</li>
+<li><code>DELETE</code> 删除数据，会返回受影响的行数；<br><code>TRUNCATE</code> 删除数据，不会返回受影响行数。</li>
+<li><code>DELETE</code> 删除数据，可以支持事务回滚<br><code>TRUNCATE</code> 删除数据，不支持事务回滚。</li>
+</ul>
+<p>常用 <code>DELETE</code>。</p>
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>由单条 SQL 语句组成，要么全部成功，要么全部失败。</p>
+<ul>
+<li>隐式事务，<code>INSERT, UPDATE, DELETE</code> 都属于隐式事务</li>
+<li>显式事务，需要显式开启事务，需要先取消事务的自动提交</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SET AUTOCOMMIT &#x3D; 0;</span><br><span class="line">START TRANSACTION;</span><br><span class="line">&#x2F;*DO SOMETHING*&#x2F;</span><br><span class="line"># 提交</span><br><span class="line">COMMIT;</span><br><span class="line"># OR 回滚</span><br><span class="line">ROLLBACK;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三种现象"><a href="#三种现象" class="headerlink" title="三种现象"></a>三种现象</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>对于两个事务<code>T1, T2</code>，<code>T1</code>读取了<code>T2</code>更新但还没有被提交的字段，之后，若<code>T2</code>回滚，<code>T1</code>读取的内容就是临时且无效的。</p>
+<p>强调未提交的更新事务。</p>
+<h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><p>对于两个事务<code>T1, T2</code>，<code>T1</code>读取了一个字段，然后<code>T2</code><strong>更新并提交</strong>了该字段，之后<code>T1</code>再次读取同一个字段，会读取到不同的值。</p>
+<p>强调更新事务。</p>
+<p>同一事务中两次对同一数据的读取结果不同。</p>
+<h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>对于两个事务<code>T1, T2</code>，<code>T1</code>从表中读取了一个字段，然后，<code>T2</code>在该表中插入了一些新的行，之后如果，<code>T1</code>再次读取同一个表，就会多出几行。</p>
+<p>强调提交的插入或者删除事务。</p>
+<h2 id="MySQL-四种隔离级别"><a href="#MySQL-四种隔离级别" class="headerlink" title="MySQL 四种隔离级别"></a>MySQL 四种隔离级别</h2><p>MySQL 默认隔离级别：REPEATABLE-READ 可重复读</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT @@tx_isolation;</span><br><span class="line">ERROR 1193 (HY000): Unknown system variable &#39;tx_isolation&#39;</span><br><span class="line">mysql&gt; SELECT @@transaction_isolation;</span><br><span class="line">+-------------------------+</span><br><span class="line">| @@transaction_isolation |</span><br><span class="line">+-------------------------+</span><br><span class="line">| REPEATABLE-READ         |</span><br><span class="line">+-------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="READ-UNCOMMITTED"><a href="#READ-UNCOMMITTED" class="headerlink" title="READ UNCOMMITTED"></a>READ UNCOMMITTED</h3><p>读未提交，可能会发生脏读、不可重复读、以及幻读。</p>
+<h3 id="READ-COMMITTED"><a href="#READ-COMMITTED" class="headerlink" title="READ COMMITTED"></a>READ COMMITTED</h3><p>其他事务无法读取未提交的修改（UPDATE）。</p>
+<p>但是如果另外一个事务更新并提交，那么正在进行中的事务可能会前后读取到不同的数据。</p>
+<p>解决了脏读。</p>
+<h3 id="REPEATABLE-READ"><a href="#REPEATABLE-READ" class="headerlink" title="REPEATABLE READ"></a>REPEATABLE READ</h3><p>可重复读，对于同一个事务来说，对同一个数据进行多次查询得到的结果相同。</p>
+<p>解决脏读、不可重复读。</p>
+<p>在一个事务中，对于相同数据的两次读取，在两次读取之间有其他事务插入并提交，导致未提交的事务读取到额外的数据，并有可能修改其他事务提交的数据。</p>
+<h3 id="SERIALIZABLE"><a href="#SERIALIZABLE" class="headerlink" title="SERIALIZABLE"></a>SERIALIZABLE</h3><p>可串行化。可解决以上三个问题。</p>
+<p>在一个事务未提交时，另外一个事务进行<strong>插入、更新、删除</strong>操作时会被阻塞。</p>
+<p>性能低，但是可以避免所有并发问题。</p>
+<h3 id="MySQL-设置隔离级别"><a href="#MySQL-设置隔离级别" class="headerlink" title="MySQL 设置隔离级别"></a>MySQL 设置隔离级别</h3><p>每启动一个 MySQL 程序，就会获得一个单独的数据库连接，每个数据库连接都有一个全局变量 <code>@@transaction_isolation</code>，表示当前的事务隔离级别。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;</span><br><span class="line">SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ;</span><br></pre></td></tr></table></figure>
+
+<h2 id="回滚点-SAVEPOINT"><a href="#回滚点-SAVEPOINT" class="headerlink" title="回滚点 SAVEPOINT"></a>回滚点 SAVEPOINT</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SET AUTOCOMMIT &#x3D; 0;</span><br><span class="line">START TRANSACTION;</span><br><span class="line">DELETE FROM account WHERE id &#x3D; 25;</span><br><span class="line">SAVEPOINT a; # 设置保存点，只能搭配 ROLLBACK</span><br><span class="line">DELETE FROM account WHERE id &#x3D; 29;</span><br><span class="line">ROLLBACK TO a; # 回滚到保存点，此时 id 为29的行还没有被删除</span><br></pre></td></tr></table></figure>
+
+<h1 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h1><p>含义：虚拟表，和普通表一样使用，MySQL 5.0.1 版本新特性，是通过表动态生成的数据。</p>
+<p>把查询结果封装到一个临时结果集中。</p>
+<p>只保存 SQL 逻辑，<strong>不保存数据</strong>。</p>
+<h2 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>多个地方用到同样的查询结果</li>
+<li>该查询结果使用的 SQL 较复杂</li>
+</ul>
+<h3 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h3><p>假设我们要从 stuinfo 这张表中查询张姓学生的学生姓名以及专业</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SELECT stuname, majorname</span><br><span class="line">FROM stuinfo s</span><br><span class="line">JOIN major m ON s.majorid &#x3D; m.id</span><br><span class="line">WHERE s.stuname LIKE &#39;张%&#39;；</span><br><span class="line"></span><br><span class="line"># 为了避免每次索引不同名字的同学时写语句，使用视图QLsql</span><br><span class="line">CREATE VIEW v1</span><br><span class="line">AS</span><br><span class="line">SELECT stuname, majorname</span><br><span class="line">FROM stuinfo s</span><br><span class="line">JOIN major m ON s.majorid &#x3D; m.id;</span><br><span class="line"></span><br><span class="line"># 那么每次使用时</span><br><span class="line">SELECT * FROM v1</span><br><span class="line">WHERE stuname LIKE &#39;张%&#39;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 方式一</span><br><span class="line">CREATE OR REPLACE VIEW myv3</span><br><span class="line">AS</span><br><span class="line">&#x2F;*NEW VIEW*&#x2F;</span><br><span class="line"></span><br><span class="line"># 方式二</span><br><span class="line">ALTER VIEW myv3</span><br><span class="line">AS</span><br><span class="line">&#x2F;*NEW VIEW*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除视图-amp-查看视图"><a href="#删除视图-amp-查看视图" class="headerlink" title="删除视图 &amp; 查看视图"></a>删除视图 &amp; 查看视图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DROP VIEW myv3;</span><br><span class="line"></span><br><span class="line">DESC myv3;</span><br><span class="line">SHOW CREATE VIEW myv3; # 会返回整个view创建的过程</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新视图"><a href="#更新视图" class="headerlink" title="更新视图"></a>更新视图</h3><ul>
+<li><p>插入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 首先新建视图</span><br><span class="line">CREATE OR REPLACE VIEW myv1</span><br><span class="line">AS</span><br><span class="line">SELECT last_name, email</span><br><span class="line">FROM employees;</span><br><span class="line"></span><br><span class="line"># 插入，需要注意有些视图不允许插入</span><br><span class="line"># 插入之后原始表被修改</span><br><span class="line">INSERT INTO myv1 VALUES(&#39;FRANK&#39;, &#39;XXX@XX.COM&#39;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UPDATE myv1 SET last_name &#x3D; &#39;frank&#39;</span><br><span class="line">WHERE last_nmame &#x3D; &#39;FARNK&#39;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DELETE FROM myv1</span><br><span class="line">WHERE last_name &#x3D; &#39;frank&#39;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>上述更新视图操作<strong>很少使用</strong>。</p>
+<h3 id="不允许更新的视图"><a href="#不允许更新的视图" class="headerlink" title="不允许更新的视图"></a>不允许更新的视图</h3><ul>
+<li>包含以下关键字的 SQL 语句：<br>分组函数、DISTINCT、GROUP BY、HAVING、UNION、UNION ALL<br>跟分组、联合查询相关的</li>
+<li>常量视图</li>
+<li><code>SELECT</code> 包含子查询</li>
+<li>连接表，虽然可更新但不可插入，统一理解为不能更新</li>
+<li>嵌套了不能更新的视图</li>
+<li><code>WHERE</code> 子句中的子查询引用了 <code>FROM</code> 子句的表</li>
+</ul>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>实现了 SQL 语句的重用</li>
+<li>简化复杂的 SQL 操作，封装细节</li>
+<li>保护数据，提高安全性，因为用户不知道基表信息</li>
+</ul>
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><ul>
+<li>系统变量<ul>
+<li>全局变量</li>
+<li>会话变量</li>
+</ul>
+</li>
+<li>自定义变量<ul>
+<li>用户变量</li>
+<li>局部变量</li>
+</ul>
+</li>
+</ul>
+<h2 id="系统变量"><a href="#系统变量" class="headerlink" title="系统变量"></a>系统变量</h2><p>由系统提供，不是用户定义，属于服务器层面。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES; # 查看所有的系统变量</span><br><span class="line">SHOW SESSION VARIABLES;</span><br><span class="line">SHOW GLOBAL VARIABLES;</span><br><span class="line"></span><br><span class="line"># 查看满足条件的部分系统变量</span><br><span class="line">SHOW GLOBAL | [SESSION] VARIABLES LIKE &#39;%char%&#39;；</span><br><span class="line"></span><br><span class="line"># 查看指定的某个系统变量的值</span><br><span class="line">SELECT @@系统变量名；</span><br><span class="line">SELECT @@GLOBAL | [SESSION].系统变量名；</span><br><span class="line"></span><br><span class="line"># 为某个系统变量赋值</span><br><span class="line">SET GLOBAL | [SESSION] 系统变量名 &#x3D; VAL;</span><br><span class="line">SET @@GLOBAL | [SESSION].系统变量名 &#x3D; VAL;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义变量"><a href="#自定义变量" class="headerlink" title="自定义变量"></a>自定义变量</h2><p>变量是用户自定义的。</p>
+<p>使用步骤：</p>
+<ul>
+<li>声明</li>
+<li>赋值</li>
+<li>使用（查看、比较、运算等）</li>
+</ul>
+<h3 id="用户变量"><a href="#用户变量" class="headerlink" title="用户变量"></a>用户变量</h3><p>作用域：针对当前会话（连接）有效，同于会话变量的作用域。</p>
+<p>可应用在任何地方。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 声明或初始化</span><br><span class="line">SET @用户变量名 &#x3D; 值;</span><br><span class="line">SET @用户变量名 :&#x3D; 值;</span><br><span class="line">SELECT @用户变量名 :&#x3D; 值;</span><br><span class="line"></span><br><span class="line"># 赋值</span><br><span class="line">SET 局部变量名 &#x3D; 值;</span><br><span class="line">SET 局部变量名 :&#x3D; 值;</span><br><span class="line">SELECT @局部变量名 :&#x3D; 值;</span><br><span class="line"></span><br><span class="line">SELECT 字段 INTO 变量名</span><br><span class="line">FROM 表;</span><br></pre></td></tr></table></figure>
+
+<h3 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h3><p>作用域仅仅在定义它的 begin end 中有效。</p>
+<p>应用在 begin end 中的第一句。</p>
+<ul>
+<li>声明<br><code>DACLARE 变量名 类型;</code><br><code>DECLARE 变量名 类型 DEFAULT 值;</code></li>
+<li>赋值<br><code>SELECT 字段 INTO 局部变量名 FROM 表;</code></li>
+<li>使用<br><code>SELECT 局部变量名;</code></li>
+</ul>
+<p>用户变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 声明两个变量并赋初始值，求和，并打印</span><br><span class="line">SET @m &#x3D; 1;</span><br><span class="line">SET @n &#x3D; 2;</span><br><span class="line">SET @sum &#x3D; @m + @n;</span><br><span class="line">SELECT @sum;</span><br></pre></td></tr></table></figure>
+
+<p>局部变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">    DECLARE m INT DEFAULT 1;</span><br><span class="line">    DECLARE n INT DEFAULT 2;</span><br><span class="line">    DECLARE SUM INT;</span><br><span class="line">    SET SUM &#x3D; m + n;</span><br><span class="line">    SELECT SUM;</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+
+<h1 id="存储过程和函数"><a href="#存储过程和函数" class="headerlink" title="存储过程和函数"></a>存储过程和函数</h1><p>类似于 C++ 函数。</p>
+<p>好处：</p>
+<ul>
+<li>提高代码重用性</li>
+<li>简化操作</li>
+<li>减少了编译次数并且减少了和数据库服务器的连接次数，提高了效率</li>
+</ul>
+<h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><p>一组预先编译好的 SQL<br>语句的集合，理解成批处理语句。</p>
+<h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE 存储过程名(args)</span><br><span class="line">BEGIN</span><br><span class="line">	&#x2F;*存储过程体（一组合法的 SQL 语句）*&#x2F;</span><br><span class="line">END</span><br><span class="line"></span><br><span class="line"># 参数列表</span><br><span class="line"># 参数模式 参数名 参数类型</span><br><span class="line">IN stuname VARCHAR(20)</span><br><span class="line"></span><br><span class="line"># 参数模式</span><br><span class="line">IN		# 该参数可以作为输入，该参数需要调用方传入值</span><br><span class="line">OUT		# 该参数可以作为输出，也就是该参数可以作为返回值</span><br><span class="line">INOUT	# 该参数即可已作为输入，有可以作为输出，该参数既需要传入值，又可以返回值</span><br><span class="line"></span><br><span class="line"># 如果存储过程体仅仅只有一句话，BEGIN END 可以省略</span><br><span class="line"># 存储过程体中的每条SQL语句的结尾要求必须加分号。</span><br><span class="line"># 存储过程的解为可以使用DELIMITER重新设置</span><br><span class="line"># 语法，举例：</span><br><span class="line">DELIMITER $;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CALL 存储过程名(实参列表);</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>以下 SQL 语句在客户端（DOS 窗口中运行）</p>
+<h4 id="无参存储过程"><a href="#无参存储过程" class="headerlink" title="无参存储过程"></a>无参存储过程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $</span><br><span class="line"></span><br><span class="line">CREATE PROCEDURE myp1()</span><br><span class="line">BEGIN</span><br><span class="line">	INSERT INTO admin(username, &#96;password&#96;)</span><br><span class="line">	VALUE(&#39;XX&#39;, &#39;123&#39;),</span><br><span class="line">	VALUE(&#39;XXX&#39;, &#39;123&#39;);</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line"># 调用</span><br><span class="line">CALL myp1() $</span><br><span class="line"></span><br><span class="line"># 查看效果</span><br><span class="line">SELECT * FROM admin $</span><br></pre></td></tr></table></figure>
+
+<h4 id="带-IN-模式的存储过程"><a href="#带-IN-模式的存储过程" class="headerlink" title="带 IN 模式的存储过程"></a>带 IN 模式的存储过程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE myp2 (IN beautyName VARCHAR(20))</span><br><span class="line">BEGIN</span><br><span class="line">	SELECT bo.*</span><br><span class="line">	FROM boys bo</span><br><span class="line">	RIGHT JOIN beauty b ON bo.id &#x3D; b.boyfriend_id</span><br><span class="line">	WHERE b.name &#x3D; beautyName;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line"># 调用</span><br><span class="line">CALL myp2(&#39;xxx&#39;) $</span><br><span class="line"></span><br><span class="line"># 创建存储过程，实现判断用户是否登陆成功</span><br><span class="line">CREATE PROCEDURE myp3(IN username VARCHAR(20), IN passwd VARCHAR(20))</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE res INT DEFAULT &#39;&#39;; # 声明并初始化</span><br><span class="line">	</span><br><span class="line">	SELECT COUNT(*) INTO res # 初始化</span><br><span class="line">	FROM admin</span><br><span class="line">	WHERE admin.username &#x3D; username</span><br><span class="line">	AND admin.password &#x3D; passwd;</span><br><span class="line">	</span><br><span class="line">	SELECT IF(res &gt; 0, &#39;SUCCESS&#39;, &#39;FAIL&#39;); # 使用</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line">CALL myp3(&#39;root&#39;, &#39;root&#39;) $</span><br></pre></td></tr></table></figure>
+
+<h4 id="带-OUT-模式的存储过程"><a href="#带-OUT-模式的存储过程" class="headerlink" title="带 OUT 模式的存储过程"></a>带 OUT 模式的存储过程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE myp5(IN beautyName VARCHAR(20), OUT boyName VARCHAR(20))</span><br><span class="line">BEGIN</span><br><span class="line">	SELECT bo.boyName INTO boyName</span><br><span class="line">	FROM boys bo</span><br><span class="line">	JOIN beauty b ON b.boyfriend_id &#x3D; bo.id;</span><br><span class="line">	WHERE b.name &#x3D; beautyName;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line"># 调用</span><br><span class="line">SET @bName $ # 可省略</span><br><span class="line">CALL myp5(&#39;xxx&#39;, @bName) $</span><br><span class="line">SELECT @bName $</span><br><span class="line"></span><br><span class="line"># 多输出参数</span><br><span class="line">CREATE PROCEDURE myp6(IN beautyName VARCHAR(20), </span><br><span class="line">                      OUT boyName VARCHAR(20), </span><br><span class="line">                      OUT userCP INT)</span><br><span class="line">BEGIN</span><br><span class="line">	SELECT bo.boyName, bo.userCP INTO boyName, userCP</span><br><span class="line">	FROM boys bo</span><br><span class="line">	JOIN beauty b ON b.boyfriend_id &#x3D; bo.id</span><br><span class="line">	WHERE b.name &#x3D; beautyName;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line">CALL myp6(&#39;xx&#39;, @bName, @userCP) $</span><br><span class="line">SELECT @bName, @userCP $</span><br></pre></td></tr></table></figure>
+
+<h4 id="带-INOUT-模式的存储过程"><a href="#带-INOUT-模式的存储过程" class="headerlink" title="带 INOUT 模式的存储过程"></a>带 INOUT 模式的存储过程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 传入a和b两个值，最终a和b都翻倍并返回</span><br><span class="line">CREATE PROCEDURE doub(INOUT a INT, INOUT b INT)</span><br><span class="line">BEGIN</span><br><span class="line">	SELECT a * 2 INTO a;</span><br><span class="line">	# SET a &#x3D; a * 2;</span><br><span class="line">	# SET b &#x3D; b * 2;</span><br><span class="line">	SELECT b * 2 INTO b;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line">SET @m &#x3D; 10 $</span><br><span class="line">SET @n &#x3D; 20 $</span><br><span class="line">CALL doub(@m, @n) $</span><br><span class="line">SELECT @m, @n $</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除存储过程"><a href="#删除存储过程" class="headerlink" title="删除存储过程"></a>删除存储过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP PROCEDURE 存储过程名; # 一次删除一条</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看存储过程的信息"><a href="#查看存储过程的信息" class="headerlink" title="查看存储过程的信息"></a>查看存储过程的信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW CREATE PROCEDURE 存储过程名;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>与存储过程的区别在于有且仅有一个返回。</p>
+<p>适合处理数据并返回结果。</p>
+<p>而存储过程适合批量插入、批量更新。</p>
+<h3 id="创建-1"><a href="#创建-1" class="headerlink" title="创建"></a>创建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE FUNCTION func(args) RETURNS return_type</span><br><span class="line">BEGIN</span><br><span class="line">	&#x2F;*函数体*&#x2F;</span><br><span class="line">END</span><br><span class="line"># 参数列表 args 包含两部分：参数名 参数类型</span><br><span class="line"># 函数体：有return语句，放在函数体最后</span><br><span class="line"># 函数体中仅有一条 SQL 语句时可以省略begin和end</span><br><span class="line"># 使用 delimiter 语句设置结束标记</span><br></pre></td></tr></table></figure>
+
+<h2 id="调用-1"><a href="#调用-1" class="headerlink" title="调用"></a>调用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"># 返回公司的员工个数</span><br><span class="line">SET DELIMITER $</span><br><span class="line"></span><br><span class="line">CREATE FUNCTION count_of_emp() RETURNS INT</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE ret INT DEFAULT 0;</span><br><span class="line">	SELECT COUNT(*) INT ret</span><br><span class="line">	FROM employees;</span><br><span class="line">	RETURN ret;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line">SELECT count_of_emp() $</span><br><span class="line"></span><br><span class="line"># 根据员工名，返回工资</span><br><span class="line">CREATE FUNCTION get_sal(emp_name VARCHAR(20)) RETURNS DOUBLE</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE sal DOUBLE DEFAULT 0;</span><br><span class="line">	SELECT salary INTO sal</span><br><span class="line">	FROM employees</span><br><span class="line">	WHERE emp_name &#x3D; last_name;</span><br><span class="line">	RETURN sal;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line">SELECT get_sal(&#39;xxx&#39;) $</span><br><span class="line"></span><br><span class="line"># 根据部门名，返回该部门的平均工资</span><br><span class="line">CREATE FUNCTION avg_sal(dep_name VARCHAR(20)) RETURNS DOUBLE</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE ret DOUBLE DEFAULT 0;</span><br><span class="line">	SELECT AVG(salary) INTO ret</span><br><span class="line">	FROM employees e</span><br><span class="line">	JOIN departments d ON e.department_id &#x3D; d.department_id</span><br><span class="line">	WHERE d.department_name &#x3D; dep_name;</span><br><span class="line">	RETURN ret;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line">SELECT avg_sal(&#39;xxx&#39;) $</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看函数"><a href="#查看函数" class="headerlink" title="查看函数"></a>查看函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW CREATE FUNCTION func;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除函数"><a href="#删除函数" class="headerlink" title="删除函数"></a>删除函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP FUNCTION func;</span><br></pre></td></tr></table></figure>
+
+<h1 id="流程控制结构"><a href="#流程控制结构" class="headerlink" title="流程控制结构"></a>流程控制结构</h1><ul>
+<li>顺序结构：程序从上往下依次执行</li>
+<li>分支结构：程序从两条或多条路径中选择一条去执行</li>
+<li>循环结构：程序在满足一定条件的基础上，重复执行一段代码</li>
+</ul>
+<h2 id="if-函数"><a href="#if-函数" class="headerlink" title="if 函数"></a>if 函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IF(cond, branch1, branch2); # 如果cond成立则执行branch1，否则执行branch2</span><br></pre></td></tr></table></figure>
+
+<h2 id="case-结构"><a href="#case-结构" class="headerlink" title="case 结构"></a>case 结构</h2><ul>
+<li><p>类似 C++ 的 switch 语句，一般用于实现等值判断  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CASE variable | expression | field_name</span><br><span class="line">WHEN case1 THEN return_val1 | 语句1;</span><br><span class="line">WHEN case2 THEN return_val2 | 语句2;</span><br><span class="line">ELSE return_valn | 语句n;</span><br><span class="line">END CASE;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类似于 多重 if 语句，一般用于实现区间判断  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CASE</span><br><span class="line">WHEN cond1 THEN ret_val1 | 语句1;</span><br><span class="line">WHEN cond2 THEN ret_val2 | 语句2;</span><br><span class="line">ELSE ret_valn | 语句n;</span><br><span class="line">END CASE;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>可以作为表达式嵌套在其它语句中使用，可以放在任何地方。</p>
+<p>可以作为独立的语句使用，只能放在 BEGIN END 之间。</p>
+<p>执行顺序：</p>
+<ul>
+<li>满足条件，则执行对应语句然后结束</li>
+<li>如果条件都不满足，则执行 ELSE 对应语句然后结束</li>
+<li>如果 ELSE 省略且没有 CASE 被满足，那么返回 NULL</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">CREATE PROCEDURE grade(IN grd INT)</span><br><span class="line">BEGIN</span><br><span class="line">	CASE</span><br><span class="line">	WHEN grd &lt; 100 AND grd &gt;&#x3D; 90 THEN SELECT &#39;A&#39;;</span><br><span class="line">	WHEN grd &gt;&#x3D; 80 THEN SELECT &#39;B&#39;;</span><br><span class="line">	WHEN grd &gt;&#x3D; 60 THEN SELECT &#39;C&#39;;</span><br><span class="line">	ELSE SELECT &#39;D&#39;;</span><br><span class="line">	END CASE;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line">CALL grade(95) $</span><br></pre></td></tr></table></figure>
+
+<h2 id="if-结构"><a href="#if-结构" class="headerlink" title="if 结构"></a>if 结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">IF cond1 THEN 语句1;</span><br><span class="line">ELSEIF cond2 THEN 语句2;</span><br><span class="line">ELSE 语句n;</span><br><span class="line">END IF;</span><br></pre></td></tr></table></figure>
+
+<p>应用在 BEGIN END 中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATR FUNCTION test_if(score INT) RETURNS CHAR</span><br><span class="line">BEGIN</span><br><span class="line">	IF score &gt;&#x3D; 90 AND score &lt;&#x3D; 100 THEN RETURN &#39;A&#39;;</span><br><span class="line">	ELSEIF score &gt;&#x3D; 80 THEN RETURN &#39;B&#39;;</span><br><span class="line">	ELSEIF score &gt;&#x3D; 60 THEN RETURN &#39;C&#39;;</span><br><span class="line">	ELSE RETURN &#39;D&#39;;</span><br><span class="line">	END IF;</span><br><span class="line">END $</span><br></pre></td></tr></table></figure>
+
+<h2 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h2><ul>
+<li><code>WHILE</code></li>
+<li><code>LOOP</code></li>
+<li><code>REPEAT</code></li>
+</ul>
+<p>循环控制：</p>
+<ul>
+<li><code>ITERATE</code>，类似于 <code>continue</code>，结束本次循环，继续下一次</li>
+<li><code>LEAVE</code>，类似于 <code>break</code>，跳出，结束当前循环</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># WHILE</span><br><span class="line">[tag:] WHILE cond DO</span><br><span class="line">	&#x2F;*DO SOMETHING*&#x2F;;</span><br><span class="line">END WHILE [tag];</span><br><span class="line"></span><br><span class="line"># LOOP</span><br><span class="line">[tag:] LOOP</span><br><span class="line">	&#x2F;*DO SOMETHING*&#x2F;;</span><br><span class="line">END LOOP [tag];</span><br><span class="line"></span><br><span class="line"># REPEAT</span><br><span class="line">[tag:] repeat</span><br><span class="line">	&#x2F;*DO SOMETHING*&#x2F;;</span><br><span class="line">UNTIL cond</span><br><span class="line">END REPEAT [tag];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 插入指定次数次</span><br><span class="line">CREATE PROCEDURE pro_while(IN insert_num INT)</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE i INT DEFAULT 1;</span><br><span class="line">	WHILE i &lt;&#x3D; insert_num DO</span><br><span class="line">	INSERT INTO admin(username, &#96;password&#96;)</span><br><span class="line">	VALUES(CONCAT(&#39;Rose&#39;, i), &#39;xxx&#39;);</span><br><span class="line">	SET i &#x3D; i + 1;</span><br><span class="line">	END WHILE;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line">TRUNCATE TABLE admin $</span><br><span class="line"></span><br><span class="line"># 最多插入20次</span><br><span class="line">CREATE PROCEDURE test_while1(IN insert_time INT)</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE i INT DEFAULT 1;</span><br><span class="line">	a: WHILE i &lt;&#x3D; insert_time DO</span><br><span class="line">		INSERT INTO admin(username, &#96;password&#96;)</span><br><span class="line">		VALUES(CONCAT(&#39;XXX&#39;, i), &#39;XXX&#39;);</span><br><span class="line">		IF i &#x3D; 20 THEN LEAVE a;</span><br><span class="line">		END IF; # 注意分支结构结束都要加 end</span><br><span class="line">	END WHILE a;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line">CALL test_while1(100) $</span><br></pre></td></tr></table></figure>
+
+<h3 id="循环结构小结"><a href="#循环结构小结" class="headerlink" title="循环结构小结"></a>循环结构小结</h3><p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/image-20200817173349678.png" alt="image-20200817173349678"></p>
+<h2 id="流程控制经典案例"><a href="#流程控制经典案例" class="headerlink" title="流程控制经典案例"></a>流程控制经典案例</h2><ul>
+<li><p>已知表<code>stringContent</code>，其中<br>字段 <code>id</code> 自增长<br><code>content VARCHAR(20)</code><br>向该表插入指定个数的，随机的字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE IF EXISTS stringcontent;</span><br><span class="line">CREATE TABLE stringcontent(</span><br><span class="line">	id INT PRIMARY KEY AUTO_INCREMENT,</span><br><span class="line">    content VARCHAR(20)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">DELIMITER $</span><br><span class="line"></span><br><span class="line"># 因为是批量插入，所以我们使用存储过程procedure</span><br><span class="line">CREATE PROCEDURE insert_rand(IN num INT)</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE i INT DEFAULT 1;</span><br><span class="line">	# DECLARE str VARCHAR(26) DEFAULT &#39;abcdefghijklmnopqrstuvwxyz&#39;;</span><br><span class="line">	ins: WHILE i &lt;&#x3D; num DO</span><br><span class="line">		SET i &#x3D; i + 1; # 不要忘记更新循环变量</span><br><span class="line">		INSERT INTO stringcontent(content)</span><br><span class="line">		VALUES(substr(MD5(RAND()), 1, 20));</span><br><span class="line">		END WHILE ins;</span><br><span class="line">END $</span><br><span class="line"></span><br><span class="line">CALL insert_rand(20) $</span><br><span class="line"></span><br><span class="line">SELECT * FROM stringcontent;</span><br></pre></td></tr></table></figure>
+
+<p>tips: <code>RAND()</code> 生成 <code>[0, 1)</code> 之间的随机数，可以乘以某个数并加上偏移，再利用 <code>FLOOR()</code> 或者 <code>CEIL()</code> 来构造新的区间。</p>
+</li>
+</ul>
+<h1 id="SQL-总结"><a href="#SQL-总结" class="headerlink" title="SQL 总结"></a>SQL 总结</h1><h2 id="系统变量-1"><a href="#系统变量-1" class="headerlink" title="系统变量"></a>系统变量</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SHOW [GLOBAL | SESSION] VARIABLES [LIKE &#39;XXX&#39;]; # 默认session</span><br><span class="line">SELECT @@[GLOBAL. | SESSION.]VAR; # 查看指定名称系统变量</span><br><span class="line"># 赋值</span><br><span class="line">SET [GLOBAL | SESSION] VAR &#x3D; VAL;</span><br><span class="line">SET @@GLOBAL.var &#x3D; val;</span><br><span class="line">SET @@var &#x3D; val;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>全局变量</li>
+<li>会话变量</li>
+</ul>
+<h2 id="自定义变量-1"><a href="#自定义变量-1" class="headerlink" title="自定义变量"></a>自定义变量</h2><ul>
+<li><p>用户变量<br>作用域：针对当前连接（会话）生效<br>位置：任意位置<br>使用：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 声明并赋值 或 更新值</span><br><span class="line">SET @var &#x3D; val;</span><br><span class="line">SET @var :&#x3D; val;</span><br><span class="line">SELECT @var :&#x3D; val;</span><br><span class="line"># 更新值</span><br><span class="line">SELECT xx INTO @var FROM tbl;</span><br><span class="line"># 使用</span><br><span class="line">SELECT @var;</span><br></pre></td></tr></table></figure></li>
+<li><p>局部变量<br>作用域：仅仅在定义它的代码块中有效<br>位置：只能放在代码块中，而且只能放在最前面（首先定义局部变量）     </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  # 声明</span><br><span class="line">DECLARE var type [default val];</span><br><span class="line">  # 赋值或更新</span><br><span class="line">  SET var &#x3D; val;</span><br><span class="line">  SET var :&#x3D; val;</span><br><span class="line">  SELECT var :&#x3D; val;</span><br><span class="line">  SELECT xx INTO var FROM tbl;</span><br><span class="line">  #使用</span><br><span class="line">  SELECT var;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="存储过程和函数-1"><a href="#存储过程和函数-1" class="headerlink" title="存储过程和函数"></a>存储过程和函数</h2><h3 id="存储过程-1"><a href="#存储过程-1" class="headerlink" title="存储过程"></a>存储过程</h3><p>说明：将一组完成特定功能的逻辑语句包装起来，对外暴露方法名<br>好处：  </p>
+<ol>
+<li>提高重用性  </li>
+<li>调用语句简单  </li>
+<li>减少了和数据库服务器连接的次数，提高效率<br>一、创建  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 参数模式：IN OUT INOUT，其中 IN 可以省略</span><br><span class="line"># 存储过程体的每一条SQL语句都需要以分号结尾</span><br><span class="line">CREATE PROCEDURE name(mode name type)</span><br><span class="line">BEGIN</span><br><span class="line">&#x2F;*BODY*&#x2F;</span><br><span class="line">END $</span><br></pre></td></tr></table></figure>
+二、调用     <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 调用in模式参数</span><br><span class="line">CALL name(args);</span><br><span class="line"># 调用out模式参数</span><br><span class="line">SET @arg;</span><br><span class="line">CALL name(arg);</span><br><span class="line"># 调用inout模式的参数</span><br><span class="line">SET @arg &#x3D; val;</span><br><span class="line">CALL name(arg);</span><br></pre></td></tr></table></figure>
+三、查看与删除<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SHOW CREATE PROCEDURE name;</span><br><span class="line">DROP PROCEDURE name;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="函数-1"><a href="#函数-1" class="headerlink" title="函数"></a>函数</h3><p>一、创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE FUNCTION name(arg type) RETURNS type</span><br><span class="line">BEGIN</span><br><span class="line">	&#x2F;*BODY*&#x2F;</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+
+<p>二、调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT func(args);</span><br></pre></td></tr></table></figure>
+
+<p>三、查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW CREATE FUNCTION func;</span><br></pre></td></tr></table></figure>
+
+<p>四、删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP FUNCTION func;</span><br></pre></td></tr></table></figure>
+
+<h2 id="流程控制结构-1"><a href="#流程控制结构-1" class="headerlink" title="流程控制结构"></a>流程控制结构</h2><ul>
+<li>顺序结构</li>
+<li>分支结构</li>
+<li>循环结构</li>
+</ul>
+<h3 id="分支结构"><a href="#分支结构" class="headerlink" title="分支结构"></a>分支结构</h3><ul>
+<li><p><code>IF</code>结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">	IF cond THEN branch1;</span><br><span class="line">	ELSEIF cond2 THEN branch2;</span><br><span class="line">	ELSE branch;</span><br><span class="line">	END IF;</span><br><span class="line">END $</span><br></pre></td></tr></table></figure>
+
+<p><strong>只能放在代码块中</strong>。</p>
+</li>
+<li><p><code>CASE</code> 结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">	CASE XXX</span><br><span class="line">	WHEN cond1 THEN branch1;</span><br><span class="line">	WHEN cond2 THEN branch2;</span><br><span class="line">	ELSE branch;</span><br><span class="line">	END CASE;</span><br><span class="line">END $</span><br></pre></td></tr></table></figure>
+
+<p><strong>既可以在代码块内，也可以在代码块之外。</strong></p>
+<ul>
+<li>放在代码块之外，只能作为表达式，结合其他语句使用</li>
+<li>放在代码块之内，则既可以作为表达式，也可以作为独立语句使用</li>
+</ul>
+</li>
+</ul>
+<p>需要在代码块中。</p>
+<h3 id="循环结构-1"><a href="#循环结构-1" class="headerlink" title="循环结构"></a>循环结构</h3><ul>
+<li><p><code>WHILE</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[tag:]WHILE cond DO</span><br><span class="line">	&#x2F;*SOMETHING*&#x2F;</span><br><span class="line">END WHILE tag;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p><code>LOOP</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[tag:]LOOP</span><br><span class="line">	&#x2F;*SOMETHING*&#x2F;</span><br><span class="line">END LOOP tag;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p><code>REPEAT</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[tag:]REPEAT</span><br><span class="line">	&#x2F;*SOMETHING*&#x2F;</span><br><span class="line">UNTIL cond</span><br><span class="line">END REPEAT tag;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>对比：</p>
+<ul>
+<li>三种循环都可以省略名称（tag），但如果循环中添加了循环控制语句<code>（LEAVE | ITERATE）</code>，则必须添加名称</li>
+<li><code>LOOP</code> 一般用于实现简单的死循环<br><code>WHILE</code> 先判断后执行<br><code>REPEAT</code> 先执行后判断，无条件至少执行一次</li>
+</ul>
+<h3 id="循环控制语句"><a href="#循环控制语句" class="headerlink" title="循环控制语句"></a>循环控制语句</h3><ul>
+<li><code>LEAVE</code>，相当于 <code>break</code>，用于跳出所在循环</li>
+<li><code>ITERATE</code>，相当于 <code>continue</code>，用于结束当此循环</li>
+</ul>
+<p>一般搭配循环名称。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/数据库//" class="article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
     <article id="post-dailyLearning/c++/侯捷cpp内存管理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -240,7 +1357,17 @@ var _hmt = _hmt || [];
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">malloc</span>(<span class="keyword">size_t</span>);</span><br><span class="line"><span class="built_in">free</span>(<span class="keyword">void</span> *);</span><br></pre></td></tr></table></figure>
 <p>实际上就是调用了<code>malloc</code>和<code>free</code>。<br>很少重载全局 new 和 delete，一般重载成员函数的 operator new 和 operator delete。这四个函数均可重载。</p>
 </li>
-<li><p>如何重载 per-class operator new 和 operator delete 实现内存池</p>
+<li><p>如何重载 per-class operator new 和 operator delete 实现内存池<br><code>placement new</code> 的第一个参数必须为 <code>size_t</code>，否则编译器报错。<br>在构造函数内抛出异常时，调用 <code>operator delete</code>。（旧版本行为，新版本并没有调用 <code>operator delete</code>)  </p>
+</li>
+<li><p>内存管理的目的：<br>提高速度，降低内存消耗（尤其指 cookie，每个 array new 会分配 8 字节的 cookie） </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> &#123;</span></span><br><span class="line"> <span class="keyword">int</span> a;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Foo() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Foo</span><span class="params">(<span class="keyword">int</span> aa)</span> : <span class="title">a</span><span class="params">(aa)</span> </span>&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">100</span>;</span><br><span class="line">    Foo *p[N];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i) &#123;</span><br><span class="line">        p[i] = <span class="keyword">new</span> Foo(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; p[i] &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        <span class="keyword">delete</span> p[i];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上程序的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">F:\c++prj\prac\cmake-build-debug\prac.exe</span><br><span class="line">0x731750</span><br><span class="line">0x731770</span><br><span class="line">0x731ac0</span><br><span class="line">0x731ae0</span><br><span class="line">0x731b00</span><br><span class="line">0x735c60</span><br><span class="line">0x735c80</span><br><span class="line">0x735ca0</span><br><span class="line">0x735cc0</span><br><span class="line">0x735ce0</span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+<p>说明每个 Foo 对象确实是 16 字节，含有 4 字节的 int，8 字节的 cookie，以及 4 字节的 padding。</p>
+</li>
+<li><p>用一个内存池来管理一个类的对象时，若使用自由链表（单链表），那么每个对象会有 4 字节（64 位操作系统 8 字节）的开销，与每个对象 8 字节的 cookie 开销相比，并无太大收益，唯一的收益是减少了 malloc 的调用次数。<br>使用内嵌指针 (embedded pointer) 的概念来优化这一点:  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Airplane</span> &#123;</span></span><br><span class="line">   <span class="keyword">private</span>:</span><br><span class="line">       <span class="class"><span class="keyword">struct</span> <span class="title">AirplaneRep</span> &#123;</span></span><br><span class="line">           <span class="keyword">unsigned</span> <span class="keyword">long</span> miles;</span><br><span class="line">           <span class="keyword">char</span> type;</span><br><span class="line">       &#125;;    </span><br><span class="line">   <span class="keyword">private</span>:</span><br><span class="line">       <span class="keyword">union</span> &#123;</span><br><span class="line">           AirplaneRep rep; <span class="comment">// 此为使用中的objects</span></span><br><span class="line">           Airplane *next; <span class="comment">// 此指针为embedded ptr，指向内存池中的objects</span></span><br><span class="line">       &#125;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">       <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>; <span class="comment">// 重载 operator new，此函数申请一大块内存并插入空闲链表</span></span><br><span class="line">       <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="keyword">operator</span> <span class="title">delete</span><span class="params">(<span class="keyword">void</span> *deadObject, <span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>;</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure>
+<p>在所有的内存池中都使用这种形式来减少开销，也就是 CSAPP 里面所提到的思想，用链表中空闲内存来存储链表指针。</p>
 </li>
 </ol>
 
@@ -865,594 +1992,9 @@ var _hmt = _hmt || [];
 
         
   
-    <article id="post-dailyLearning/数据库/高性能MySQL笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%AB%98%E6%80%A7%E8%83%BDmysql%E7%AC%94%E8%AE%B0/">高性能MySQL笔记</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%AB%98%E6%80%A7%E8%83%BDmysql%E7%AC%94%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2020-08-05T11:45:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h1 id="高性能MySQL笔记"><a href="#高性能MySQL笔记" class="headerlink" title="高性能MySQL笔记"></a>高性能MySQL笔记</h1><h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><h3 id="1-3-1-隔离级别"><a href="#1-3-1-隔离级别" class="headerlink" title="1.3.1 隔离级别"></a>1.3.1 隔离级别</h3><p>SQL 标准中规定的四种隔离级别，每种级别规定了<strong>一个事务中所做的修改</strong>，哪些修改在事务内和事务间是可见的，哪些是不可见的。</p>
-<p>较低级别的隔离具有更低的开销，也可以执行更高的并发。</p>
-<p>四种隔离级别：</p>
-<ul>
-<li><p>未提交读 (READ UNCOMMITED)</p>
-<p>事务中的修改，即使没有被提交，对其他事务也都是可见的。</p>
-<p>划重点，未提交修改对其他事务可见。</p>
-<p>事务可以读取未提交数据，这也被称为脏读。</p>
-<p>该隔离级别弊大于利，很少使用。</p>
-</li>
-<li><p>提交读 (READ COMMITED)</p>
-<p>大多数数据库系统的默认隔离级别是<strong>提交读</strong>，但 MySQL 不是。</p>
-<p>一个事务开始时，只能看见已经提交的事务所做的修改；一个事务所做的未提交的修改对其他事务都是不可见的。</p>
-<p><strong>不可重复读</strong>，因为两次执行相同的查询，可能得到不一样的结果。</p>
-</li>
-<li><p>可重复读 (REPEATABLE READ)</p>
-<p>解决了脏读的问题。</p>
-<p>保证了两次相同的查询得到相同的结果。</p>
-<p>无法解决<strong>幻读</strong>问题。</p>
-<p>幻读：当某个事务在读取某个范围内的记录时，另外一个事务又在该范围内插入了新的记录，当之前的事务再次读取去该范围内的记录时，会产生幻行。</p>
-<p>InnoDB 和 XtraDB 通过 MVCC (Multiple Version Concurrency Control) 多版本并发控制，解决了幻读的问题。</p>
-<p>MySQL 的默认隔离级别是可重复读。</p>
-</li>
-<li><p>可串行化 (SERIALIZABLE)</p>
-<p>强制事务串行执行。</p>
-<p>在读取的<strong>每一行上都加锁</strong>，导致大量超时和锁争用问题。</p>
-<p>很少用到，需要确保数据一致性而且可以接受没有并发的情况下，才考虑使用。</p>
-</li>
-</ul>
-<p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%AB%98%E6%80%A7%E8%83%BDmysql%E7%AC%94%E8%AE%B0/image-20200805203546482.png" alt="image-20200805203546482"></p>
-<ul>
-<li>只有串行化是<strong>读加锁</strong></li>
-<li>可重复读，不可以修改正在被读事务操作的已有数据，只能 INSERT 插入新的数据</li>
-<li>提交读可以修改正在被读事务操作的已有数据，不可以读其他事务的未提交修改</li>
-</ul>
-<h3 id="1-3-2-死锁"><a href="#1-3-2-死锁" class="headerlink" title="1.3.2 死锁"></a>1.3.2 死锁</h3><p>InnoDB 处理死锁的方法是，将持有最少行级排他锁（写锁）的事务进行回滚。</p>
-<p>死锁发生以后，只有部分或者完全回滚其中一个事务，才能打破死锁。</p>
-<h3 id="1-3-4-MySQL-中的事务"><a href="#1-3-4-MySQL-中的事务" class="headerlink" title="1.3.4 MySQL 中的事务"></a>1.3.4 MySQL 中的事务</h3><p>MySQL 提供两种事务性的存储引擎。</p>
-<h4 id="自动提交"><a href="#自动提交" class="headerlink" title="自动提交"></a>自动提交</h4><p>MySQL 默认采用自动提交(AUTOCOMMIT)，如果不显式地开始一个事务，则每个查询都被当作一个事务提交操作。</p>
-<p>如果禁用自动提交，所有的查询都在一个事务当中，直到显式执行 COMMIT 提交或者 ROLLBACK 回滚，事务结束，同时开始一个新的事务。</p>
-<h3 id="1-4-多版本并发控制"><a href="#1-4-多版本并发控制" class="headerlink" title="1.4 多版本并发控制"></a>1.4 多版本并发控制</h3><p>MVCC 只在可重复读、提交读两种隔离等级下工作，与未提交读、可串行化不兼容。</p>
-<h3 id="1-5-1-InnoDB-存储引擎"><a href="#1-5-1-InnoDB-存储引擎" class="headerlink" title="1.5.1 InnoDB 存储引擎"></a>1.5.1 InnoDB 存储引擎</h3><p>InnoDB 是 MySQL 的默认事务型引擎。</p>
-<p>被设计用来处理大量的短期事务，大部分正常提交，很少被回滚。</p>
-<h4 id="InnoDB-概览"><a href="#InnoDB-概览" class="headerlink" title="InnoDB 概览"></a>InnoDB 概览</h4><p>采用 MVCC 实现高并发，并实现了四个标准的隔离级别，默认级别为可重复读。</p>
-<p>通过<strong>间隙锁 (next-key locking)</strong> 策略防止幻读的出现，不仅仅锁定查询涉及的行，还锁定索引间的间隙，以防止幻影行的插入。</p>
-<p>InnoDB 表基于聚簇索引建立，对于主键查询有很高的性能。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/数据库//" class="article-tag-list-link color4">数据库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%AB%98%E6%80%A7%E8%83%BDmysql%E7%AC%94%E8%AE%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-琴谱/彩虹" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/uncategorized/%E5%BD%A9%E8%99%B9/">彩虹</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/uncategorized/%E5%BD%A9%E8%99%B9/" class="archive-article-date">
-  	<time datetime="2020-08-03T15:55:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>图片来源<a href="https://www.qinyipu.com/jita/jitapudaquan/10813.html" target="_blank" rel="noopener">https://www.qinyipu.com/jita/jitapudaquan/10813.html</a></p>
-</blockquote>
-<p><img src="/uncategorized/%E5%BD%A9%E8%99%B9/1e657137d6e35d0adbeb73a6ab6d4aef.png" alt="彩虹吉他谱-周杰伦《彩虹》吉他弹唱谱-C调原版六线谱1"></p>
-<p><img src="/uncategorized/%E5%BD%A9%E8%99%B9/42486412f493bcf2bc0d49c52adb4cdb.png" alt="彩虹吉他谱-周杰伦《彩虹》吉他弹唱谱-C调原版六线谱2"></p>
-<p><img src="/uncategorized/%E5%BD%A9%E8%99%B9/0fbe304f41017be417b6e9d0c3d9221a.png" alt="彩虹吉他谱-周杰伦《彩虹》吉他弹唱谱-C调原版六线谱3"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">琴谱</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/uncategorized/%E5%BD%A9%E8%99%B9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/c++/C++视频学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Cpp/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C++视频学习笔记</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Cpp/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2020-08-02T16:46:24.730Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>OO思想的特点：<ul>
-<li>封装<br>把对象属性和方法结合成独立的系统单位，并尽可能隐藏实现细节，是面向对象思想描述的基础；   </li>
-<li>抽象<br>对具体问题进行概括，对某一类公共问题进行同意描述；</li>
-<li>继承<br>子类对象拥有与基类对象相同的全部属性和方法，称为继承；</li>
-<li>多态<br>基类中定义的属性和行为被子类继承后，可以具有不同的特性（行为、数据类型），在共性中寻找特性；</li>
-</ul>
-</li>
-<li>数组的传递<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> data[] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    <span class="built_in">print</span>(<span class="keyword">sizeof</span>(data));</span><br><span class="line">    <span class="comment">// 结果为2*4 Byte=8 Byte</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">addArray</span><span class="params">(<span class="keyword">int</span> <span class="built_in">array</span>[])</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="keyword">sizeof</span>(<span class="built_in">array</span>));</span><br><span class="line">    <span class="comment">// 结果为指针长度（机器相关）4（32位）或8（64位机器）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><code>cout</code>是一个输出流对象，是<code>console out</code>的缩写，属于<code>basic_ostream</code>类；</li>
-<li>c语言中，<code>scanf</code>从输入流获取值，<code>getchar</code>获取字符<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;i); <span class="comment">// 将读入的十进制数存入变量i</span></span><br><span class="line">ch = getchar(); <span class="comment">// 将读入的char类型数据存入ch，此时读入ch的数据不再存在在输入流中</span></span><br><span class="line">ungetc(ch, <span class="built_in">stdin</span>)； <span class="comment">// 将ch中的数据退回输入流</span></span><br></pre></td></tr></table></figure></li>
-<li><code>c++</code>版本的流输入<br><code>cin</code>的类型为<code>istream</code>；<br>用户输入时，对应的字符进入操作系统的键盘缓冲区中；<br>输入<code>enter</code>时，操作系统把家农安缓冲区的内容传输到<code>cin</code>的内部缓冲区，由<code>&gt;&gt;</code>操作符从内部缓冲区中提取需要的信息；<br><code>&gt;&gt;</code>操作符对所有内建类型都进行了重载；</li>
-<li>阻塞性IO、非阻塞、异步</li>
-<li><code>C++</code>可以在任意位置声明变量，允许我们在实际使用的时候再声明；</li>
-<li>```c++<br>char buf[20]; // 可存放19个字符<br>cin.ignore(n); //忽略n个字符<br>cin.getline(buf, 10); // 从cin中读取10个字符存入buf<br>while(cin.peek() != ‘\n’){<pre><code>cout&lt;&lt;cin.get();</code></pre>}; // 当前字符不为换行符时，将读入字符输出，先读入后放回<br>const int size = 50;<br>int buf[size];<br>cout &lt;&lt; “请输入文本：”;<br>cin.read(buf, 20);<br>cout&lt;&lt;”字符串收集到的字符数为：”&lt;&lt; cin.gcount() &lt;&lt; endl;<br>cout &lt;&lt; “输入的文本信息为：”;<br>cout.write(buf, 20);<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">9. cout</span><br><span class="line">   &#96;&#96;&#96;c++</span><br><span class="line">   int main()&#123;</span><br><span class="line">       double result &#x3D; sqrt(3.0);</span><br><span class="line">       cout &lt;&lt; &quot;对3开方保留小数点后0~9位&quot; &lt;&lt; endl;</span><br><span class="line">       for(int i&#x3D;0; i&lt;&#x3D;9; ++i)&#123;</span><br><span class="line">           cout.precision(i);</span><br><span class="line">           cout &lt;&lt; result &lt;&lt;endl;</span><br><span class="line">           cout &lt;&lt; &quot;当前输入精度： &quot; &lt;&lt; cout.precision();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">width</span> = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">char</span> str[<span class="number">20</span>];</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入一段文本： \n"</span>;</span><br><span class="line">    <span class="built_in">cin</span>.<span class="built_in">width</span>(<span class="number">5</span>);<span class="comment">// 输入宽度为5</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; str)&#123;</span><br><span class="line">        <span class="built_in">cout</span>.<span class="built_in">width</span>(++<span class="built_in">width</span>);</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; str &lt;&lt;<span class="built_in">endl</span>; </span><br><span class="line">        <span class="built_in">cin</span>.<span class="built_in">width</span>(<span class="number">5</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Cpp/summary//" class="article-tag-list-link color3">summary</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Cpp/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/Leetcode/手写排序算法总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E6%89%8B%E5%86%99%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">手写排序算法总结</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E6%89%8B%E5%86%99%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-07-24T15:41:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><p>最大堆，先建堆，再 pop 直至堆空，此时得到升序序列。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">sortArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _heap_sort(nums);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">void</span> _max_heapify(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> curr, <span class="keyword">int</span> len) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.empty())</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">int</span> max_child = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">int</span> left_child_idx = <span class="number">-1</span>, right_child_idx = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span> (curr * <span class="number">2</span> + <span class="number">1</span> &lt; len) &#123;</span><br><span class="line">            left_child_idx = curr * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">            right_child_idx = curr * <span class="number">2</span> + <span class="number">2</span>;</span><br><span class="line">            max_child = </span><br><span class="line">                right_child_idx &lt; len ? </span><br><span class="line">                (nums[left_child_idx] &lt; nums[right_child_idx] ? right_child_idx : left_child_idx)</span><br><span class="line">                : left_child_idx;</span><br><span class="line">            <span class="keyword">if</span> (nums[curr] &lt; nums[max_child]) &#123;</span><br><span class="line">                swap(nums[curr], nums[max_child]);</span><br><span class="line">                curr = max_child;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> _build_max_heap(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> len) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> curr = len / <span class="number">2</span>; curr &gt;= <span class="number">0</span>; --curr) &#123;</span><br><span class="line">            _max_heapify(nums, curr, len);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;_heap_sort(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.empty() || nums.<span class="built_in">size</span>() == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> nums;</span><br><span class="line">        <span class="keyword">int</span> len = nums.<span class="built_in">size</span>();</span><br><span class="line">        _build_max_heap(nums, len);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = len - <span class="number">1</span>; i &gt;= <span class="number">1</span>; --i) &#123;</span><br><span class="line">            swap(nums[len - <span class="number">1</span>], nums[<span class="number">0</span>]);</span><br><span class="line">            len -= <span class="number">1</span>;</span><br><span class="line">            _max_heapify(nums, <span class="number">0</span>, len);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h1><p>插入排序的中心思想是维护指针左侧数组的一致性，所谓一致性即数组有序。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">sortArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> insertion_sort(nums);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="title">insertion_sort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span>; --j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[j] &lt; nums[j - <span class="number">1</span>])</span><br><span class="line">                    swap(nums[j], nums[j - <span class="number">1</span>]);</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;           </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>插入排序为稳定排序，最好情况为数组已经排序的情况为$\Omega (N)$，时间复杂度$O(N^2)$。</p>
-<h1 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h1><p>希尔排序是插入排序的改版，插入排序为希尔排序的特例，即插入排序的步长为1，而希尔排序的步长选择会影响其时间复杂度。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">sortArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> shell_sort(nums);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="title">shell_sort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> step_size = nums.<span class="built_in">size</span>() / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">while</span> (step_size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = step_size; i &lt; nums.<span class="built_in">size</span>(); i += step_size) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span>; j -= step_size) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (nums[j] &lt; nums[j - step_size])</span><br><span class="line">                        swap(nums[j], nums[j - step_size]);</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            step_size /= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E6%89%8B%E5%86%99%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/面经/字节后端一面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E9%9D%A2%E7%BB%8F%E6%B1%87%E6%80%BB/">字节面经汇总</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E9%9D%A2%E7%BB%8F%E6%B1%87%E6%80%BB/" class="archive-article-date">
-  	<time datetime="2020-07-10T08:18:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>阿里</p>
-<ol>
-<li>介绍项目</li>
-<li>介绍并发模式</li>
-<li>如何实现并发</li>
-<li>定时器如何实现，为什么要用双链表，单链表就够了</li>
-<li>有限状态机，为什么要用，为什么用主从状态机</li>
-<li>如何优化定时器</li>
-<li>有参考开源项目吗</li>
-<li>new 一个对象到销毁，操作系统做了什么</li>
-<li>继承中构造函数的调用顺序，为什么要这么设计</li>
-<li>如何遍历二叉树（应该问问目的。。。）</li>
-</ol>
-<hr>
-<p>字节一面</p>
-<ol>
-<li>介绍项目</li>
-<li>问异步日志的写线程什么时候刷新缓冲区，答每写一次都要刷新，面试官提示这个日志系统异步并没有提高性能，还是消耗了 CPU 资源</li>
-<li>多继承虚表</li>
-<li>TCP 为什么要握手</li>
-<li>匹配子串</li>
-</ol>
-<p>字节二面</p>
-<ol>
-<li>如何实现线程安全hash_map</li>
-<li>如何实现多进程下的hash_map </li>
-<li>进程线程区别</li>
-<li>进程间通信方式</li>
-<li>2000万学生数据排序，要求由姓名检索排名</li>
-<li>一面算法题有没有更优解</li>
-<li>带随机指针的链表深拷贝</li>
-<li>概率题，AB胜率相等，A赢两回合获胜，B赢三回合获胜，A的胜率</li>
-</ol>
-<hr>
-<p>字节第二次一面</p>
-<ol>
-<li>如何理解虚拟内存</li>
-<li>什么时候使用类方法和类实例方法</li>
-<li>从源码到可执行文件的过程</li>
-<li>说说服务器项目的特点，与成熟框架相比有什么特色（答只是练手的，希望把技巧搞懂了再用上）</li>
-<li>那你学到了什么</li>
-<li>代码：链表表示的十进制数相加</li>
-</ol>
-<p>字节第二次二面</p>
-<ol>
-<li>说说你的深度学习除草机项目</li>
-<li>哪几个模块，如何实现</li>
-<li>项目指标是什么，指标没达到要求可能是什么问题，如何排查，除了控制变量还有什么方法</li>
-<li>服务器项目，假设校园网，上万学生同时选课，怎么保证不挂掉（我说没有请求大文件，应该不会挂掉。。。）</li>
-<li>你是怎么限制连接数的，连接数受限的因素有哪些，为什么限制，超过连接数客户端接收到什么，服务器如何处理？</li>
-<li>连接重置的HTTP状态码是什么？（我提出疑惑说这是TCP的，他说这是他故意挖坑）</li>
-<li>算法：螺旋矩阵2，写太慢被催了。。。</li>
-</ol>
-<hr>
-<p>字节第三次一面挂（测开）</p>
-<ol>
-<li>自我介绍</li>
-<li>讲讲印象最深的项目</li>
-<li>讲讲web服务器，为什么要做，期望达到什么样的效果</li>
-<li>HTTP GET POST 区别</li>
-<li>平时使用什么语言，C++ 中堆栈在内存管理上的区别</li>
-<li>进程线程区别、线程同步的方式、信号量和自旋锁的区别</li>
-<li>计算机网络，OSI 七层模型，路由器和交换机工作在哪一层<br>路由器工作在网络层，根据 IP 地址寻址，交换机工作在数据链路层，根据 MAC 地址寻址；</li>
-<li>TCP 和 UDP 的区别在哪里，应用场景</li>
-<li>DNS 熟悉吗，说说工作原理，DNS 使用 TCP 还是 UDP</li>
-<li>讲讲 TCP 拥塞控制算法</li>
-<li>数据库？？？我说不会，问我事务四大特性，分别解释</li>
-<li>什么是脏读，什么是幻读，有什么区别</li>
-<li>最常用的 app 是什么，如何设计微信电话的测试用例？？？</li>
-<li>白盒黑盒知道吗？</li>
-<li>两个升序数组，找所有元素中位数，要求时间复杂度 $O(log(m + n))$</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">字节跳动</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">阿里巴巴</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/面经//" class="article-tag-list-link color3">面经</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E9%9D%A2%E7%BB%8F%E6%B1%87%E6%80%BB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1862,6 +2404,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">shopee</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Win10</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wireless hotspot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">广联达</a>
               </li>
             
             <div class="clearfix"></div>

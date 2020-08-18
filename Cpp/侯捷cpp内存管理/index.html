@@ -249,7 +249,17 @@ var _hmt = _hmt || [];
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">malloc</span>(<span class="keyword">size_t</span>);</span><br><span class="line"><span class="built_in">free</span>(<span class="keyword">void</span> *);</span><br></pre></td></tr></table></figure>
 <p>实际上就是调用了<code>malloc</code>和<code>free</code>。<br>很少重载全局 new 和 delete，一般重载成员函数的 operator new 和 operator delete。这四个函数均可重载。</p>
 </li>
-<li><p>如何重载 per-class operator new 和 operator delete 实现内存池</p>
+<li><p>如何重载 per-class operator new 和 operator delete 实现内存池<br><code>placement new</code> 的第一个参数必须为 <code>size_t</code>，否则编译器报错。<br>在构造函数内抛出异常时，调用 <code>operator delete</code>。（旧版本行为，新版本并没有调用 <code>operator delete</code>)  </p>
+</li>
+<li><p>内存管理的目的：<br>提高速度，降低内存消耗（尤其指 cookie，每个 array new 会分配 8 字节的 cookie） </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> &#123;</span></span><br><span class="line"> <span class="keyword">int</span> a;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Foo() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Foo</span><span class="params">(<span class="keyword">int</span> aa)</span> : <span class="title">a</span><span class="params">(aa)</span> </span>&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">100</span>;</span><br><span class="line">    Foo *p[N];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i) &#123;</span><br><span class="line">        p[i] = <span class="keyword">new</span> Foo(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; p[i] &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        <span class="keyword">delete</span> p[i];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上程序的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">F:\c++prj\prac\cmake-build-debug\prac.exe</span><br><span class="line">0x731750</span><br><span class="line">0x731770</span><br><span class="line">0x731ac0</span><br><span class="line">0x731ae0</span><br><span class="line">0x731b00</span><br><span class="line">0x735c60</span><br><span class="line">0x735c80</span><br><span class="line">0x735ca0</span><br><span class="line">0x735cc0</span><br><span class="line">0x735ce0</span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+<p>说明每个 Foo 对象确实是 16 字节，含有 4 字节的 int，8 字节的 cookie，以及 4 字节的 padding。</p>
+</li>
+<li><p>用一个内存池来管理一个类的对象时，若使用自由链表（单链表），那么每个对象会有 4 字节（64 位操作系统 8 字节）的开销，与每个对象 8 字节的 cookie 开销相比，并无太大收益，唯一的收益是减少了 malloc 的调用次数。<br>使用内嵌指针 (embedded pointer) 的概念来优化这一点:  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Airplane</span> &#123;</span></span><br><span class="line">   <span class="keyword">private</span>:</span><br><span class="line">       <span class="class"><span class="keyword">struct</span> <span class="title">AirplaneRep</span> &#123;</span></span><br><span class="line">           <span class="keyword">unsigned</span> <span class="keyword">long</span> miles;</span><br><span class="line">           <span class="keyword">char</span> type;</span><br><span class="line">       &#125;;    </span><br><span class="line">   <span class="keyword">private</span>:</span><br><span class="line">       <span class="keyword">union</span> &#123;</span><br><span class="line">           AirplaneRep rep; <span class="comment">// 此为使用中的objects</span></span><br><span class="line">           Airplane *next; <span class="comment">// 此指针为embedded ptr，指向内存池中的objects</span></span><br><span class="line">       &#125;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">       <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>; <span class="comment">// 重载 operator new，此函数申请一大块内存并插入空闲链表</span></span><br><span class="line">       <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="keyword">operator</span> <span class="title">delete</span><span class="params">(<span class="keyword">void</span> *deadObject, <span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>;</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure>
+<p>在所有的内存池中都使用这种形式来减少开销，也就是 CSAPP 里面所提到的思想，用链表中空闲内存来存储链表指针。</p>
 </li>
 </ol>
 
@@ -345,6 +355,15 @@ var _hmt = _hmt || [];
 
   
 <nav id="article-nav">
+  
+    <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MySQL必知必会
+        
+      </div>
+    </a>
   
   
     <a href="/%E9%9D%A2%E7%BB%8F/shopee%E9%9D%A2%E7%BB%8F/" id="article-nav-older" class="article-nav-link-wrap">
@@ -824,6 +843,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">shopee</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Win10</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wireless hotspot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">广联达</a>
               </li>
             
             <div class="clearfix"></div>

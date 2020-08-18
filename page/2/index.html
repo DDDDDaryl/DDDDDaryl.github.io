@@ -209,6 +209,900 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dailyLearning/数据库/高性能MySQL笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%AB%98%E6%80%A7%E8%83%BDmysql%E7%AC%94%E8%AE%B0/">高性能MySQL笔记</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%AB%98%E6%80%A7%E8%83%BDmysql%E7%AC%94%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2020-08-05T11:45:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="高性能MySQL笔记"><a href="#高性能MySQL笔记" class="headerlink" title="高性能MySQL笔记"></a>高性能MySQL笔记</h1><h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><h3 id="1-3-1-隔离级别"><a href="#1-3-1-隔离级别" class="headerlink" title="1.3.1 隔离级别"></a>1.3.1 隔离级别</h3><p>SQL 标准中规定的四种隔离级别，每种级别规定了<strong>一个事务中所做的修改</strong>，哪些修改在事务内和事务间是可见的，哪些是不可见的。</p>
+<p>较低级别的隔离具有更低的开销，也可以执行更高的并发。</p>
+<p>四种隔离级别：</p>
+<ul>
+<li><p>未提交读 (READ UNCOMMITED)</p>
+<p>事务中的修改，即使没有被提交，对其他事务也都是可见的。</p>
+<p>划重点，未提交修改对其他事务可见。</p>
+<p>事务可以读取未提交数据，这也被称为脏读。</p>
+<p>该隔离级别弊大于利，很少使用。</p>
+</li>
+<li><p>提交读 (READ COMMITED)</p>
+<p>大多数数据库系统的默认隔离级别是<strong>提交读</strong>，但 MySQL 不是。</p>
+<p>一个事务开始时，只能看见已经提交的事务所做的修改；一个事务所做的未提交的修改对其他事务都是不可见的。</p>
+<p><strong>不可重复读</strong>，因为两次执行相同的查询，可能得到不一样的结果。</p>
+</li>
+<li><p>可重复读 (REPEATABLE READ)</p>
+<p>解决了脏读的问题。</p>
+<p>保证了两次相同的查询得到相同的结果。</p>
+<p>无法解决<strong>幻读</strong>问题。</p>
+<p>幻读：当某个事务在读取某个范围内的记录时，另外一个事务又在该范围内插入了新的记录，当之前的事务再次读取去该范围内的记录时，会产生幻行。</p>
+<p>InnoDB 和 XtraDB 通过 MVCC (Multiple Version Concurrency Control) 多版本并发控制，解决了幻读的问题。</p>
+<p>MySQL 的默认隔离级别是可重复读。</p>
+</li>
+<li><p>可串行化 (SERIALIZABLE)</p>
+<p>强制事务串行执行。</p>
+<p>在读取的<strong>每一行上都加锁</strong>，导致大量超时和锁争用问题。</p>
+<p>很少用到，需要确保数据一致性而且可以接受没有并发的情况下，才考虑使用。</p>
+</li>
+</ul>
+<p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%AB%98%E6%80%A7%E8%83%BDmysql%E7%AC%94%E8%AE%B0/image-20200805203546482.png" alt="image-20200805203546482"></p>
+<ul>
+<li>只有串行化是<strong>读加锁</strong></li>
+<li>可重复读，不可以修改正在被读事务操作的已有数据，只能 INSERT 插入新的数据</li>
+<li>提交读可以修改正在被读事务操作的已有数据，不可以读其他事务的未提交修改</li>
+</ul>
+<h3 id="1-3-2-死锁"><a href="#1-3-2-死锁" class="headerlink" title="1.3.2 死锁"></a>1.3.2 死锁</h3><p>InnoDB 处理死锁的方法是，将持有最少行级排他锁（写锁）的事务进行回滚。</p>
+<p>死锁发生以后，只有部分或者完全回滚其中一个事务，才能打破死锁。</p>
+<h3 id="1-3-4-MySQL-中的事务"><a href="#1-3-4-MySQL-中的事务" class="headerlink" title="1.3.4 MySQL 中的事务"></a>1.3.4 MySQL 中的事务</h3><p>MySQL 提供两种事务性的存储引擎。</p>
+<h4 id="自动提交"><a href="#自动提交" class="headerlink" title="自动提交"></a>自动提交</h4><p>MySQL 默认采用自动提交(AUTOCOMMIT)，如果不显式地开始一个事务，则每个查询都被当作一个事务提交操作。</p>
+<p>如果禁用自动提交，所有的查询都在一个事务当中，直到显式执行 COMMIT 提交或者 ROLLBACK 回滚，事务结束，同时开始一个新的事务。</p>
+<h3 id="1-4-多版本并发控制"><a href="#1-4-多版本并发控制" class="headerlink" title="1.4 多版本并发控制"></a>1.4 多版本并发控制</h3><p>MVCC 只在可重复读、提交读两种隔离等级下工作，与未提交读、可串行化不兼容。</p>
+<h3 id="1-5-1-InnoDB-存储引擎"><a href="#1-5-1-InnoDB-存储引擎" class="headerlink" title="1.5.1 InnoDB 存储引擎"></a>1.5.1 InnoDB 存储引擎</h3><p>InnoDB 是 MySQL 的默认事务型引擎。</p>
+<p>被设计用来处理大量的短期事务，大部分正常提交，很少被回滚。</p>
+<h4 id="InnoDB-概览"><a href="#InnoDB-概览" class="headerlink" title="InnoDB 概览"></a>InnoDB 概览</h4><p>采用 MVCC 实现高并发，并实现了四个标准的隔离级别，默认级别为可重复读。</p>
+<p>通过<strong>间隙锁 (next-key locking)</strong> 策略防止幻读的出现，不仅仅锁定查询涉及的行，还锁定索引间的间隙，以防止幻影行的插入。</p>
+<p>InnoDB 表基于聚簇索引建立，对于主键查询有很高的性能。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/数据库//" class="article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%AB%98%E6%80%A7%E8%83%BDmysql%E7%AC%94%E8%AE%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-琴谱/彩虹" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/uncategorized/%E5%BD%A9%E8%99%B9/">彩虹</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/uncategorized/%E5%BD%A9%E8%99%B9/" class="archive-article-date">
+  	<time datetime="2020-08-03T15:55:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>图片来源<a href="https://www.qinyipu.com/jita/jitapudaquan/10813.html" target="_blank" rel="noopener">https://www.qinyipu.com/jita/jitapudaquan/10813.html</a></p>
+</blockquote>
+<p><img src="/uncategorized/%E5%BD%A9%E8%99%B9/1e657137d6e35d0adbeb73a6ab6d4aef.png" alt="彩虹吉他谱-周杰伦《彩虹》吉他弹唱谱-C调原版六线谱1"></p>
+<p><img src="/uncategorized/%E5%BD%A9%E8%99%B9/42486412f493bcf2bc0d49c52adb4cdb.png" alt="彩虹吉他谱-周杰伦《彩虹》吉他弹唱谱-C调原版六线谱2"></p>
+<p><img src="/uncategorized/%E5%BD%A9%E8%99%B9/0fbe304f41017be417b6e9d0c3d9221a.png" alt="彩虹吉他谱-周杰伦《彩虹》吉他弹唱谱-C调原版六线谱3"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">琴谱</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/uncategorized/%E5%BD%A9%E8%99%B9/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-myProjects/Tech_issues/ssh自动断开连接问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/techissue/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/">解决：ssh长时间无操作服务器断开会话的问题</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/techissue/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/" class="archive-article-date">
+  	<time datetime="2020-08-02T16:46:25.815Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="修改服务器端参数"><a href="#修改服务器端参数" class="headerlink" title="修改服务器端参数"></a>修改服务器端参数</h1><p>修改服务器端的ssh设置：找到</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> /etc/ssh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim sshd_config</span></span><br></pre></td></tr></table></figure>
+
+<p>添加如下设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClientAliveInterval  60</span><br></pre></td></tr></table></figure>
+
+<p>该设置意为服务器会每60秒向client发送一次保持连接的信号。如果还要定时断开连接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClientAliveCountMax  60</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改客户端参数"><a href="#修改客户端参数" class="headerlink" title="修改客户端参数"></a>修改客户端参数</h1><p>与修改服务器参数类似，只不过需要修改的文件为<code>ssh_config</code>。</p>
+<h1 id="使用ssh登陆前用参数配置"><a href="#使用ssh登陆前用参数配置" class="headerlink" title="使用ssh登陆前用参数配置"></a>使用ssh登陆前用参数配置</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -o ServerAliveInterval=30 root@192.168.1.1</span><br></pre></td></tr></table></figure>
+
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li><a href="https://blog.csdn.net/hustcw98/article/details/79325878" target="_blank" rel="noopener">ssh连接远程服务器自动断开解决</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ssh</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/techissue//" class="article-tag-list-link color5">techissue</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/techissue/%E8%A7%A3%E5%86%B3%EF%BC%9Assh%E9%95%BF%E6%97%B6%E9%97%B4%E6%97%A0%E6%93%8D%E4%BD%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%AD%E5%BC%80%E4%BC%9A%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-myProjects/Tech_issues/Anaconda常用指令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/techissue/anaconda%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86/">Anaconda常用指令整理</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/techissue/anaconda%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86/" class="archive-article-date">
+  	<time datetime="2020-08-02T16:46:25.809Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="创建、删除、激活、退出环境"><a href="#创建、删除、激活、退出环境" class="headerlink" title="创建、删除、激活、退出环境"></a>创建、删除、激活、退出环境</h1><ol>
+<li><p>首先查看环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda env list</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n env_name python=3.x</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda remove -n env_name --all</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>激活环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source activate env_name</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>退出当前环境回到base</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source deactivate</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="包管理"><a href="#包管理" class="headerlink" title="包管理"></a>包管理</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Anaconda</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/techissue//" class="article-tag-list-link color5">techissue</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/techissue/anaconda%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-myProjects/Tech_issues/Anaconda修改回默认源并配置代理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/techissue/anaconda%E4%BF%AE%E6%94%B9%E5%9B%9E%E9%BB%98%E8%AE%A4%E6%BA%90%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/">Anaconda修改回默认源并配置代理</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/techissue/anaconda%E4%BF%AE%E6%94%B9%E5%9B%9E%E9%BB%98%E8%AE%A4%E6%BA%90%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/" class="archive-article-date">
+  	<time datetime="2020-08-02T16:46:25.805Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天准备跑一下<code>EfficientDet</code>的<code>Pytorch</code>实现，在配置环境的过程中发现之前配置的<code>Annaconda</code>清华源莫名其妙404了！于是只能选择一个一劳永逸的方法：更换会默认配置，然后配置proxy。</p>
+        
+          <a class="article-more-a" href="/techissue/anaconda%E4%BF%AE%E6%94%B9%E5%9B%9E%E9%BB%98%E8%AE%A4%E6%BA%90%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Anaconda</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">proxy</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/techissue//" class="article-tag-list-link color5">techissue</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/techissue/anaconda%E4%BF%AE%E6%94%B9%E5%9B%9E%E9%BB%98%E8%AE%A4%E6%BA%90%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/c++/C++视频学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Cpp/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">C++视频学习笔记</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Cpp/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2020-08-02T16:46:24.730Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>OO思想的特点：<ul>
+<li>封装<br>把对象属性和方法结合成独立的系统单位，并尽可能隐藏实现细节，是面向对象思想描述的基础；   </li>
+<li>抽象<br>对具体问题进行概括，对某一类公共问题进行同意描述；</li>
+<li>继承<br>子类对象拥有与基类对象相同的全部属性和方法，称为继承；</li>
+<li>多态<br>基类中定义的属性和行为被子类继承后，可以具有不同的特性（行为、数据类型），在共性中寻找特性；</li>
+</ul>
+</li>
+<li>数组的传递<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> data[] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    <span class="built_in">print</span>(<span class="keyword">sizeof</span>(data));</span><br><span class="line">    <span class="comment">// 结果为2*4 Byte=8 Byte</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">addArray</span><span class="params">(<span class="keyword">int</span> <span class="built_in">array</span>[])</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="keyword">sizeof</span>(<span class="built_in">array</span>));</span><br><span class="line">    <span class="comment">// 结果为指针长度（机器相关）4（32位）或8（64位机器）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><code>cout</code>是一个输出流对象，是<code>console out</code>的缩写，属于<code>basic_ostream</code>类；</li>
+<li>c语言中，<code>scanf</code>从输入流获取值，<code>getchar</code>获取字符<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;i); <span class="comment">// 将读入的十进制数存入变量i</span></span><br><span class="line">ch = getchar(); <span class="comment">// 将读入的char类型数据存入ch，此时读入ch的数据不再存在在输入流中</span></span><br><span class="line">ungetc(ch, <span class="built_in">stdin</span>)； <span class="comment">// 将ch中的数据退回输入流</span></span><br></pre></td></tr></table></figure></li>
+<li><code>c++</code>版本的流输入<br><code>cin</code>的类型为<code>istream</code>；<br>用户输入时，对应的字符进入操作系统的键盘缓冲区中；<br>输入<code>enter</code>时，操作系统把家农安缓冲区的内容传输到<code>cin</code>的内部缓冲区，由<code>&gt;&gt;</code>操作符从内部缓冲区中提取需要的信息；<br><code>&gt;&gt;</code>操作符对所有内建类型都进行了重载；</li>
+<li>阻塞性IO、非阻塞、异步</li>
+<li><code>C++</code>可以在任意位置声明变量，允许我们在实际使用的时候再声明；</li>
+<li>```c++<br>char buf[20]; // 可存放19个字符<br>cin.ignore(n); //忽略n个字符<br>cin.getline(buf, 10); // 从cin中读取10个字符存入buf<br>while(cin.peek() != ‘\n’){<pre><code>cout&lt;&lt;cin.get();</code></pre>}; // 当前字符不为换行符时，将读入字符输出，先读入后放回<br>const int size = 50;<br>int buf[size];<br>cout &lt;&lt; “请输入文本：”;<br>cin.read(buf, 20);<br>cout&lt;&lt;”字符串收集到的字符数为：”&lt;&lt; cin.gcount() &lt;&lt; endl;<br>cout &lt;&lt; “输入的文本信息为：”;<br>cout.write(buf, 20);<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">9. cout</span><br><span class="line">   &#96;&#96;&#96;c++</span><br><span class="line">   int main()&#123;</span><br><span class="line">       double result &#x3D; sqrt(3.0);</span><br><span class="line">       cout &lt;&lt; &quot;对3开方保留小数点后0~9位&quot; &lt;&lt; endl;</span><br><span class="line">       for(int i&#x3D;0; i&lt;&#x3D;9; ++i)&#123;</span><br><span class="line">           cout.precision(i);</span><br><span class="line">           cout &lt;&lt; result &lt;&lt;endl;</span><br><span class="line">           cout &lt;&lt; &quot;当前输入精度： &quot; &lt;&lt; cout.precision();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">width</span> = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">char</span> str[<span class="number">20</span>];</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入一段文本： \n"</span>;</span><br><span class="line">    <span class="built_in">cin</span>.<span class="built_in">width</span>(<span class="number">5</span>);<span class="comment">// 输入宽度为5</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; str)&#123;</span><br><span class="line">        <span class="built_in">cout</span>.<span class="built_in">width</span>(++<span class="built_in">width</span>);</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; str &lt;&lt;<span class="built_in">endl</span>; </span><br><span class="line">        <span class="built_in">cin</span>.<span class="built_in">width</span>(<span class="number">5</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Cpp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Cpp/summary//" class="article-tag-list-link color3">summary</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Cpp/summary/c-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/Leetcode/手写排序算法总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/Leetcode/%E6%89%8B%E5%86%99%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">手写排序算法总结</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/Leetcode/%E6%89%8B%E5%86%99%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-07-24T15:41:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><p>最大堆，先建堆，再 pop 直至堆空，此时得到升序序列。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">sortArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _heap_sort(nums);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">void</span> _max_heapify(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> curr, <span class="keyword">int</span> len) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.empty())</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">int</span> max_child = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">int</span> left_child_idx = <span class="number">-1</span>, right_child_idx = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span> (curr * <span class="number">2</span> + <span class="number">1</span> &lt; len) &#123;</span><br><span class="line">            left_child_idx = curr * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">            right_child_idx = curr * <span class="number">2</span> + <span class="number">2</span>;</span><br><span class="line">            max_child = </span><br><span class="line">                right_child_idx &lt; len ? </span><br><span class="line">                (nums[left_child_idx] &lt; nums[right_child_idx] ? right_child_idx : left_child_idx)</span><br><span class="line">                : left_child_idx;</span><br><span class="line">            <span class="keyword">if</span> (nums[curr] &lt; nums[max_child]) &#123;</span><br><span class="line">                swap(nums[curr], nums[max_child]);</span><br><span class="line">                curr = max_child;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> _build_max_heap(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> len) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> curr = len / <span class="number">2</span>; curr &gt;= <span class="number">0</span>; --curr) &#123;</span><br><span class="line">            _max_heapify(nums, curr, len);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;_heap_sort(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.empty() || nums.<span class="built_in">size</span>() == <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> nums;</span><br><span class="line">        <span class="keyword">int</span> len = nums.<span class="built_in">size</span>();</span><br><span class="line">        _build_max_heap(nums, len);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = len - <span class="number">1</span>; i &gt;= <span class="number">1</span>; --i) &#123;</span><br><span class="line">            swap(nums[len - <span class="number">1</span>], nums[<span class="number">0</span>]);</span><br><span class="line">            len -= <span class="number">1</span>;</span><br><span class="line">            _max_heapify(nums, <span class="number">0</span>, len);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h1><p>插入排序的中心思想是维护指针左侧数组的一致性，所谓一致性即数组有序。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">sortArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> insertion_sort(nums);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="title">insertion_sort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span>; --j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[j] &lt; nums[j - <span class="number">1</span>])</span><br><span class="line">                    swap(nums[j], nums[j - <span class="number">1</span>]);</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;           </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>插入排序为稳定排序，最好情况为数组已经排序的情况为$\Omega (N)$，时间复杂度$O(N^2)$。</p>
+<h1 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h1><p>希尔排序是插入排序的改版，插入排序为希尔排序的特例，即插入排序的步长为1，而希尔排序的步长选择会影响其时间复杂度。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">sortArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> shell_sort(nums);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="title">shell_sort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> step_size = nums.<span class="built_in">size</span>() / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">while</span> (step_size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = step_size; i &lt; nums.<span class="built_in">size</span>(); i += step_size) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span>; j -= step_size) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (nums[j] &lt; nums[j - step_size])</span><br><span class="line">                        swap(nums[j], nums[j - step_size]);</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            step_size /= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/Leetcode/%E6%89%8B%E5%86%99%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/面经/字节后端一面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E9%9D%A2%E7%BB%8F%E6%B1%87%E6%80%BB/">字节面经汇总</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E9%9D%A2%E7%BB%8F%E6%B1%87%E6%80%BB/" class="archive-article-date">
+  	<time datetime="2020-07-10T08:18:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>阿里</p>
+<ol>
+<li>介绍项目</li>
+<li>介绍并发模式</li>
+<li>如何实现并发</li>
+<li>定时器如何实现，为什么要用双链表，单链表就够了</li>
+<li>有限状态机，为什么要用，为什么用主从状态机</li>
+<li>如何优化定时器</li>
+<li>有参考开源项目吗</li>
+<li>new 一个对象到销毁，操作系统做了什么</li>
+<li>继承中构造函数的调用顺序，为什么要这么设计</li>
+<li>如何遍历二叉树（应该问问目的。。。）</li>
+</ol>
+<hr>
+<p>字节一面</p>
+<ol>
+<li>介绍项目</li>
+<li>问异步日志的写线程什么时候刷新缓冲区，答每写一次都要刷新，面试官提示这个日志系统异步并没有提高性能，还是消耗了 CPU 资源</li>
+<li>多继承虚表</li>
+<li>TCP 为什么要握手</li>
+<li>匹配子串</li>
+</ol>
+<p>字节二面</p>
+<ol>
+<li>如何实现线程安全hash_map</li>
+<li>如何实现多进程下的hash_map </li>
+<li>进程线程区别</li>
+<li>进程间通信方式</li>
+<li>2000万学生数据排序，要求由姓名检索排名</li>
+<li>一面算法题有没有更优解</li>
+<li>带随机指针的链表深拷贝</li>
+<li>概率题，AB胜率相等，A赢两回合获胜，B赢三回合获胜，A的胜率</li>
+</ol>
+<hr>
+<p>字节第二次一面</p>
+<ol>
+<li>如何理解虚拟内存</li>
+<li>什么时候使用类方法和类实例方法</li>
+<li>从源码到可执行文件的过程</li>
+<li>说说服务器项目的特点，与成熟框架相比有什么特色（答只是练手的，希望把技巧搞懂了再用上）</li>
+<li>那你学到了什么</li>
+<li>代码：链表表示的十进制数相加</li>
+</ol>
+<p>字节第二次二面</p>
+<ol>
+<li>说说你的深度学习除草机项目</li>
+<li>哪几个模块，如何实现</li>
+<li>项目指标是什么，指标没达到要求可能是什么问题，如何排查，除了控制变量还有什么方法</li>
+<li>服务器项目，假设校园网，上万学生同时选课，怎么保证不挂掉（我说没有请求大文件，应该不会挂掉。。。）</li>
+<li>你是怎么限制连接数的，连接数受限的因素有哪些，为什么限制，超过连接数客户端接收到什么，服务器如何处理？</li>
+<li>连接重置的HTTP状态码是什么？（我提出疑惑说这是TCP的，他说这是他故意挖坑）</li>
+<li>算法：螺旋矩阵2，写太慢被催了。。。</li>
+</ol>
+<hr>
+<p>字节第三次一面挂（测开）</p>
+<ol>
+<li>自我介绍</li>
+<li>讲讲印象最深的项目</li>
+<li>讲讲web服务器，为什么要做，期望达到什么样的效果</li>
+<li>HTTP GET POST 区别</li>
+<li>平时使用什么语言，C++ 中堆栈在内存管理上的区别</li>
+<li>进程线程区别、线程同步的方式、信号量和自旋锁的区别</li>
+<li>计算机网络，OSI 七层模型，路由器和交换机工作在哪一层<br>路由器工作在网络层，根据 IP 地址寻址，交换机工作在数据链路层，根据 MAC 地址寻址；</li>
+<li>TCP 和 UDP 的区别在哪里，应用场景</li>
+<li>DNS 熟悉吗，说说工作原理，DNS 使用 TCP 还是 UDP</li>
+<li>讲讲 TCP 拥塞控制算法</li>
+<li>数据库？？？我说不会，问我事务四大特性，分别解释</li>
+<li>什么是脏读，什么是幻读，有什么区别</li>
+<li>最常用的 app 是什么，如何设计微信电话的测试用例？？？</li>
+<li>白盒黑盒知道吗？</li>
+<li>两个升序数组，找所有元素中位数，要求时间复杂度 $O(log(m + n))$</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">字节跳动</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">阿里巴巴</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/面经//" class="article-tag-list-link color3">面经</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E9%9D%A2%E7%BB%8F/%E5%AD%97%E8%8A%82%E9%9D%A2%E7%BB%8F%E6%B1%87%E6%80%BB/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
     <article id="post-dailyLearning/面经/字节面经总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -478,964 +1372,9 @@ var _hmt = _hmt || [];
 
         
   
-    <article id="post-myProjects/DL/yolov3-spp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/myprj/yolov3-spp-vs-tiny/">yolov3-spp vs tiny</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/myprj/yolov3-spp-vs-tiny/" class="archive-article-date">
-  	<time datetime="2020-07-05T15:23:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>本文所有图片来源于<a href="https://medium.com/analytics-vidhya/tensorflow-2-yolov3-tiny-object-detection-implementation-c3ea5d4d0510" target="_blank" rel="noopener">https://medium.com/analytics-vidhya/tensorflow-2-yolov3-tiny-object-detection-implementation-c3ea5d4d0510</a></p>
-</blockquote>
-<p>虽然 YOLOv3 已经比同样是单阶段目标检测模型的 SSD300 要快，但是对于嵌入式设备的应用，基于 Darknet53 backbone 的 YOLOv3 速度仍然不可观，因此 YOLO 的作者定义了 YOLOv3-tiny 模型，通过简化模型来追求推理速度，出于同样目的，Tiny YOLO 模型也被提出。各个版本的主流单阶段目标检测模型在 COCO 数据集上的表现如下：</p>
-<p><img src="/myprj/yolov3-spp-vs-tiny/1_Ypy3hR_AHQAF4V-ARl5LXg.png" alt="1_Ypy3hR_AHQAF4V-ARl5LXg"></p>
-<p>从结果可以看出 YOLOv3-tiny 比常规规模的模型计算量小六倍左右，在单块 GPU 上可以达到 220 FPS 的推理速度。</p>
-<p>YOLOv3-Tiny 使用 Darknet19 作为其 backbone，网络结构如下：</p>
-<p><img src="/myprj/yolov3-spp-vs-tiny/1_bkokbbmBFCXhRwzZAcmfwg.png" alt="1_bkokbbmBFCXhRwzZAcmfwg"></p>
-<p>从图中可以看出，YOLOv3-Tiny 只有两层 YOLO 层，以及更少的卷积层，更形象的结构示意图如下：</p>
-<p><img src="/myprj/yolov3-spp-vs-tiny/1_fz9xdrlvp8fBGdMkuUM0CA.png" alt="1_fz9xdrlvp8fBGdMkuUM0CA"></p>
-<p>与 YOLOv3 相比，YOLOv3-Tiny 保留了对 FPN 的借鉴，仍然通过 feature map 直接叠加的操作来融合特征，只是选择了更少的 feature map 进行特征融合和特征检测。基于精简的模型，很多文章都采用剪枝的策略来进一步压缩参数，在保持精度的前提下提高推理速度，因此对剪枝策略的研究可以作为模型优化的方向。</p>
-<p>这一周在模型训练中遇到了较多问题，最严重的是数据集在转换格式的过程中出现了错误，导致训练结果 mAP 仅有 0.1，因此考虑顺便把数据集中的噪声去掉，重新转换数据集进行训练。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">YOLOv3</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/myprj/yolov3-spp-vs-tiny/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-myProjects/Tinywebserver/连接资源类" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/myprj/%E8%BF%9E%E6%8E%A5%E8%B5%84%E6%BA%90%E7%B1%BB/">连接资源类</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/myprj/%E8%BF%9E%E6%8E%A5%E8%B5%84%E6%BA%90%E7%B1%BB/" class="archive-article-date">
-  	<time datetime="2020-07-04T06:50:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>连接资源类封装 http 连接所需要的用户态资源，比如为每个 socket 分配读写缓冲区，请求解析结果等等。</p>
-<p>在线程池中维护一个连接资源的容器，类需要为容器内的实例提供接口，实现报文解析、任务处理、和响应。</p>
-<p>其中，报文解析用正则表达式标准库实现，可以复用正则匹配功能解析报文和配置文件等。</p>
-<h1 id="解析器类"><a href="#解析器类" class="headerlink" title="解析器类"></a>解析器类</h1><h2 id="解析请求报文"><a href="#解析请求报文" class="headerlink" title="解析请求报文"></a>解析请求报文</h2><p>需要解析的条目：</p>
-<ul>
-<li>请求行<ul>
-<li>method</li>
-<li>url</li>
-<li>version</li>
-</ul>
-</li>
-<li>请求头<ul>
-<li>linger</li>
-<li>host</li>
-<li>content-length</li>
-</ul>
-</li>
-<li>空行</li>
-<li>请求体<ul>
-<li>用户名、密码</li>
-</ul>
-</li>
-</ul>
-<h2 id="解析配置文件"><a href="#解析配置文件" class="headerlink" title="解析配置文件"></a>解析配置文件</h2><p>采用最简单的规则，每行一个配置参数，格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">param &#x3D; anything # comment</span><br></pre></td></tr></table></figure>
-
-<p>空格、空行自动忽略。</p>
-<h2 id="非法格式处理"><a href="#非法格式处理" class="headerlink" title="非法格式处理"></a>非法格式处理</h2><p>非法格式抛出异常。</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>正则表达式对象可以理解为运行时“编译”，速度很慢，因此需要在系统启动时创建好所有对象。</p>
-<p>需要完成的逻辑任务：</p>
-<ul>
-<li>解析与 key 匹配的 val 并返回参数集合</li>
-<li>检查无效格式，并反映结果，比如：请求行格式固定，解析出不识别的参数则返回 BAD_REQUEST</li>
-</ul>
-<p>解析器对缓冲区内现有数据进行解析，可能的结果有：</p>
-<ul>
-<li>请求格式有误，返回相应响应报文；</li>
-<li>请求不完整，等待收到新的数据重新解析</li>
-<li>请求无误，处理请求并相应请求</li>
-</ul>
-<p>而解析器的任务只是给自己标识一个状态，剩下的由工作线程处理。</p>
-<p>解析成功或者错误的数据都可以整段标记为失效，可覆盖。</p>
-<h1 id="连接资源类"><a href="#连接资源类" class="headerlink" title="连接资源类"></a>连接资源类</h1><p>连接资源类的每个实例都对应一个单独的连接套接字描述符，因此把每个实例的套接字描述符属性设为 const，在进行读写时如果需要重新注册 epoll 读写事件，需要调用 epoll 包装类的接口。由于系统启动时必须确定监听套接字描述符和连接套接字描述符的 epoll 触发模式，所以初始化 epoll 包装类时将相应类型写入唯一实例中。如此，连接资源便不需要写成模板类。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/myprj/%E8%BF%9E%E6%8E%A5%E8%B5%84%E6%BA%90%E7%B1%BB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-myProjects/Tinywebserver/服务器调试记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/myprj/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">服务器调试记录</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/myprj/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/" class="archive-article-date">
-  	<time datetime="2020-06-29T02:06:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文记录轻量型服务器中遇到的问题和结果过程。</p>
-<h1 id="LT-LT-触发模式，同步-reactor-模型"><a href="#LT-LT-触发模式，同步-reactor-模型" class="headerlink" title="LT + LT 触发模式，同步 reactor 模型"></a>LT + LT 触发模式，同步 reactor 模型</h1><p>epoll 的 LT 触发模式中，每个事件会被持续触发。</p>
-<p>比如读事件：只要内核接收缓存区可读（字节数大于等于低水位标记 SI_RCVLOWAT），就会持续触发读事件。</p>
-<p>reactor 事件处理模式：主线程（I/O 处理单元只负责监听文件描述符 (listenfd) 上是否有事件发生，一旦事件发生立即通知工作线程（逻辑单元），而工作线程负责接受新连接、数据读写以及处理客户请求。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>浏览器第一次发送 GET 请求，服务器正常返回登陆页面；</p>
-<p>浏览器继续发送 POST 请求，提交请求的页面，服务器正常返回页面；</p>
-<p>浏览器发送 POST 请求，请求 cgi 文件时，错误发生：服务器解析完请求报文后无响应，但查看日志发现服务器会重复解析浏览器端重传的报文，且解析有错误；且此后（仅有一个工作线程的情况下）服务器不再响应任何请求。</p>
-<p>因此可以推断，出现错误后工作线程处于工作状态，且第一个问题首先出在 POST 请求的请求体的解析之后。</p>
-<p>问题解决，程序写错了……实属智障。</p>
-<h1 id="LT-ET-触发模式，同步-reactor-模型"><a href="#LT-ET-触发模式，同步-reactor-模型" class="headerlink" title="LT + ET 触发模式，同步 reactor 模型"></a>LT + ET 触发模式，同步 reactor 模型</h1><p>GET 请求无响应。因为 LT + LT 触发模式经测试没问题，那么就是 ET 触发模式的连接 socket 读取出问题。问题是 ET 模式读取数据时，由于 ET 模式每个事件只触发一次，因此必须循环读取 socket 数据，在第一次读出所有数据的情况下，while 循环会阻塞在 recv()，即工作线程会阻塞在 recv() 上直到再次收到数据。</p>
-<p>问题解决，是设置文件描述符非阻塞时，</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fcntl(fd, F_SETFL, new_option);</span><br><span class="line"><span class="comment">//错写为</span></span><br><span class="line">fcntl(fd, F_SETFD, new_option);</span><br></pre></td></tr></table></figure>
-
-<h1 id="ET-LT-触发模式，同步-reactor-模型"><a href="#ET-LT-触发模式，同步-reactor-模型" class="headerlink" title="ET + LT 触发模式，同步 reactor 模型"></a>ET + LT 触发模式，同步 reactor 模型</h1><p>测试没问题。</p>
-<h1 id="ET-ET-触发模式，同步-reactor-模型"><a href="#ET-ET-触发模式，同步-reactor-模型" class="headerlink" title="ET + ET 触发模式，同步 reactor 模型"></a>ET + ET 触发模式，同步 reactor 模型</h1><p>测试通过。</p>
-<h1 id="BUG"><a href="#BUG" class="headerlink" title="BUG"></a>BUG</h1><p>客户端大量发送数据时会导致段错误。</p>
-<h2 id="timer-野指针"><a href="#timer-野指针" class="headerlink" title="timer 野指针"></a>timer 野指针</h2><p>定时器删除节点后，指针未置空，导致重复删除时访问错误。</p>
-<h2 id="webbench-压测时-http-解析段错误"><a href="#webbench-压测时-http-解析段错误" class="headerlink" title="webbench 压测时 http 解析段错误"></a>webbench 压测时 http 解析段错误</h2><p>webbench使用短连接进行测试，服务器发送完数据</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">server</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/myprj/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/剑指Offer/数组中出现次数超过一半的数字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97/">数组中出现次数超过一半的数字</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97/" class="archive-article-date">
-  	<time datetime="2020-06-22T04:20:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><blockquote>
-<p>数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。</p>
-<p>你可以假设数组是非空的，并且给定的数组总是存在多数元素。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [1, 2, 3, 2, 2, 2, 5, 4, 2]</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
-
-
-<p>限制：</p>
-<p><code>1 &lt;= 数组长度 &lt;= 50000</code></p>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof" target="_blank" rel="noopener">https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-</blockquote>
-<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>三种解法：</p>
-<ol>
-<li>对数组排序，取中位数下标</li>
-<li>unordered_multi_set 统计</li>
-<li>摩尔投票法</li>
-</ol>
-<p>投票法：</p>
-<ul>
-<li>实际上是找到众数</li>
-<li>假设数组第一个元素是众数，与众数不相同的数字应该使计数减一</li>
-<li>当计数为0时，从数组首元素到当前元素的连续子数组中不存在唯一众数，因此剩余数组一定存在一个唯一众数，因此问题变成原问题的一个子问题</li>
-<li>计数不为0时持续统计，此时当前选择的众数数量一定是最多的，并且遍历结束时计数一定为正</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">摩尔投票法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-myProjects/DL/基于DBSCAN聚类算法的直线拟合" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/">基于DBSCAN聚类算法的直线拟合</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/" class="archive-article-date">
-  	<time datetime="2020-06-21T13:41:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="关于数据是否有效"><a href="#关于数据是否有效" class="headerlink" title="关于数据是否有效"></a>关于数据是否有效</h1><p>有关聚类算法，我们如何优化算法使得聚类和直线拟合得到的数据最符合我们的期望？如何选择类的数目，如何映射目标点？</p>
-<p>我们先给定一个大前提，视野内行数小于列数，而行是我们要拟合的直线。</p>
-<p>事实上，只有载具在行间正常行驶时我们才需要进行控制，在载具本身调整方向的过程中我们并不需要控制，我们要关注的只是载具在行间正常行驶时如何控制，而在无法正常拟合出直线的情况下我们可以重置控制机构位置，有数据时启动控制器。</p>
-<p>如何提取散点特征判断当前帧是否有效？</p>
-<p>如果只有深度学习模型提供的目标位置，我们拥有的信息太少了，很难使用某种算法仅从散点数据中获得当前帧中有几行稻苗，当前帧所描述的稻苗位置是否是机具直线前进时获得的有效数据，或是转弯等过程中拍摄到的无效数据。这里，我们对有效数据和无效数据的定义是：需要根据所得进行控制的数据为有效数据，而转弯过程中拍摄到的图像中提取出的目标位置信息为无效数据，因为转弯过程中我们无需控制。比如下图：</p>
-<p><img src="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200621214918140.png" alt="image-20200621214918140"></p>
-<p>从这样一幅图像中我们自己都无法判断这一帧中是否存在行，而算法如果不加限制条件的话，算法就会试图从无效数据中拟合导航线。</p>
-<h2 id="解决方法思路"><a href="#解决方法思路" class="headerlink" title="解决方法思路"></a>解决方法思路</h2><p>对于以上问题，我们需要考虑如何把有效数据和无效数据用尽可能简单的方法区分开。因此我们考虑使用光流法提供的速度参数来过滤无效运动中的数据，特别是针对非直线前进过程中采到的数据进行过滤和丢弃。</p>
-<p>由于速度是矢量，我们可以获得一个窗口内连续几帧中追踪点的运动方向，默认采集到有效数据的必要条件是移动方向沿 x 轴方向，那么我们可以通过计算并判断速度矢量沿 x 轴方向的与沿 y 轴方向的速度比来判断当前数据是否有效。</p>
-<h1 id="关于聚类算法"><a href="#关于聚类算法" class="headerlink" title="关于聚类算法"></a>关于聚类算法</h1><p>此外，K-Means 聚类算法在这里的应用十分受限，因为它需要指定类别数量，而类别数量是无法确定的。当然我们可以给定一个类别数量的范围，遍历该范围中的所有值，选择聚类结果的方差或标准差最小的类别数量作为聚类结果，但是算法到这里已经过于复杂。</p>
-<p>因此我们需要一种无需类别数目先验知识的聚类算法对散点进行聚类，这里使用 DBSCAN 传统聚类算法。</p>
-<h2 id="DBSCAN密度聚类算法"><a href="#DBSCAN密度聚类算法" class="headerlink" title="DBSCAN密度聚类算法"></a>DBSCAN密度聚类算法</h2><p>DBSCAN是一种基于密度的聚类算法，这类密度聚类算法一般假定类别可以通过样本分布的紧密程度决定。同一类别的样本，他们之间的紧密相连的，也就是说，在该类别任意样本周围不远处一定有同类别的样本存在。通过将紧密相连的样本划为一类，这样就得到了一个聚类类别。通过将所有各组紧密相连的样本划为各个不同的类别，则我们就得到了最终的所有聚类类别结果。</p>
-<p>总地来说，DBSCAN 算法具有如下特点：</p>
-<ul>
-<li>基于密度，对远离密度核心的噪声点鲁棒</li>
-<li><strong>无需知道聚类簇的数量</strong></li>
-<li><strong>可以发现任意形状的聚类簇</strong></li>
-</ul>
-<p>具体到我们的应用场景中，DBSCAN 聚类算法可以在参数选择合适的前提下，根据集合中点之间的欧氏距离将散点分类，可以对任意形状的数据进行分类，并且可以把样本中偏差较大的样本孤立出来并舍弃。由于在我们的应用场景中，样本聚类簇之间密度差异很小，且样本数量少，并且数据维度低，因此我们的应用场景十分适合 DBSCAN 算法。</p>
-<h2 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h2><p><strong>1，寻找核心点形成临时聚类簇。</strong></p>
-<p>扫描全部样本点，如果某个样本点 R 半径范围内点数目不少于 MinPoints，则将其纳入核心点列表，并将其密度直达的点形成对应的临时聚类簇。</p>
-<p><strong>2，合并临时聚类簇得到聚类簇。</strong></p>
-<p>对于每一个临时聚类簇，检查其中的点是否为核心点，如果是，将该点对应的临时聚类簇和当前临时聚类簇合并，得到新的临时聚类簇。</p>
-<p>重复此操作，直到当前临时聚类簇中的每一个点要么不在核心点列表，要么其密度直达的点都已经在该临时聚类簇，该临时聚类簇升级成为聚类簇。</p>
-<p>继续对剩余的临时聚类簇进行相同的合并操作，直到全部临时聚类簇被处理。</p>
-<h2 id="具体应用"><a href="#具体应用" class="headerlink" title="具体应用"></a>具体应用</h2><p>由于每一帧图像中的样本点都比较少，所以 MinPoints 取为 1，在此基础上，对样本点使用归一化像素坐标，设置半径 0.1 时，可以较好地实现聚类，使聚类结果尽可能符合预期。</p>
-<p>将深度学习模型的结果提取出来，加上后续的导航线提取算法，我们可以看到有以下几种情况：（聚类类别过多的情况一定不存在有效数据，因此直接丢弃）</p>
-<p><img src="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200621232110523.png" alt="image-20200621232110523"></p>
-<p><img src="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200621232706749.png" alt="image-20200621232706749"></p>
-<p><img src="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/image-20200621233036496.png" alt="image-20200621233036496"></p>
-<p>分别对应：</p>
-<ul>
-<li>无效数据</li>
-<li>一行的情况</li>
-<li>两行的情况</li>
-</ul>
-<p>对于夹杂在大量有效数据中的无效数据，我们不进行直线拟合，并且认为导航线具有瞬时稳定性，用当前窗口的平均值来代替当前导航线数据；而对于连续的无效数据，我们认为此时没有必要进行控制，因此在这种状态下不进行任何导航线计算和控制，直到连续检测到有效数据。</p>
-<p>至此，对于导航线提取算法，我们就已经有了一个合适的算法框架。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/myprj//" class="article-tag-list-link color1">myprj</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/myprj/%E5%9F%BA%E4%BA%8Edbscan%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/剑指Offer/面试题36-二叉搜索树与双向链表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9836-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/">面试题36.二叉搜索树与双向链表</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9836-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/" class="archive-article-date">
-  	<time datetime="2020-06-18T11:45:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>题目地址：<a href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/</a></p>
-<p>题目大致意思是要把一棵二叉搜索树转换成排序双向循环链表，返回最小元素节点。每个节点左指针指向前驱结点，右节点指向后继节点。</p>
-<p>利用二叉搜索树中序遍历为升序序列的性质，我们使用中序变量进行转换，递归实现。</p>
-<p>需要考虑的问题是，对于一个节点，我们需要把它的左指针指向它的左子树的最大节点（如果存在），把左子树最大节点右指针指向该节点，这样做我们需要考虑边界情况，也就是首节点，首节点没有前驱。</p>
-<p>为了返回，我们需要保存头节点，为了构造双向链表，我们需要保存前驱结点，并在递归中更新。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">// Definition for a Node.</span></span><br><span class="line"><span class="comment">class Node &#123;</span></span><br><span class="line"><span class="comment">public:</span></span><br><span class="line"><span class="comment">    int val;</span></span><br><span class="line"><span class="comment">    Node* left;</span></span><br><span class="line"><span class="comment">    Node* right;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    Node() &#123;&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    Node(int _val) &#123;</span></span><br><span class="line"><span class="comment">        val = _val;</span></span><br><span class="line"><span class="comment">        left = NULL;</span></span><br><span class="line"><span class="comment">        right = NULL;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    Node(int _val, Node* _left, Node* _right) &#123;</span></span><br><span class="line"><span class="comment">        val = _val;</span></span><br><span class="line"><span class="comment">        left = _left;</span></span><br><span class="line"><span class="comment">        right = _right;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&#125;;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Node* pre, *head;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">Node* <span class="title">treeToDoublyList</span><span class="params">(Node* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> root;</span><br><span class="line">        inorderTraversal(root);</span><br><span class="line">        head-&gt;left = pre;</span><br><span class="line">        pre-&gt;right = head;</span><br><span class="line">        <span class="keyword">return</span> head;       </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inorderTraversal</span><span class="params">(Node* curr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!curr) <span class="keyword">return</span>;</span><br><span class="line">        inorderTraversal(curr-&gt;left);</span><br><span class="line">        curr-&gt;left = pre;</span><br><span class="line">        <span class="keyword">if</span>(pre) pre-&gt;right = curr;</span><br><span class="line">        <span class="keyword">else</span> head = curr;</span><br><span class="line">        pre = curr;</span><br><span class="line">        inorderTraversal(curr-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">二叉搜索树</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">双向链表</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Leetcode//" class="article-tag-list-link color4">Leetcode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Leetcode/%E9%9D%A2%E8%AF%95%E9%A2%9836-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/面经/TPLINK提前批一面复盘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E9%9D%A2%E7%BB%8F/tplink%E6%8F%90%E5%89%8D%E6%89%B9%E4%B8%80%E9%9D%A2%E5%A4%8D%E7%9B%98/">TPLINK提前批一面复盘</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E9%9D%A2%E7%BB%8F/tplink%E6%8F%90%E5%89%8D%E6%89%B9%E4%B8%80%E9%9D%A2%E5%A4%8D%E7%9B%98/" class="archive-article-date">
-  	<time datetime="2020-06-17T03:03:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h1><ul>
-<li><p>strcpy 和 memcpy</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">strcpy</span><span class="params">(<span class="keyword">char</span> *dest, <span class="keyword">const</span> <span class="keyword">char</span> *src)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">memcpy</span><span class="params">(<span class="keyword">void</span> *dest, <span class="keyword">const</span> <span class="keyword">void</span> *src, <span class="keyword">size_t</span> n)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>strcpy 只能拷贝字符串；memcpy 可以拷贝任何类型的数据，但是需要指定以字节为单位的拷贝长度；</p>
-</li>
-<li><p>traits</p>
-<ol>
-<li><p><code>iterator_traits</code>，迭代器特性萃取器，用于萃取迭代器类型  </p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator&gt;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">iterator_traits</span> &#123;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::iterator_category;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::value_type value_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::difference_type difference_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::pointer pointer;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> Iterator::reference reference;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-</li>
-</ul>
-<ol start="2">
-<li><p><code>__type_traits</code><br>其双下划线代表 SGI 内部使用。<br>什么是<code>trivial</code>？</p>
-<blockquote>
-<p>In simple words a “trivial” special member function literally means a member function that does its job in a very straightforward manner. The “straightforward manner” means different thing for different kinds of special member functions.</p>
-<p>For a default constructor and destructor being “trivial” means literally “do nothing at all”. For copy-constructor and copy-assignment operator, being “trivial” means literally “be equivalent to simple raw memory copying” (like copy with <code>memcpy</code>).</p>
-<p>If you define a constructor yourself, it is considered non-trivial, even if it doesn’t do anything, so a trivial constructor must be implicitly defined by the compiler.</p>
-<p>In order for a special member function to satisfy the above requirements, the class must have a very simplistic structure, it must not require any hidden initializations when an object is being created or destroyed, or any hidden additional internal manipulations when it is being copied.</p>
-<p>For example, if class has virtual functions, it will require some extra hidden initializations when objects of this class are being created (initialize virtual method table and such), so the constructor for this class will not qualify as trivial.</p>
-<p>For another example, if a class has virtual base classes, then each object of this class might contain hidden pointers that point to other parts of the very same object. Such a self-referential object cannot be copied by a simple raw memory copy routine (like <code>memcpy</code>). Extra manipulations will be necessary to properly re-initialize the hidden pointers in the copy. For this reason the copy constructor and copy-assignment operator for this class will not qualify as trivial.</p>
-<p>For obvious reasons, this requirement is recursive: all subobjects of the class (bases and non-static members) must also have trivial constructors.</p>
-<p>—–摘自<a href="https://stackoverflow.com/questions/3899223/what-is-a-non-trivial-constructor-in-c" target="_blank" rel="noopener">https://stackoverflow.com/questions/3899223/what-is-a-non-trivial-constructor-in-c</a></p>
-</blockquote>
-<p>也就是说<code>trivial ctor</code>就是不做任何操作的构造函数，构造时没有任何隐式初始化，比如含有虚函数的类，在初始化时需要隐式初始化虚函数表以及虚表指针，不满足<code>trivial</code>的定义，因此不能直接简单地拷贝内存<code>memcpy</code>。</p>
-<p><code>__type_traits</code>用于萃取型别特性，而这些型别特性包括：</p>
-<ul>
-<li><code>has_non_trivial_default_constructor</code></li>
-<li><code>has_trivial_copy_constructor</code></li>
-<li><code>has_trivial_assignment_operator</code></li>
-<li><code>has_trivial_destructor</code></li>
-<li><code>is_POD_type</code></li>
-</ul>
-<p>当一个类型是<code>trivial</code>的，意味着可以直接使用内存操作进行构造，以提升效率。</p>
-<p>而当一个类型具有指针成员，其指向动态分配内存，那么就必须定义<code>non-trivial ctor</code>等。</p>
-</li>
-</ol>
-<ul>
-<li><p>链表是否有环</p>
-<p>快慢指针</p>
-</li>
-<li><p>TCP/IP 层次结构</p>
-<ol>
-<li><p>OSI 七层协议</p>
-<blockquote>
-<p>应用层</p>
-<p>表示层</p>
-<p>会话层</p>
-<p>运输层</p>
-<p>网络层</p>
-<p>数据链路层</p>
-<p>物理层</p>
-</blockquote>
-</li>
-<li><p>TCP/IP 四层协议</p>
-<blockquote>
-<p>应用层：TELNET, FTP, SMTP, DNS, HTTP。通过应用进程间交互来完成特定网络应用。</p>
-<p>运输层：TCP, UDP。负责向两台主机中的进程间通信提供通用的数据传输服务。</p>
-<p>网际层：IP。负责为分组交换网上的不同主机提供通信服务，并进行路由选择。</p>
-<p>网络接口层：ICMP, ARP。</p>
-</blockquote>
-</li>
-</ol>
-</li>
-<li><p>进程间通信方式</p>
-<ol>
-<li><p>管道/匿名管道</p>
-<blockquote>
-<p>半双工，数据只能向一个方向流动</p>
-<p>只能用于父子进程或者兄弟进程之间通信</p>
-<p>可以理解为循环数组实现的队列，FIFO</p>
-<p>实质上是一个内核缓冲区，以 FIFO 方式存取数据，缓冲区读空或者写满时，相应进程进入等待队列，可读或可写是唤醒相应进程</p>
-</blockquote>
-</li>
-<li><p>有名管道</p>
-<blockquote>
-<p>不同于匿名管道，以有名管道文件形式存在于文件系统中，实现了无亲缘关系进程间的通信</p>
-<p>名字存在内存系统，而内容存在内存中，相当于两个进程做了相同的虚拟地址映射，</p>
-</blockquote>
-</li>
-<li><p>信号</p>
-<blockquote>
-<p>进程间相互通信的机制</p>
-<p>信号是软件层次上对中断机制的模拟，是一种异步通信方式</p>
-</blockquote>
-</li>
-<li><p>消息队列</p>
-<blockquote>
-<p>存放在内核中的消息链表，每个消息队列由消息队列标识符表示</p>
-<p>允许多个进程 FIFO 读写</p>
-<p>可实现随即查询</p>
-</blockquote>
-</li>
-<li><p>共享内存</p>
-<blockquote>
-<p>将不同进程的某个虚拟内存区域映射到磁盘中同一个共享对象上，避免数据拷贝</p>
-<p>需要进程同步机制来同步进程</p>
-<p><code>mmap()</code></p>
-</blockquote>
-</li>
-<li><p>信号量</p>
-<blockquote>
-<p>是一个计数器，用于多进程对共享数据的访问，实现进程间/线程间同步</p>
-</blockquote>
-</li>
-<li><p>套接字</p>
-</li>
-</ol>
-</li>
-<li><p>讲讲项目</p>
-</li>
-<li><p>爱好</p>
-</li>
-<li><p>成绩</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">TP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/面经//" class="article-tag-list-link color3">面经</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E9%9D%A2%E7%BB%8F/tplink%E6%8F%90%E5%89%8D%E6%89%B9%E4%B8%80%E9%9D%A2%E5%A4%8D%E7%9B%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/真题/TPLINK/TPLINK笔试复盘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E9%9D%A2%E7%BB%8F/tplink%E7%AC%94%E8%AF%95%E5%A4%8D%E7%9B%98/">TPLINK笔试复盘</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E9%9D%A2%E7%BB%8F/tplink%E7%AC%94%E8%AF%95%E5%A4%8D%E7%9B%98/" class="archive-article-date">
-  	<time datetime="2020-06-16T16:51:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*第一题*/</span></span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">longestSubsequence</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; seq)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(seq.<span class="built_in">size</span>() &lt; <span class="number">2</span>) <span class="keyword">return</span> seq;</span><br><span class="line">        <span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="title">dp</span><span class="params">(seq.<span class="built_in">size</span>()+<span class="number">1</span>)</span></span>;</span><br><span class="line">        dp[<span class="number">1</span>] = &#123;seq[<span class="number">0</span>]&#125;;</span><br><span class="line">        <span class="keyword">unsigned</span> global_max_idx = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> idx=<span class="number">2</span>; idx&lt;=seq.<span class="built_in">size</span>(); ++idx) &#123;</span><br><span class="line">            <span class="keyword">unsigned</span> max_idx = <span class="number">0</span>, max_size = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;=idx; ++i) &#123;</span><br><span class="line">                <span class="keyword">if</span>(seq[idx<span class="number">-1</span>] &gt; seq[i<span class="number">-1</span>] &amp;&amp; dp[i].<span class="built_in">size</span>() &gt; max_size) &#123;</span><br><span class="line">                    max_size = dp[i].<span class="built_in">size</span>();</span><br><span class="line">                    max_idx = i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            dp[idx] = dp[max_idx];</span><br><span class="line">            dp[idx].emplace_back(seq[idx<span class="number">-1</span>]);</span><br><span class="line">            <span class="keyword">if</span>(dp[idx].<span class="built_in">size</span>() &gt; global_max_idx) &#123;</span><br><span class="line">                global_max_idx = idx;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[global_max_idx];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*第二题*/</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">minimumSplicedNumber</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">unsigned</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; <span class="title">buckets</span><span class="params">(nums.<span class="built_in">size</span>())</span></span>;</span><br><span class="line">    <span class="built_in">string</span> ret&#123;&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        buckets[i] = to_string(nums[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">auto</span> my_less = [](<span class="built_in">string</span> str1, <span class="built_in">string</span> str2)-&gt;<span class="keyword">bool</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(str1.length() == str2.length()) <span class="keyword">return</span> str1 &lt; str2;</span><br><span class="line">        <span class="keyword">while</span> (str1.length() &gt; str2.length()) &#123;</span><br><span class="line">            str2 += str2[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (str1.length() &lt; str2.length()) &#123;</span><br><span class="line">            str1 += str1[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> str1 &lt; str2;</span><br><span class="line">    &#125;;</span><br><span class="line">    sort(buckets.<span class="built_in">begin</span>(), buckets.<span class="built_in">end</span>(), my_less);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; str:buckets) &#123;</span><br><span class="line">        ret += str;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; ret &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">TPLINK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/面经//" class="article-tag-list-link color3">面经</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E9%9D%A2%E7%BB%8F/tplink%E7%AC%94%E8%AF%95%E5%A4%8D%E7%9B%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1845,6 +1784,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">shopee</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Win10</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wireless hotspot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">广联达</a>
               </li>
             
             <div class="clearfix"></div>
