@@ -28,11 +28,9 @@ tags:
    ```
    实际上就是调用了`malloc`和`free`。
    很少重载全局 new 和 delete，一般重载成员函数的 operator new 和 operator delete。这四个函数均可重载。
-   
 2. 如何重载 per-class operator new 和 operator delete 实现内存池  
    `placement new` 的第一个参数必须为 `size_t`，否则编译器报错。  
    在构造函数内抛出异常时，调用 `operator delete`。（旧版本行为，新版本并没有调用 `operator delete`)  
-   
 3. 内存管理的目的：  
    提高速度，降低内存消耗（尤其指 cookie，每个 array new 会分配 8 字节的 cookie） 
    ```c++
@@ -71,7 +69,6 @@ tags:
    Process finished with exit code 0
    ```
    说明每个 Foo 对象确实是 16 字节，含有 4 字节的 int，8 字节的 cookie，以及 4 字节的 padding。
-   
 4. 用一个内存池来管理一个类的对象时，若使用自由链表（单链表），那么每个对象会有 4 字节（64 位操作系统 8 字节）的开销，与每个对象 8 字节的 cookie 开销相比，并无太大收益，唯一的收益是减少了 malloc 的调用次数。  
    使用内嵌指针 (embedded pointer) 的概念来优化这一点:  
    ```c++
