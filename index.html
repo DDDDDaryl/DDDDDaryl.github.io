@@ -209,6 +209,657 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dailyLearning/面经/腾讯面经" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E9%9D%A2%E7%BB%8F/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/">腾讯面经</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E9%9D%A2%E7%BB%8F/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/" class="archive-article-date">
+  	<time datetime="2020-09-04T15:07:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h1><p>全程大概八十分钟，面试官特别 nice，说错了的问题会提醒，没答全的问题也会提醒。</p>
+<p>首先是需要再了解的知识：</p>
+<ul>
+<li>MySQL 半同步主从复制</li>
+<li>MySQL 对表的主键有什么要求？</li>
+<li>有什么对称加密算法？非对称也要多了解</li>
+<li>僵尸进程和孤儿进程的定义</li>
+<li>CPP 由源文件到可执行文件的四个过程</li>
+<li>对一个类使用 sizeof 表达式，结果需要考虑什么（一定要考虑类中有无虚函数）</li>
+</ul>
+<p>问题回忆：</p>
+<ul>
+<li><p>TCP/IP 四层模型和 OSI 七层模型</p>
+</li>
+<li><p>TCP/IP 属于哪一层</p>
+</li>
+<li><p>Select 和 epoll 的区别</p>
+</li>
+<li><p>TCP 连接的过程是怎么样的</p>
+</li>
+<li><p>为什么是三次握手（答了同步 seq）</p>
+</li>
+<li><p>还有别的原因吗？（从 TCP<br>可靠传输的角度答）</p>
+</li>
+<li><p>TCP 如何实现可靠传输？（从保证正确、有序和不丢失三个角度，答了滑动窗口、超时重传、以及校验和）</p>
+</li>
+<li><p>什么情况下会出现 TIME_WAIT</p>
+</li>
+<li><p>如何用 gdb 调试多线程</p>
+</li>
+<li><p>有没有遇到过出现大量 TIME_WAIT 的情况</p>
+<ul>
+<li>虽然答了没有，但还是要分析一下。<br>大量 TIME_WAIT，对于服务端来说，首先一定发生了 close() 或者 shutdown()，也就是服务端主动关闭连接，出现 TIME_WAIT 是正常现象，而出现大量 TIME_WAIT 很有可能是在高并发短连接的场景中，在这种场景中，从接受连接、处理请求逻辑、到发送响应报文、断开连接所花的时间与 2MSL (Maximum Segment Lifetime) 相比会非常短，造成资源浪费。</li>
+<li>很多博客说会占用服务器端口资源？那么问题是建立 TCP 连接，或者说 accept() 时，服务器会给该连接分配什么资源？</li>
+<li>测试了服务器程序，<code>netstat -nat</code> 查看监听的 TCP 连接，发现只有指定的 9006 监听端口被占用，也就是说浏览器连接服务器并没有占用服务器主机端口资源<img src="/%E9%9D%A2%E7%BB%8F/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/image-20200905001430706.png" alt="image-20200905001430706"></li>
+<li>但是对于操作系统来说，限制并发连接数的还有内存和文件描述符数量限制，对这个问题而言，大量 TIME_WAIT 占用了很多文件描述符，也会导致很多连接失败</li>
+<li>解决方法：使用 SO_REUSEADDR 套接字选项</li>
+</ul>
+</li>
+<li><p>进程和线程的区别</p>
+</li>
+<li><p>线程通信（后来改成进程通信方式）</p>
+</li>
+<li><p><strong>孤儿进程和僵尸进程</strong></p>
+</li>
+<li><p><strong>CPP 源文件到可执行文件过程</strong></p>
+</li>
+<li><p><strong>sizeof() 一个类的注意事项</strong>（一定要注意含有虚函数的类）</p>
+</li>
+<li><p>CPP 内存空间模型</p>
+</li>
+<li><p>静态变量放在哪个区</p>
+</li>
+<li><p>STL vector 和 list 有什么区别</p>
+</li>
+<li><p>哪些容器是可以使用 sort() 的</p>
+<ul>
+<li><p>经测试，list 确实不能，虽然 IDE 没有显式报错，但是编译出错</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">====================[ Build | prac | Debug ]====================================</span><br><span class="line"><span class="string">"E:\CLion\CLion 2020.1\bin\cmake\win\bin\cmake.exe"</span> --build F:\c++prj\prac\cmake-build-debug --target prac -- -j <span class="number">9</span></span><br><span class="line">Scanning dependencies of target prac</span><br><span class="line">[ <span class="number">50</span>%] Building CXX object CMakeFiles/prac.dir/main.cpp.obj</span><br><span class="line">In file included from E:/mingw64/lib/gcc/x86_64-w64-mingw32/<span class="number">8.1</span><span class="number">.0</span>/include/c++/algorithm:<span class="number">62</span>,</span><br><span class="line">                 from F:\c++prj\prac\main.cpp:<span class="number">18</span>:</span><br><span class="line">E:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_algo.h: In instantiation of 'void std::__sort(_RandomAccessIterator, _RandomAccessIterator, _Compare) [with _RandomAccessIterator = std::_List_iterator&lt;int&gt;; _Compare = __gnu_cxx::__ops::_Iter_less_iter]':</span><br><span class="line">E:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_algo.h:4834:18:   required from 'void std::sort(_RAIter, _RAIter) [with _RAIter = std::_List_iterator&lt;int&gt;]'</span><br><span class="line">F:\c++prj\prac\main.cpp:<span class="number">28</span>:<span class="number">32</span>:   required from here</span><br><span class="line">E:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/stl_algo.h:1969:22: error: no match for 'operator-' (operand types are 'std::_List_iterator&lt;int&gt;' and 'std::_List_iterator&lt;int&gt;')</span><br><span class="line">     <span class="built_in">std</span>::__lg(__last - __first) * <span class="number">2</span>,</span><br><span class="line">               ~~~~~~~^~~~~~~~~</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，因为 sort 需要容器的迭代器类型最低要求是 <code>_RandomAccessIterator</code>，而 list 的迭代器类型是 <code>bidirectional iterator</code>，不支持加减等指针运算。</p>
+</li>
+<li><p>然而 deque 的确可以进行 sort，这一点答错了。虽然 deque 的内存不连续，但是 deque 仍然支持随机访问，其迭代器类型是 <code>RandomAccessIterator</code>，可以 sort。</p>
+</li>
+<li><p>因此，能否使用 sort 排序归根结底还是看容器是否支持随机访问，这一点从 sort 函数形参中迭代器类型的名字也可以看出来。</p>
+</li>
+</ul>
+</li>
+<li><p>HTTP 和 TCP 的关系</p>
+</li>
+<li><p>HTTPS 和 HTTP</p>
+</li>
+<li><p><strong>有什么对称加密算法和非对称加密算法</strong></p>
+</li>
+<li><p><strong>讲讲对索引的理解（B树、B+树还需要更清晰）</strong></p>
+</li>
+<li><p><strong>MySQL InnoDB 对主键有什么要求</strong></p>
+</li>
+<li><p>讲讲事务</p>
+</li>
+<li><p>主从复制</p>
+</li>
+<li><p><strong>半同步主从复制？</strong></p>
+<blockquote>
+<p>这部分内容阅读《高可用MySQL》学习</p>
+<ul>
+<li>理解之后再补充</li>
+</ul>
+</blockquote>
+</li>
+<li><p><strong>SSRF 漏洞</strong></p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">腾讯</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/面经//" class="article-tag-list-link color3">面经</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E9%9D%A2%E7%BB%8F/%E8%85%BE%E8%AE%AF%E9%9D%A2%E7%BB%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/计算机基础/进程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%BF%9B%E7%A8%8B/">进程</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%BF%9B%E7%A8%8B/" class="archive-article-date">
+  	<time datetime="2020-09-04T02:39:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>操作系统如何找到内存中不同进程的代码、数据存放的位置？</p>
+<ul>
+<li>系统为每个进程配置一个 进程控制块 PCB，也叫做 task_struct，用来描述进程的各种信息，也称为进程描述符</li>
+<li>PCB、程序段、数据段三部分构成了进程实体（进程映像）</li>
+<li>PCB 是进程存在的唯一标志，<ul>
+<li>进程标识符 PID</li>
+<li>用户标识符 UID</li>
+<li>进程当前状态</li>
+<li>进程优先级</li>
+<li>程序段指针、数据段指针</li>
+<li>打开文件集合</li>
+<li>寄存器值</li>
+</ul>
+</li>
+<li>进程是一个动态过程，是一个进程实体的运行过程，而进程实体是数据的集合，是静态的</li>
+</ul>
+<h1 id="进程基本状态"><a href="#进程基本状态" class="headerlink" title="进程基本状态"></a>进程基本状态</h1><ul>
+<li>运行态</li>
+<li>就绪态</li>
+<li>阻塞态</li>
+</ul>
+<p>额外的：</p>
+<ul>
+<li>创建态</li>
+<li>终止态</li>
+</ul>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%BF%9B%E7%A8%8B/image-20200904110735686.png" alt="image-20200904110735686"></p>
+<p>这里其实也印证了阻塞对于进程而言是一种主动行为，而且阻塞是由于进程请求的资源还没有准备好。</p>
+<h1 id="进程控制"><a href="#进程控制" class="headerlink" title="进程控制"></a>进程控制</h1><p>进程管理，创建、撤销、调度进程等功能。</p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%BF%9B%E7%A8%8B/image-20200904111441424.png" alt="image-20200904111441424"></p>
+<p>操作系统维护一个就绪队列（有些书上也成为工作队列），该队列存放资源已就绪等待调度的进程的进程描述符。</p>
+<p>当某个进程因为调用了某个系统调用而阻塞自身时，该进程描述符被加入到对应事件的阻塞队列中。</p>
+<h2 id="如何实现进程控制"><a href="#如何实现进程控制" class="headerlink" title="如何实现进程控制"></a>如何实现进程控制</h2><p>使用<strong>原语</strong>实现进程控制。</p>
+<p>原语的特点是<strong>执行期间不允许被中断</strong>，也就是原子操作。</p>
+<p>原语采用 关中断指令 和 开中断指令 实现，在关中断指令执行之后开中断指令执行之前，外部中断信号会被忽略。</p>
+<h2 id="进程创建"><a href="#进程创建" class="headerlink" title="进程创建"></a>进程创建</h2><ul>
+<li>申请进程描述符</li>
+<li>为新进程分配资源（内存、打开文件）</li>
+<li>初始化进程描述符</li>
+<li>将进程描述符插入到就绪队列</li>
+</ul>
+<h2 id="进程终止"><a href="#进程终止" class="headerlink" title="进程终止"></a>进程终止</h2><ul>
+<li>从 PCB 集合中找到终止进程的 PCB（从红黑树中寻找）</li>
+<li>若该进程描述符的状态为运行态，将其挂起</li>
+<li>终止其所有子进程</li>
+<li>释放资源给父进程或者操作系统</li>
+<li>删除进程描述符（归还给 slab 分配器）</li>
+</ul>
+<h2 id="阻塞和唤醒"><a href="#阻塞和唤醒" class="headerlink" title="阻塞和唤醒"></a>阻塞和唤醒</h2><p>阻塞：</p>
+<ul>
+<li>找到阻塞进程进程描述符</li>
+<li>设置进程描述符的进程状态字段</li>
+<li>保存进程上下文到进程描述符</li>
+<li>将进程描述符插入对应事件等待队列</li>
+</ul>
+<p>造成进程阻塞的原因：</p>
+<ul>
+<li>等待系统分配资源</li>
+<li>进程同步中等待资源释放</li>
+</ul>
+<p>唤醒：</p>
+<ul>
+<li>在事件等待队列中找到进程描述符</li>
+<li>将进程描述符从等待队列移除，设置进程状态为就绪态</li>
+<li>插入就绪队列</li>
+</ul>
+<p>必须由阻塞进程的事件唤醒进程。</p>
+<h2 id="进程切换"><a href="#进程切换" class="headerlink" title="进程切换"></a>进程切换</h2><ul>
+<li>运行环境信息存入进程描述符</li>
+<li>将进程描述符移入相应队列（阻塞队列/就绪队列）</li>
+<li>从就绪队列调度新的进程执行，更新其进程描述符</li>
+<li>从进程描述符中恢复进程上下文</li>
+</ul>
+<h1 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h1><p>进程通信是进程之间的信息交换。</p>
+<p>为了保证安全，一个进程不能直接访问另一个进程的地址空间。</p>
+<p>进程通信：</p>
+<ul>
+<li>共享存储</li>
+<li>消息传递</li>
+<li>管道通信</li>
+</ul>
+<h2 id="共享存储"><a href="#共享存储" class="headerlink" title="共享存储"></a>共享存储</h2><p>操作系统为多个进程分配一个共享空间，多个进程必须互斥访问共享空间。</p>
+<p>操作系统负责提供共享空间和同步互斥工具，如信号量。</p>
+<hr>
+<p>共享存储又分为：</p>
+<ul>
+<li>基于数据结构的共享，速度慢、限制多，是一种低级通信方式</li>
+<li>基于存储区的共享，操作系统只负责提供一块共享内存，数据类型、存放位置都由进程控制。相比之下这种共享方式速度更快，是一种高级通信方式。</li>
+</ul>
+<h2 id="管道通信"><a href="#管道通信" class="headerlink" title="管道通信"></a>管道通信</h2><p>管道是指<strong>用于连接读写进程的一个共享文件</strong>，又名 pipe 文件，其实就是在内存中开辟的一个大小固定的缓冲区。</p>
+<ul>
+<li><p>只能采用半双工通信，同一时间段内只能实现单向传输，全双工则需要两个管道；</p>
+</li>
+<li><p>各进程要互斥访问管道；</p>
+</li>
+<li><p>数据以字符流的形式写入管道，当管道写满时，写进程的 write() 系统调用将被阻塞，等待都进程将数据读走。读进程将数据全部读走后，管道为空，此时读进程的 read() 系统调用将被阻塞；</p>
+</li>
+<li><p>如果没写满，就不允许读；如果管道不为空，就不允许写；（阻塞队列）</p>
+</li>
+<li><p>数据一旦被读出，就从管道中被抛弃，意味着读进程最多只能有一个，否则会有读错数据的情况；</p>
+</li>
+</ul>
+<h2 id="消息传递"><a href="#消息传递" class="headerlink" title="消息传递"></a>消息传递</h2><p>进程间的数据交换以格式化的消息 Message 为单位。</p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%BF%9B%E7%A8%8B/image-20200904170524372.png" alt="image-20200904170524372"></p>
+<p>消息格式为：消息头 + 消息体</p>
+<ul>
+<li>消息头：<ul>
+<li>发送进程 PID</li>
+<li>接收进程 PID</li>
+<li>消息类型、消息长度</li>
+</ul>
+</li>
+<li>消息体</li>
+</ul>
+<p>消息传递又分为两种方式：</p>
+<ul>
+<li>直接通信，发送进程通过操作系统将消息加入到接收进程的消息缓冲队列上，每个进程都有一个消息缓冲队列</li>
+<li>间接通信，消息要先发送到中间实体（信箱）中，在 Linux 内核中，应该指的是 POSIX IPC 对象</li>
+</ul>
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><p>与进程的区别：</p>
+<ul>
+<li>资源分配、调度：进程是资源分配的最小单位，线程是调度的最小单位</li>
+<li>并发性：线程、进程之间都可以并发</li>
+<li>开销：<ul>
+<li>进程切换开销大，由两步组成： <ul>
+<li>切换页全局目录</li>
+<li>切换内核态堆栈和硬件上下文（一组寄存器值）</li>
+</ul>
+</li>
+<li>线程切换只是把寄存器值保存到内核堆栈里，再加载被调度线程的寄存器值</li>
+</ul>
+</li>
+</ul>
+<h1 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">进程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/计算机基础//" class="article-tag-list-link color1">计算机基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%BF%9B%E7%A8%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/数据库/MySQL技术内幕" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E6%8A%80%E6%9C%AF%E5%86%85%E5%B9%95/">MySQL技术内幕</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E6%8A%80%E6%9C%AF%E5%86%85%E5%B9%95/" class="archive-article-date">
+  	<time datetime="2020-09-03T08:31:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><ul>
+<li><p>为什么 MySQL InnoDB 存储引擎默认隔离级别是 RR，而不像大多数数据库如 Oracle 使用 READ COMMITTED？这与 binlog_format 参数相关，该参数决定了二进制日志的格式。</p>
+<p>可设定的参数值：</p>
+<ul>
+<li>STATEMENT，记录 SQL 语句</li>
+<li>ROW，记录行的更改情况，将 binlog 格式设置为 ROW 之后可以将 InnoDB 隔离级别设置为 READ COMMITTED</li>
+<li>MIXED，混合以上两种格式，在一些情况下会使用 ROW，比如使用了不确定函数时</li>
+</ul>
+<p>ROW 对磁盘空间的消耗非常严重，而主从复制的网络开销也会增加。</p>
+<p>binlog 是二进制格式的文件，只能用 mysqlbinlog 工具查看。</p>
+<p>binlog STATEMENT 格式是按照事务的提交顺序写的，而 RC 级别因为不像 RR 级别有间隙锁，可以在另外一个事务提交之前影响该事务对数据更新的结果，并抢先提交，导致主机上 SQL<br>语句的执行和 binlog 记录的执行顺序不同而出现主从数据不一致。 </p>
+</li>
+</ul>
+<h1 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h1><p>行锁的三种算法：</p>
+<ul>
+<li>Record lock，单行记录上的锁</li>
+<li>Gap lock，间隙锁，不包含记录本身</li>
+<li>Next-key lock，锁定一个范围，并且锁定记录本身</li>
+</ul>
+<p>对于非唯一键进行的锁定是 Next-key lock，会将行记录本身以及左右两侧的范围都锁住；</p>
+<p>而对于具有唯一属性的索引，利用该索引进行查询时，会降级为行锁 Record lock，提高并发性。</p>
+<h2 id="间隙锁如何解决RR级别下的幻读"><a href="#间隙锁如何解决RR级别下的幻读" class="headerlink" title="间隙锁如何解决RR级别下的幻读"></a>间隙锁如何解决RR级别下的幻读</h2><p>间隙锁阻止了多个事务将记录插入到同一范围内，也就是说只要有一个事务通过某个索引节点中的某个索引数据访问了叶子结点的数据，那么该行数据以及该索引两侧间隙都会被加锁，防止其他事务修改、删除或者插入数据，防止不可重复读和幻读。</p>
+<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p>InnoDB 的数据是按照索引来组织的，合并了数据文件与索引文件，B+树的每个索引节点的的索引数据根据主键进行排序。</p>
+<p>而如果单独建立一个辅助索引，会出现一棵独立的B+树，其叶子节点的数据为主键值，利用辅助索引访问数据时需要先从辅助索引叶子节点找到主键值，再到主键索引中找到数据，会引发更多的磁盘IO。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/数据库//" class="article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E6%8A%80%E6%9C%AF%E5%86%85%E5%B9%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
+    <article id="post-dailyLearning/数据库/数据库知识点总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">数据库知识点总结</a>
+    </h1>
+  
+
+        <!--显示阅读次数-->
+        
+        
+        <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-08-31T16:34:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="事务四大特性"><a href="#事务四大特性" class="headerlink" title="事务四大特性"></a>事务四大特性</h1><p>ACID 四大特性：</p>
+<ul>
+<li>Atomic 原子性，一个事务中的所有操作要么全部成功，要么全部失败回滚</li>
+<li>Consistency 一致性，事务开始和提交后，数据库的完整性约束没有被破坏</li>
+<li>Isolation 隔离性，多个连接并发访问数据库时，并发的不同事务之间不能相互干扰</li>
+<li>Durability 持久性，一旦一个事务被提交了，那么对数据库中的数据的改变就是永久性的</li>
+</ul>
+<h1 id="事务的并发会带来哪些问题？"><a href="#事务的并发会带来哪些问题？" class="headerlink" title="事务的并发会带来哪些问题？"></a>事务的并发会带来哪些问题？</h1><ul>
+<li><p>数据丢失：事务A修改但未提交的数据，被事务B所覆盖，造成数据丢失</p>
+</li>
+<li><p>脏读：事务B读取了事务A修改但是并未提交的数据，之后事务B回滚，事务A读到的就是脏数据</p>
+</li>
+<li><p>不可重复读：事务B在一个事务中多次读取同一条数据，但该数据在两次读之间被A事务修改并提交，B事务出现了前后两次读，读到的数据不一致的情况</p>
+</li>
+<li><p>幻读：事务B前后两次进行范围查询时，两个 query 之间，事务A在该范围内插入了一条数据，导致事务B前后两次查询结果不一致，多出一条数据</p>
+</li>
+</ul>
+<h1 id="隔离级别？"><a href="#隔离级别？" class="headerlink" title="隔离级别？"></a>隔离级别？</h1><ul>
+<li>读未提交 READ-UNCOMMITTED</li>
+<li>不可重复读 READ-COMMITTED</li>
+<li>可重复读 REPEATABLE-READ</li>
+<li>串行化 SERIALIZABLE</li>
+</ul>
+<p>其中，不可重复读解决了脏读的问题，未提交的修改不会被其他事务看到（快照读？）；可重复读解决了不可重复读的问题，当前事务读取的数据不可以被其他事务修改，试图修改数据的事务会被阻塞；可串行化解决了幻读问题，各个事务串行执行，不存在并发问题。</p>
+<h1 id="MySQL-隔离级别"><a href="#MySQL-隔离级别" class="headerlink" title="MySQL 隔离级别"></a>MySQL 隔离级别</h1><p>MySQL 支持四种隔离级别，其中 innoDB 存储引擎默认的隔离级别是 RR，可重复读。</p>
+<p>innoDB 通过 MVCC 和间隙锁 next-key lock 解决了 RR 隔离级别下幻读的问题。</p>
+<h1 id="MyISAM-和-innoDB-的区别"><a href="#MyISAM-和-innoDB-的区别" class="headerlink" title="MyISAM 和 innoDB 的区别"></a>MyISAM 和 innoDB 的区别</h1><p>主要的区别在于以下几个方面：</p>
+<ul>
+<li>innoDB 支持事务，MyISAM 不支持事务</li>
+<li>innoDB 默认使用行锁，MyISAM 使用表锁</li>
+<li>innoDB 缓存索引和数据，MyISAM 只缓存索引，指向数据行的物理地址</li>
+<li>innoDB 支持外键</li>
+</ul>
+<p>MyISAM 节省内存，加表锁开销小，但是不适合并发写的场景，以及需要用到事务的场景。</p>
+<p>innoDB 是 MySQL 默认存储引擎。</p>
+<h1 id="MySQL-B-树索引和-Hash-索引的区别"><a href="#MySQL-B-树索引和-Hash-索引的区别" class="headerlink" title="MySQL B+树索引和 Hash 索引的区别"></a>MySQL B+树索引和 Hash 索引的区别</h1><ul>
+<li>Hash 索引检索效率非常高，检索只需要一次磁盘 I/O</li>
+<li>B+树索引需要从根节点到叶子节点，每次查询可能需要多次磁盘 I/O</li>
+</ul>
+<h2 id="为什么用B-树而不用哈希索引"><a href="#为什么用B-树而不用哈希索引" class="headerlink" title="为什么用B+树而不用哈希索引"></a>为什么用B+树而不用哈希索引</h2><ul>
+<li>由于 hash 索引无序，因此不能范围查询，在排序操作的时候也无法使用 hash 索引</li>
+<li>Hash 索引不能利用部分索引键查询，因为 hash 索引在计算 hash 值时，先将索引键合并再计算哈希值</li>
+<li>由于不同的索引键可能存在相同的哈希值，所以无法利用 hash 索引直接完成查询，无法避免表扫描</li>
+<li>极端情况下，hash 表某个桶中的链表特别长的时候，索引效率会更低</li>
+</ul>
+<p>MySQL 中，只有 HEAP/MEMORY 引擎才显式支持 hash 索引。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>等值查询且键值唯一，那么哈希索引具有优势；如果需要范围查询或者排序，那么哈希索引会失效。</p>
+<h1 id="聚集索引与非聚集索引"><a href="#聚集索引与非聚集索引" class="headerlink" title="聚集索引与非聚集索引"></a>聚集索引与非聚集索引</h1><p>根本区别：</p>
+<p>表记录的排列顺序和索引的排列顺序是否一致。</p>
+<p>聚集索引表记录的排列顺序和索引的排列顺序一致，又称为<strong>主索引</strong>，可以建立在任何字段上。</p>
+<p>非聚集索引表记录的排列顺序和索引的排列顺序不一致，又称为<strong>辅助索引</strong>。</p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>由于聚集索引中索引与数据文件合并，索引字段所在的行数据存在索引叶子节点中，因此在插入数据的时候可能需要对索引节点进行分裂重排，影响效率，然而在没有重排的情况下，聚集索引可以通过索引直接访问数据，而不需要通过指针再去数据文件中读取数据，造成多余的磁盘IO。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/数据库//" class="article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+        
+  
     <article id="post-dailyLearning/数据库/MySQL底层原理笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -250,7 +901,61 @@ var _hmt = _hmt || [];
 <li>读取相同的索引，B+树读取磁盘的次数更少（树深度更浅），因此B+树更适合磁盘数据的读取</li>
 </ul>
 </blockquote>
+<h2 id="索引的本质"><a href="#索引的本质" class="headerlink" title="索引的本质"></a>索引的本质</h2><p>索引是帮助 MySQL 高效获取数据的 排好序的 数据结构。</p>
+<p>在没有索引时，条件查询会造成全表扫描，效率低下。</p>
+<h2 id="索引数据结构"><a href="#索引数据结构" class="headerlink" title="索引数据结构"></a>索引数据结构</h2><ul>
+<li>二叉树</li>
+<li>红黑树</li>
+<li>Hash 表</li>
+<li>B/B+ 树</li>
+</ul>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><p>二叉搜索树，满足左子节点 &lt; 根节点 &lt; 右子节点的关系，当我们为一个递增存储的字段建立二叉树索引时，索引会退化为链表，查找、插入、删除时间复杂度 $O(N)$，</p>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>平衡二叉树，数据量很大的时候树的高度会很高，查找索引的次数很多。</p>
+<p>为了压缩树的高度，让每一个节点可以存储更多的索引元素，分配更多的内存，因此使用 B/B+ 树。</p>
+<h3 id="B-树"><a href="#B-树" class="headerlink" title="B 树"></a>B 树</h3><p>B+ 树是 B 树的变种，非叶子节点不存储数据，只存储索引元素，每个节点可以存放更多索引；</p>
+<blockquote>
+<p>所谓索引，是索引元素，即索引字段的值；所谓数据，是指指向 索引元素所在行 的磁盘文件地址指针。</p>
+</blockquote>
+<p>叶子节点包含所有索引字段；</p>
+<p>叶子节点用指针连接，提高区间访问的能力；</p>
+<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>哈希表查找索引节点效率很高，比 B+树快，但是实际中很少使用。</p>
+<p>因为 hash 索引不支持范围查询，而 B+ 树相较于 B 树还具有指向下个节点的指针，可以更高效地支持范围查询。</p>
+<h4 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h4><p>在 B 树中，每个索引元素只会出现在一个节点中；在 B+ 树中，索引元素是冗余的，叶子节点存放了全部的索引元素，而部分索引节点作为冗余存放在非叶子节点中。</p>
+<p>MySQL 中，B+树的每个节点大小相同，可以查看全局变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW GLOBAL STATUS LIKE &#39;innodb_page_size&#39;;</span><br><span class="line">+------------------+-------+</span><br><span class="line">| Variable_name    | Value |</span><br><span class="line">+------------------+-------+</span><br><span class="line">| Innodb_page_size | 16384 |</span><br><span class="line">+------------------+-------+</span><br><span class="line">1 row in set (0.06 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
 
+<p>可以看到大小为 16KB。</p>
+<p>对于大小相同的每个叶子节点，B+树少存储了数据部分，因此可以存放更多的索引。</p>
+<p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20200902112250539.png" alt="image-20200902112250539"></p>
+<p>B+树的每个索引节点中，每个索引元素与一个指向下一级索引节点的文件地址指针成对出现，MySQL 源码中，该指针的大小为 6 Bytes。</p>
+<blockquote>
+<p>假设索引字段为一个 8 字节的 BIT INT，指向下一级索引节点的指针为 6 字节，每个索引节点大小 16 KB，那么每个节点可以存储 1170 个索引元素，假设每个叶子节点存放的数据为 1KB，树高为三层的 B+树就可以存储两千万条数据，也就是说两千万条数据的表，建一个索引，每次查询只需要三次磁盘 I/O。</p>
+</blockquote>
+<p>不同的 MySQL 存储引擎，叶子节点的数据 data 存放的内容不一样。innoDB 存储索引和数据（索引所在行的其他所有字段），而 MyISAM 只存储索引，不存储数据，只有指针。</p>
+<h1 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h1><p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20200902132521638.png" alt="image-20200902132521638"></p>
+<p>在一个条件查询中，如果条件查询的字段是索引字段，MyISAM 会从索引文件的 B+树结构中找到符合条件的叶子节点，根据索引数据到表文件中定位到数据行。</p>
+<h1 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h1><p>InnoDB 将索引和数据合并为一个文件。</p>
+<p>InnoDB 索引（聚集索引）实现：</p>
+<ul>
+<li>表数据文件本身就是按 B+树组织的一个索引结构文件</li>
+<li><strong>聚集索引-叶节点包含了完整的数据记录</strong></li>
+<li>为什么 InnoDB 表必须有主键，并且推荐使用整形的自增主键？<ul>
+<li>因为 InnoDB 的数据组织方式就是 B+树的形式，必须要有一个主键，如果没有指定主键，MySQL 会选择一个唯一键建立主键索引，如果找不到会默认添加一列来维护数据结构；</li>
+<li>整形数据比较大小时速度快，并且占用空间小；</li>
+<li>主键自增可以减少 B+树调整结构的频次，降低效率损失</li>
+</ul>
+</li>
+<li>为什么非主键索引结构叶子节点存储的是主键值？（一致性和节省存储空间）</li>
+</ul>
+<p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20200902134624145.png" alt="image-20200902134624145"></p>
+<h2 id="聚集索引、聚簇索引"><a href="#聚集索引、聚簇索引" class="headerlink" title="聚集索引、聚簇索引"></a>聚集索引、聚簇索引</h2><p>InnoDB 的主键索引就是聚集索引，而 MyISAM 的主键索引是非聚集索引。</p>
+<p>聚集索引就是索引和文件聚集（合并）在同一个文件中，非聚合索引的索引和数据是分开的。</p>
+<p>因此利用聚簇索引查询只需要在一个文件中查询，在找到叶子节点之后，只需要把叶子节点载入内存，就可以访问数据；非聚簇索引需要先把叶子节点载入内存，再根据指针去访问数据文件中的数据行，多一次磁盘 I/O。</p>
+<h2 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h2><p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/image-20200902190613790.png" alt="image-20200902190613790"></p>
+<p>上图是联合索引数据结构，图中所示为三个字段的联合索引，而索引排序方式则是按照三个字段的先后顺序，优先对先出现的字段进行排序，当先出现的字段值相同时再对紧接着出现的下一个字段进行排序，以此类推。</p>
+<p>联合索引的叶子节点的索引元素之外，其存储的数据为该索引元素所在的行的其余字段值。</p>
+<p>因此，最左匹配原则其实就是因为联合索引底层的数据结构中，索引的排列顺序是按照联合字段的顺序来排列的，如果不满足最左匹配原则，那么索引是没有顺序排列的，且没有左侧的索引字段无法对索引文件进行索引。</p>
+<h1 id="MVCC-多版本并发控制"><a href="#MVCC-多版本并发控制" class="headerlink" title="MVCC 多版本并发控制"></a>MVCC 多版本并发控制</h1>
       
 
       
@@ -618,7 +1323,12 @@ var _hmt = _hmt || [];
 <p>死锁的关键在于<strong>：两个(或以上)的Session加锁的顺序不一致。</strong></p>
 <p>那么对应的解决死锁问题的关键就是：让不同的session加锁有次序</p>
 </blockquote>
-<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E9%AB%98%E7%BA%A7/image-20200820011444632.png" alt="image-20200820011444632"></p>
+<p>更具体的区别：</p>
+<h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><ul>
+<li>是 MySQL 默认的事务型存储引擎，只有在需要它不支持的特性时，才考虑使用其他存储引擎</li>
+<li>实现了四个标准的隔离级别，默认级别是可重复读。在该隔离级别下，InnoDB 通过<strong>多版本并发控制（MVCC）以及 Next-key locking</strong> 防止幻读</li>
+</ul>
+<h3 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h3><h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E9%AB%98%E7%BA%A7/image-20200820011444632.png" alt="image-20200820011444632"></p>
 <p>MySQL 会为主键自动创建主键索引。</p>
 <h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>MySQL 没有全连接 <code>FULL OUTER JOIN</code>，可用 <code>UNION</code> 和 <code>UNION ALL</code> 实现全连接，后者效率更高。</p>
 <p>MySQL 单表数据瓶颈 500 万行。</p>
@@ -756,7 +1466,7 @@ var _hmt = _hmt || [];
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT SQL_NO_CACHE * FROM emp WHERE age IS NULL;</span><br><span class="line">SELECT SQL_NO_CACHE * FROM emp WHERE age IS NOT NULL;</span><br><span class="line"># 建立索引</span><br><span class="line">CREATE INDEX idx_name ON emp(age);</span><br><span class="line"># 只有第一条SQL用到了索引，第二条没有用到</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><code>IS NULL</code> 使索引失效</li>
+<li><code>IS NOT NULL</code> 使索引失效</li>
 </ul>
 <hr>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT SQL_NO_CACHE * FROM emp WHERE emp.name LIKE &#39;%abc%&#39;;</span><br><span class="line"># 索引失效</span><br><span class="line">CREATE INDEX idx_name ON emp(name);</span><br></pre></td></tr></table></figure>
@@ -813,6 +1523,153 @@ var _hmt = _hmt || [];
 <h3 id="STRAIGHT-JOIN"><a href="#STRAIGHT-JOIN" class="headerlink" title="STRAIGHT_JOIN"></a>STRAIGHT_JOIN</h3><p>该关键字可以指定驱动表与被驱动表。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM &#96;驱动表&#96;</span><br><span class="line">STRAIGHT_JOIN &#96;被驱动表&#96; ON &#96;连接字段&#96;;</span><br></pre></td></tr></table></figure>
 
+<h1 id="查询截取分析"><a href="#查询截取分析" class="headerlink" title="查询截取分析"></a>查询截取分析</h1><ul>
+<li>慢查询日志</li>
+<li><code>SHOW PROCESSLIST</code></li>
+<li>全局日志，最吃性能</li>
+</ul>
+<h2 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h2><p>MySQL 的慢查询日志是 MySQL 提供的一种日志记录，它用来记录在 MySQL 中响应时间超过阈值的语句，具体指运行时间超过 long_query_time 值的 SQL，则会被记录到慢查询日志中。</p>
+<p>long_query_time 的默认值为10，意思是运行 10s 以上的语句。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 查询是否开启慢查询日志</span><br><span class="line">SHOW VARIABLES LIKE &#39;%slow_query_log%&#39;;</span><br><span class="line"># 打开慢查询日志</span><br><span class="line">SET GLOBAL slow_query_log &#x3D; 1;</span><br><span class="line"># 查看阈值</span><br><span class="line">SHOW VARIABLES LIKE &#39;%long_query_time%&#39;;</span><br><span class="line"># 设置慢查询阈值（会话变量）</span><br><span class="line">SET long_query_time &#x3D; 1;</span><br></pre></td></tr></table></figure>
+
+<h2 id="日志分析工具-mysqldumpslow"><a href="#日志分析工具-mysqldumpslow" class="headerlink" title="日志分析工具 mysqldumpslow"></a>日志分析工具 mysqldumpslow</h2><p>用于分析慢查询日志。</p>
+<h2 id="SHOW-PROCESSLIST"><a href="#SHOW-PROCESSLIST" class="headerlink" title="SHOW PROCESSLIST"></a>SHOW PROCESSLIST</h2><p>用于显示连接信息，用户、host、使用的数据库。</p>
+<p>可以用来检测死锁，使用 <code>KILL</code> 杀掉连接。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KILL id;</span><br></pre></td></tr></table></figure>
+
+<h1 id="工具技巧"><a href="#工具技巧" class="headerlink" title="工具技巧"></a>工具技巧</h1><h2 id="视图-VIEW"><a href="#视图-VIEW" class="headerlink" title="视图 VIEW"></a>视图 VIEW</h2><p>将一段查询 SQL 封装为一个虚拟表，只保存 SQL 逻辑，不保存任何查询结果。</p>
+<p>作用：</p>
+<ul>
+<li>封装复杂 SQL，提高复用性</li>
+<li>逻辑放在数据库中，更新不需要发布程序，面对频繁的需求变更更灵活</li>
+</ul>
+<p>使用场景：</p>
+<p>很多地方可以共用的一组查询结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE VIEW v</span><br><span class="line">AS</span><br><span class="line">SELECT &#x2F;*something*&#x2F;;</span><br><span class="line"></span><br><span class="line">SELECT * FROM v;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>MySQL 5.5 的视图中不允许在 FROM 后面有子查询。</p>
+</blockquote>
+<h1 id="锁机制"><a href="#锁机制" class="headerlink" title="锁机制"></a>锁机制</h1><p>按照是否可以共享分为</p>
+<ul>
+<li>读锁（共享锁）</li>
+<li>写锁（排他锁）</li>
+</ul>
+<p>按照粒度分为</p>
+<ul>
+<li>行锁</li>
+<li>表锁</li>
+<li>页锁</li>
+</ul>
+<h2 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h2><p>MySQL 中的一个连接在使用读锁<strong>锁表</strong>之后，可以从该表中读数据，但不能写数据，在未释放该锁的前提下也不能读写其他表的数据。理解：在一个事务获取一个锁之后，不能再试图获取第二个锁，避免死锁。</p>
+<p>当一个事务持有读写锁时，另一个事务对被锁住的数据进行写操作时会被阻塞。</p>
+<h2 id="MyISAM-的表锁"><a href="#MyISAM-的表锁" class="headerlink" title="MyISAM 的表锁"></a>MyISAM 的表锁</h2><p>MyISAM 的读写锁调度永远是写优先，因此 MyISAM 不适合做<strong>以写为主</strong>的表的引擎。</p>
+<h2 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h2><p>InnoDB 存储引擎支持行锁和表锁，默认使用行锁，开销比表锁大，加锁慢；锁定粒度最小，发生锁冲突的概率最低，并发度也最高。</p>
+<p>一个事务在修改一行数据且未提交时，另一个事务的修改操作会被阻塞。</p>
+<p>对两行不同的数据进行修改，事务之间互不影响。</p>
+<p>一个事务中的读操作读不到其他事务修改并提交的数据。</p>
+<blockquote>
+<p>建立索引之后，若使用不当，索引失效的情况下，行锁升级为表锁。</p>
+<p><strong>不要在索引列上做任何操作（计算、函数、类型转换），会导致索引失效而转向全表扫描。</strong></p>
+<h3 id="为什么表锁会升级为行锁？"><a href="#为什么表锁会升级为行锁？" class="headerlink" title="为什么表锁会升级为行锁？"></a>为什么表锁会升级为行锁？</h3><p>首先，因为行锁的实现实际上是<strong>通过给索引上的索引项加锁来实现的</strong>，InnoDB 行级锁只有通过索引条件检索数据，才使用行级锁，否则，InnoDB 使用表锁，因此，在条件查询不走索引的时候，InnoDB 使用表锁而不是行锁。</p>
+<p><strong>总结:就是在没有使用索引的情况下InnoDB就会使用表级锁(共享锁不会有这个情况)</strong></p>
+</blockquote>
+<p>对一行显式加锁：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM name WHERE cond FOR UPDATE;</span><br></pre></td></tr></table></figure>
+
+<h3 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h3><ul>
+<li>尽可能让所有数据检索都通过索引来完成，避免无索引行锁升级为表锁</li>
+<li>合理设计索引，尽量缩小锁的范围</li>
+<li>见可能减少检索条件，避免间隙锁</li>
+<li>尽量控制事务大小，减少锁定资源量和锁定时间</li>
+<li>尽可能低级事务隔离？？？应该看需求的吧</li>
+</ul>
+<h2 id="间隙锁"><a href="#间隙锁" class="headerlink" title="间隙锁"></a>间隙锁</h2><p>当我们用范围查询检索数据时，并请求读写锁时，InnoDB 会给符合条件的已有数据记录的索引项加锁；对于键值在条件范围内但并不存在的记录，叫做“间隙”。</p>
+<p>InnoDB 也会对这个间隙加锁，这种锁机制就是所谓的间隙锁（Next-key lock）。</p>
+<p>可以有效防止 RR 级别下的幻读。</p>
+<p>查询执行过程中通过范围查找的话，会锁定整个范围内的所有的索引键值，即使这个键值并不存在。某些场景下会影响系统性能。</p>
+<h2 id="页锁"><a href="#页锁" class="headerlink" title="页锁"></a>页锁</h2><ul>
+<li><p>开销和加锁时间介于行锁与表锁之间；</p>
+</li>
+<li><p>会出现死锁；</p>
+</li>
+<li><p>粒度介于行锁与表锁之间，并发度一般。</p>
+</li>
+</ul>
+<h1 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h1><p><img src="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E9%AB%98%E7%BA%A7/image-20200826135906126.png" alt="image-20200826135906126"></p>
+<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><p>从机从主机读取 binlog 来进行数据同步。</p>
+<ul>
+<li>binlog 线程：主机修改数据，负责将主服务器上的数据更改写入二进制文件中</li>
+<li>I/O 线程：从机从主服务器读取二进制文件，并写入从服务器的中继日志 (relay log)</li>
+<li>SQL 线程：从服务器读取中继日志，解析出主服务器已经执行的数据更改，并在服务器中重放</li>
+</ul>
+<p>复制的最大问题：时延。</p>
+<p>binlog_format</p>
+<ul>
+<li>statement，记录修改数据的 SQL 语句</li>
+<li>row，记录每一行数据的改变</li>
+<li>mixed，对调用了函数的 SQL 语句使用 row模式，否则使用 statement 模式，解决了一部分数据不一致的问题，但是如果引用了系统变量，也会出现数据不一致问题</li>
+</ul>
+<p>从机需要配置一个用户来访问主机 binlog。 </p>
+<h1 id="读写分离、分库分表"><a href="#读写分离、分库分表" class="headerlink" title="读写分离、分库分表"></a>读写分离、分库分表</h1><p>Mycat 是一种数据库中间件，核心功能是分库分表，前身是阿里的 cobar。与 Nginx 类似。</p>
+<p>作用：</p>
+<ul>
+<li><p>读写分离</p>
+</li>
+<li><p>数据分片</p>
+<ul>
+<li>垂直拆分</li>
+<li>水平拆分</li>
+<li>垂直+水平拆分</li>
+</ul>
+<p>拆分到不同的机器上。</p>
+</li>
+<li><p>多数据源整合</p>
+</li>
+</ul>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>“拦截”：拦截了用户发送的 SQL 语句，首先对 SQL 语句做了一些特定分析：如分片分析、路由分析、读写分离分析、缓存分析等，然后将此 SQL 发往后端的真实数据库，并将返回的结果做适当处理，最终再返回给用户。</p>
+<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><p>负载均衡类型，目前的取值有四种：</p>
+<ul>
+<li>balance = “0”，不开启读写分离机制，所有的读操作都发送到当前可用的 writeHost 上</li>
+<li>balance = “1”，全部的 readHost 与 stand by writeHost 参与 select 语句的负载均衡。举个例子，当双主双从模式 (M1-&gt;S1, M2-&gt;S2，并且 M1 与 M2 互为主备)，正常情况下，所有的主机都参与 select 语句的负载均衡</li>
+<li>balance = “2”，所有读操作都随机地再 writeHost 和 readHost 上分发</li>
+<li>balance = “3”，所有读请求随机地分发到 readHost 上执行，writeHost 不负担读压力，真正实现读写分离</li>
+</ul>
+<p>先实现 MySQL 的主从复制，才能实现读写分离。</p>
+<h2 id="分库"><a href="#分库" class="headerlink" title="分库"></a>分库</h2><p>单库达到 5000万条数据时，达到瓶颈。</p>
+<blockquote>
+<p>场景：</p>
+<p>电商平台运行一段时间后，数据库积累了一定的客户信息，具体有：</p>
+<p>客户表 20万行</p>
+<p>订单表 600万行</p>
+<p>订单详情表 600万行（每个订单对应一个详情）</p>
+<p>订单状态字典表 20行</p>
+</blockquote>
+<p>分到两个库中的表，但同一台机器上可以连结，但是在不同的机器上不能连结。</p>
+<p>因此，拆分到两个库中的表不要出现关联的情况，因此可以把客户表拆分到另外的库当中去。</p>
+<p>比如每次打开电商 APP 需要先登录，登录之后，账户信息（ID）已经保存在 session 当中，用账户信息就可以查询订单以及订单详情。</p>
+<p>分库需要两个空库，通过 mycat 进行分库操作，配置哪些表在哪个数据节点。</p>
+<p>在中间件中，schema 是一个逻辑库，并不真实存在。在逻辑库中配置表，以及它对应的数据节点。</p>
+<p>每个数据节点对应一台主机上的某个数据库。</p>
+<h2 id="分表"><a href="#分表" class="headerlink" title="分表"></a>分表</h2><p>将一张表中的数据，使用对某个字段进行哈希的方式，通过中间件配置到不同的数据节点（不同数据库中）。</p>
+<h3 id="水平分表"><a href="#水平分表" class="headerlink" title="水平分表"></a>水平分表</h3><h4 id="跨库联合查询"><a href="#跨库联合查询" class="headerlink" title="跨库联合查询"></a>跨库联合查询</h4><p>ER 表：</p>
+<ul>
+<li>为了使相关联的表行尽量分在一个库下</li>
+<li>建相关表</li>
+</ul>
+<p>全局表</p>
+<ul>
+<li>设定为全局的表，会直接复制给每个数据库一份，所有写操作也会同步给多个库</li>
+<li>一般不能是大数据表或者是更新频繁的表</li>
+<li>一般是字典表或者系统表为宜</li>
+</ul>
+<h2 id="全局序列"><a href="#全局序列" class="headerlink" title="全局序列"></a>全局序列</h2><p>应用场景：为了使得分到不同库中的表行中的自增序列键值不重复。</p>
+<p>实现：数据库方式，比直接在配置中间件的主机上保存配置文件抗风险能力要高，比时间戳方式节省空间。</p>
+<p>需要在数据库中建序列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE mycat_sequence (</span><br><span class="line">	name VARCHAR(50) NOT NULL,</span><br><span class="line">    current_value INT NOT NULL,</span><br><span class="line">    increment INT NOT NULL DEFAULT 100,</span><br><span class="line">    PRIMARY KEY(name)</span><br><span class="line">) ENGINE &#x3D; INNODB;</span><br></pre></td></tr></table></figure>
+
+<p>还需要创建序列脚本，然后初始化表。</p>
+<p>配置全局序列所在的数据节点，以及全局序列方式。</p>
 
       
 
@@ -1376,7 +2233,8 @@ var _hmt = _hmt || [];
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SET AUTOCOMMIT &#x3D; 0;</span><br><span class="line">START TRANSACTION;</span><br><span class="line">&#x2F;*DO SOMETHING*&#x2F;</span><br><span class="line"># 提交</span><br><span class="line">COMMIT;</span><br><span class="line"># OR 回滚</span><br><span class="line">ROLLBACK;</span><br></pre></td></tr></table></figure>
 
-<h2 id="三种现象"><a href="#三种现象" class="headerlink" title="三种现象"></a>三种现象</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>对于两个事务<code>T1, T2</code>，<code>T1</code>读取了<code>T2</code>更新但还没有被提交的字段，之后，若<code>T2</code>回滚，<code>T1</code>读取的内容就是临时且无效的。</p>
+<h2 id="三种现象"><a href="#三种现象" class="headerlink" title="三种现象"></a>三种现象</h2><h3 id="补充：数据丢失"><a href="#补充：数据丢失" class="headerlink" title="补充：数据丢失"></a>补充：数据丢失</h3><p>两个或多个事务选择同一行，然后基于最初选定的值更新该行，一个事务更新的结果覆盖了另一个事务的更新。</p>
+<h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>对于两个事务<code>T1, T2</code>，<code>T1</code>读取了<code>T2</code>更新但还没有被提交的字段，之后，若<code>T2</code>回滚，<code>T1</code>读取的内容就是临时且无效的。</p>
 <p>强调未提交的更新事务。</p>
 <h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><p>对于两个事务<code>T1, T2</code>，<code>T1</code>读取了一个字段，然后<code>T2</code><strong>更新并提交</strong>了该字段，之后<code>T1</code>再次读取同一个字段，会读取到不同的值。</p>
 <p>强调更新事务。</p>
@@ -1696,433 +2554,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/c++/侯捷cpp内存管理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/Cpp/%E4%BE%AF%E6%8D%B7cpp%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">侯捷cpp内存管理</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/Cpp/%E4%BE%AF%E6%8D%B7cpp%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-08-10T15:07:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>new 和 delete 调用了什么<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Foo *p = <span class="keyword">new</span> Foo(x);</span><br><span class="line"><span class="comment">/*something to do*/</span></span><br><span class="line"><span class="keyword">delete</span> p;</span><br></pre></td></tr></table></figure>
-实际上，new 先调用 operator new 分配内存，再调用 placement new 构造对象。<br>而 delete 先调用对象析构函数，再调用 operator delete 释放内存。<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Foo *p = (Foo *)<span class="keyword">operator</span> <span class="keyword">new</span>(<span class="keyword">sizeof</span>(Foo)); <span class="comment">// 调用 ::operator new(size_t) 全局函数</span></span><br><span class="line"><span class="keyword">new</span> (p) Foo(x);</span><br><span class="line"><span class="comment">/*something to do*/</span></span><br><span class="line">p-&gt;~Foo();</span><br><span class="line"><span class="function"><span class="keyword">operator</span> <span class="title">delete</span><span class="params">(p)</span></span>; <span class="comment">// 调用 ::operator delete(void *) 全局函数</span></span><br></pre></td></tr></table></figure>
-而全局函数<code>::operator new(size_t)</code>和<code>::operator delete(void *)</code>又做了什么呢<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">malloc</span>(<span class="keyword">size_t</span>);</span><br><span class="line"><span class="built_in">free</span>(<span class="keyword">void</span> *);</span><br></pre></td></tr></table></figure>
-实际上就是调用了<code>malloc</code>和<code>free</code>。<br>很少重载全局 new 和 delete，一般重载成员函数的 operator new 和 operator delete。这四个函数均可重载。</li>
-<li>如何重载 per-class operator new 和 operator delete 实现内存池<br><code>placement new</code> 的第一个参数必须为 <code>size_t</code>，否则编译器报错。<br>在构造函数内抛出异常时，调用 <code>operator delete</code>。（旧版本行为，新版本并没有调用 <code>operator delete</code>)  </li>
-<li>内存管理的目的：<br>提高速度，降低内存消耗（尤其指 cookie，每个 array new 会分配 8 字节的 cookie） <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> &#123;</span></span><br><span class="line"> <span class="keyword">int</span> a;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Foo() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Foo</span><span class="params">(<span class="keyword">int</span> aa)</span> : <span class="title">a</span><span class="params">(aa)</span> </span>&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">100</span>;</span><br><span class="line">    Foo *p[N];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i) &#123;</span><br><span class="line">        p[i] = <span class="keyword">new</span> Foo(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; p[i] &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        <span class="keyword">delete</span> p[i];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-以上程序的输出：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">F:\c++prj\prac\cmake-build-debug\prac.exe</span><br><span class="line">0x731750</span><br><span class="line">0x731770</span><br><span class="line">0x731ac0</span><br><span class="line">0x731ae0</span><br><span class="line">0x731b00</span><br><span class="line">0x735c60</span><br><span class="line">0x735c80</span><br><span class="line">0x735ca0</span><br><span class="line">0x735cc0</span><br><span class="line">0x735ce0</span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
-说明每个 Foo 对象确实是 16 字节，含有 4 字节的 int，8 字节的 cookie，以及 4 字节的 padding。</li>
-<li>用一个内存池来管理一个类的对象时，若使用自由链表（单链表），那么每个对象会有 4 字节（64 位操作系统 8 字节）的开销，与每个对象 8 字节的 cookie 开销相比，并无太大收益，唯一的收益是减少了 malloc 的调用次数。<br>使用内嵌指针 (embedded pointer) 的概念来优化这一点:  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Airplane</span> &#123;</span></span><br><span class="line">   <span class="keyword">private</span>:</span><br><span class="line">       <span class="class"><span class="keyword">struct</span> <span class="title">AirplaneRep</span> &#123;</span></span><br><span class="line">           <span class="keyword">unsigned</span> <span class="keyword">long</span> miles;</span><br><span class="line">           <span class="keyword">char</span> type;</span><br><span class="line">       &#125;;    </span><br><span class="line">   <span class="keyword">private</span>:</span><br><span class="line">       <span class="keyword">union</span> &#123;</span><br><span class="line">           AirplaneRep rep; <span class="comment">// 此为使用中的objects</span></span><br><span class="line">           Airplane *next; <span class="comment">// 此指针为embedded ptr，指向内存池中的objects</span></span><br><span class="line">       &#125;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">       <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>; <span class="comment">// 重载 operator new，此函数申请一大块内存并插入空闲链表</span></span><br><span class="line">       <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="keyword">operator</span> <span class="title">delete</span><span class="params">(<span class="keyword">void</span> *deadObject, <span class="keyword">size_t</span> <span class="built_in">size</span>)</span></span>;</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure>
-在所有的内存池中都使用这种形式来减少开销，也就是 CSAPP 里面所提到的思想，用链表中空闲内存来存储链表指针。</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">内存管理</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Cpp//" class="article-tag-list-link color4">Cpp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/Cpp/%E4%BE%AF%E6%8D%B7cpp%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/面经/shopee面经" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E9%9D%A2%E7%BB%8F/shopee%E9%9D%A2%E7%BB%8F/">shopee面经</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E9%9D%A2%E7%BB%8F/shopee%E9%9D%A2%E7%BB%8F/" class="archive-article-date">
-  	<time datetime="2020-08-10T14:52:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h1><ul>
-<li>自我介绍</li>
-<li>介绍线程池</li>
-<li>说一下 epoll 和 select（需要复习）</li>
-<li>说一下 HTTP 解析，哪些状态</li>
-<li>说一下如何实现用户登录</li>
-<li>用户登录之后，刷新页面，如何保证登陆状态？答了 cookie 和 session</li>
-<li>如何使用 cookie 和 session？session 保存在服务器内存里吗？</li>
-<li>存在数据库里效率会不会太低，有没有用过缓存中间件？</li>
-<li>Linux 命令，如何查看当前进程占用 CPU 和 内存？答 top，问如何查看内存？面试官提示加 -m，这个要总结</li>
-<li>如何查看主机的 TCP 连接</li>
-<li>如何修改文件权限，文件权限分为哪几种</li>
-<li>Linux 下进程间通信？（糊弄过去了，没细讲）</li>
-<li>讲到 socket 通信时，问客户端和服务端完整的通信过程</li>
-<li>有没有了解 HTTPS 的连接过程</li>
-<li>试图问数据库，回答只是用了一下</li>
-<li>有没有了解 hash_table，实现讲一下</li>
-<li>一般用什么语言？</li>
-<li>写一道链表相加的算法，高位链表头，我反转链表，似乎有更优解</li>
-<li>有什么问题，我问了转语言，面试官反问对转语言的看法，答非常乐意，给我讲了 golang 有指针，跟 C 比较像</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">shopee</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/面经//" class="article-tag-list-link color3">面经</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E9%9D%A2%E7%BB%8F/shopee%E9%9D%A2%E7%BB%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/计算机基础/操作系统问题复盘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%97%AE%E9%A2%98%E5%A4%8D%E7%9B%98/">操作系统问题复盘</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%97%AE%E9%A2%98%E5%A4%8D%E7%9B%98/" class="archive-article-date">
-  	<time datetime="2020-08-09T16:33:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h1 id="线程进程区别"><a href="#线程进程区别" class="headerlink" title="线程进程区别"></a>线程进程区别</h1><p>进程的经典定义：一个执行中的程序的实例。</p>
-<p>进程是操作系统分配 CPU 时间、内存资源的最小单位，而线程是操作系统调度的最小单位。这样就实现了同个进程中的线程共享该进程的资源，尤其是虚拟内存空间，但是每个线程拥有自己的逻辑流。</p>
-<p>在 Linux 中，线程就是特殊的进程，每个线程有唯一的进程描述符，从内核角度看，线程除了与其他进程共享地址空间等资源外，与进程类似。</p>
-<p>每个线程拥有独立的程序计数器 PC，线程栈、和寄存器。</p>
-<h1 id="进程间通信方式"><a href="#进程间通信方式" class="headerlink" title="进程间通信方式"></a>进程间通信方式</h1><h1 id="虚拟内存理解"><a href="#虚拟内存理解" class="headerlink" title="虚拟内存理解"></a>虚拟内存理解</h1><p>虚拟内存可以理解为磁盘上连续 N 个字节大小的单元组成的数组，每个字节用唯一的逻辑地址作为索引，而虚拟内存的数据被缓存在主存中。</p>
-<p>三个作用：</p>
-<ul>
-<li>缓存</li>
-<li>内存管理</li>
-<li>内存保护</li>
-</ul>
-<h1 id="如何理解死锁"><a href="#如何理解死锁" class="headerlink" title="如何理解死锁"></a>如何理解死锁</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">summary</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/操作系统//" class="article-tag-list-link color5">操作系统</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%97%AE%E9%A2%98%E5%A4%8D%E7%9B%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-        
-  
-    <article id="post-dailyLearning/真题/网易互联网笔试复盘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E7%9C%9F%E9%A2%98/%E7%BD%91%E6%98%93%E4%BA%92%E8%81%94%E7%BD%91%E7%AC%94%E8%AF%95%E5%A4%8D%E7%9B%98/">网易互联网笔试复盘</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        
-        <a href="/%E7%9C%9F%E9%A2%98/%E7%BD%91%E6%98%93%E4%BA%92%E8%81%94%E7%BD%91%E7%AC%94%E8%AF%95%E5%A4%8D%E7%9B%98/" class="archive-article-date">
-  	<time datetime="2020-08-08T08:49:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<p>这次笔试惨败，一道也没a，基本都考到了不熟练的部分。</p>
-<p>总结一下考到的算法知识点。</p>
-<h1 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h1><blockquote>
-<p>第一题</p>
-<p>一个字符串，在头尾最少添加多少字母使得字符串是回文字符串？</p>
-</blockquote>
-<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><h3 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h3><p>针对题目分析，我们要找的是填充字符之后长度最短的回文字串。如何使填充后的字符串最短呢？</p>
-<p>我们倒过来想，我们得到的一定是一个回文字符串，由于题目要求我们只能在字符串尾部添加字符，因此去掉我们添加的字符，最后的字符一定是原字符串的子回文字串的一端，我们尽量复用原字符串的回文子串就可以使得添加的字符最少。</p>
-<p>因此，我们要做的就是在原字符串中寻找最长的后缀回文字串，并把剩下部分反转拼接到最后。</p>
-<p>这里贴上 LC214 的暴力解法</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">shortestPalindrome</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="built_in">string</span> <span class="title">rev</span><span class="params">(s)</span></span>;</span><br><span class="line">        reverse(rev.<span class="built_in">begin</span>(), rev.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; rev.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s.substr(<span class="number">0</span>, s.<span class="built_in">size</span>() - i) == rev.substr(i, rev.<span class="built_in">size</span>() - i)) &#123;</span><br><span class="line">                s = rev.substr(<span class="number">0</span>, i) + s;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>时间复杂度$O(N^2)$，测试用例超时。</p>
-<h3 id="利用-KMP-算法优化字符串匹配"><a href="#利用-KMP-算法优化字符串匹配" class="headerlink" title="利用 KMP 算法优化字符串匹配"></a>利用 KMP 算法优化字符串匹配</h3><p>这里需要先熟悉一下 KMP 算法。</p>
-<p>KMP 算法的基本思想：当出现不匹配时，就能知道一部分文本的内容。</p>
-<p>使用一个数组来记录匹配失败时，模式指针应该回退多远。</p>
-<p>数组内记录的元素表示：<strong>与文本指针下一个位置比较的模式指针的位置</strong>。</p>
-<p>KMP 计算 next 数组，实际上就是在找 pattern 字串有没有相同的前后缀，而我们寻找回文子串的时候，将正序字符串与逆序字符串相匹配，中间有很多重复比较，利用 KMP 算法的中间步骤可以优化匹配时间复杂度，找到原字符串最长回文前缀。</p>
-<h1 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h1><blockquote>
-<p>第二题</p>
-<p>一个数组，如何使得两个不相交子集之和相等且最大？</p>
-</blockquote>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><h3 id="brute-force"><a href="#brute-force" class="headerlink" title="brute-force"></a>brute-force</h3><p>直接 DFS，每一个数字都有三种选择：分到 A 子集，分到 B 子集，丢弃，DFS 搜索直到找到匹配结果。</p>
-<h1 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h1><blockquote>
-<p>第三题</p>
-<p>售票处8点开门，有 n 个人排队，每个人可以自己买，也可以和后面的人一起买，最后一个人只能自己买或者和前面的人买，给出两个数组表示两种方案所需的时间，问最短时间。</p>
-</blockquote>
-<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>最基础的动态规划，将状态取为前 <code>i</code> 个人需要的最短排队时间，由于第 <code>i + 1</code> 个人是否能与前一个人一起买票取决于第 <code>i</code> 个人是否与第 <code>i - 1</code> 个人买，又知道两人合买的时间，所以得出状态转移表达式$dp[i] = min(dp[i-1]+single[i],\ dp[i-2]+double[i-1])$。</p>
-<h1 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h1><blockquote>
-<p>第四题</p>
-<p>有 n 个教授，每个教授都可以认可其他教授，且认可具有传递性，问有多少对教授相互认可，给出 edge 的数目以及每个 edge。</p>
-</blockquote>
-<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><p>tarjin 算法？</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">网易互联网</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/真题//" class="article-tag-list-link color3">真题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E7%9C%9F%E9%A2%98/%E7%BD%91%E6%98%93%E4%BA%92%E8%81%94%E7%BD%91%E7%AC%94%E8%AF%95%E5%A4%8D%E7%9B%98/">展开全文 >></a>
         </p>
       
 
@@ -2577,6 +3008,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">广联达</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">进程</a>
               </li>
             
             <div class="clearfix"></div>
